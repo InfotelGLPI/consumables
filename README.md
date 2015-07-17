@@ -1,5 +1,5 @@
 # consumables
-Plugin consumables pour GLPI
+Plugin consumables pour GLPI 0.90
 
 ### Français
 
