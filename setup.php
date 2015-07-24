@@ -77,7 +77,7 @@ function plugin_version_consumables() {
       'version'        => '1.1.0',
       'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'license'        => 'GPLv2+',
-      'homepage'       => 'https://forge.indepnet.net/projects/consumables',
+      'homepage'       => 'https://github.com/InfotelGLPI/consumables',
       'minGlpiVersion' => '0.90',
    );
 }
