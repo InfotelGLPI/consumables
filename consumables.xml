@@ -10,8 +10,8 @@
          <en><![CDATA[This plugin allows you to manage consumable requests for end user.]]></en>
       </short>
       <long>
-         <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />-Système de validation de demande de consommables,<br />-Notifications associées,<br />-Wizard utilisateur basé sur le stock disponible.]]></fr>
-         <en><![CDATA[This plugin allows you to manage consumable requests for end user.<br />-Validation system of consumable request,<br />-Associated notifications,<br />-Wizard user based on available stock.]]></en>
+         <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
+         <en><![CDATA[This plugin allows you to manage consumable requests for end user.<br />- Validation system of consumable request,<br />- Associated notifications,<br />- Wizard user based on available stock.]]></en>
       </long>
    </description>
    <homepage>https://github.com/InfotelGLPI/consumables</homepage>
