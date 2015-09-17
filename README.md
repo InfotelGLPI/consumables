@@ -1,12 +1,18 @@
 # consumables
 Plugin consumables pour GLPI 0.90
 
-### Français
+Ce plugin est sur Transifex - Aidez-nous Ã  le traduire :
+https://www.transifex.com/tsmr/GLPI_consumables/
 
-Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.
-* Système de validation de demande de consommables
-* Notifications associées
-* Wizard utilisateur basé sur le stock disponible
+This plugin is on Transifex - Help us to translate :
+https://www.transifex.com/tsmr/GLPI_consumables/
+
+### FranÃ§ais
+
+Ce plugin vous permet de gÃ©rer les demandes de consommables pour les utilisateur finaux.
+* SystÃ¨me de validation de demande de consommables
+* Notifications associÃ©es
+* Wizard utilisateur basÃ© sur le stock disponible
 
 ![](https://github.com/InfotelGLPI/consumables/blob/master/wiki/Menu%20plugin%20consumables.png)
 
