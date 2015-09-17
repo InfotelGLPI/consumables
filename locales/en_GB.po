@@ -1,196 +1,144 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Badges Development Team
+# Copyright (C) YEAR Consumables Development Team
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI Project - badges plugin\n"
+"Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-06 11:26+0200\n"
-"PO-Revision-Date: 2015-05-06 11:26+0100\n"
-"Last-Translator: The tsmr <tsmr@thetsmr.fr>\n"
-"Language-Team: \n"
-"Language: en_GB\n"
+"POT-Creation-Date: 2015-09-17 13:47+0200\n"
+"PO-Revision-Date: 2015-09-17 13:54+0200\n"
+"Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/tsmr/GLPI_consumables/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.8.3\n"
 
-#: setup.php:76 inc/field.class.php:44 inc/menu.class.php:35
-#: inc/notificationtargetrequest.class.php:44
-#: inc/notificationtargetrequest.class.php:57 inc/request.class.php:43
-#: inc/request.class.php:342 inc/request.class.php:348 inc/wizard.class.php:62
-#: inc/wizard.class.php:70 inc/wizard.class.php:71
+#: hook.php:135 inc/field.class.php:62
+msgid "Order reference"
+msgstr "Order reference"
+
+#: setup.php:76 inc/field.class.php:49 inc/menu.class.php:37
+#: inc/notificationtargetrequest.class.php:46
+#: inc/notificationtargetrequest.class.php:59 inc/request.class.php:48
+#: inc/request.class.php:347 inc/request.class.php:353 inc/wizard.class.php:68
+#: inc/wizard.class.php:76 inc/wizard.class.php:77
 msgid "Consumable request"
 msgid_plural "Consumable requests"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Consumable request"
+msgstr[1] "Consumable requests"
 
 #: setup.php:88
-msgid "This plugin requires GLPI >= 0.85"
-msgstr ""
+msgid "This plugin requires GLPI >= 0.90"
+msgstr "This plugin requires GLPI >= 0.90"
 
-#: inc/field.class.php:57
-msgid "Order reference"
-msgstr ""
-
-#: inc/notificationtargetrequest.class.php:45
-#: inc/notificationtargetrequest.class.php:60 inc/profile.class.php:130
-#: inc/profile.class.php:181 inc/validation.class.php:52
-#: inc/validation.class.php:78 inc/wizard.class.php:79 inc/wizard.class.php:80
+#: inc/notificationtargetrequest.class.php:47
+#: inc/notificationtargetrequest.class.php:62 inc/profile.class.php:132
+#: inc/profile.class.php:183 inc/validation.class.php:58
+#: inc/validation.class.php:84 inc/wizard.class.php:84 inc/wizard.class.php:85
 msgid "Consumable validation"
-msgstr ""
+msgstr "Consumable validation"
 
-#: inc/notificationtargetrequest.class.php:91
+#: inc/notificationtargetrequest.class.php:93
 msgid "Type of event"
-msgstr ""
+msgstr "Type of event"
 
-#: inc/notificationtargetrequest.class.php:116
+#: inc/notificationtargetrequest.class.php:118
 msgid "Consumable approver"
-msgstr ""
+msgstr "Consumable approver"
 
-#: inc/notificationtargetrequest.class.php:117
+#: inc/notificationtargetrequest.class.php:119
 msgid "Consumable requester"
-msgstr ""
+msgstr "Consumable requester"
 
-#: inc/profile.class.php:122
+#: inc/profile.class.php:124
 msgid "Advanced"
-msgstr ""
+msgstr "Advanced"
 
-#: inc/profile.class.php:134 inc/profile.class.php:173
+#: inc/profile.class.php:136 inc/profile.class.php:175
 msgid "Make a consumable request"
-msgstr ""
+msgstr "Make a consumable request"
 
-#: inc/profile.class.php:142
+#: inc/profile.class.php:144
 msgid "Make a consumable request for all users"
-msgstr ""
+msgstr "Make a consumable request for all users"
 
-#: inc/profile.class.php:147
+#: inc/profile.class.php:149
 msgid "Make a consumable request for my groups"
-msgstr ""
+msgstr "Make a consumable request for my groups"
 
-#: inc/profile.class.php:162
+#: inc/profile.class.php:164
 msgid "Consumable"
 msgid_plural "Consumables"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Consumable"
+msgstr[1] "Consumables"
 
-#: inc/profile.class.php:169
+#: inc/profile.class.php:171
 msgid "Make a consumable request for users"
-msgstr ""
+msgstr "Make a consumable request for users"
 
-#: inc/profile.class.php:177
+#: inc/profile.class.php:179
 msgid "Make a consumable request for groups"
-msgstr ""
+msgstr "Make a consumable request for groups"
 
-#: inc/request.class.php:153 inc/request.class.php:279
-#: inc/request.class.php:316
+#: inc/request.class.php:158 inc/request.class.php:284
+#: inc/request.class.php:321
 msgid "Consumable request report"
-msgstr ""
+msgstr "Consumable request report"
 
-#: inc/request.class.php:193
+#: inc/request.class.php:198
 msgid "Consumable requests history"
-msgstr ""
+msgstr "Consumable requests history"
 
-#: inc/request.class.php:220
+#: inc/request.class.php:225
 msgid "Consumables request search"
-msgstr ""
+msgstr "Consumables request search"
 
-#: inc/request.class.php:375 inc/request.class.php:417
-#: inc/request.class.php:718 inc/validation.class.php:103
+#: inc/request.class.php:380 inc/request.class.php:422
+#: inc/request.class.php:723 inc/validation.class.php:113
 msgid "Number"
-msgstr ""
+msgstr "Number"
 
-#: inc/request.class.php:403
+#: inc/request.class.php:408
 msgid "Add to cart"
-msgstr ""
+msgstr "Add to cart"
 
-#: inc/request.class.php:412
+#: inc/request.class.php:417
 msgid "Cart"
-msgstr ""
+msgstr "Cart"
 
-#: inc/request.class.php:659
+#: inc/request.class.php:664
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Consumable affected"
+msgstr[1] "Consumables affected"
 
-#: inc/request.class.php:665
+#: inc/request.class.php:670
 msgid "Please add consumables in cart"
-msgstr ""
+msgstr "Please add consumables in cart"
 
-#: inc/validation.class.php:219
+#: inc/validation.class.php:232
 msgid "Refuse"
-msgstr ""
+msgstr "Refuse"
 
-#: inc/validation.class.php:296
+#: inc/validation.class.php:309
 #, php-format
 msgid "Consumable %s validated"
-msgstr ""
+msgstr "Consumable %s validated"
 
-#: inc/validation.class.php:303
+#: inc/validation.class.php:316
 #, php-format
 msgid "Not enough stock for consumable %s"
-msgstr ""
+msgstr "Not enough stock for consumable %s"
 
-#: inc/validation.class.php:325
+#: inc/validation.class.php:338
 msgid "Consumable refused"
-msgstr ""
+msgstr "Consumable refused"
 
-#: inc/wizard.class.php:43
+#: inc/wizard.class.php:49
 msgid "Consumables wizard"
-msgstr ""
-
-#~ msgid "This plugin requires GLPI >= 0.84"
-#~ msgstr "This plugin requires GLPI >= 0.84"
-
-#~ msgid "Badge"
-#~ msgid_plural "Badges"
-#~ msgstr[0] "Badge"
-#~ msgstr[1] "Badges"
-
-#~ msgid "Affectation date"
-#~ msgstr "Affectation date"
-
-#~ msgid "Date of end of validity"
-#~ msgstr "Date of end of validity"
-
-#~ msgid "Empty for infinite"
-#~ msgstr "Empty for infinite"
-
-#~ msgid "Badges which expires"
-#~ msgstr "Badges which expires"
-
-#~ msgid "Badges at the end of the validity"
-#~ msgstr "Badges at the end of the validity"
-
-#~ msgid "Type of badge"
-#~ msgid_plural "Types of badge"
-#~ msgstr[0] "Type of badge"
-#~ msgstr[1] "Types of badge"
-
-#~ msgid "Plugin Setup"
-#~ msgstr "Plugin Setup"
-
-#~ msgid "Time of checking of validity of the badges"
-#~ msgstr "Time of checking of validity of the badges"
-
-#~ msgid "Badges expired for more than "
-#~ msgstr "Badges expired for more than "
-
-#~ msgid "Badges expiring in less than "
-#~ msgstr "Badges expiring in less than "
-
-#~ msgid "Unused status for expiration mailing"
-#~ msgstr "Unused status for expiration mailing"
-
-#~ msgid "Allotted to"
-#~ msgstr "Allotted to"
-
-#~ msgid "Badges expired or badges which expires"
-#~ msgstr "Badges expired or badges which expires"
-
-#~ msgid "Rights management"
-#~ msgstr "Rights management"
+msgstr "Consumables wizard"
