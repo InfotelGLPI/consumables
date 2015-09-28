@@ -3,7 +3,7 @@
    <name>Consumables</name>
    <key>consumables</key>
    <state>stable</state>
-   <logo></logo>
+   <logo>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/consumables.png</logo>
    <description>
       <short>
          <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.]]></fr>
