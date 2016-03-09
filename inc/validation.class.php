@@ -269,22 +269,23 @@ class PluginConsumablesValidation extends CommonDBTM {
       $item       = new PluginConsumablesRequest();
       $validation = new PluginConsumablesValidation();
       $consumable = new Consumable();
-      $input = $ma->getInput();
+      $input      = $ma->getInput();
 
       if (count($ids)) {
          switch ($ma->getAction()) {
             case "validate" :
+               $added = array();
                foreach ($ids as $key => $val) {
                   if ($item->can($key, UPDATE)) {
                      $item->getFromDB($key);
 
                      // Get available consumables
                      $outConsumable = array();
-                     $availables = $consumable->find("`consumableitems_id` = '".$item->fields['consumables_id']."' AND `items_id` = 0");
-                     foreach($availables as $available){
+                     $availables    = $consumable->find("`consumableitems_id` = '".$item->fields['consumables_id']."' AND `items_id` = 0");
+                     foreach ($availables as $available) {
                         $outConsumable[] = $available;
                      }
-                     
+
                      // Check if enough stock
                      if (!empty($outConsumable) && count($outConsumable) >= $item->fields['number']) {
                         // Give consumable
@@ -300,40 +301,37 @@ class PluginConsumablesValidation extends CommonDBTM {
                         if (!in_array(0, $result)) {
                            // Validation status update
                            $validation->validationConsumable($item->fields, CommonITILValidation::ACCEPTED);
-                           // Send notification
-                           NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, 
-                                 $item, array('entities_id'       => $_SESSION['glpiactive_entity'],
-                                              'consumablerequest' => $item->fields,
-                                              'comment'           => $input['comment']));
-                           
+                           $added[] = $item->fields;
                            $ma->addMessage("<span style='color:green'>".sprintf(__('Consumable %s validated', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id']))."</span>");
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         }
-                        
                      } else {
                         $ma->addMessage(sprintf(__('Not enough stock for consumable %s', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])));
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                      }
-                     
                   } else {
                      $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);
                      $ma->addMessage($validation->getErrorMessage(ERROR_RIGHT));
                   }
                }
+               // Send notification
+               if (!empty($added)) {
+                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item, 
+                        array('entities_id'        => $_SESSION['glpiactive_entity'],
+                              'consumables'        => $added,
+                              'comment'            => $input['comment']));
+               }
                break;
 
             case "refuse" :
+               $added = array();
                foreach ($ids as $key => $val) {
                   if ($item->can($key, UPDATE)) {
                      // Validation status update
                      if ($validation->validationConsumable($item->fields, CommonITILValidation::REFUSED)) {
-                        // Send notification
-                        NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, 
-                              $item, array('entities_id'       => $_SESSION['glpiactive_entity'],
-                                           'consumablerequest' => $item->fields,
-                                           'comment'           => $input['comment']));
+                        $added[] = $item->fields;
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         $ma->addMessage(__('Consumable refused', 'consumables'));
                      } else {
@@ -344,8 +342,15 @@ class PluginConsumablesValidation extends CommonDBTM {
                      $ma->addMessage($validation->getErrorMessage(ERROR_RIGHT));
                   }
                }
+               // Send notification
+               if (!empty($added)) {
+                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, 
+                        $item, array('entities_id'       => $_SESSION['glpiactive_entity'],
+                                     'consumables'       => $added,
+                                     'comment'           => $input['comment']));
+               }
                break;
-               
+
             default :
                return parent::doSpecificMassiveActions($ma->POST);
          }

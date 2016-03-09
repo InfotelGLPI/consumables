@@ -142,3 +142,11 @@ msgstr ""
 #: inc/wizard.class.php:49
 msgid "Consumables wizard"
 msgstr ""
+
+#: inc/notificationtargetrequest.class.php:95
+msgid "Consumable ID"
+msgstr ""
+
+#: inc/notificationtargetrequest.class.php:115
+msgid "Display each consumable"
+msgstr ""

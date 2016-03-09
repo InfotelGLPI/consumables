@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-17 13:47+0200\n"
-"PO-Revision-Date: 2015-09-17 13:54+0200\n"
+"PO-Revision-Date: 2016-03-09 11:41+0100\n"
 "Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/tsmr/GLPI_consumables/language/en_GB/)\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/tsmr/"
+"GLPI_consumables/language/en_GB/)\n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.3\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: hook.php:135 inc/field.class.php:62
 msgid "Order reference"
@@ -25,8 +26,8 @@ msgstr "Order reference"
 #: setup.php:76 inc/field.class.php:49 inc/menu.class.php:37
 #: inc/notificationtargetrequest.class.php:46
 #: inc/notificationtargetrequest.class.php:59 inc/request.class.php:48
-#: inc/request.class.php:347 inc/request.class.php:353 inc/wizard.class.php:68
-#: inc/wizard.class.php:76 inc/wizard.class.php:77
+#: inc/request.class.php:347 inc/request.class.php:353
+#: inc/wizard.class.php:68 inc/wizard.class.php:76 inc/wizard.class.php:77
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] "Consumable request"
@@ -39,7 +40,8 @@ msgstr "This plugin requires GLPI >= 0.90"
 #: inc/notificationtargetrequest.class.php:47
 #: inc/notificationtargetrequest.class.php:62 inc/profile.class.php:132
 #: inc/profile.class.php:183 inc/validation.class.php:58
-#: inc/validation.class.php:84 inc/wizard.class.php:84 inc/wizard.class.php:85
+#: inc/validation.class.php:84 inc/wizard.class.php:84
+#: inc/wizard.class.php:85
 msgid "Consumable validation"
 msgstr "Consumable validation"
 
@@ -142,3 +144,11 @@ msgstr "Consumable refused"
 #: inc/wizard.class.php:49
 msgid "Consumables wizard"
 msgstr "Consumables wizard"
+
+#: inc/notificationtargetrequest.class.php:95
+msgid "Consumable ID"
+msgstr "Consumable ID"
+
+#: inc/notificationtargetrequest.class.php:115
+msgid "Display each consumable"
+msgstr "Display each consumble"

@@ -51,27 +51,31 @@ function install() {
 
    $query  = "INSERT INTO `glpi_notificationtemplatetranslations`
 VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##',
-'##lang.consumable.entity## :##consumable.entity##
-##lang.consumablerequest.requester## : ##consumablerequest.requester##	
-##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##	
+'##FOREACHconsumabledatas##
+##lang.consumable.entity## :##consumable.entity##
+##lang.consumablerequest.requester## : ##consumablerequest.requester##
+##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##
 ##lang.consumablerequest.number## : ##consumablerequest.number##
 ##lang.consumablerequest.request_date## : ##consumablerequest.request_date##
-##lang.consumablerequest.status## : ##consumablerequest.status##',
-'&lt;p&gt;##lang.consumable.entity## :##consumable.entity##&lt;br /&gt; &lt;br /&gt;
-##lang.consumablerequest.requester## : ##consumablerequest.requester##&lt;br /&gt;	
+##lang.consumablerequest.status## : ##consumablerequest.status##
+##ENDFOREACHconsumabledatas##',
+'##FOREACHconsumabledatas##&lt;br /&gt; &lt;br /&gt;
+&lt;p&gt;##lang.consumable.entity## :##consumable.entity##&lt;br /&gt; &lt;br /&gt;
+##lang.consumablerequest.requester## : ##consumablerequest.requester##&lt;br /&gt;
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##&lt;br /&gt;
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##&lt;br /&gt;
 ##lang.consumablerequest.number## : ##consumablerequest.number##&lt;br /&gt;
 ##lang.consumablerequest.request_date## : ##consumablerequest.request_date##&lt;br /&gt;
-##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;');";
+##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
+##ENDFOREACHconsumabledatas##');";
    $result = $DB->query($query);
 
    $query  = "INSERT INTO `glpi_notifications`
               VALUES (NULL, 'Consumable request', 0, 'PluginConsumablesRequest', 'ConsumableRequest',
                      'mail','".$itemtype."', '', 1, 1, '".date('Y-m-d H:i:s')."');";
    $result = $DB->query($query);
-   
+
    // Request validation
    $query_id = "INSERT INTO `glpi_notificationtemplates`(`name`, `itemtype`, `date_mod`, `comment`, `css`) VALUES ('Consumables Request Validation','PluginConsumablesRequest', NOW(),'','');";
    $result   = $DB->query($query_id) or die($DB->error());
@@ -81,24 +85,28 @@ VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##'
 
    $query  = "INSERT INTO `glpi_notificationtemplatetranslations`
 VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##',
-'##lang.consumable.entity## :##consumable.entity##
-##lang.consumablerequest.requester## : ##consumablerequest.requester##	
-##lang.consumablerequest.validator## : ##consumablerequest.validator##	
-##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##	
+'##FOREACHconsumabledatas##
+##lang.consumable.entity## :##consumable.entity##
+##lang.consumablerequest.requester## : ##consumablerequest.requester##
+##lang.consumablerequest.validator## : ##consumablerequest.validator##
+##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##
 ##lang.consumablerequest.number## : ##consumablerequest.number##
 ##lang.consumablerequest.request_date## : ##consumablerequest.request_date##
 ##lang.consumablerequest.status## : ##consumablerequest.status##
+##ENDFOREACHconsumabledatas##
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##',
-'&lt;p&gt;##lang.consumable.entity## :##consumable.entity##&lt;br /&gt; &lt;br /&gt;
-##lang.consumablerequest.requester## : ##consumablerequest.requester##&lt;br /&gt;	
+'##FOREACHconsumabledatas##&lt;br /&gt; &lt;br /&gt;
+&lt;p&gt;##lang.consumable.entity## :##consumable.entity##&lt;br /&gt; &lt;br /&gt;
+##lang.consumablerequest.requester## : ##consumablerequest.requester##&lt;br /&gt;
 ##lang.consumablerequest.validator## : ##consumablerequest.validator##&lt;br /&gt;
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##&lt;br /&gt;
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##&lt;br /&gt;
 ##lang.consumablerequest.number## : ##consumablerequest.number##&lt;br /&gt;
 ##lang.consumablerequest.request_date## : ##consumablerequest.request_date##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
-##lang.consumablerequest.comment## : ##consumablerequest.comment##&lt;br /&gt;');";
+##lang.consumablerequest.comment## : ##consumablerequest.comment##&lt;br /&gt;
+##ENDFOREACHconsumabledatas##');";
    $result = $DB->query($query);
 
    $query  = "INSERT INTO `glpi_notifications`

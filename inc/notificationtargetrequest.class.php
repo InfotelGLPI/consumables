@@ -38,7 +38,6 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
    const CONSUMABLE_REQUEST  = "ConsumableRequest";
    const CONSUMABLE_RESPONSE = "ConsumableResponse";
-   
    const VALIDATOR           = 30;
    const REQUESTER           = 31;
 
@@ -49,11 +48,9 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
    function getDatasForTemplate($event,$options=array()) {
 
-      $this->datas['##consumable.entity##']      = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
+      // Set labels
       $this->datas['##lang.consumable.entity##'] = __('Entity');
-
-      $this->datas['##consumable.entity##']      = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
-      $this->datas['##lang.consumable.entity##'] = __('Entity');
+      $this->datas['##lang.consumable.id##']     = __('Consumable ID', 'consumables');
       switch ($event) {
          case self::CONSUMABLE_REQUEST:
             $this->datas['##consumable.action##'] = __('Consumable request', 'consumables');
@@ -62,8 +59,6 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
             $this->datas['##consumable.action##'] = __('Consumable validation', 'consumables');
             break;
       }
-
-      // Consumable request
       $this->datas['##lang.consumablerequest.consumable##']       = _n('Consumable', 'Consumables', 1);
       $this->datas['##lang.consumablerequest.consumabletype##']   = _n('Consumable type', 'Consumable types', 1);
       $this->datas['##lang.consumablerequest.request_date##']     = __('Request date');
@@ -73,24 +68,32 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       $this->datas['##lang.consumablerequest.validator##']        = __('Approver');
       $this->datas['##lang.consumablerequest.comment##']          = __('Comments');
 
-      $consumable = $options['consumablerequest'];
-
-      $this->datas['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $consumable['consumables_id']);
-      $this->datas['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $consumable['consumableitemtypes_id']);
-      $this->datas['##consumablerequest.request_date##']   = Html::convDateTime($consumable['date_mod']);
-      $this->datas['##consumablerequest.end_date##']       = Html::convDateTime($consumable['end_date']);
-      $this->datas['##consumablerequest.requester##']      = Html::clean(getUserName($consumable['requesters_id']));
-      $this->datas['##consumablerequest.validator##']      = Html::clean(getUserName($consumable['validators_id']));
-      $this->datas['##consumablerequest.number##']         = $consumable['number'];
-      $this->datas['##consumablerequest.status##']         = CommonITILValidation::getStatus($consumable['status']);
+      //Set values
+      foreach ($options['consumables'] as $id => $item) {
+         $tmp                                         = array();
+         $tmp['##consumable.id##']                    = $item['consumables_id'];
+         $tmp['##consumable.entity##']                = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
+         $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
+         $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
+         $tmp['##consumablerequest.request_date##']   = Html::convDateTime($item['date_mod']);
+         if (isset($item['end_date'])) {
+            $tmp['##consumablerequest.end_date##'] = Html::convDateTime($item['end_date']);
+         }
+         $tmp['##consumablerequest.requester##']      = Html::clean(getUserName($item['requesters_id']));
+         $tmp['##consumablerequest.validator##']      = Html::clean(getUserName($item['validators_id']));
+         $tmp['##consumablerequest.number##']         = $item['number'];
+         $tmp['##consumablerequest.status##']         = CommonITILValidation::getStatus($item['status']);
+         $this->datas['consumabledatas'][] = $tmp;
+      }
       if (isset($options['comment'])) {
          $this->datas['##consumablerequest.comment##'] = Html::clean($options['comment']);
       }
    }
-   
+
    function getTags() {
 
-      $tags = array('consumable.action'                => __('Type of event', 'consumables'),
+      $tags = array('consumable.id'                    => __('Consumable ID', 'consumables'),
+                    'consumable.action'                => __('Type of event', 'consumables'),
                     'consumable.entity'                => __('Entity'),
                     'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
                     'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
@@ -102,15 +105,21 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
                     'consumablerequest.comment'        => __('Comments'));
 
       foreach ($tags as $tag => $label) {
-         $this->addTagToList(array('tag'   => $tag,
-                                   'label' => $label,
-                                   'lang'  => true,
-                                   'value' => true));
+         $this->addTagToList(array('tag'     => $tag,
+                                   'label'   => $label,
+                                   'lang'    => true,
+                                   'value'   => true));
       }
-         
+
+      $this->addTagToList(array('tag'     => 'consumabledatas',
+                                'label'   => __('Display each consumable', 'consumables'),
+                                'lang'    => true,
+                                'foreach' => true,
+                                'value'   => true));
+
       asort($this->tag_descriptions);
    }
-   
+
    /**
     * Get additionnals targets for Tickets
     */
