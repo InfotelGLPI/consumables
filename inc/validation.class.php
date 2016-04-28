@@ -86,8 +86,13 @@ class PluginConsumablesValidation extends CommonDBTM {
       
       $rand = mt_rand();
       
-      $fields = $this->find("`status` NOT IN ('".CommonITILValidation::REFUSED."','".CommonITILValidation::ACCEPTED."')", "`date_mod`");
-
+      if ($this->canValidate()) {
+         $fields = $this->find("`status` NOT IN ('".CommonITILValidation::REFUSED."','".CommonITILValidation::ACCEPTED."') 
+                              ", "`date_mod`");
+      } else {
+         $fields = $this->find("`status` NOT IN ('".CommonITILValidation::REFUSED."','".CommonITILValidation::ACCEPTED."') 
+                              AND `requesters_id` ='".Session::getLoginUserID()."'", "`date_mod`");
+      }
       echo "<div class='center'>"; 
       
       if (!empty($fields)) {
