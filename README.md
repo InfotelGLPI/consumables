@@ -1,5 +1,5 @@
 # consumables
-Plugin consumables pour GLPI 0.90
+Plugin consumables pour GLPI
 
 Ce plugin est sur Transifex - Aidez-nous à le traduire :
 https://www.transifex.com/tsmr/GLPI_consumables/
