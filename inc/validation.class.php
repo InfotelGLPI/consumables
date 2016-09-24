@@ -1,33 +1,31 @@
 <?php
-
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
-  -------------------------------------------------------------------------
-  Consumables plugin for GLPI
-  Copyright (C) 2003-2011 by the consumables Development Team.
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2009-2016 by the consumables Development Team.
 
-  https://forge.indepnet.net/projects/consumables
-  -------------------------------------------------------------------------
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
 
-  LICENSE
+ LICENSE
+      
+ This file is part of consumables.
 
-  This file is part of consumables.
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-  Consumables is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  Consumables is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Consumables. If not, see <http://www.gnu.org/licenses/>.
-  --------------------------------------------------------------------------
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
  */
-
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
@@ -205,7 +203,7 @@ class PluginConsumablesValidation extends CommonDBTM {
          $this->update(array('id' => $data['id'], 'status' => $state, 'validators_id' => Session::getLoginUserID()));
       }
       
-      return true;
+      return $state;
    }
    
    
@@ -286,7 +284,7 @@ class PluginConsumablesValidation extends CommonDBTM {
 
                      // Get available consumables
                      $outConsumable = array();
-                     $availables    = $consumable->find("`consumableitems_id` = '".$item->fields['consumables_id']."' AND `items_id` = 0");
+                     $availables    = $consumable->find("`consumableitems_id` = '".$item->fields['consumables_id']."' AND `date_out` IS NULL");
                      foreach ($availables as $available) {
                         $outConsumable[] = $available;
                      }
@@ -305,8 +303,10 @@ class PluginConsumablesValidation extends CommonDBTM {
 
                         if (!in_array(0, $result)) {
                            // Validation status update
-                           $validation->validationConsumable($item->fields, CommonITILValidation::ACCEPTED);
+                           $state = $validation->validationConsumable($item->fields, CommonITILValidation::ACCEPTED);
                            $added[] = $item->fields;
+                           $added['status'] = $state;
+
                            $ma->addMessage("<span style='color:green'>".sprintf(__('Consumable %s validated', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id']))."</span>");
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
@@ -335,8 +335,10 @@ class PluginConsumablesValidation extends CommonDBTM {
                foreach ($ids as $key => $val) {
                   if ($item->can($key, UPDATE)) {
                      // Validation status update
-                     if ($validation->validationConsumable($item->fields, CommonITILValidation::REFUSED)) {
+                     $state = $validation->validationConsumable($item->fields, CommonITILValidation::REFUSED);
+                     if ($state == CommonITILValidation::REFUSED) {
                         $added[] = $item->fields;
+                        $added['status'] = $state;
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         $ma->addMessage(__('Consumable refused', 'consumables'));
                      } else {

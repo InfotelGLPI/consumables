@@ -1,31 +1,30 @@
 <?php
-
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
-  -------------------------------------------------------------------------
-  Consumables plugin for GLPI
-  Copyright (C) 2003-2011 by the consumables Development Team.
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2009-2016 by the consumables Development Team.
 
-  https://forge.indepnet.net/projects/consumables
-  -------------------------------------------------------------------------
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
 
-  LICENSE
+ LICENSE
+      
+ This file is part of consumables.
 
-  This file is part of consumables.
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-  Consumables is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  Consumables is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Consumables. If not, see <http://www.gnu.org/licenses/>.
-  --------------------------------------------------------------------------
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
  */
 
 if (!defined('GLPI_ROOT')) {
@@ -226,13 +225,13 @@ class PluginConsumablesRequest extends CommonDBTM {
       _e('Begin date');
       echo "</td>";
       echo "<td>";
-      html::showDateTimeField("begin_date", array('value' => $begin_date));
+      Html::showDateTimeField("begin_date", array('value' => $begin_date));
       echo "</td>";
       echo "<td>";
       _e('End date');
       echo "</td>";
       echo "<td>";
-      html::showDateTimeField("end_date", array('value' => $end_date));
+      Html::showDateTimeField("end_date", array('value' => $end_date));
       echo "</td>";
       echo "<td>";
       echo "<input type=\"button\" class=\"submit\" name=\"addToCart\" onclick=\"consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables');\" value=\"".__('Search')."\">";
@@ -270,7 +269,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       }
 
       $data = $this->find('`requesters_id` = '.$requesters_id." "
-            ."AND `end_date` >= '".$params['begin_date']."' "
+            ."AND (`end_date` >= '".$params['begin_date']."'  OR `end_date` IS NULL) "
             ."AND (`end_date` <= '".$params['end_date']."' OR `end_date` IS NULL)", "`end_date` DESC");
 
       $message = null;
@@ -560,7 +559,7 @@ class PluginConsumablesRequest extends CommonDBTM {
     * */
    static function countForConsumableItem($consumables_id) {
 
-      $restrict = "`glpi_consumables`.`consumableitems_id` = '".$consumables_id."' AND `glpi_consumables`.`items_id` = 0";
+      $restrict = "`glpi_consumables`.`consumableitems_id` = '".$consumables_id."' AND `glpi_consumables`.`date_out`IS NULL";
 
       return countElementsInTable(array('glpi_consumables'), $restrict);
    }

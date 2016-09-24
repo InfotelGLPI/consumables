@@ -32,7 +32,7 @@ function consumables_addToCart(action, toobserve, toupdate){
 
                         // Push used consumables
                         if (index == 'number' && row.value != 0) {
-                            object.usedConsumables = object.usedConsumables + parseInt(row.value);
+                            object.usedConsumables = object.usedConsumables + parseInt(row.label);
                         }
                     } else {
                         result += "<input type='hidden' id='" + index + "' name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'>";
