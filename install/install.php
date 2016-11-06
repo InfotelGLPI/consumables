@@ -32,24 +32,25 @@
  *
  * @return bool for success (will die for most error)
  * */
-function install() {
+function install()
+{
    global $DB;
 
    $migration = new Migration(100);
-   
+
    // Install script
-   $DB->runFile(GLPI_ROOT ."/plugins/consumables/install/sql/empty-1.0.0.sql");
+   $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-1.0.0.sql");
 
    // Notification
    // Request
    $query_id = "INSERT INTO `glpi_notificationtemplates`(`name`, `itemtype`, `date_mod`, `comment`, `css`) VALUES ('Consumables Request','PluginConsumablesRequest', NOW(),'','');";
-   $result   = $DB->query($query_id) or die($DB->error());
+   $result = $DB->query($query_id) or die($DB->error());
    $query_id = "SELECT `id` FROM `glpi_notificationtemplates` WHERE `itemtype`='PluginConsumablesRequest' AND `name` = 'Consumables Request'";
-   $result   = $DB->query($query_id) or die($DB->error());
+   $result = $DB->query($query_id) or die($DB->error());
    $itemtype = $DB->result($result, 0, 'id');
 
-   $query  = "INSERT INTO `glpi_notificationtemplatetranslations`
-VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##',
+   $query = "INSERT INTO `glpi_notificationtemplatetranslations`
+VALUES(NULL, '" . $itemtype . "', '','##consumable.action## : ##consumable.entity##',
 '##FOREACHconsumabledatas##
 ##lang.consumable.entity## :##consumable.entity##
 ##lang.consumablerequest.requester## : ##consumablerequest.requester##
@@ -68,22 +69,22 @@ VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##'
 ##lang.consumablerequest.request_date## : ##consumablerequest.request_date##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##ENDFOREACHconsumabledatas##');";
-   $result = $DB->query($query);
+   $DB->query($query);
 
-   $query  = "INSERT INTO `glpi_notifications`
+   $query = "INSERT INTO `glpi_notifications`
               VALUES (NULL, 'Consumable request', 0, 'PluginConsumablesRequest', 'ConsumableRequest',
-                     'mail','".$itemtype."', '', 1, 1, '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."');";
-   $result = $DB->query($query);
+                     'mail','" . $itemtype . "', '', 1, 1, '" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "');";
+   $DB->query($query);
 
    // Request validation
    $query_id = "INSERT INTO `glpi_notificationtemplates`(`name`, `itemtype`, `date_mod`, `comment`, `css`) VALUES ('Consumables Request Validation','PluginConsumablesRequest', NOW(),'','');";
-   $result   = $DB->query($query_id) or die($DB->error());
+   $result = $DB->query($query_id) or die($DB->error());
    $query_id = "SELECT `id` FROM `glpi_notificationtemplates` WHERE `itemtype`='PluginConsumablesRequest' AND `name` = 'Consumables Request Validation'";
-   $result   = $DB->query($query_id) or die($DB->error());
+   $result = $DB->query($query_id) or die($DB->error());
    $itemtype = $DB->result($result, 0, 'id');
 
-   $query  = "INSERT INTO `glpi_notificationtemplatetranslations`
-VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##',
+   $query = "INSERT INTO `glpi_notificationtemplatetranslations`
+VALUES(NULL, '" . $itemtype . "', '','##consumable.action## : ##consumable.entity##',
 '##FOREACHconsumabledatas##
 ##lang.consumable.entity## :##consumable.entity##
 ##lang.consumablerequest.requester## : ##consumablerequest.requester##
@@ -106,16 +107,14 @@ VALUES(NULL, '".$itemtype."', '','##consumable.action## : ##consumable.entity##'
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##&lt;br /&gt;
 ##ENDFOREACHconsumabledatas##');";
-   $result = $DB->query($query);
+   $DB->query($query);
 
-   $query  = "INSERT INTO `glpi_notifications`
+   $query = "INSERT INTO `glpi_notifications`
               VALUES (NULL, 'Consumable request validation', 0, 'PluginConsumablesRequest', 'ConsumableResponse',
-                     'mail','".$itemtype."','', 1, 1, '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."');";
-   $result = $DB->query($query);
+                     'mail','" . $itemtype . "','', 1, 1, '" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "');";
+   $DB->query($query);
 
    $migration->executeMigration();
 
    return true;
 }
-
-?>

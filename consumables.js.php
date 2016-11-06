@@ -28,7 +28,7 @@
   --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 //change mimetype
 header("Content-type: application/javascript");
@@ -39,10 +39,9 @@ if ($_SESSION['glpiactiveprofile']['interface'] == "central") {
    $itemtype = PluginConsumablesField::$types;
 
    if (!empty($itemtype)) {
-      $params = array('root_doc'    => $CFG_GLPI['root_doc'],
-                      'glpi_tab'    => 'ConsumableItem$main');
+      $params = array('root_doc' => $CFG_GLPI['root_doc'],
+         'glpi_tab' => 'ConsumableItem$main');
 
-      echo "consumables_addelements(".json_encode($params).");";
+      echo "consumables_addelements(" . json_encode($params) . ");";
    }
 }
-?>

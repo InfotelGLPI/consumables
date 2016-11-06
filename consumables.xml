@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-   <name>Consumables</name>
-   <key>consumables</key>
-   <state>stable</state>
-   <logo>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/consumables.png</logo>
-   <description>
-      <short>
-         <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.]]></fr>
-         <en><![CDATA[This plugin allows you to manage consumable requests for end user.]]></en>
-      </short>
-      <long>
-         <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
-         <en><![CDATA[This plugin allows you to manage consumable requests for end user.<br />- Validation system of consumable request,<br />- Associated notifications,<br />- Wizard user based on available stock.]]></en>
-      </long>
-   </description>
-   <homepage>https://github.com/InfotelGLPI/consumables</homepage>
-   <download>https://github.com/InfotelGLPI/consumables/releases</download>
-   <issues>https://github.com/InfotelGLPI/consumables/issues</issues>
-   <readme>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/README.md</readme>
-   <authors>
-      <author>Ludovic Dupont</author>
-      <author>Infotel</author>
-   </authors>
-   <versions>
-      <version>
-          <num>1.2.0</num>
-          <compatibility>9.1</compatibility>
-      </version>
-      <version>
-          <num>1.1.0</num>
-          <compatibility>0.90</compatibility>
-      </version>
-   </versions>
-   <langs>
-      <lang>fr_FR</lang>
-      <lang>en_GB</lang>
-   </langs>
-   <license><![CDATA[GPL v2+]]></license>
-   <tags>
-         <fr>
+    <name>Consumables</name>
+    <key>consumables</key>
+    <state>stable</state>
+    <logo>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/consumables.png</logo>
+    <description>
+        <short>
+            <fr>
+                <![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.]]></fr>
+            <en><![CDATA[This plugin allows you to manage consumable requests for end user.]]></en>
+        </short>
+        <long>
+            <fr>
+                <![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
+            <en>
+                <![CDATA[This plugin allows you to manage consumable requests for end user.<br />- Validation system of consumable request,<br />- Associated notifications,<br />- Wizard user based on available stock.]]></en>
+        </long>
+    </description>
+    <homepage>https://github.com/InfotelGLPI/consumables</homepage>
+    <download>https://github.com/InfotelGLPI/consumables/releases</download>
+    <issues>https://github.com/InfotelGLPI/consumables/issues</issues>
+    <readme>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/README.md</readme>
+    <authors>
+        <author>Ludovic Dupont</author>
+        <author>Infotel</author>
+    </authors>
+    <versions>
+        <version>
+            <num>1.2.0</num>
+            <compatibility>9.1</compatibility>
+        </version>
+        <version>
+            <num>1.1.0</num>
+            <compatibility>0.90</compatibility>
+        </version>
+    </versions>
+    <langs>
+        <lang>fr_FR</lang>
+        <lang>en_GB</lang>
+    </langs>
+    <license><![CDATA[GPL v2+]]></license>
+    <tags>
+        <fr>
             <tag>consommable</tag>
-         </fr>
-         <en>
+        </fr>
+        <en>
             <tag>consumable</tag>
-         </en>
-   </tags>
-   <screenshots>
-      <screenshot>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/wiki/Menu%20plugin%20consumables.png</screenshot>
-      <screenshot>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/wiki/Wizard%20plugin%20consumables.png</screenshot>
-   </screenshots>
+        </en>
+    </tags>
+    <screenshots>
+        <screenshot>
+            https://raw.githubusercontent.com/InfotelGLPI/consumables/master/wiki/Menu%20plugin%20consumables.png
+        </screenshot>
+        <screenshot>
+            https://raw.githubusercontent.com/InfotelGLPI/consumables/master/wiki/Wizard%20plugin%20consumables.png
+        </screenshot>
+    </screenshots>
 </root>

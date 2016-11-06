@@ -27,17 +27,15 @@
  --------------------------------------------------------------------------
  */
 
-include ("../../../inc/includes.php");
+include("../../../inc/includes.php");
 
 Session::checkLoginUser();
 //Html::header_nocache();
 
-switch($_POST['action']){
+switch ($_POST['action']) {
    case 'showOrderReference':
       header("Content-Type: text/html; charset=UTF-8");
       $field = new PluginConsumablesField();
       $field->showOrderReference($_POST['consumables_id']);
       break;
 }
-
-?>

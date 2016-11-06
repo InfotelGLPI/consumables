@@ -1,90 +1,90 @@
 
-.consumables_wizard_rank{
+.consumables_wizard_rank {
     margin: 0 auto;
     padding: 5px;
     border: 1px solid #ccc;
-    z-index:1;
+    z-index: 1;
     text-align: left;
     font-size: 14px;
-    width:100%;
+    width: 100%;
     background-color: #ffffff;
-    
+
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    
+
     -moz-box-shadow: 0px 2px 5px #666;
     -webkit-box-shadow: 0px 2px 5px #666;
     box-shadow: 0px 2px 5px #666;
 }
 
 .consumables_wizard_title {
-   font-size: 18px;
-   text-align: center;
-   margin-bottom: 5px;
-   color:black;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: black;
 }
 
-.consumables_wizard_img{
-   vertical-align : middle;
-   width:64px;
-   height:64px;
+.consumables_wizard_img {
+    vertical-align: middle;
+    width: 64px;
+    height: 64px;
 }
 
-.consumables_menu_img{
-   width:64px;
-   height:64px;
-   /*padding: 10px;*/    
+.consumables_menu_img {
+    width: 64px;
+    height: 64px;
+    /*padding: 10px;*/
 }
 
 .consumables_wizard_button {
-   height: 35px;
-   border-top: 2px outset black;
+    height: 35px;
+    border-top: 2px outset black;
 }
 
-.consumable_previous_button{
-   float:left;
+.consumable_previous_button {
+    float: left;
 }
 
-.consumable_next_button{
-   float:right;
+.consumable_next_button {
+    float: right;
 }
 
-.consumables_wizard{
-   margin: 0 auto;
-   display:table;
-   padding: 5px;
-   text-align: left;
-   font-size: 14px;
-   width: 900px;
-   background-color: #fff;
+.consumables_wizard {
+    margin: 0 auto;
+    display: table;
+    padding: 5px;
+    text-align: left;
+    font-size: 14px;
+    width: 900px;
+    background-color: #fff;
 }
 
-.consumables_wizard_form{
-   width:auto;
-   margin: 0 auto;
+.consumables_wizard_form {
+    width: auto;
+    margin: 0 auto;
 }
 
-.consumables_wizard_form td{
-   padding: 5px;
+.consumables_wizard_form td {
+    padding: 5px;
 }
 
-.consumables_wizard_red{
-   margin-left: 5px;
-   color:red;
+.consumables_wizard_red {
+    margin-left: 5px;
+    color: red;
 }
 
-.consumables_menu_a{
-   display:block;
-   width:150px;
-   height:100px;
-   margin-top:30px;
+.consumables_menu_a {
+    display: block;
+    width: 150px;
+    height: 100px;
+    margin-top: 30px;
 }
 
-td.consumables_menu_item{
-   border:solid 1px #fff;
+td.consumables_menu_item {
+    border: solid 1px #fff;
 }
 
-td.consumables_menu_item:hover{
-   border:solid 1px #535b5c;
+td.consumables_menu_item:hover {
+    border: solid 1px #535b5c;
 }

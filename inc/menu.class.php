@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -26,34 +27,46 @@
  along with consumables. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
- 
-class PluginConsumablesMenu extends CommonGLPI {
+
+/**
+ * Class PluginConsumablesMenu
+ */
+class PluginConsumablesMenu extends CommonGLPI
+{
    static $rightname = 'plugin_consumables';
 
-   static function getMenuName() {
+   /**
+    * @return translated
+    */
+   static function getMenuName()
+   {
       return _n('Consumable request', 'Consumable requests', 1, 'consumables');
    }
 
-   static function getMenuContent() {
-      global $CFG_GLPI;
+   /**
+    * @return array
+    */
+   static function getMenuContent()
+   {
 
-      $menu                                           = array();
-      $menu['title']                                  = self::getMenuName();
-      $menu['page']                                   = "/plugins/consumables/front/wizard.php";
+      $menu = array();
+      $menu['title'] = self::getMenuName();
+      $menu['page'] = "/plugins/consumables/front/wizard.php";
       if (PluginConsumablesWizard::canCreate()) {
-         $menu['links']['search']                        = PluginConsumablesWizard::getSearchURL(false);
-         $menu['links']['add']                        = PluginConsumablesWizard::getSearchURL(false);
+         $menu['links']['search'] = PluginConsumablesWizard::getSearchURL(false);
+         $menu['links']['add'] = PluginConsumablesWizard::getSearchURL(false);
       }
 
       return $menu;
    }
 
-   static function removeRightsFromSession() {
+   static function removeRightsFromSession()
+   {
       if (isset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu'])) {
-         unset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu']); 
+         unset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu']);
       }
       if (isset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu'])) {
-         unset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu']); 
+         unset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu']);
       }
    }
 }

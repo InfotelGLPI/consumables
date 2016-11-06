@@ -27,12 +27,12 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::header(PluginConsumablesWizard::getTypeName(2), '', "plugins", "pluginconsumablesmenu");
 } else {
-   Html::helpHeader(PluginConsumablesWizard::getTypeName(2), '', "plugins", "pluginconsumablesmenu");
+   Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
 }
 
 if (!empty($_GET['action'])) {
@@ -45,4 +45,3 @@ if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
 } else {
    Html::helpFooter();
 }
-?>

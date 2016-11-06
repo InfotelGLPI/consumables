@@ -33,89 +33,101 @@ if (!defined('GLPI_ROOT')) {
 
 /**
  * Class PluginConsumablesMenu
- * 
+ *
  * This class shows the plugin main page
- * 
+ *
  * @package    Consumables
  * @author     Ludovic Dupont
  */
-class PluginConsumablesValidation extends CommonDBTM {
-      
+class PluginConsumablesValidation extends CommonDBTM
+{
+
    private $request;
-   
+
    static $rightname = "plugin_consumables";
 
-   function __construct(){
+   /**
+    * PluginConsumablesValidation constructor.
+    */
+   function __construct()
+   {
       parent::__construct();
-      
+
       $this->forceTable("glpi_plugin_consumables_requests");
       $this->request = new PluginConsumablesRequest();
    }
-   
-   static function getTypeName($nb=0) {
+
+   /**
+    * @param int $nb
+    * @return translated
+    */
+   static function getTypeName($nb = 0)
+   {
       return __('Consumable validation', 'consumables');
    }
-   
+
    /**
     * Have I the global right to "request group" the Object
     * May be overloaded if needed (ex KnowbaseItem)
     *
     * @return booleen
-   **/
-   static function canValidate() {
+    **/
+   static function canValidate()
+   {
       return Session::haveRight("plugin_consumables_validation", 1);
    }
-   
+
    /**
     * Show consumable validation
     */
-   function showConsumableValidation(){
+   function showConsumableValidation()
+   {
       global $CFG_GLPI;
-      
-      if (!$this->canView()){
+
+      if (!$this->canView()) {
          return false;
       }
-      
+
       // Wizard title
       echo "<div class='consumables_wizard_title'><p>";
-      echo "<img class='consumables_wizard_img' src='".$CFG_GLPI['root_doc']."/plugins/consumables/pics/consumablevalidation.png' alt='consumablevalidation'/>&nbsp;";
+      echo "<img class='consumables_wizard_img' src='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/pics/consumablevalidation.png' alt='consumablevalidation'/>&nbsp;";
       _e("Consumable validation", "consumables");
       echo "</p></div>";
-      
+
       $rand = mt_rand();
-      
+
       if ($this->canValidate()) {
-         $fields = $this->find("`status` NOT IN ('".CommonITILValidation::REFUSED."','".CommonITILValidation::ACCEPTED."') 
+         $fields = $this->find("`status` NOT IN ('" . CommonITILValidation::REFUSED . "','" . CommonITILValidation::ACCEPTED . "') 
                               ", "`date_mod`");
       } else {
-         $fields = $this->find("`status` NOT IN ('".CommonITILValidation::REFUSED."','".CommonITILValidation::ACCEPTED."') 
-                              AND `requesters_id` ='".Session::getLoginUserID()."'", "`date_mod`");
+         $fields = $this->find("`status` NOT IN ('" . CommonITILValidation::REFUSED . "','" . CommonITILValidation::ACCEPTED . "') 
+                              AND `requesters_id` ='" . Session::getLoginUserID() . "'", "`date_mod`");
       }
-      echo "<div class='center'>"; 
-      
+      echo "<div class='center'>";
+
       if (!empty($fields)) {
          if ($this->canValidate()) {
-            Html::openMassiveActionsForm('mass'.__CLASS__.$rand);
-            $massiveactionparams = array('item' => __CLASS__, 'container' => 'mass'.__CLASS__.$rand);
+            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
+            $massiveactionparams = array('item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand);
             Html::showMassiveActions($massiveactionparams);
          }
 
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr>";
-         echo "<th colspan='7'>".self::getTypeName()."</th>";
+         echo "<th colspan='7'>" . self::getTypeName() . "</th>";
          echo "</tr>";
          echo "<tr>";
          echo "<th width='10'>";
          if ($this->canValidate()) {
-            echo Html::getCheckAllAsCheckbox('mass'.__CLASS__.$rand);
+            echo Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand);
          }
          echo "</th>";
-         echo "<th>".__('Requester')."</th>";
-         echo "<th>"._n('Consumable type', 'Consumable types', 1)."</th>";
-         echo "<th>"._n('Consumable', 'Consumables', 1)."</th>";
-         echo "<th>".__('Number', 'consumables')."</th>";
-         echo "<th>".__("Give to")."</th>";
-         echo "<th>"._sx("item", "State")."</th>";
+         echo "<th>" . __('Requester') . "</th>";
+         echo "<th>" . _n('Consumable type', 'Consumable types', 1) . "</th>";
+         echo "<th>" . _n('Consumable', 'Consumables', 1) . "</th>";
+         echo "<th>" . __('Number', 'consumables') . "</th>";
+         echo "<th>" . __("Give to") . "</th>";
+         echo "<th>" . _sx("item", "State") . "</th>";
          echo "</tr>";
 
          foreach ($fields as $field) {
@@ -149,65 +161,72 @@ class PluginConsumablesValidation extends CommonDBTM {
                echo $give_item->getLink();
             }
             echo "</td>";
-            
+
             echo "<td>";
             $bgcolor = CommonITILValidation::getStatusColor($field['status']);
-            $status  = CommonITILValidation::getStatus($field['status']);
-            echo "<div style='background-color:".$bgcolor.";'>".$status."</div>";
+            $status = CommonITILValidation::getStatus($field['status']);
+            echo "<div style='background-color:" . $bgcolor . ";'>" . $status . "</div>";
             echo "</td>";
             echo "</tr>";
          }
          if ($this->canValidate()) {
             $massiveactionparams['ontop'] = false;
             Html::showMassiveActions($massiveactionparams);
-            Html::closeForm(); 
+            Html::closeForm();
          }
 
          echo "</table>";
       } else {
          echo __("No item to display");
       }
-      
+
       echo "</div>";
-      
+
       // Footer
       if ($this->canCreate() && $this->canValidate()) {
          echo "<br/><table width='100%'>";
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\""._sx('button', 'Cancel')."\" onclick=\"consumables_cancel('".$CFG_GLPI['root_doc']."/plugins/consumables/front/wizard.php');\">";
-         echo "<input type='hidden' name='requesters_id' value='".Session::getLoginUserID()."'>";
+         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
+         echo "<input type='hidden' name='requesters_id' value='" . Session::getLoginUserID() . "'>";
          echo "</td>";
          echo "</tr>";
          echo "</table>";
       }
-      
+
       // Init consumable cart javascript
       echo "<script type='text/javascript'>";
-      echo "consumables_initJs('".$CFG_GLPI['root_doc']."');";
+      echo "consumables_initJs('" . $CFG_GLPI['root_doc'] . "');";
       echo "</script>";
    }
-   
-   
+
+
    /**
     * Validation consumable
-    * 
+    *
     * @param type $params
+    * @param int $state
+    * @return int
     */
-   function validationConsumable($params, $state=CommonITILValidation::WAITING) {
-      
-      $datas = $this->request->getUserConsumables($params['requesters_id'], "`consumables_id` = ".$params['consumables_id']);
-      
+   function validationConsumable($params, $state = CommonITILValidation::WAITING)
+   {
+
+      $datas = $this->request->getUserConsumables($params['requesters_id'], "`consumables_id` = " . $params['consumables_id']);
+
       foreach ($datas as $data) {
          $this->update(array('id' => $data['id'], 'status' => $state, 'validators_id' => Session::getLoginUserID()));
       }
-      
+
       return $state;
    }
-   
-   
-   function getForbiddenStandardMassiveAction() {
+
+
+   /**
+    * @return an|array
+    */
+   function getForbiddenStandardMassiveAction()
+   {
 
       $forbidden = parent::getForbiddenStandardMassiveAction();
 
@@ -216,8 +235,8 @@ class PluginConsumablesValidation extends CommonDBTM {
 
       return $forbidden;
    }
-   
-  /**
+
+   /**
     * Get the specific massive actions
     *
     * @since version 0.84
@@ -225,54 +244,62 @@ class PluginConsumablesValidation extends CommonDBTM {
     *
     * @return an array of massive actions
     * */
-   function getSpecificMassiveActions($checkitem = NULL) {
+   function getSpecificMassiveActions($checkitem = NULL)
+   {
       $isadmin = static::canUpdate();
       $actions = parent::getSpecificMassiveActions($checkitem);
-      $prefix = $this->getType().MassiveAction::CLASS_ACTION_SEPARATOR;
-      
+      $prefix = $this->getType() . MassiveAction::CLASS_ACTION_SEPARATOR;
+
       if ($isadmin) {
-         $actions[$prefix.'validate'] = __('Validate');
-         $actions[$prefix.'refuse']   = __('Refuse', 'consumables');
+         $actions[$prefix . 'validate'] = __('Validate');
+         $actions[$prefix . 'refuse'] = __('Refuse', 'consumables');
       }
 
       return $actions;
    }
-   
-   
+
+
    /**
     * Massive actions display
-    * 
-    * @param $input array of input datas
     *
+    * @param MassiveAction $ma
     * @return array of results (nbok, nbko, nbnoright counts)
-    * */
-   static function showMassiveActionsSubForm(MassiveAction $ma) {
-      
+    * @internal param array $input of input datas
+    *
+    */
+   static function showMassiveActionsSubForm(MassiveAction $ma)
+   {
+
       $itemtype = $ma->getItemtype(false);
 
       switch ($itemtype) {
          case self::getType():
             switch ($ma->getAction()) {
-               case "validate":case "refuse":
+               case "validate":
+               case "refuse":
                   echo "<textarea cols='80' rows='7' name='comment'></textarea><br><br>";
                   break;
             }
             return parent::showMassiveActionsSubForm($ma);
       }
    }
-   
+
    /**
     * @since version 0.85
     *
     * @see CommonDBTM::processMassiveActionsForOneItemtype()
-   **/
+    * @param MassiveAction $ma
+    * @param CommonDBTM $item
+    * @param array $ids
+    * @return nothing
+    */
    static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
-                                                       array $ids) {
-      $itemtype   = $ma->getItemtype(false);
-      $item       = new PluginConsumablesRequest();
+                                                       array $ids)
+   {
+      $item = new PluginConsumablesRequest();
       $validation = new PluginConsumablesValidation();
       $consumable = new Consumable();
-      $input      = $ma->getInput();
+      $input = $ma->getInput();
 
       if (count($ids)) {
          switch ($ma->getAction()) {
@@ -284,7 +311,7 @@ class PluginConsumablesValidation extends CommonDBTM {
 
                      // Get available consumables
                      $outConsumable = array();
-                     $availables    = $consumable->find("`consumableitems_id` = '".$item->fields['consumables_id']."' AND `date_out` IS NULL");
+                     $availables = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' AND `date_out` IS NULL");
                      foreach ($availables as $available) {
                         $outConsumable[] = $available;
                      }
@@ -307,7 +334,7 @@ class PluginConsumablesValidation extends CommonDBTM {
                            $added[] = $item->fields;
                            $added['status'] = $state;
 
-                           $ma->addMessage("<span style='color:green'>".sprintf(__('Consumable %s validated', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id']))."</span>");
+                           $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])) . "</span>");
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
@@ -323,10 +350,10 @@ class PluginConsumablesValidation extends CommonDBTM {
                }
                // Send notification
                if (!empty($added)) {
-                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item, 
-                        array('entities_id'        => $_SESSION['glpiactive_entity'],
-                              'consumables'        => $added,
-                              'comment'            => $input['comment']));
+                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item,
+                     array('entities_id' => $_SESSION['glpiactive_entity'],
+                        'consumables' => $added,
+                        'comment' => $input['comment']));
                }
                break;
 
@@ -351,10 +378,10 @@ class PluginConsumablesValidation extends CommonDBTM {
                }
                // Send notification
                if (!empty($added)) {
-                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, 
-                        $item, array('entities_id'       => $_SESSION['glpiactive_entity'],
-                                     'consumables'       => $added,
-                                     'comment'           => $input['comment']));
+                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE,
+                     $item, array('entities_id' => $_SESSION['glpiactive_entity'],
+                        'consumables' => $added,
+                        'comment' => $input['comment']));
                }
                break;
 
@@ -365,4 +392,3 @@ class PluginConsumablesValidation extends CommonDBTM {
    }
 
 }
-?>

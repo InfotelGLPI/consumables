@@ -33,32 +33,40 @@ if (!defined('GLPI_ROOT')) {
 
 /**
  * Class PluginConsumablesField
- * 
+ *
  * This class shows the plugin main page
- * 
+ *
  * @package    Consumables
  * @author     Ludovic Dupont
  */
-class PluginConsumablesField extends CommonDBTM {
-   
-   static $types     = array('ConsumableItem');
+class PluginConsumablesField extends CommonDBTM
+{
+
+   static $types = array('ConsumableItem');
    static $rightname = "plugin_consumables";
 
-   static function getTypeName($nb=0) {
+
+   /**
+    * @param int $nb
+    * @return translated
+    */
+   static function getTypeName($nb = 0)
+   {
       return _n('Consumable request', 'Consumable requests', 1, 'consumables');
    }
-   
+
    /**
     * Show order reference field
-    * 
-    * @param type $consumables_id
+    *
+    * @param $consumables_id
     */
-   function showOrderReference($consumables_id){
-      
+   function showOrderReference($consumables_id)
+   {
+
       $this->getFromDBByQuery(" WHERE `consumables_id` = '$consumables_id'");
-      
+
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Order reference', 'consumables')."</td>\n";
+      echo "<td>" . __('Order reference', 'consumables') . "</td>\n";
       echo "<td>";
       Html::autocompletionTextField($this, "order_ref");
       echo "</td>";
@@ -66,36 +74,37 @@ class PluginConsumablesField extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
    }
-   
+
    /**
     * Post add consumable
-    * 
+    *
     * @param ConsumableItem $consumableItem
     */
-   static function postAddConsumable(ConsumableItem $consumableItem){
-      
+   static function postAddConsumable(ConsumableItem $consumableItem)
+   {
+
       $field = new self();
-      $field->add(array('consumables_id' => $consumableItem->fields['id'], 
-                        'order_ref'      => $consumableItem->input['order_ref']));
+      $field->add(array('consumables_id' => $consumableItem->fields['id'],
+         'order_ref' => $consumableItem->input['order_ref']));
    }
-   
+
    /**
     * Pre update consumable
-    * 
+    *
     * @param ConsumableItem $consumableItem
     */
-   static function preUpdateConsumable(ConsumableItem $consumableItem){
+   static function preUpdateConsumable(ConsumableItem $consumableItem)
+   {
 
       $field = new self();
-      $field->getFromDBByQuery(" WHERE `consumables_id` = '".$consumableItem->input['id']."'");
+      $field->getFromDBByQuery(" WHERE `consumables_id` = '" . $consumableItem->input['id'] . "'");
 
       if (!empty($field->fields)) {
-         $field->update(array('id'        => $field->fields['id'],
-                              'order_ref' => $consumableItem->input['order_ref']));
+         $field->update(array('id' => $field->fields['id'],
+            'order_ref' => $consumableItem->input['order_ref']));
       } else {
          self::postAddConsumable($consumableItem);
       }
    }
-   
+
 }
-?>

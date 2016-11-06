@@ -33,67 +33,75 @@ if (!defined('GLPI_ROOT')) {
 
 /**
  * Class PluginConsumablesMenu
- * 
+ *
  * This class shows the plugin main page
- * 
+ *
  * @package    Consumables
  * @author     Ludovic Dupont
  */
-class PluginConsumablesWizard extends CommonDBTM {
-   
+class PluginConsumablesWizard extends CommonDBTM
+{
+
    static $rightname = "plugin_consumables";
 
-   static function getTypeName($nb=0) {
+   /**
+    * @param int $nb
+    * @return translated
+    */
+   static function getTypeName($nb = 0)
+   {
       return __('Consumables wizard', 'consumables');
    }
-   
+
    /**
     * Show config menu
     */
-   function showMenu() {
+   function showMenu()
+   {
       global $CFG_GLPI;
-      
-      $validation = new PluginConsumablesValidation();
-      $request    = new PluginConsumablesRequest();
-      
+
+      $request = new PluginConsumablesRequest();
+
       if (!$this->canView()) {
          return false;
       }
-      
+
       echo "<div align='center'>";
-      echo "<table class='tab_cadre' cellpadding='5' height='150'>";
+      echo "<table class='tab_cadre' cellpadding='5'>";
       echo "<tr>";
-      echo "<th colspan='5'>".__("Consumable request", "consumables")."</th>";
+      echo "<th colspan='5'>" . __("Consumable request", "consumables") . "</th>";
       echo "</tr>";
       echo "<tr class='tab_bg_1' style='background-color:white;'>";
 
       // Consumable request
       if ($request->canRequest()) {
          echo "<td class='center consumables_menu_item'>";
-         echo "<a  class='consumables_menu_a' href=\"./wizard.form.php?action=consumablerequest\">";
-         echo "<img class='consumables_menu_img' src='".$CFG_GLPI["root_doc"]."/plugins/consumables/pics/consumablerequest.png' alt=\"".__("Consumable request", "consumables")."\">";
-         echo "<br>".__("Consumable request", "consumables")."<br></a>";
+         echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablerequest'>";
+         echo "<img class='consumables_menu_img' src='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/pics/consumablerequest.png' alt=\"" . __("Consumable request", "consumables") . "\">";
+         echo "<br>" . __("Consumable request", "consumables") . "<br></a>";
          echo "</td>";
       }
-      
+
       // Consumable validation
       echo "<td class='center consumables_menu_item'>";
-      echo "<a  class='consumables_menu_a' href=\"./wizard.form.php?action=consumablevalidation\">";
-      echo "<img class='consumables_menu_img' src='".$CFG_GLPI["root_doc"]."/plugins/consumables/pics/consumablevalidation.png' alt=\"".__("Consumable validation", "consumables")."\">";
-      echo "<br>".__("Consumable validation", "consumables")."</a>";
+      echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablevalidation'>";
+      echo "<img class='consumables_menu_img' src='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/pics/consumablevalidation.png' alt=\"" . __("Consumable validation", "consumables") . "\">";
+      echo "<br>" . __("Consumable validation", "consumables") . "</a>";
       echo "</td>";
 
       echo "</tr>";
       echo "</table></div>";
    }
-   
+
    /**
     * Show wizard form of the current step
+    * @param $step
     */
-   function showWizard($step) {
+   function showWizard($step)
+   {
 
       echo "<div class='consumables_wizard'>";
-      switch($step){
+      switch ($step) {
          case 'consumablerequest':
             $consumablerequest = new PluginConsumablesRequest();
             $consumablerequest->showConsumableRequest();
@@ -105,6 +113,5 @@ class PluginConsumablesWizard extends CommonDBTM {
       }
       echo "</div>";
    }
-   
+
 }
-?>
