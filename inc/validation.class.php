@@ -331,9 +331,8 @@ class PluginConsumablesValidation extends CommonDBTM
                         if (!in_array(0, $result)) {
                            // Validation status update
                            $state = $validation->validationConsumable($item->fields, CommonITILValidation::ACCEPTED);
+                           $item->fields['status'] = $state;
                            $added[] = $item->fields;
-                           $added['status'] = $state;
-
                            $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])) . "</span>");
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {

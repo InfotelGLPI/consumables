@@ -79,11 +79,11 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
       $this->datas['##lang.consumablerequest.validator##'] = __('Approver');
       $this->datas['##lang.consumablerequest.comment##'] = __('Comments');
 
+      $this->datas['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
       //Set values
       foreach ($options['consumables'] as $id => $item) {
          $tmp = array();
          $tmp['##consumable.id##'] = $item['consumables_id'];
-         $tmp['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
          $tmp['##consumablerequest.consumable##'] = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
          $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
          $tmp['##consumablerequest.request_date##'] = Html::convDateTime($item['date_mod']);
