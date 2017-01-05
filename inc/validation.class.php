@@ -212,11 +212,11 @@ class PluginConsumablesValidation extends CommonDBTM
    function validationConsumable($params, $state = CommonITILValidation::WAITING)
    {
 
-      $datas = $this->request->getUserConsumables($params['requesters_id'], "`consumables_id` = " . $params['consumables_id']);
-
-      foreach ($datas as $data) {
-         $this->update(array('id' => $data['id'], 'status' => $state, 'validators_id' => Session::getLoginUserID()));
-      }
+//      $datas = $this->request->getUserConsumables($params['requesters_id'], "`consumables_id` = " . $params['consumables_id']);
+//
+//      foreach ($datas as $data) {
+         $this->update(array('id' => $params['id'], 'status' => $state, 'validators_id' => Session::getLoginUserID()));
+//      }
 
       return $state;
    }
