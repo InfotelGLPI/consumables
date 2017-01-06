@@ -631,8 +631,13 @@ class PluginConsumablesRequest extends CommonDBTM
          $result['fields']['give_itemtype'] = array('label' => $give_item::getTypeName(),
             'value' => $params['give_itemtype'],
             'hidden' => 1);
-         $result['fields']['give_items_id'] = array('label' => Dropdown::getDropdownName($give_item->getTable(), $params['give_items_id']),
+         if($give_item::getType() == "User"){
+            $result['fields']['give_items_id'] = array('label' => getUserName($params['give_items_id']),
             'value' => $params['give_items_id']);
+         } else { // $give_item::getUserName() == "Group"
+            $result['fields']['give_items_id'] = array('label' => Dropdown::getDropdownName($give_item->getTable(), $params['give_items_id']),
+            'value' => $params['give_items_id']);
+         }
       }
 
       return $result;
