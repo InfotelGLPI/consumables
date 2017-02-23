@@ -78,7 +78,7 @@ function plugin_version_consumables()
 
    return array(
       'name' => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
-      'version' => '1.2.0',
+      'version' => '1.2.1',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'license' => 'GPLv2+',
       'homepage' => 'https://github.com/InfotelGLPI/consumables',
@@ -92,8 +92,8 @@ function plugin_version_consumables()
  */
 function plugin_consumables_check_prerequisites()
 {
-   if (version_compare(GLPI_VERSION, '0.85', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
-      _e('This plugin requires GLPI >= 0.85', 'consumables');
+   if (version_compare(GLPI_VERSION, '0.90', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
+      _e('This plugin requires GLPI >= 0.90', 'consumables');
       return false;
    }
    return true;
