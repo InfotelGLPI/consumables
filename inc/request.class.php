@@ -239,13 +239,13 @@ class PluginConsumablesRequest extends CommonDBTM
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>";
-      _e('Begin date');
+      echo __('Begin date');
       echo "</td>";
       echo "<td>";
       Html::showDateTimeField("begin_date", array('value' => $begin_date));
       echo "</td>";
       echo "<td>";
-      _e('End date');
+      echo __('End date');
       echo "</td>";
       echo "<td>";
       Html::showDateTimeField("end_date", array('value' => $end_date));
@@ -360,7 +360,7 @@ class PluginConsumablesRequest extends CommonDBTM
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
       echo "<div class='consumables_wizard_title'><p>";
       echo "<img class='consumables_wizard_img' src='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/pics/consumablerequest.png' alt='consumablerequest'/>&nbsp;";
-      _e("Consumable request", "consumables");
+      echo __("Consumable request", "consumables");
       echo "</p></div>";
 
       // Add consumables request
