@@ -209,14 +209,11 @@ class PluginConsumablesValidation extends CommonDBTM
     * @param int $state
     * @return int
     */
-   function validationConsumable($params, $state = CommonITILValidation::WAITING)
-   {
+   function validationConsumable($params, $state = CommonITILValidation::WAITING) {
 
-//      $datas = $this->request->getUserConsumables($params['requesters_id'], "`consumables_id` = " . $params['consumables_id']);
-//
-//      foreach ($datas as $data) {
-         $this->update(array('id' => $params['id'], 'status' => $state, 'validators_id' => Session::getLoginUserID()));
-//      }
+      $this->update(array('id' => $params['id'],
+                          'status' => $state,
+                          'validators_id' => Session::getLoginUserID()));
 
       return $state;
    }
@@ -350,9 +347,9 @@ class PluginConsumablesValidation extends CommonDBTM
                // Send notification
                if (!empty($added)) {
                   NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item,
-                     array('entities_id' => $_SESSION['glpiactive_entity'],
-                        'consumables' => $added,
-                        'comment' => $input['comment']));
+                                                array('entities_id' => $_SESSION['glpiactive_entity'],
+                                                      'consumables' => $added,
+                                                      'comment'     => $input['comment']));
                }
                break;
 
@@ -363,8 +360,10 @@ class PluginConsumablesValidation extends CommonDBTM
                      // Validation status update
                      $state = $validation->validationConsumable($item->fields, CommonITILValidation::REFUSED);
                      if ($state == CommonITILValidation::REFUSED) {
-                        $added[] = $item->fields;
-                        $added['status'] = $state;
+                        $item->fields['status']        = $state;
+                        $item->fields['validators_id'] = Session::getLoginUserID();
+                        $added[]                       = $item->fields;
+
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         $ma->addMessage(__('Consumable refused', 'consumables'));
                      } else {
@@ -378,9 +377,9 @@ class PluginConsumablesValidation extends CommonDBTM
                // Send notification
                if (!empty($added)) {
                   NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE,
-                     $item, array('entities_id' => $_SESSION['glpiactive_entity'],
-                        'consumables' => $added,
-                        'comment' => $input['comment']));
+                                                $item, array('entities_id' => $_SESSION['glpiactive_entity'],
+                                                             'consumables' => $added,
+                                                             'comment'     => $input['comment']));
                }
                break;
 
