@@ -329,14 +329,18 @@ class PluginConsumablesValidation extends CommonDBTM
                            // Validation status update
                            $state = $validation->validationConsumable($item->fields, CommonITILValidation::ACCEPTED);
                            $item->fields['status'] = $state;
+                           $item->fields['validators_id'] = Session::getLoginUserID();
                            $added[] = $item->fields;
-                           $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])) . "</span>");
+                           $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'),
+                                                                                  Dropdown::getDropdownName("glpi_consumableitems",
+                                                                                                            $item->fields['consumables_id'])) . "</span>");
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         }
                      } else {
-                        $ma->addMessage(sprintf(__('Not enough stock for consumable %s', 'consumables'), Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])));
+                        $ma->addMessage(sprintf(__('Not enough stock for consumable %s', 'consumables'),
+                                                Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])));
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                      }
                   } else {
