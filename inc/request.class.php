@@ -574,7 +574,9 @@ class PluginConsumablesRequest extends CommonDBTM
       }
 
       if ($number > 0) {
-         Dropdown::showInteger('number', 0, 0, $number);
+         Dropdown::showNumber('number', ['value' => 0,
+                                         'min' => 0,
+                                         'max' => $number]);
       } else {
          echo __('No consumable') . "<input type='hidden' name='number' value='0'>";
       }

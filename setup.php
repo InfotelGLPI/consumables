@@ -28,13 +28,12 @@
  */
 
 // Init the hooks of the plugins -Needed
-function plugin_init_consumables()
-{
+function plugin_init_consumables() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
-   $PLUGIN_HOOKS['change_profile']['consumables'] = array('PluginConsumablesProfile', 'initProfile');
-   $PLUGIN_HOOKS['add_css']['consumables'] = array('consumables.css');
+   $PLUGIN_HOOKS['csrf_compliant']['consumables']   = true;
+   $PLUGIN_HOOKS['change_profile']['consumables']   = array('PluginConsumablesProfile', 'initProfile');
+   $PLUGIN_HOOKS['add_css']['consumables']          = array('consumables.css');
    $PLUGIN_HOOKS['add_javascript']['consumables'][] = 'consumables.js';
 
    if (Session::getLoginUserID()) {
@@ -47,11 +46,11 @@ function plugin_init_consumables()
       }
 
       Plugin::registerClass('PluginConsumablesProfile', array('addtabon' => 'Profile'));
-      Plugin::registerClass('PluginConsumablesRequest', array('addtabon' => 'User',
-         'notificationtemplates_types' => true));
+      Plugin::registerClass('PluginConsumablesRequest', array('addtabon'                    => 'User',
+                                                              'notificationtemplates_types' => true));
       Plugin::registerClass('PluginConsumablesRequest', array('addtabon' => 'ConsumableItem'));
 
-      $PLUGIN_HOOKS['item_add']['consumables'] = array('ConsumableItem' => array('PluginConsumablesField', 'postAddConsumable'));
+      $PLUGIN_HOOKS['item_add']['consumables']        = array('ConsumableItem' => array('PluginConsumablesField', 'postAddConsumable'));
       $PLUGIN_HOOKS['pre_item_update']['consumables'] = array('ConsumableItem' => array('PluginConsumablesField', 'preUpdateConsumable'));
 
       if (Session::haveRight("plugin_consumables", UPDATE)) {
@@ -59,7 +58,7 @@ function plugin_init_consumables()
       }
 
       if (Session::haveRight("plugin_consumables", READ)) {
-         $PLUGIN_HOOKS['menu_toadd']['consumables'] = array('plugins' => 'PluginConsumablesMenu');
+         $PLUGIN_HOOKS['menu_toadd']['consumables']          = array('plugins' => 'PluginConsumablesMenu');
          $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = '/front/wizard.php';
       }
 
@@ -73,16 +72,15 @@ function plugin_init_consumables()
 /**
  * @return array
  */
-function plugin_version_consumables()
-{
+function plugin_version_consumables() {
 
    return array(
-      'name' => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
-      'version' => '1.2.1',
-      'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
-      'license' => 'GPLv2+',
-      'homepage' => 'https://github.com/InfotelGLPI/consumables',
-      'minGlpiVersion' => '0.90',
+      'name'           => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
+      'version'        => '1.3.0',
+      'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
+      'license'        => 'GPLv2+',
+      'homepage'       => 'https://github.com/InfotelGLPI/consumables',
+      'minGlpiVersion' => '9.2',
    );
 }
 
@@ -90,10 +88,9 @@ function plugin_version_consumables()
 /**
  * @return bool
  */
-function plugin_consumables_check_prerequisites()
-{
-   if (version_compare(GLPI_VERSION, '0.90', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
-      echo __('This plugin requires GLPI >= 0.90', 'consumables');
+function plugin_consumables_check_prerequisites() {
+   if (version_compare(GLPI_VERSION, '9.2', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
+      echo __('This plugin requires GLPI >= 9.2');
       return false;
    }
    return true;
@@ -104,7 +101,6 @@ function plugin_consumables_check_prerequisites()
 /**
  * @return bool
  */
-function plugin_consumables_check_config()
-{
+function plugin_consumables_check_config() {
    return true;
 }
