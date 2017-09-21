@@ -139,7 +139,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
     * Get additionnals targets for Tickets
     * @param string $event
     */
-   public function getAdditionalTargets($event = '')
+   public function addAdditionalTargets($event = '')
    {
       $this->addTarget(self::VALIDATOR, __("Consumable approver", "consumables"));
       $this->addTarget(self::REQUESTER, __("Consumable requester", "consumables"));

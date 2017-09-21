@@ -83,6 +83,7 @@ function plugin_consumables_uninstall() {
    //templates
    $template    = new NotificationTemplate();
    $translation = new NotificationTemplateTranslation();
+   $notif_template = new Notification_NotificationTemplate();
    $options     = array('itemtype' => 'PluginConsumablesRequest',
                         'FIELDS'   => 'id');
 
@@ -93,6 +94,10 @@ function plugin_consumables_uninstall() {
          $translation->delete($data_template);
       }
       $template->delete($data);
+
+      foreach ($DB->request('glpi_notifications_notificationtemplates', $options_template) as $data_template) {
+         $notif_template->delete($data_template);
+      }
    }
 
    // Delete rights associated with the plugin
