@@ -195,10 +195,10 @@ class PluginConsumablesValidation extends CommonDBTM
          echo "</table>";
       }
 
+      Html::requireJs('consumables');
+
       // Init consumable cart javascript
-      echo "<script type='text/javascript'>";
-      echo "consumables_initJs('" . $CFG_GLPI['root_doc'] . "');";
-      echo "</script>";
+      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . $CFG_GLPI['root_doc'] . '");});');
    }
 
 

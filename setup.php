@@ -31,10 +31,10 @@
 function plugin_init_consumables() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['csrf_compliant']['consumables']   = true;
-   $PLUGIN_HOOKS['change_profile']['consumables']   = array('PluginConsumablesProfile', 'initProfile');
-   $PLUGIN_HOOKS['add_css']['consumables']          = array('consumables.css');
-   $PLUGIN_HOOKS['add_javascript']['consumables'][] = 'consumables.js';
+   $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
+   $PLUGIN_HOOKS['change_profile']['consumables'] = array('PluginConsumablesProfile', 'initProfile');
+   $PLUGIN_HOOKS['add_css']['consumables']        = array('consumables.css');
+   $PLUGIN_HOOKS['javascript']['consumables'][]   = '/plugins/consumables/consumables.js';
 
    if (Session::getLoginUserID()) {
       if (class_exists('PluginConsumablesField')) {
