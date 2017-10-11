@@ -35,112 +35,109 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginConsumablesNotificationTargetRequest
  */
-class PluginConsumablesNotificationTargetRequest extends NotificationTarget
-{
+class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
-   const CONSUMABLE_REQUEST = "ConsumableRequest";
+   const CONSUMABLE_REQUEST  = "ConsumableRequest";
    const CONSUMABLE_RESPONSE = "ConsumableResponse";
-   const VALIDATOR = 30;
-   const REQUESTER = 31;
+   const VALIDATOR           = 30;
+   const REQUESTER           = 31;
 
    /**
     * @return array
     */
-   function getEvents()
-   {
-      return array(self::CONSUMABLE_REQUEST => __('Consumable request', 'consumables'),
-         self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables'));
+   function getEvents() {
+      return array(self::CONSUMABLE_REQUEST  => __('Consumable request', 'consumables'),
+                   self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables'));
    }
 
    /**
-    * @param $event
+    * @param       $event
     * @param array $options
     */
-   function getDatasForTemplate($event, $options = array())
-   {
+   function addDataForTemplate($event, $options = array()) {
 
       // Set labels
-      $this->datas['##lang.consumable.entity##'] = __('Entity');
-      $this->datas['##lang.consumable.id##'] = __('Consumable ID', 'consumables');
+      $this->data['##lang.consumable.entity##'] = __('Entity');
+      $this->data['##lang.consumable.id##']     = __('Consumable ID', 'consumables');
       switch ($event) {
          case self::CONSUMABLE_REQUEST:
-            $this->datas['##consumable.action##'] = __('Consumable request', 'consumables');
+            $this->data['##consumable.action##'] = __('Consumable request', 'consumables');
             break;
          case self::CONSUMABLE_RESPONSE:
-            $this->datas['##consumable.action##'] = __('Consumable validation', 'consumables');
+            $this->data['##consumable.action##'] = __('Consumable validation', 'consumables');
             break;
       }
-      $this->datas['##lang.consumablerequest.consumable##'] = _n('Consumable', 'Consumables', 1);
-      $this->datas['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
-      $this->datas['##lang.consumablerequest.request_date##'] = __('Request date');
-      $this->datas['##lang.consumablerequest.requester##'] = __('Requester');
-      $this->datas['##lang.consumablerequest.status##'] = __('Status');
-      $this->datas['##lang.consumablerequest.number##'] = __('Number of used consumables');
-      $this->datas['##lang.consumablerequest.validator##'] = __('Approver');
-      $this->datas['##lang.consumablerequest.comment##'] = __('Comments');
+      $this->data['##lang.consumablerequest.consumable##']     = _n('Consumable', 'Consumables', 1);
+      $this->data['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
+      $this->data['##lang.consumablerequest.request_date##']   = __('Request date');
+      $this->data['##lang.consumablerequest.requester##']      = __('Requester');
+      $this->data['##lang.consumablerequest.status##']         = __('Status');
+      $this->data['##lang.consumablerequest.number##']         = __('Number of used consumables');
+      $this->data['##lang.consumablerequest.validator##']      = __('Approver');
+      $this->data['##lang.consumablerequest.comment##']        = __('Comments');
 
-      $this->datas['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
+      $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
       //Set values
       foreach ($options['consumables'] as $id => $item) {
-         $tmp = array();
-         $tmp['##consumable.id##'] = $item['consumables_id'];
-         $tmp['##consumablerequest.consumable##'] = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
+         $tmp                                         = array();
+         $tmp['##consumable.id##']                    = $item['consumables_id'];
+         $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
          $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
-         $tmp['##consumablerequest.request_date##'] = Html::convDateTime($item['date_mod']);
+         $tmp['##consumablerequest.request_date##']   = Html::convDateTime($item['date_mod']);
          if (isset($item['end_date'])) {
             $tmp['##consumablerequest.end_date##'] = Html::convDateTime($item['end_date']);
          }
          $tmp['##consumablerequest.requester##'] = Html::clean(getUserName($item['requesters_id']));
          $tmp['##consumablerequest.validator##'] = Html::clean(getUserName($item['validators_id']));
-         $tmp['##consumablerequest.number##'] = $item['number'];
-         $tmp['##consumablerequest.status##'] = CommonITILValidation::getStatus($item['status']);
-         $this->datas['consumabledatas'][] = $tmp;
+         $tmp['##consumablerequest.number##']    = $item['number'];
+         $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($item['status']);
+         $this->data['consumabledata'][]         = $tmp;
       }
       if (isset($options['comment'])) {
-         $this->datas['##consumablerequest.comment##'] = Html::clean($options['comment']);
+         $this->data['##consumablerequest.comment##'] = Html::clean($options['comment']);
       }
    }
 
    /**
     *
     */
-   function getTags()
-   {
+   function getTags() {
 
-      $tags = array('consumable.id' => __('Consumable ID', 'consumables'),
-         'consumable.action' => __('Type of event', 'consumables'),
-         'consumable.entity' => __('Entity'),
-         'consumablerequest.consumable' => _n('Consumable', 'Consumables', 1),
-         'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
-         'consumablerequest.request_date' => __('Request date'),
-         'consumablerequest.requester' => __('Requester'),
-         'consumablerequest.status' => __('Status'),
-         'consumablerequest.number' => __('Number of used consumables'),
-         'consumablerequest.validator' => __('Approver'),
-         'consumablerequest.comment' => __('Comments'));
+      $tags = array('consumable.id'                    => __('Consumable ID', 'consumables'),
+                    'consumable.action'                => __('Type of event', 'consumables'),
+                    'consumable.entity'                => __('Entity'),
+                    'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
+                    'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
+                    'consumablerequest.request_date'   => __('Request date'),
+                    'consumablerequest.requester'      => __('Requester'),
+                    'consumablerequest.status'         => __('Status'),
+                    'consumablerequest.number'         => __('Number of used consumables'),
+                    'consumablerequest.validator'      => __('Approver'),
+                    'consumablerequest.comment'        => __('Comments'));
 
       foreach ($tags as $tag => $label) {
-         $this->addTagToList(array('tag' => $tag,
-            'label' => $label,
-            'lang' => true,
-            'value' => true));
+         $this->addTagToList(array('tag'   => $tag,
+                                   'label' => $label,
+                                   'lang'  => true,
+                                   'value' => true));
       }
 
-      $this->addTagToList(array('tag' => 'consumabledatas',
-         'label' => __('Display each consumable', 'consumables'),
-         'lang' => true,
-         'foreach' => true,
-         'value' => true));
+      $this->addTagToList(array('tag'     => 'consumabledata',
+                                'label'   => __('Display each consumable', 'consumables'),
+                                'lang'    => true,
+                                'foreach' => true,
+                                'value'   => true));
 
       asort($this->tag_descriptions);
    }
 
    /**
     * Get additionnals targets for Tickets
+    *
     * @param string $event
     */
-   public function addAdditionalTargets($event = '')
-   {
+   public function addAdditionalTargets($event = '') {
+
       $this->addTarget(self::VALIDATOR, __("Consumable approver", "consumables"));
       $this->addTarget(self::REQUESTER, __("Consumable requester", "consumables"));
    }
@@ -149,15 +146,14 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
     * @param $data
     * @param $options
     */
-   public function getSpecificTargets($data, $options)
-   {
+   public function addSpecificTargets($data, $options) {
 
       switch ($data['items_id']) {
          case self::VALIDATOR:
-            $this->getUserByField("validators_id");
+            $this->addUserByField("validators_id");
             break;
          case self::REQUESTER:
-            $this->getUserByField("requesters_id");
+            $this->addUserByField("requesters_id");
             break;
       }
    }
