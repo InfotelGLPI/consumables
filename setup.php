@@ -78,7 +78,7 @@ function plugin_version_consumables()
 
    return array(
       'name' => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
-      'version' => '1.2.1',
+      'version' => '1.2.2',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'license' => 'GPLv2+',
       'homepage' => 'https://github.com/InfotelGLPI/consumables',
