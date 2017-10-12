@@ -201,7 +201,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<div class='center'>";
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr>";
-         echo "<th colspan='6'>" . __('Consumable requests history', 'consumables') . "</th>";
+         echo "<th>" . __('Consumable requests history', 'consumables') . "</th>";
          echo "</tr>";
          echo "<tr><td class='center'>" . __('No item found') . "</td></tr>";
          echo "</table>";

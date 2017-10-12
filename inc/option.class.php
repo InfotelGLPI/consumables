@@ -81,7 +81,7 @@ class PluginConsumablesOption extends CommonDBTM {
    function listOptionsForConsumable($data, $item) {
       global $CFG_GLPI;
 
-      $ID     = $data['id'];
+      $ID = $data['id'];
 
       echo "<div class='center'>";
       echo "<form action='" . Toolbox::getItemTypeFormURL('PluginConsumablesOption') . "' method='post'>";
@@ -98,7 +98,7 @@ class PluginConsumablesOption extends CommonDBTM {
       if ($this->canCreate()) {
          echo "<td class='center'>";
          echo "<input type=\"submit\" name=\"update\" class=\"submit\"
-         value=\""._sx('button', 'Define', 'consumables')."\" >";
+         value=\"" . _sx('button', 'Define', 'consumables') . "\" >";
          echo "</td>";
       }
       echo "</tr>";
@@ -115,9 +115,6 @@ class PluginConsumablesOption extends CommonDBTM {
       echo " </th>";
       echo "</tr>";
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>";
-
       $groups = json_decode($data['groups'], true);
       if (!empty($groups)) {
          foreach ($groups as $key => $val) {
@@ -130,9 +127,9 @@ class PluginConsumablesOption extends CommonDBTM {
             Html::showSimpleForm(Toolbox::getItemTypeFormURL('PluginConsumablesOption'),
                                  'delete_groups',
                                  _x('button', 'Delete permanently'),
-                                 array('delete_groups'     => 'delete_groups',
-                                       'id'                => $ID,
-                                       '_groups_is_requester' => $val
+                                 array('delete_groups' => 'delete_groups',
+                                       'id'            => $ID,
+                                       '_groups_id'    => $val
                                  ),
                                  $CFG_GLPI["root_doc"] . "/pics/delete.png");
             echo " </td>";
@@ -140,10 +137,13 @@ class PluginConsumablesOption extends CommonDBTM {
 
          }
       } else {
+         echo "<tr class='tab_bg_1'>";
+         echo "<td colspan='2'>";
          echo __('None');
+         echo "</td>";
+         echo "</tr>";
       }
-      echo "</td>";
-      echo "</tr>";
+
       echo "<input type='hidden' name='consumables_id' value='" . $data['consumables_id'] . "'>";
       echo "<input type='hidden' name='id' value='" . $ID . "'>";
       echo "</table>";
@@ -165,13 +165,12 @@ class PluginConsumablesOption extends CommonDBTM {
       echo "<tr class='tab_bg_1 center'>";
       echo "<td>";
 
-      $used = ($data["groups"] == '' ? array():json_decode($data["groups"], true));
+      $used = ($data["groups"] == '' ? array() : json_decode($data["groups"], true));
 
-      Group::dropdown(array('name'        => '_groups_is_requester',
+      Group::dropdown(array('name'        => '_groups_id',
                             'used'        => $used,
                             'entity'      => $item->fields['entities_id'],
-                            'entity_sons' => $item->fields["is_recursive"],
-                            'condition'   => '`is_requester`'));
+                            'entity_sons' => $item->fields["is_recursive"]));
 
       echo "</td>";
       echo "<td><input type='hidden' name='consumables_id' value='" . $item->getID() . "'>";
@@ -185,12 +184,12 @@ class PluginConsumablesOption extends CommonDBTM {
 
 
    function prepareInputForUpdate($params) {
-      
+
       if (isset($params["add_groups"])) {
          $input = array();
-         
+
          $restrict = "`id` = " . $params['id'];
-         $configs = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
+         $configs  = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
 
          $groups = array();
          if (!empty($configs)) {
@@ -198,27 +197,27 @@ class PluginConsumablesOption extends CommonDBTM {
                if (!empty($config["groups"])) {
                   $groups = json_decode($config["groups"], true);
                   if (count($groups) > 0) {
-                     if (!in_array($params["_groups_is_requester"], $groups)) {
-                        array_push($groups, $params["_groups_is_requester"]);
+                     if (!in_array($params["_groups_id"], $groups)) {
+                        array_push($groups, $params["_groups_id"]);
                      }
                   } else {
-                     $groups = array($params["_groups_is_requester"]);
+                     $groups = array($params["_groups_id"]);
                   }
                } else {
-                  $groups = array($params["_groups_is_requester"]);
+                  $groups = array($params["_groups_id"]);
                }
             }
          }
 
          $group = json_encode($groups);
 
-         $input['id'] = $params['id'];
+         $input['id']     = $params['id'];
          $input['groups'] = $group;
-         
+
       } else if (isset($params["delete_groups"])) {
-         
+
          $restrict = "`id` = " . $params['id'];
-         $configs = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
+         $configs  = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
 
          $groups = array();
          if (!empty($configs)) {
@@ -226,7 +225,7 @@ class PluginConsumablesOption extends CommonDBTM {
                if (!empty($config["groups"])) {
                   $groups = json_decode($config["groups"], true);
                   if (count($groups) > 0) {
-                     if (($key = array_search($params["_groups_is_requester"], $groups)) !== false) {
+                     if (($key = array_search($params["_groups_id"], $groups)) !== false) {
                         unset($groups[$key]);
                      }
                   }
@@ -239,11 +238,11 @@ class PluginConsumablesOption extends CommonDBTM {
          } else {
             $group = "";
          }
-         
-         $input['id'] = $params['id'];
+
+         $input['id']     = $params['id'];
          $input['groups'] = $group;
-         
-         
+
+
       } else {
          $input = $params;
       }
