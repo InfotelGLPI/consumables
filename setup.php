@@ -37,13 +37,8 @@ function plugin_init_consumables() {
    $PLUGIN_HOOKS['javascript']['consumables'][]   = '/plugins/consumables/consumables.js';
 
    if (Session::getLoginUserID()) {
-      if (class_exists('PluginConsumablesField')) {
-         foreach (PluginConsumablesField::$types as $item) {
-            if (isset($_SERVER['REQUEST_URI']) && strpos(strtolower($_SERVER['REQUEST_URI']), strtolower($item)) !== false) {
-               $PLUGIN_HOOKS['add_javascript']['consumables'][] = 'consumables.js.php';
-            }
-         }
-      }
+      $PLUGIN_HOOKS['post_item_form']['consumables'] = ['PluginConsumablesField', 'addFieldOrderReference'];
+
 
       Plugin::registerClass('PluginConsumablesProfile', array('addtabon' => 'Profile'));
       Plugin::registerClass('PluginConsumablesRequest', array('addtabon'                    => 'User',

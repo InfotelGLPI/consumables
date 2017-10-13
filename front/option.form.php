@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -27,15 +27,15 @@
  --------------------------------------------------------------------------
  */
 
-include("../../../inc/includes.php");
+include('../../../inc/includes.php');
 
-Session::checkLoginUser();
-//Html::header_nocache();
+$option = new PluginConsumablesOption();
 
-switch ($_POST['action']) {
-   case 'showOrderReference':
-      header("Content-Type: text/html; charset=UTF-8");
-      $field = new PluginConsumablesField();
-      $field->showOrderReference($_POST['consumables_id']);
-      break;
+if (isset($_POST["add_groups"])
+    || isset($_POST["delete_groups"])
+    || isset($_POST["update"])) {
+
+   $option->update($_POST);
+   Html::back();
+
 }

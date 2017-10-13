@@ -38,6 +38,8 @@ function plugin_consumables_install() {
    if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
       include(GLPI_ROOT . "/plugins/consumables/install/install.php");
       install();
+   } elseif (!$DB->tableExists("glpi_plugin_consumables_options")) {
+      $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/update-1.2.2.sql");
    }
 
    PluginConsumablesProfile::initProfile();
@@ -56,7 +58,8 @@ function plugin_consumables_uninstall() {
    include_once(GLPI_ROOT . "/plugins/consumables/inc/menu.class.php");
 
    $tables = array("glpi_plugin_consumables_profiles",
-                   "glpi_plugin_consumables_requests");
+                   "glpi_plugin_consumables_requests",
+                   "glpi_plugin_consumables_options");
 
    foreach ($tables as $table)
       $DB->query("DROP TABLE IF EXISTS `$table`;");
@@ -133,8 +136,9 @@ function plugin_consumables_getDatabaseRelations() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated("consumables"))
-      return array("glpi_profiles"    => array("glpi_plugin_consumables_profiles" => "profiles_id"),
-                   "glpi_consumables" => array("glpi_plugin_consumables_requests" => "consumables_id"));
+      return array("glpi_profiles"        => array("glpi_plugin_consumables_profiles" => "profiles_id"),
+                   "glpi_consumableitems" => array("glpi_plugin_consumables_requests" => "consumables_id"),
+                   "glpi_consumableitems" => array("glpi_plugin_consumables_options"  => "consumables_id"));
    else
       return array();
 }

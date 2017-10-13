@@ -49,11 +49,11 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
 
    $field_id = Html::cleanId("dropdown_" . $_POST["name"] . $rand);
 
-   $p = array('value' => 0,
-      'valuename' => Dropdown::EMPTY_VALUE,
-      'itemtype' => $_POST["idtable"],
-      'display_emptychoice' => true,
-      'displaywith' => array('otherserial', 'serial'));
+   $p = array('value'               => 0,
+              'valuename'           => Dropdown::EMPTY_VALUE,
+              'itemtype'            => $_POST["idtable"],
+              'display_emptychoice' => true,
+              'displaywith'         => array('otherserial', 'serial'));
    if (isset($_POST['value'])) {
       $p['value'] = $_POST['value'];
    }
@@ -64,7 +64,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
       $p['condition'] = $_POST['condition'];
    }
    if ($_POST['idtable'] == 'Group') {
-      $groups = Group_User::getUserGroups(Session::getLoginUserID());
+      $groups      = Group_User::getUserGroups(Session::getLoginUserID());
       $user_groups = array();
       foreach ($groups as $group) {
          $user_groups[] = $group['id'];
@@ -73,18 +73,18 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
    }
 
    echo Html::jsAjaxDropdown($_POST["name"], $field_id,
-      $CFG_GLPI['root_doc'] . "/ajax/" . $link,
-      $p);
+                             $CFG_GLPI['root_doc'] . "/ajax/" . $link,
+                             $p);
 
    if (!empty($_POST['showItemSpecificity'])) {
       $params = array('items_id' => '__VALUE__',
-         'itemtype' => $_POST["idtable"]);
+                      'itemtype' => $_POST["idtable"]);
       if (isset($_POST['entity_restrict'])) {
          $params['entity_restrict'] = $_POST['entity_restrict'];
       }
 
       Ajax::updateItemOnSelectEvent($field_id, "showItemSpecificity_" . $_POST["name"] . "$rand",
-         $_POST['showItemSpecificity'], $params);
+                                    $_POST['showItemSpecificity'], $params);
 
       echo "<br><span id='showItemSpecificity_" . $_POST["name"] . "$rand'>&nbsp;</span>\n";
    }

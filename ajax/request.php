@@ -48,7 +48,7 @@ switch ($_POST['action']) {
    case 'reloadAvailableConsumables':
       header("Content-Type: text/html; charset=UTF-8");
       $request = new PluginConsumablesRequest();
-      $request->loadAvailableConsumables($_POST['used'], $_POST['type']);
+      $request->loadAvailableConsumables($_POST['type']);
       break;
 
    case 'reloadAvailableConsumablesNumber':

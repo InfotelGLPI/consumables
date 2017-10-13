@@ -122,7 +122,6 @@ function consumables_reloadAvailableConsumables() {
         url: this.root_doc + '/plugins/consumables/ajax/request.php',
         data: {
             'action': 'reloadAvailableConsumables',
-            'used': this.usedConsumables,
             'type': type
         },
         success: function (result) {
@@ -231,66 +230,3 @@ function encodeParameters(elements) {
 
     return kvpairs.join("&");
 }
-
-
-/**
- *  Add elements in item forms
- */
-function consumables_addelements(params) {
-    var root_doc = params.root_doc;
-    var glpi_tab = params.glpi_tab;
-
-    $(document).ready(function () {
-        $.urlParam = function (name) {
-            var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
-            if (results != null) {
-                return results[1] || 0;
-            }
-            return undefined;
-        };
-        // get item id
-        var items_id = $.urlParam('id');
-
-        if (items_id == undefined) items_id = 0;
-
-        // Launched on each complete Ajax load
-        $(document).ajaxComplete(function (event, xhr, option) {
-            setTimeout(function () {
-                // We execute the code only if the ticket form display request is done
-                if (option.url != undefined) {
-                    var ajaxTab_param, tid;
-                    var paramFinder = /[?&]?_glpi_tab=([^&]+)(&|$)/;
-
-                    // We find the name of the current tab
-                    ajaxTab_param = paramFinder.exec(option.url);
-
-                    // Get the right tab
-                    if (ajaxTab_param != undefined
-                        && (ajaxTab_param[1] == glpi_tab)) {
-
-                        $.ajax({
-                            url: root_doc + '/plugins/consumables/ajax/field.php',
-                            type: "POST",
-                            dataType: "html",
-                            data: {
-                                'consumables_id': items_id,
-                                'action': 'showOrderReference'
-                            },
-                            success: function (response, opts) {
-                                // Get element where insert html
-                                var inputName = 'update';
-                                if (items_id == 0) {
-                                    inputName = 'add';
-                                }
-                                var item_bloc = $("form table[id='mainformtable'] input[name='" + inputName + "']");
-                                $(response).insertBefore(item_bloc.closest('tr'));
-                            }
-                        });
-                    }
-                }
-
-            }, 100);
-        }, this);
-    });
-}
-

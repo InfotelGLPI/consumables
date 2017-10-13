@@ -39,7 +39,7 @@ function install()
    $migration = new Migration(100);
 
    // Install script
-   $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-1.0.0.sql");
+   $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-1.2.2.sql");
 
    // Notification
    // Request
@@ -57,7 +57,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##
 ##lang.consumablerequest.number## : ##consumablerequest.number##
-##lang.consumablerequest.request_date## : ##consumablerequest.request_date##
+##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##
 ##lang.consumablerequest.status## : ##consumablerequest.status##
 ##ENDFOREACHconsumabledatas##',
 '##FOREACHconsumabledatas##&lt;br /&gt; &lt;br /&gt;
@@ -66,7 +66,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##&lt;br /&gt;
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##&lt;br /&gt;
 ##lang.consumablerequest.number## : ##consumablerequest.number##&lt;br /&gt;
-##lang.consumablerequest.request_date## : ##consumablerequest.request_date##&lt;br /&gt;
+##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##ENDFOREACHconsumabledatas##');";
    $DB->query($query);
@@ -101,7 +101,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##
 ##lang.consumablerequest.number## : ##consumablerequest.number##
-##lang.consumablerequest.request_date## : ##consumablerequest.request_date##
+##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##
 ##lang.consumablerequest.status## : ##consumablerequest.status##
 ##ENDFOREACHconsumabledatas##
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##',
@@ -112,7 +112,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##&lt;br /&gt;
 ##lang.consumablerequest.consumable## : ##consumablerequest.consumable##&lt;br /&gt;
 ##lang.consumablerequest.number## : ##consumablerequest.number##&lt;br /&gt;
-##lang.consumablerequest.request_date## : ##consumablerequest.request_date##&lt;br /&gt;
+##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##&lt;br /&gt;
 ##ENDFOREACHconsumabledatas##');";

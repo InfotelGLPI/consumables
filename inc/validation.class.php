@@ -211,8 +211,8 @@ class PluginConsumablesValidation extends CommonDBTM
     */
    function validationConsumable($params, $state = CommonITILValidation::WAITING) {
 
-      $this->update(array('id' => $params['id'],
-                          'status' => $state,
+      $this->update(array('id'            => $params['id'],
+                          'status'        => $state,
                           'validators_id' => Session::getLoginUserID()));
 
       return $state;
@@ -308,7 +308,8 @@ class PluginConsumablesValidation extends CommonDBTM
 
                      // Get available consumables
                      $outConsumable = array();
-                     $availables = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' AND `date_out` IS NULL");
+                     $availables = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' 
+                                                      AND `date_out` IS NULL");
                      foreach ($availables as $available) {
                         $outConsumable[] = $available;
                      }
@@ -318,7 +319,9 @@ class PluginConsumablesValidation extends CommonDBTM
                         // Give consumable
                         $result = array(1);
                         for ($i = 0; $i < $item->fields['number']; $i++) {
-                           if (isset($outConsumable[$i]) && $consumable->out($outConsumable[$i]['id'], $item->fields['give_itemtype'], $item->fields['give_items_id'])) {
+                           if (isset($outConsumable[$i]) && $consumable->out($outConsumable[$i]['id'],
+                                                                             $item->fields['give_itemtype'],
+                                                                             $item->fields['give_items_id'])) {
                               $result[] = 1;
                            } else {
                               $result[] = 0;
@@ -327,21 +330,23 @@ class PluginConsumablesValidation extends CommonDBTM
 
                         if (!in_array(0, $result)) {
                            // Validation status update
-                           $state = $validation->validationConsumable($item->fields, CommonITILValidation::ACCEPTED);
-                           $item->fields['status'] = $state;
+                           $state                         = $validation->validationConsumable($item->fields,
+                                                                                              CommonITILValidation::ACCEPTED);
+                           $item->fields['status']        = $state;
                            $item->fields['validators_id'] = Session::getLoginUserID();
-                           $added[] = $item->fields;
+                           $added[]                       = $item->fields;
+
+                           $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                            $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'),
                                                                                   Dropdown::getDropdownName("glpi_consumableitems",
                                                                                                             $item->fields['consumables_id'])) . "</span>");
-                           $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         }
                      } else {
+                        $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         $ma->addMessage(sprintf(__('Not enough stock for consumable %s', 'consumables'),
                                                 Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])));
-                        $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                      }
                   } else {
                      $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);

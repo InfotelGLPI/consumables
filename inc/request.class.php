@@ -129,6 +129,8 @@ class PluginConsumablesRequest extends CommonDBTM {
       if ($item->getType() == 'User' && self::canView()) {
          $field->showForUser($item);
       } else if ($item->getType() == 'ConsumableItem' && self::canView()) {
+         $options = new PluginConsumablesOption();
+         $options->showForConsumable($item);
          $field->showForConsumable($item);
       }
 
@@ -377,7 +379,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<tr>";
       echo "<td>" . _n('Consumable type', 'Consumable types', 1) . " <span class='red'>*</span></td>";
       echo "<td>";
-      $rand   = Dropdown::show("ConsumableItemType", array('entity' => $_SESSION['glpiactive_entity'], 'on_change' => 'loadAvailableConsumables(this);'));
+      Dropdown::show("ConsumableItemType", array('entity' => $_SESSION['glpiactive_entity'], 'on_change' => 'loadAvailableConsumables(this);'));
       $script = "function loadAvailableConsumables(object){this.consumableTypeID = object.value; consumables_reloadAvailableConsumables();}";
       echo Html::scriptBlock($script);
       echo "</td>";
@@ -386,7 +388,6 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<tr>";
       echo "<td>" . _n('Consumable', 'Consumables', 1) . " <span class='red'>*</span></td>";
       echo "<td id='loadAvailableConsumables'>";
-      $this->loadAvailableConsumables();
       echo "</td>";
 
       echo "</tr>";
@@ -451,8 +452,10 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"button\" class=\"submit consumable_next_button\" name=\"addConsumables\" value=\"" . _sx('button', 'Post') . "\" onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">";
-         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
+         echo "<input type=\"button\" class=\"submit consumable_next_button\" name=\"addConsumables\" value=\"" . _sx('button', 'Post') . "\" 
+               onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">";
+         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\"" . _sx('button', 'Cancel') . "\" 
+               onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
          echo "</td>";
          echo "</tr>";
          echo "</table>";
@@ -548,10 +551,39 @@ class PluginConsumablesRequest extends CommonDBTM {
     *
     * @return array
     */
-   function loadAvailableConsumables($used = 0, $type = 0) {
+   function loadAvailableConsumables($type = 0) {
 
+      $restrict        = "`consumableitemtypes_id` = " . $type;
+      $consumableitems = getAllDatasFromTable("glpi_consumableitems", $restrict);
+      $crit            = "";
+      $crit_ids        = array();
+
+      if (!empty($consumableitems)) {
+         foreach ($consumableitems as $consumableitem) {
+            $groups = array();
+            $option = new PluginConsumablesOption();
+            if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $consumableitem['id'])) {
+               $groups = $option->getAllowedGroups();
+            }
+
+            $notallowed = true;
+
+            if (count($groups) > 0) {
+               $users_id = Session::getLoginUserID();
+               foreach (Group_User::getUserGroups($users_id) as $usergroups) {
+                  if (in_array($usergroups["id"], $groups)) {
+                     $notallowed = false;
+                  }
+               }
+               if ($notallowed) {
+                  $crit_ids[] = $consumableitem['id'];
+                  $crit       = "AND `id` NOT IN (" . implode(",", $crit_ids) . ")";
+               }
+            }
+         }
+      }
       Dropdown::show("ConsumableItem", array('name'      => 'consumables_id',
-                                             'condition' => "`consumableitemtypes_id` = '$type'",
+                                             'condition' => "`consumableitemtypes_id` = '$type' $crit",
                                              'entity'    => $_SESSION['glpiactive_entity'],
                                              'on_change' => 'loadAvailableConsumablesNumber(this);'
       ));
@@ -576,9 +608,16 @@ class PluginConsumablesRequest extends CommonDBTM {
          $number = 0;
       }
 
+      $maxcart = 0;
+      $option  = new PluginConsumablesOption();
+      if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $consumables_id)) {
+         $maxcart = $option->getMaxCart();
+      }
+      if ($maxcart > 0 && $number > $maxcart) {
+         $number = $maxcart;
+      }
       if ($number > 0) {
          Dropdown::showNumber('number', ['value' => 0,
-                                         'min'   => 0,
                                          'max'   => $number]);
       } else {
          echo __('No consumable') . "<input type='hidden' name='number' value='0'>";

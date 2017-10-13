@@ -69,7 +69,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       }
       $this->data['##lang.consumablerequest.consumable##']     = _n('Consumable', 'Consumables', 1);
       $this->data['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
-      $this->data['##lang.consumablerequest.request_date##']   = __('Request date');
+      $this->data['##lang.consumablerequest.requestdate##']    = __('Request date');
       $this->data['##lang.consumablerequest.requester##']      = __('Requester');
       $this->data['##lang.consumablerequest.status##']         = __('Status');
       $this->data['##lang.consumablerequest.number##']         = __('Number of used consumables');
@@ -83,9 +83,9 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          $tmp['##consumable.id##']                    = $item['consumables_id'];
          $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
          $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
-         $tmp['##consumablerequest.request_date##']   = Html::convDateTime($item['date_mod']);
+         $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($item['datemod']);
          if (isset($item['end_date'])) {
-            $tmp['##consumablerequest.end_date##'] = Html::convDateTime($item['end_date']);
+            $tmp['##consumablerequest.enddate##']  = Html::convDateTime($item['enddate']);
          }
          $tmp['##consumablerequest.requester##'] = Html::clean(getUserName($item['requesters_id']));
          $tmp['##consumablerequest.validator##'] = Html::clean(getUserName($item['validators_id']));
@@ -108,7 +108,8 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
                     'consumable.entity'                => __('Entity'),
                     'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
                     'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
-                    'consumablerequest.request_date'   => __('Request date'),
+                    'consumablerequest.requestdate'    => __('Request date'),
+                    'consumablerequest.enddate'        => __('End date'),
                     'consumablerequest.requester'      => __('Requester'),
                     'consumablerequest.status'         => __('Status'),
                     'consumablerequest.number'         => __('Number of used consumables'),

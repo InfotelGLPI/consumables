@@ -54,23 +54,31 @@ class PluginConsumablesField extends CommonDBTM {
       return _n('Consumable request', 'Consumable requests', 1, 'consumables');
    }
 
+
    /**
     * Show order reference field
     *
-    * @param $consumables_id
+    * @param $params
     */
-   function showOrderReference($consumables_id) {
+   public static function addFieldOrderReference($params) {
 
-      $this->getFromDBByQuery(" WHERE `consumables_id` = '$consumables_id'");
+      $item = $params['item'];
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __('Order reference', 'consumables') . "</td>\n";
+      if (!in_array($item::getType(), self::$types)) {
+         return false;
+      }
+      $consumables_id = $item->getID();
+      $field = new self();
+      $field->getFromDBByQuery(" WHERE `consumables_id` = '$consumables_id'");
+
+      echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
+      echo "<td>" . __('Order reference', 'consumables') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "order_ref");
+      Html::autocompletionTextField($field, "order_ref");
       echo "</td>";
-      echo "<td colspan='2'>";
-      echo "</td>";
+      echo "<td colspan='2'></td>";
       echo "</tr>";
+
    }
 
    /**
@@ -82,7 +90,7 @@ class PluginConsumablesField extends CommonDBTM {
 
       $field = new self();
       $field->add(array('consumables_id' => $consumableItem->fields['id'],
-                        'order_ref'      => $consumableItem->input['ref']));
+                        'order_ref'      => $consumableItem->input['order_ref']));
    }
 
    /**
@@ -97,7 +105,7 @@ class PluginConsumablesField extends CommonDBTM {
 
       if (!empty($field->fields)) {
          $field->update(array('id'        => $field->fields['id'],
-                              'order_ref' => $consumableItem->input['ref']));
+                              'order_ref' => $consumableItem->input['order_ref']));
       } else {
          self::postAddConsumable($consumableItem);
       }
