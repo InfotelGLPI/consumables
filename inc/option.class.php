@@ -90,7 +90,7 @@ class PluginConsumablesOption extends CommonDBTM {
       echo "<th colspan='3'>" . self::getTypeName(1) . "</th>";
       echo "<tr class='tab_bg_1'>";
       echo "<td>";
-      echo __('Affect maximum allowed for request', 'consumables');
+      echo __('Maximum number allowed for request', 'consumables');
       echo " </td>";
       echo "<td>";
       Dropdown::showInteger('max_cart', $data['max_cart'], 0, 100);

@@ -542,7 +542,6 @@ class PluginConsumablesRequest extends CommonDBTM {
     */
    function loadAvailableConsumables($used = 0, $type = 0) {
 
-
       $restrict        = "`consumableitemtypes_id` = " . $type;
       $consumableitems = getAllDatasFromTable("glpi_consumableitems", $restrict);
       $crit            = "";
