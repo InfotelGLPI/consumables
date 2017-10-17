@@ -282,7 +282,7 @@ class PluginConsumablesOption extends CommonDBTM {
 
          case "add_groups":
             echo "</br>&nbsp;" . __('Add a group for request', 'consumables') . " : ";
-            Group::dropdown(array('name'        => '_groups_id'));
+            Group::dropdown(array('name' => '_groups_id'));
             echo "&nbsp;" . Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
             return true;
             break;
@@ -334,45 +334,47 @@ class PluginConsumablesOption extends CommonDBTM {
 
          case "add_groups":
             $input = $ma->getInput();
-            foreach ($ids as $id) {
 
+            if ($input['_groups_id'] != 0) {
+               foreach ($ids as $id) {
 
-               if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
-                     $groups = json_decode($option->fields["groups"], true);
+                  if ($item->getFromDB($id)) {
+                     if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+                        $groups = json_decode($option->fields["groups"], true);
 
-                     if (count($groups) > 0) {
-                        if (!in_array($input["_groups_id"], $groups)) {
-                           array_push($groups, $input["_groups_id"]);
+                        if (count($groups) > 0) {
+                           if (!in_array($input["_groups_id"], $groups)) {
+                              array_push($groups, $input["_groups_id"]);
+                           }
+                        } else {
+                           $groups = array($input["_groups_id"]);
                         }
-                     } else {
-                        $groups = array($input["_groups_id"]);
-                     }
 
-                     $input = array('id'     => $option->getID(),
-                                    'groups' => json_encode($groups));
+                        $params = array('id'     => $option->getID(),
+                                        'groups' => json_encode($groups));
 
-                     $input['id'] = $option->getID();
-                     if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
-                     } else {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
-                     }
-
-                  } else {
-                     $input = array('consumables_id' => $id,
-                                    'groups'         => json_encode(array($input['_groups_id'])));
-
-                     if ($option->can(-1, CREATE, $input) && $option->add($input)) {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                        $params['id'] = $option->getID();
+                        if ($option->can(-1, UPDATE, $params) && $option->update($params)) {
+                           $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                        } else {
+                           $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                        }
 
                      } else {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                        $params = array('consumables_id' => $id,
+                                        'groups'         => json_encode(array($input['_groups_id'])));
+
+                        if ($option->can(-1, CREATE, $params) && $option->add($params)) {
+                           $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+
+                        } else {
+                           $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                        }
                      }
                   }
                }
-
             }
+
             return;
       }
       parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
