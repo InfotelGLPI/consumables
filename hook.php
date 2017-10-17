@@ -157,8 +157,44 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
          $sopt[185]['joinparams']    = array('jointype'  => 'child',
                                              'linkfield' => 'consumables_id');
          $sopt[185]['massiveaction'] = false;
+
+         $sopt[186]['table']         = 'glpi_plugin_consumables_options';
+         $sopt[186]['field']         = 'max_cart';
+         $sopt[186]['name']          = __('Maximum number allowed for request', 'consumables');
+         $sopt[186]['datatype']      = "number";
+         $sopt[186]['linkfield']     = 'consumables_id';
+         $sopt[186]['joinparams']    = array('jointype'  => 'child',
+                                             'linkfield' => 'consumables_id');
+         $sopt[186]['massiveaction'] = false;
+         $sopt[186]['searchtype']    = 'equals';
+
+
+         $sopt[187]['table']         = 'glpi_plugin_consumables_options';
+         $sopt[187]['field']         = 'groups';
+         $sopt[187]['name']          = __('Allowed groups for request', 'consumables');
+         $sopt[187]['datatype']      = "specific";
+         $sopt[187]['linkfield']     = 'consumables_id';
+         $sopt[187]['joinparams']    = array('jointype'  => 'child',
+                                             'linkfield' => 'consumables_id');
+         $sopt[187]['massiveaction'] = false;
+         $sopt[187]['nosearch']      = true;
+
       }
    }
 
    return $sopt;
+}
+
+function plugin_consumables_MassiveActions($type) {
+
+   switch ($type) {
+      case 'ConsumableItem':
+            return array(
+               'PluginConsumablesOption' . MassiveAction::CLASS_ACTION_SEPARATOR . 'add_number' =>
+                  __('Maximum number allowed for request', 'consumables'),
+               'PluginConsumablesOption' . MassiveAction::CLASS_ACTION_SEPARATOR . 'add_groups' =>
+                  __('Add a group for request', 'consumables'));
+         break;
+   }
+   return array();
 }

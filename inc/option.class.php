@@ -262,4 +262,143 @@ class PluginConsumablesOption extends CommonDBTM {
    function getAllowedGroups() {
       return json_decode($this->fields['groups'], true);
    }
+
+
+   /**
+    * @since version 0.85
+    *
+    * @see CommonDBTM::showMassiveActionsSubForm()
+    **/
+   static function showMassiveActionsSubForm(MassiveAction $ma) {
+
+      switch ($ma->getAction()) {
+         case "add_number":
+            echo "</br>&nbsp;" . __('Maximum number allowed for request', 'consumables') . " : ";
+            Dropdown::showInteger('max_cart', 0, 0, 100);
+            echo "&nbsp;" .
+                 Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
+            return true;
+            break;
+
+         case "add_groups":
+            echo "</br>&nbsp;" . __('Add a group for request', 'consumables') . " : ";
+            Group::dropdown(array('name'        => '_groups_id'));
+                 Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
+            return true;
+            break;
+      }
+
+   }
+
+
+   /**
+    * @since version 0.85
+    *
+    * @see CommonDBTM::processMassiveActionsForOneItemtype()
+    **/
+   static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
+                                                       array $ids) {
+
+      $option = new self();
+
+      switch ($ma->getAction()) {
+         case "add_number":
+            $input = $ma->getInput();
+            foreach ($ids as $id) {
+
+               $input = array('max_cart'       => $input['max_cart'],
+                              'consumables_id' => $id);
+
+               if ($item->getFromDB($id)) {
+                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+
+                     $input['id'] = $option->getID();
+                     if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                     } else {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                     }
+
+                  } else {
+                     if ($option->can(-1, CREATE, $input) && $option->add($input)) {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+
+                     } else {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                     }
+                  }
+               }
+
+            }
+            return;
+
+         case "add_groups":
+            $input = $ma->getInput();
+            foreach ($ids as $id) {
+
+
+               if ($item->getFromDB($id)) {
+                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+                     $groups = json_decode($option->fields["groups"], true);
+
+                     if (count($groups) > 0) {
+                        if (!in_array($input["_groups_id"], $groups)) {
+                           array_push($groups, $input["_groups_id"]);
+                        }
+                     } else {
+                        $groups = array($input["_groups_id"]);
+                     }
+
+                     $input = array('id'     => $option->getID(),
+                                    'groups' => json_encode($groups));
+
+                     $input['id'] = $option->getID();
+                     if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                     } else {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                     }
+
+                  } else {
+                     $input = array('consumables_id' => $id,
+                                    'groups'         => json_encode(array($input['_groups_id'])));
+
+                     if ($option->can(-1, CREATE, $input) && $option->add($input)) {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+
+                     } else {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                     }
+                  }
+               }
+
+            }
+            return;
+      }
+      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
+   }
+
+   /**
+    * @param $field
+    * @param $values
+    * @param $options   array
+    **/
+   static function getSpecificValueToDisplay($field, $values, array $options=array()) {
+      if (!is_array($values)) {
+         $values = array($field => $values);
+      }
+      switch ($field) {
+         case 'groups':
+            $list_groups = '';
+            $groups      = json_decode($values['groups'], true);
+            if (!empty($groups)) {
+               foreach ($groups as $key => $val) {
+                  $list_groups .= Dropdown::getDropdownName("glpi_groups", $val)."<br>";
+               }
+            }
+            return $list_groups;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
+   }
+
 }

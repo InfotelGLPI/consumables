@@ -39,19 +39,18 @@ if (!defined('GLPI_ROOT')) {
  * @package    Consumables
  * @author     Ludovic Dupont
  */
-class PluginConsumablesField extends CommonDBTM
-{
+class PluginConsumablesField extends CommonDBTM {
 
-   static $types = array('ConsumableItem');
+   static $types     = array('ConsumableItem');
    static $rightname = "plugin_consumables";
 
 
    /**
     * @param int $nb
+    *
     * @return translated
     */
-   static function getTypeName($nb = 0)
-   {
+   static function getTypeName($nb = 0) {
       return _n('Consumable request', 'Consumable requests', 1, 'consumables');
    }
 
@@ -60,8 +59,7 @@ class PluginConsumablesField extends CommonDBTM
     *
     * @param $consumables_id
     */
-   function showOrderReference($consumables_id)
-   {
+   function showOrderReference($consumables_id) {
 
       $this->getFromDBByQuery(" WHERE `consumables_id` = '$consumables_id'");
 
@@ -83,10 +81,10 @@ class PluginConsumablesField extends CommonDBTM
    static function postAddConsumable(ConsumableItem $consumableItem)
    {
 
-      $field = new self();
-      $field->add(array('consumables_id' => $consumableItem->fields['id'],
-         'order_ref' => $consumableItem->input['order_ref']));
-   }
+         $field = new self();
+         $field->add(array('consumables_id' => $consumableItem->fields['id'],
+                           'order_ref'      => $consumableItem->input['order_ref']));
+      }
 
    /**
     * Pre update consumable
@@ -100,8 +98,8 @@ class PluginConsumablesField extends CommonDBTM
       $field->getFromDBByQuery(" WHERE `consumables_id` = '" . $consumableItem->input['id'] . "'");
 
       if (!empty($field->fields)) {
-         $field->update(array('id' => $field->fields['id'],
-            'order_ref' => $consumableItem->input['order_ref']));
+         $field->update(array('id'        => $field->fields['id'],
+                              'order_ref' => $consumableItem->input['order_ref']));
       } else {
          self::postAddConsumable($consumableItem);
       }
