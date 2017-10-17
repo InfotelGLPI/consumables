@@ -283,7 +283,7 @@ class PluginConsumablesOption extends CommonDBTM {
          case "add_groups":
             echo "</br>&nbsp;" . __('Add a group for request', 'consumables') . " : ";
             Group::dropdown(array('name'        => '_groups_id'));
-                 Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
+            echo "&nbsp;" . Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
             return true;
             break;
       }
