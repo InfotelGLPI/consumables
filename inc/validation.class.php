@@ -39,8 +39,7 @@ if (!defined('GLPI_ROOT')) {
  * @package    Consumables
  * @author     Ludovic Dupont
  */
-class PluginConsumablesValidation extends CommonDBTM
-{
+class PluginConsumablesValidation extends CommonDBTM {
 
    private $request;
 
@@ -49,8 +48,7 @@ class PluginConsumablesValidation extends CommonDBTM
    /**
     * PluginConsumablesValidation constructor.
     */
-   function __construct()
-   {
+   function __construct() {
       parent::__construct();
 
       $this->forceTable("glpi_plugin_consumables_requests");
@@ -59,10 +57,10 @@ class PluginConsumablesValidation extends CommonDBTM
 
    /**
     * @param int $nb
+    *
     * @return translated
     */
-   static function getTypeName($nb = 0)
-   {
+   static function getTypeName($nb = 0) {
       return __('Consumable validation', 'consumables');
    }
 
@@ -72,16 +70,14 @@ class PluginConsumablesValidation extends CommonDBTM
     *
     * @return booleen
     **/
-   static function canValidate()
-   {
+   static function canValidate() {
       return Session::haveRight("plugin_consumables_validation", 1);
    }
 
    /**
     * Show consumable validation
     */
-   function showConsumableValidation()
-   {
+   function showConsumableValidation() {
       global $CFG_GLPI;
 
       if (!$this->canView()) {
@@ -164,7 +160,7 @@ class PluginConsumablesValidation extends CommonDBTM
 
             echo "<td>";
             $bgcolor = CommonITILValidation::getStatusColor($field['status']);
-            $status = CommonITILValidation::getStatus($field['status']);
+            $status  = CommonITILValidation::getStatus($field['status']);
             echo "<div style='background-color:" . $bgcolor . ";'>" . $status . "</div>";
             echo "</td>";
             echo "</tr>";
@@ -188,7 +184,8 @@ class PluginConsumablesValidation extends CommonDBTM
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
+         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" 
+         value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
          echo "<input type='hidden' name='requesters_id' value='" . Session::getLoginUserID() . "'>";
          echo "</td>";
          echo "</tr>";
@@ -206,7 +203,8 @@ class PluginConsumablesValidation extends CommonDBTM
     * Validation consumable
     *
     * @param type $params
-    * @param int $state
+    * @param int  $state
+    *
     * @return int
     */
    function validationConsumable($params, $state = CommonITILValidation::WAITING) {
@@ -222,8 +220,7 @@ class PluginConsumablesValidation extends CommonDBTM
    /**
     * @return an|array
     */
-   function getForbiddenStandardMassiveAction()
-   {
+   function getForbiddenStandardMassiveAction() {
 
       $forbidden = parent::getForbiddenStandardMassiveAction();
 
@@ -237,19 +234,19 @@ class PluginConsumablesValidation extends CommonDBTM
     * Get the specific massive actions
     *
     * @since version 0.84
+    *
     * @param $checkitem link item to check right   (default NULL)
     *
     * @return an array of massive actions
     * */
-   function getSpecificMassiveActions($checkitem = NULL)
-   {
-      $isadmin = static::canUpdate();
+   function getSpecificMassiveActions($checkitem = NULL) {
+      $isadmin = static::canValidate();
       $actions = parent::getSpecificMassiveActions($checkitem);
-      $prefix = $this->getType() . MassiveAction::CLASS_ACTION_SEPARATOR;
+      $prefix  = $this->getType() . MassiveAction::CLASS_ACTION_SEPARATOR;
 
       if ($isadmin) {
          $actions[$prefix . 'validate'] = __('Validate');
-         $actions[$prefix . 'refuse'] = __('Refuse', 'consumables');
+         $actions[$prefix . 'refuse']   = __('Refuse', 'consumables');
       }
 
       return $actions;
@@ -260,12 +257,12 @@ class PluginConsumablesValidation extends CommonDBTM
     * Massive actions display
     *
     * @param MassiveAction $ma
+    *
     * @return array of results (nbok, nbko, nbnoright counts)
     * @internal param array $input of input datas
     *
     */
-   static function showMassiveActionsSubForm(MassiveAction $ma)
-   {
+   static function showMassiveActionsSubForm(MassiveAction $ma) {
 
       $itemtype = $ma->getItemtype(false);
 
@@ -285,18 +282,19 @@ class PluginConsumablesValidation extends CommonDBTM
     * @since version 0.85
     *
     * @see CommonDBTM::processMassiveActionsForOneItemtype()
+    *
     * @param MassiveAction $ma
-    * @param CommonDBTM $item
-    * @param array $ids
+    * @param CommonDBTM    $item
+    * @param array         $ids
+    *
     * @return nothing
     */
    static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
-                                                       array $ids)
-   {
-      $item = new PluginConsumablesRequest();
+                                                       array $ids) {
+      $item       = new PluginConsumablesRequest();
       $validation = new PluginConsumablesValidation();
       $consumable = new Consumable();
-      $input = $ma->getInput();
+      $input      = $ma->getInput();
 
       if (count($ids)) {
          switch ($ma->getAction()) {
@@ -308,7 +306,7 @@ class PluginConsumablesValidation extends CommonDBTM
 
                      // Get available consumables
                      $outConsumable = array();
-                     $availables = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' 
+                     $availables    = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' 
                                                       AND `date_out` IS NULL");
                      foreach ($availables as $available) {
                         $outConsumable[] = $available;
@@ -321,7 +319,8 @@ class PluginConsumablesValidation extends CommonDBTM
                         for ($i = 0; $i < $item->fields['number']; $i++) {
                            if (isset($outConsumable[$i]) && $consumable->out($outConsumable[$i]['id'],
                                                                              $item->fields['give_itemtype'],
-                                                                             $item->fields['give_items_id'])) {
+                                                                             $item->fields['give_items_id'])
+                           ) {
                               $result[] = 1;
                            } else {
                               $result[] = 0;
@@ -337,9 +336,6 @@ class PluginConsumablesValidation extends CommonDBTM
                            $added[]                       = $item->fields;
 
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
-                           $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'),
-                                                                                  Dropdown::getDropdownName("glpi_consumableitems",
-                                                                                                            $item->fields['consumables_id'])) . "</span>");
                         } else {
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         }
@@ -374,7 +370,6 @@ class PluginConsumablesValidation extends CommonDBTM
                         $added[]                       = $item->fields;
 
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
-                        $ma->addMessage(__('Consumable refused', 'consumables'));
                      } else {
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                      }

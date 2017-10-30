@@ -364,7 +364,6 @@ class PluginConsumablesOption extends CommonDBTM {
             $input = $ma->getInput();
             foreach ($ids as $id) {
 
-
                if ($item->getFromDB($id)) {
                   if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
                      $groups = json_decode($option->fields["groups"], true);
@@ -377,21 +376,21 @@ class PluginConsumablesOption extends CommonDBTM {
                         $groups = array($input["_groups_id"]);
                      }
 
-                     $input = array('id'     => $option->getID(),
-                                    'groups' => json_encode($groups));
+                     $params = array('id'     => $option->getID(),
+                                     'groups' => json_encode($groups));
 
-                     $input['id'] = $option->getID();
-                     if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
+                     $params['id'] = $option->getID();
+                     if ($option->can(-1, UPDATE, $params) && $option->update($params)) {
                         $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
                      } else {
                         $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
                      }
 
                   } else {
-                     $input = array('consumables_id' => $id,
-                                    'groups'         => json_encode(array($input['_groups_id'])));
+                     $params = array('consumables_id' => $id,
+                                     'groups'         => json_encode(array($input['_groups_id'])));
 
-                     if ($option->can(-1, CREATE, $input) && $option->add($input)) {
+                     if ($option->can(-1, CREATE, $params) && $option->add($params)) {
                         $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
 
                      } else {
