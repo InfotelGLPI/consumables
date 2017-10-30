@@ -188,7 +188,8 @@ class PluginConsumablesValidation extends CommonDBTM
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
+         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" 
+         value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
          echo "<input type='hidden' name='requesters_id' value='" . Session::getLoginUserID() . "'>";
          echo "</td>";
          echo "</tr>";
@@ -243,7 +244,7 @@ class PluginConsumablesValidation extends CommonDBTM
     * */
    function getSpecificMassiveActions($checkitem = NULL)
    {
-      $isadmin = static::canUpdate();
+      $isadmin = static::canValidate();
       $actions = parent::getSpecificMassiveActions($checkitem);
       $prefix = $this->getType() . MassiveAction::CLASS_ACTION_SEPARATOR;
 
@@ -331,17 +332,14 @@ class PluginConsumablesValidation extends CommonDBTM
                            $item->fields['status'] = $state;
                            $item->fields['validators_id'] = Session::getLoginUserID();
                            $added[] = $item->fields;
-                           $ma->addMessage("<span style='color:green'>" . sprintf(__('Consumable %s validated', 'consumables'),
-                                                                                  Dropdown::getDropdownName("glpi_consumableitems",
-                                                                                                            $item->fields['consumables_id'])) . "</span>");
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                            $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         }
                      } else {
+                        $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         $ma->addMessage(sprintf(__('Not enough stock for consumable %s', 'consumables'),
                                                 Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])));
-                        $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                      }
                   } else {
                      $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);
@@ -369,7 +367,6 @@ class PluginConsumablesValidation extends CommonDBTM
                         $added[]                       = $item->fields;
 
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
-                        $ma->addMessage(__('Consumable refused', 'consumables'));
                      } else {
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                      }
