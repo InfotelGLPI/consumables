@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -46,15 +46,15 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
     * @return array
     */
    function getEvents() {
-      return array(self::CONSUMABLE_REQUEST  => __('Consumable request', 'consumables'),
-                   self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables'));
+      return [self::CONSUMABLE_REQUEST  => __('Consumable request', 'consumables'),
+                   self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables')];
    }
 
    /**
     * @param       $event
     * @param array $options
     */
-   function addDataForTemplate($event, $options = array()) {
+   function addDataForTemplate($event, $options = []) {
 
       // Set labels
       $this->data['##lang.consumable.entity##'] = __('Entity');
@@ -79,7 +79,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
       //Set values
       foreach ($options['consumables'] as $id => $item) {
-         $tmp                                         = array();
+         $tmp                                         = [];
          $tmp['##consumable.id##']                    = $item['consumables_id'];
          $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
          $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
@@ -103,7 +103,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
     */
    function getTags() {
 
-      $tags = array('consumable.id'                    => __('Consumable ID', 'consumables'),
+      $tags = ['consumable.id'                    => __('Consumable ID', 'consumables'),
                     'consumable.action'                => __('Type of event', 'consumables'),
                     'consumable.entity'                => __('Entity'),
                     'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
@@ -114,20 +114,20 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
                     'consumablerequest.status'         => __('Status'),
                     'consumablerequest.number'         => __('Number of used consumables'),
                     'consumablerequest.validator'      => __('Approver'),
-                    'consumablerequest.comment'        => __('Comments'));
+                    'consumablerequest.comment'        => __('Comments')];
 
       foreach ($tags as $tag => $label) {
-         $this->addTagToList(array('tag'   => $tag,
+         $this->addTagToList(['tag'   => $tag,
                                    'label' => $label,
                                    'lang'  => true,
-                                   'value' => true));
+                                   'value' => true]);
       }
 
-      $this->addTagToList(array('tag'     => 'consumabledata',
+      $this->addTagToList(['tag'     => 'consumabledata',
                                 'label'   => __('Display each consumable', 'consumables'),
                                 'lang'    => true,
                                 'foreach' => true,
-                                'value'   => true));
+                                'value'   => true]);
 
       asort($this->tag_descriptions);
    }

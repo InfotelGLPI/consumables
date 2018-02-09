@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -32,8 +32,7 @@
  *
  * @return bool for success (will die for most error)
  * */
-function install()
-{
+function install() {
    global $DB;
 
    $migration = new Migration(100);

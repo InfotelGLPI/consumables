@@ -63,7 +63,7 @@ class PluginConsumablesOption extends CommonDBTM {
       if (!$this->canView()) {
          return false;
       }
-      $data = array();
+      $data = [];
       if ($this->getFromDBByQuery("WHERE `consumables_id` = " . $item->fields['id'])) {
          $data = $this->fields;
       }
@@ -146,9 +146,9 @@ class PluginConsumablesOption extends CommonDBTM {
             Html::showSimpleForm(Toolbox::getItemTypeFormURL('PluginConsumablesOption'),
                                  'delete_groups',
                                  _x('button', 'Delete permanently'),
-                                 array('delete_groups' => 'delete_groups',
+                                 ['delete_groups' => 'delete_groups',
                                        'id'            => $ID,
-                                       '_groups_id'    => $val),
+                                       '_groups_id'    => $val],
                                  $CFG_GLPI["root_doc"] . "/pics/delete.png");
             echo " </td>";
             echo "</tr>";
@@ -187,12 +187,12 @@ class PluginConsumablesOption extends CommonDBTM {
       echo "<tr class='tab_bg_1 center'>";
       echo "<td>";
 
-      $used = ($data["groups"] == '' ? array() : json_decode($data["groups"], true));
+      $used = ($data["groups"] == '' ? [] : json_decode($data["groups"], true));
 
-      Group::dropdown(array('name'        => '_groups_id',
+      Group::dropdown(['name'        => '_groups_id',
                             'used'        => $used,
                             'entity'      => $item->fields['entities_id'],
-                            'entity_sons' => $item->fields["is_recursive"]));
+                            'entity_sons' => $item->fields["is_recursive"]]);
 
       echo "</td>";
       echo "<td><input type='hidden' name='consumables_id' value='" . $item->getID() . "'>";
@@ -212,12 +212,12 @@ class PluginConsumablesOption extends CommonDBTM {
    function prepareInputForUpdate($params) {
 
       if (isset($params["add_groups"])) {
-         $input = array();
+         $input = [];
 
          $restrict = "`id` = " . $params['id'];
          $configs  = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
 
-         $groups = array();
+         $groups = [];
          if (!empty($configs)) {
             foreach ($configs as $config) {
                if (!empty($config["groups"])) {
@@ -227,10 +227,10 @@ class PluginConsumablesOption extends CommonDBTM {
                         array_push($groups, $params["_groups_id"]);
                      }
                   } else {
-                     $groups = array($params["_groups_id"]);
+                     $groups = [$params["_groups_id"]];
                   }
                } else {
-                  $groups = array($params["_groups_id"]);
+                  $groups = [$params["_groups_id"]];
                }
             }
          }
@@ -245,7 +245,7 @@ class PluginConsumablesOption extends CommonDBTM {
          $restrict = "`id` = " . $params['id'];
          $configs  = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
 
-         $groups = array();
+         $groups = [];
          if (!empty($configs)) {
             foreach ($configs as $config) {
                if (!empty($config["groups"])) {
@@ -267,7 +267,6 @@ class PluginConsumablesOption extends CommonDBTM {
 
          $input['id']     = $params['id'];
          $input['groups'] = $group;
-
 
       } else {
          $input = $params;
@@ -303,15 +302,15 @@ class PluginConsumablesOption extends CommonDBTM {
                                               'min' => 0,
                                               'max' => 100]);
             echo "&nbsp;" .
-                 Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
+                 Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
             break;
 
          case "add_groups":
             echo "</br>&nbsp;" . __('Add a group for request', 'consumables') . " : ";
-            Group::dropdown(array('name'        => '_groups_id'));
+            Group::dropdown(['name'        => '_groups_id']);
             echo "&nbsp;" .
-            Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
+            Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
             break;
       }
@@ -334,8 +333,8 @@ class PluginConsumablesOption extends CommonDBTM {
             $input = $ma->getInput();
             foreach ($ids as $id) {
 
-               $input = array('max_cart'       => $input['max_cart'],
-                              'consumables_id' => $id);
+               $input = ['max_cart'       => $input['max_cart'],
+                              'consumables_id' => $id];
 
                if ($item->getFromDB($id)) {
                   if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
@@ -373,11 +372,11 @@ class PluginConsumablesOption extends CommonDBTM {
                            array_push($groups, $input["_groups_id"]);
                         }
                      } else {
-                        $groups = array($input["_groups_id"]);
+                        $groups = [$input["_groups_id"]];
                      }
 
-                     $params = array('id'     => $option->getID(),
-                                     'groups' => json_encode($groups));
+                     $params = ['id'     => $option->getID(),
+                                     'groups' => json_encode($groups)];
 
                      $params['id'] = $option->getID();
                      if ($option->can(-1, UPDATE, $params) && $option->update($params)) {
@@ -387,8 +386,8 @@ class PluginConsumablesOption extends CommonDBTM {
                      }
 
                   } else {
-                     $params = array('consumables_id' => $id,
-                                     'groups'         => json_encode(array($input['_groups_id'])));
+                     $params = ['consumables_id' => $id,
+                                     'groups'         => json_encode([$input['_groups_id']])];
 
                      if ($option->can(-1, CREATE, $params) && $option->add($params)) {
                         $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
@@ -410,9 +409,9 @@ class PluginConsumablesOption extends CommonDBTM {
     * @param $values
     * @param $options   array
     **/
-   static function getSpecificValueToDisplay($field, $values, array $options=array()) {
+   static function getSpecificValueToDisplay($field, $values, array $options = []) {
       if (!is_array($values)) {
-         $values = array($field => $values);
+         $values = [$field => $values];
       }
       switch ($field) {
          case 'groups':

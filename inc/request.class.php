@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -221,7 +221,7 @@ class PluginConsumablesRequest extends CommonDBTM {
     *
     * @return bool
     */
-   function showForUser($item, $options = array()) {
+   function showForUser($item, $options = []) {
 
       global $CFG_GLPI;
 
@@ -244,13 +244,13 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo __('Begin date');
       echo "</td>";
       echo "<td>";
-      Html::showDateTimeField("begin_date", array('value' => $begin_date));
+      Html::showDateTimeField("begin_date", ['value' => $begin_date]);
       echo "</td>";
       echo "<td>";
       echo __('End date');
       echo "</td>";
       echo "<td>";
-      Html::showDateTimeField("end_date", array('value' => $end_date));
+      Html::showDateTimeField("end_date", ['value' => $end_date]);
       echo "</td>";
       echo "<td>";
       echo "<input type=\"button\" class=\"submit\" name=\"addToCart\" onclick=\"consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables');\" value=\"" . __('Search') . "\">";
@@ -261,7 +261,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       Html::closeForm();
 
       echo "<div class='center' id='consumables_searchConsumables'>";
-      $result = $this->listItemsForUser($item->fields['id'], array('begin_date' => $begin_date, 'end_date' => $end_date));
+      $result = $this->listItemsForUser($item->fields['id'], ['begin_date' => $begin_date, 'end_date' => $end_date]);
       echo $result['message'];
       echo "</div>";
 
@@ -282,7 +282,7 @@ class PluginConsumablesRequest extends CommonDBTM {
     * @return array
     * @internal param type $fields
     */
-   function listItemsForUser($requesters_id, $options = array()) {
+   function listItemsForUser($requesters_id, $options = []) {
 
       $params['begin_date'] = "NULL";
       $params['end_date']   = "NULL";
@@ -341,7 +341,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          $message .= "</table>";
       }
 
-      return array('success' => true, 'message' => $message);
+      return ['success' => true, 'message' => $message];
    }
 
    /**
@@ -379,7 +379,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<tr>";
       echo "<td>" . _n('Consumable type', 'Consumable types', 1) . " <span class='red'>*</span></td>";
       echo "<td>";
-      Dropdown::show("ConsumableItemType", array('entity' => $_SESSION['glpiactive_entity'], 'on_change' => 'loadAvailableConsumables(this);'));
+      Dropdown::show("ConsumableItemType", ['entity' => $_SESSION['glpiactive_entity'], 'on_change' => 'loadAvailableConsumables(this);']);
       $script = "function loadAvailableConsumables(object){this.consumableTypeID = object.value; consumables_reloadAvailableConsumables();}";
       echo Html::scriptBlock($script);
       echo "</td>";
@@ -400,7 +400,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</tr>";
 
       if (self::canRequestGroup() || self::canRequestUser()) {
-         $itemtypes = array();
+         $itemtypes = [];
          if (self::canRequestGroup()) {
             $itemtypes[] = "Group";
          }
@@ -410,10 +410,10 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<tr>";
          echo "<td>" . __("Give to") . "</td>";
          echo "<td>";
-         self::showSelectItemFromItemtypes(array('itemtype_name'   => 'give_itemtype',
+         self::showSelectItemFromItemtypes(['itemtype_name'   => 'give_itemtype',
                                                  'items_id_name'   => 'give_items_id',
                                                  'entity_restrict' => $_SESSION['glpiactive_entity'],
-                                                 'itemtypes'       => $itemtypes));
+                                                 'itemtypes'       => $itemtypes]);
          echo "</td>";
          echo "</tr>";
       }
@@ -491,10 +491,10 @@ class PluginConsumablesRequest extends CommonDBTM {
     *
     * @return randomized value used to generate HTML IDs
     * */
-   static function showSelectItemFromItemtypes(array $options = array()) {
+   static function showSelectItemFromItemtypes(array $options = []) {
       global $CFG_GLPI;
 
-      $params                        = array();
+      $params                        = [];
       $params['itemtype_name']       = 'itemtype';
       $params['items_id_name']       = 'items_id';
       $params['itemtypes']           = '';
@@ -512,15 +512,15 @@ class PluginConsumablesRequest extends CommonDBTM {
          }
       }
 
-      $rand = Dropdown::showItemType($params['itemtypes'], array('checkright' => $params['checkright'],
+      $rand = Dropdown::showItemType($params['itemtypes'], ['checkright' => $params['checkright'],
                                                                  'name'       => $params['itemtype_name'],
-                                                                 'emptylabel' => $params['emptylabel']));
+                                                                 'emptylabel' => $params['emptylabel']]);
 
       if ($rand) {
-         $p = array('idtable'             => '__VALUE__',
+         $p = ['idtable'             => '__VALUE__',
                     'name'                => $params['items_id_name'],
                     'entity_restrict'     => $params['entity_restrict'],
-                    'showItemSpecificity' => $params['showItemSpecificity']);
+                    'showItemSpecificity' => $params['showItemSpecificity']];
 
          $field_id = Html::cleanId("dropdown_" . $params['itemtype_name'] . $rand);
          $show_id  = Html::cleanId("show_" . $params['items_id_name'] . $rand);
@@ -556,11 +556,11 @@ class PluginConsumablesRequest extends CommonDBTM {
       $restrict        = "`consumableitemtypes_id` = " . $type;
       $consumableitems = getAllDatasFromTable("glpi_consumableitems", $restrict);
       $crit            = "";
-      $crit_ids        = array();
+      $crit_ids        = [];
 
       if (!empty($consumableitems)) {
          foreach ($consumableitems as $consumableitem) {
-            $groups = array();
+            $groups = [];
             $option = new PluginConsumablesOption();
             if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $consumableitem['id'])) {
                $groups = $option->getAllowedGroups();
@@ -582,11 +582,11 @@ class PluginConsumablesRequest extends CommonDBTM {
             }
          }
       }
-      Dropdown::show("ConsumableItem", array('name'      => 'consumables_id',
+      Dropdown::show("ConsumableItem", ['name'      => 'consumables_id',
                                              'condition' => "`consumableitemtypes_id` = '$type' $crit",
                                              'entity'    => $_SESSION['glpiactive_entity'],
                                              'on_change' => 'loadAvailableConsumablesNumber(this);'
-      ));
+      ]);
 
       $script = "function loadAvailableConsumablesNumber(object){this.consumableID = object.value; consumables_reloadAvailableConsumablesNumber();}";
       echo Html::scriptBlock($script);
@@ -635,7 +635,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       $restrict = "`glpi_consumables`.`consumableitems_id` = '" . $consumables_id . "' AND `glpi_consumables`.`date_out`IS NULL";
       $dbu      = new DbUtils();
-      return $dbu->countElementsInTable(array('glpi_consumables'), $restrict);
+      return $dbu->countElementsInTable(['glpi_consumables'], $restrict);
    }
 
    /**
@@ -649,38 +649,38 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       list($success, $message) = $this->checkMandatoryFields($params);
 
-      $result = array('success' => $success,
+      $result = ['success' => $success,
                       'message' => $message,
                       'rowId'   => mt_rand(),
-                      'fields'  => array(
-                         'requesters_id'          => array('label' => getUserName(Session::getLoginUserID()),
-                                                           'value' => Session::getLoginUserID()),
-                         'consumableitemtypes_id' => array('label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
-                                                           'value' => $params['consumableitemtypes_id']),
-                         'consumables_id'         => array('label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumables_id']),
-                                                           'value' => $params['consumables_id']),
-                         'number'                 => array('label' => $params['number'],
-                                                           'value' => $params['number']),
-                         'give_items_id'          => array('label' => getUserName(Session::getLoginUserID()),
-                                                           'value' => Session::getLoginUserID()),
-                         'give_itemtype'          => array('label'  => User::getTypeName(),
+                      'fields'  => [
+                         'requesters_id'          => ['label' => getUserName(Session::getLoginUserID()),
+                                                           'value' => Session::getLoginUserID()],
+                         'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
+                                                           'value' => $params['consumableitemtypes_id']],
+                         'consumables_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumables_id']),
+                                                           'value' => $params['consumables_id']],
+                         'number'                 => ['label' => $params['number'],
+                                                           'value' => $params['number']],
+                         'give_items_id'          => ['label' => getUserName(Session::getLoginUserID()),
+                                                           'value' => Session::getLoginUserID()],
+                         'give_itemtype'          => ['label'  => User::getTypeName(),
                                                            'value'  => "User",
-                                                           'hidden' => 1)
-                      ));
+                                                           'hidden' => 1]
+                      ]];
 
       // Give to
       if (!empty($params['give_itemtype'])) {
          $give_item = getItemForItemtype($params['give_itemtype']);
 
-         $result['fields']['give_itemtype'] = array('label'  => $give_item::getTypeName(),
+         $result['fields']['give_itemtype'] = ['label'  => $give_item::getTypeName(),
                                                     'value'  => $params['give_itemtype'],
-                                                    'hidden' => 1);
+                                                    'hidden' => 1];
          if ($give_item::getType() == "User") {
-            $result['fields']['give_items_id'] = array('label' => getUserName($params['give_items_id']),
-                                                       'value' => $params['give_items_id']);
+            $result['fields']['give_items_id'] = ['label' => getUserName($params['give_items_id']),
+                                                       'value' => $params['give_items_id']];
          } else { // $give_item::getUserName() == "Group"
-            $result['fields']['give_items_id'] = array('label' => Dropdown::getDropdownName($give_item->getTable(), $params['give_items_id']),
-                                                       'value' => $params['give_items_id']);
+            $result['fields']['give_items_id'] = ['label' => Dropdown::getDropdownName($give_item->getTable(), $params['give_items_id']),
+                                                       'value' => $params['give_items_id']];
          }
       }
 
@@ -697,7 +697,7 @@ class PluginConsumablesRequest extends CommonDBTM {
    function addConsumables($params) {
 
       if (isset($params['consumables_cart'])) {
-         $added = array();
+         $added = [];
          foreach ($params['consumables_cart'] as $row) {
             list($success, $message) = $this->checkMandatoryFields($row);
             if ($success) {
@@ -707,7 +707,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                //                                             . "AND `give_items_id` = '".$row['give_items_id']."'"
                //                                             . "AND `requesters_id` = '".$row['requesters_id']."'");
                //               if (empty($consumableExist)) {
-               $input = array('consumableitemtypes_id' => $row['consumableitemtypes_id'],
+               $input = ['consumableitemtypes_id' => $row['consumableitemtypes_id'],
                               'consumables_id'         => $row['consumables_id'],
                               'number'                 => $row['number'],
                               'date_mod'               => date("Y-m-d H:i:s"),
@@ -715,7 +715,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                               'give_itemtype'          => $row['give_itemtype'],
                               'validators_id'          => 0,
                               'status'                 => CommonITILValidation::WAITING,
-                              'requesters_id'          => Session::getLoginUserID());
+                              'requesters_id'          => Session::getLoginUserID()];
 
                if ($this->add($input)) {
                   $added[] = $this->fields;
@@ -742,16 +742,16 @@ class PluginConsumablesRequest extends CommonDBTM {
          // Send notification
          if (!empty($added)) {
             NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_REQUEST, $this,
-                                          array('entities_id' => $_SESSION['glpiactive_entity'],
-                                                'consumables' => $added));
+                                          ['entities_id' => $_SESSION['glpiactive_entity'],
+                                                'consumables' => $added]);
          }
       } else {
          $success = false;
          $message = __('Please add consumables in cart', 'consumables');
       }
 
-      return array('success' => $success,
-                   'message' => $message);
+      return ['success' => $success,
+                   'message' => $message];
    }
 
    /**
@@ -759,7 +759,7 @@ class PluginConsumablesRequest extends CommonDBTM {
     */
    function getUsedConsumables() {
 
-      $used  = array();
+      $used  = [];
       $datas = $this->find();
       if (!empty($datas)) {
          foreach ($datas as $data) {
@@ -799,12 +799,12 @@ class PluginConsumablesRequest extends CommonDBTM {
     * @return boolean
     */
    function checkMandatoryFields($input) {
-      $msg     = array();
+      $msg     = [];
       $checkKo = false;
 
-      $mandatory_fields = array('consumableitemtypes_id' => _n('Consumable type', 'Consumable types', 1),
+      $mandatory_fields = ['consumableitemtypes_id' => _n('Consumable type', 'Consumable types', 1),
                                 'consumables_id'         => _n('Consumable', 'Consumables', 1),
-                                'number'                 => __('Number', 'consumables'));
+                                'number'                 => __('Number', 'consumables')];
 
       foreach ($input as $key => $value) {
          if (isset($mandatory_fields[$key])) {
@@ -816,10 +816,10 @@ class PluginConsumablesRequest extends CommonDBTM {
       }
 
       if ($checkKo) {
-         return array(false, sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg)));
+         return [false, sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))];
       }
 
-      return array(true, null);
+      return [true, null];
    }
 
 }

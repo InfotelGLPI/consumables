@@ -10,7 +10,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -38,18 +38,16 @@ class PluginConsumablesMenu extends CommonGLPI
    /**
     * @return translated
     */
-   static function getMenuName()
-   {
+   static function getMenuName() {
       return _n('Consumable request', 'Consumable requests', 1, 'consumables');
    }
 
    /**
     * @return array
     */
-   static function getMenuContent()
-   {
+   static function getMenuContent() {
 
-      $menu = array();
+      $menu = [];
       $menu['title'] = self::getMenuName();
       $menu['page'] = "/plugins/consumables/front/wizard.php";
       if (PluginConsumablesWizard::canCreate()) {
@@ -60,8 +58,7 @@ class PluginConsumablesMenu extends CommonGLPI
       return $menu;
    }
 
-   static function removeRightsFromSession()
-   {
+   static function removeRightsFromSession() {
       if (isset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu'])) {
          unset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu']);
       }

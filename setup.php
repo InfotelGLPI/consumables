@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -32,33 +32,32 @@ function plugin_init_consumables() {
    global $PLUGIN_HOOKS;
 
    $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
-   $PLUGIN_HOOKS['change_profile']['consumables'] = array('PluginConsumablesProfile', 'initProfile');
-   $PLUGIN_HOOKS['add_css']['consumables']        = array('consumables.css');
+   $PLUGIN_HOOKS['change_profile']['consumables'] = ['PluginConsumablesProfile', 'initProfile'];
+   $PLUGIN_HOOKS['add_css']['consumables']        = ['consumables.css'];
    $PLUGIN_HOOKS['javascript']['consumables'][]   = '/plugins/consumables/consumables.js';
 
    if (Session::getLoginUserID()) {
       $PLUGIN_HOOKS['post_item_form']['consumables'] = ['PluginConsumablesField', 'addFieldOrderReference'];
 
+      Plugin::registerClass('PluginConsumablesProfile', ['addtabon' => 'Profile']);
+      Plugin::registerClass('PluginConsumablesRequest', ['addtabon'                    => 'User',
+                                                              'notificationtemplates_types' => true]);
+      Plugin::registerClass('PluginConsumablesRequest', ['addtabon' => 'ConsumableItem']);
 
-      Plugin::registerClass('PluginConsumablesProfile', array('addtabon' => 'Profile'));
-      Plugin::registerClass('PluginConsumablesRequest', array('addtabon'                    => 'User',
-                                                              'notificationtemplates_types' => true));
-      Plugin::registerClass('PluginConsumablesRequest', array('addtabon' => 'ConsumableItem'));
-
-      $PLUGIN_HOOKS['item_add']['consumables']        = array('ConsumableItem' => array('PluginConsumablesField', 'postAddConsumable'));
-      $PLUGIN_HOOKS['pre_item_update']['consumables'] = array('ConsumableItem' => array('PluginConsumablesField', 'preUpdateConsumable'));
+      $PLUGIN_HOOKS['item_add']['consumables']        = ['ConsumableItem' => ['PluginConsumablesField', 'postAddConsumable']];
+      $PLUGIN_HOOKS['pre_item_update']['consumables'] = ['ConsumableItem' => ['PluginConsumablesField', 'preUpdateConsumable']];
 
       if (Session::haveRight("plugin_consumables", UPDATE)) {
          $PLUGIN_HOOKS['use_massive_action']['consumables'] = 1;
       }
 
       if (Session::haveRight("plugin_consumables", READ)) {
-         $PLUGIN_HOOKS['menu_toadd']['consumables']          = array('plugins' => 'PluginConsumablesMenu');
+         $PLUGIN_HOOKS['menu_toadd']['consumables']          = ['plugins' => 'PluginConsumablesMenu'];
          $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = '/front/wizard.php';
       }
 
       // Post item purge
-      $PLUGIN_HOOKS['item_purge']['consumables'] = array('ConsumableItem' => 'plugin_item_purge_consumables');
+      $PLUGIN_HOOKS['item_purge']['consumables'] = ['ConsumableItem' => 'plugin_item_purge_consumables'];
    }
 }
 
@@ -69,14 +68,14 @@ function plugin_init_consumables() {
  */
 function plugin_version_consumables() {
 
-   return array(
+   return [
       'name'           => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
       'version'        => '1.3.0',
       'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'license'        => 'GPLv2+',
       'homepage'       => 'https://github.com/InfotelGLPI/consumables',
       'minGlpiVersion' => '9.2',
-   );
+   ];
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect

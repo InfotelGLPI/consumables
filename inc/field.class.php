@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -41,7 +41,7 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginConsumablesField extends CommonDBTM {
 
-   static $types     = array('ConsumableItem');
+   static $types     = ['ConsumableItem'];
    static $rightname = "plugin_consumables";
 
 
@@ -89,8 +89,8 @@ class PluginConsumablesField extends CommonDBTM {
    static function postAddConsumable(ConsumableItem $consumableItem) {
 
       $field = new self();
-      $field->add(array('consumables_id' => $consumableItem->fields['id'],
-                        'order_ref'      => $consumableItem->input['order_ref']));
+      $field->add(['consumables_id' => $consumableItem->fields['id'],
+                        'order_ref'      => $consumableItem->input['order_ref']]);
    }
 
    /**
@@ -104,8 +104,8 @@ class PluginConsumablesField extends CommonDBTM {
       $field->getFromDBByQuery(" WHERE `consumables_id` = '" . $consumableItem->input['id'] . "'");
 
       if (!empty($field->fields)) {
-         $field->update(array('id'        => $field->fields['id'],
-                              'order_ref' => $consumableItem->input['order_ref']));
+         $field->update(['id'        => $field->fields['id'],
+                              'order_ref' => $consumableItem->input['order_ref']]);
       } else {
          self::postAddConsumable($consumableItem);
       }

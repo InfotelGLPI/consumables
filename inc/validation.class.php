@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -104,7 +104,7 @@ class PluginConsumablesValidation extends CommonDBTM {
       if (!empty($fields)) {
          if ($this->canValidate()) {
             Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = array('item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand);
+            $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
             Html::showMassiveActions($massiveactionparams);
          }
 
@@ -209,9 +209,9 @@ class PluginConsumablesValidation extends CommonDBTM {
     */
    function validationConsumable($params, $state = CommonITILValidation::WAITING) {
 
-      $this->update(array('id'            => $params['id'],
+      $this->update(['id'            => $params['id'],
                           'status'        => $state,
-                          'validators_id' => Session::getLoginUserID()));
+                          'validators_id' => Session::getLoginUserID()]);
 
       return $state;
    }
@@ -239,7 +239,7 @@ class PluginConsumablesValidation extends CommonDBTM {
     *
     * @return an array of massive actions
     * */
-   function getSpecificMassiveActions($checkitem = NULL) {
+   function getSpecificMassiveActions($checkitem = null) {
       $isadmin = static::canValidate();
       $actions = parent::getSpecificMassiveActions($checkitem);
       $prefix  = $this->getType() . MassiveAction::CLASS_ACTION_SEPARATOR;
@@ -299,13 +299,13 @@ class PluginConsumablesValidation extends CommonDBTM {
       if (count($ids)) {
          switch ($ma->getAction()) {
             case "validate" :
-               $added = array();
+               $added = [];
                foreach ($ids as $key => $val) {
                   if ($item->can($key, UPDATE)) {
                      $item->getFromDB($key);
 
                      // Get available consumables
-                     $outConsumable = array();
+                     $outConsumable = [];
                      $availables    = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' 
                                                       AND `date_out` IS NULL");
                      foreach ($availables as $available) {
@@ -315,7 +315,7 @@ class PluginConsumablesValidation extends CommonDBTM {
                      // Check if enough stock
                      if (!empty($outConsumable) && count($outConsumable) >= $item->fields['number']) {
                         // Give consumable
-                        $result = array(1);
+                        $result = [1];
                         for ($i = 0; $i < $item->fields['number']; $i++) {
                            if (isset($outConsumable[$i]) && $consumable->out($outConsumable[$i]['id'],
                                                                              $item->fields['give_itemtype'],
@@ -352,14 +352,14 @@ class PluginConsumablesValidation extends CommonDBTM {
                // Send notification
                if (!empty($added)) {
                   NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item,
-                                                array('entities_id' => $_SESSION['glpiactive_entity'],
+                                                ['entities_id' => $_SESSION['glpiactive_entity'],
                                                       'consumables' => $added,
-                                                      'comment'     => $input['comment']));
+                                                      'comment'     => $input['comment']]);
                }
                break;
 
             case "refuse" :
-               $added = array();
+               $added = [];
                foreach ($ids as $key => $val) {
                   if ($item->can($key, UPDATE)) {
                      // Validation status update
@@ -381,9 +381,9 @@ class PluginConsumablesValidation extends CommonDBTM {
                // Send notification
                if (!empty($added)) {
                   NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE,
-                                                $item, array('entities_id' => $_SESSION['glpiactive_entity'],
+                                                $item, ['entities_id' => $_SESSION['glpiactive_entity'],
                                                              'consumables' => $added,
-                                                             'comment'     => $input['comment']));
+                                                             'comment'     => $input['comment']]);
                }
                break;
 

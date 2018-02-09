@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -38,7 +38,7 @@ function plugin_consumables_install() {
    if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
       include(GLPI_ROOT . "/plugins/consumables/install/install.php");
       install();
-   } elseif (!$DB->tableExists("glpi_plugin_consumables_options")) {
+   } else if (!$DB->tableExists("glpi_plugin_consumables_options")) {
       $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/update-1.2.2.sql");
    }
 
@@ -57,26 +57,26 @@ function plugin_consumables_uninstall() {
    include_once(GLPI_ROOT . "/plugins/consumables/inc/profile.class.php");
    include_once(GLPI_ROOT . "/plugins/consumables/inc/menu.class.php");
 
-   $tables = array("glpi_plugin_consumables_profiles",
+   $tables = ["glpi_plugin_consumables_profiles",
                    "glpi_plugin_consumables_requests",
-                   "glpi_plugin_consumables_options");
+                   "glpi_plugin_consumables_options"];
 
-   foreach ($tables as $table)
+   foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
+   }
 
-
-   $options = array('itemtype' => 'PluginConsumablesRequest',
+   $options = ['itemtype' => 'PluginConsumablesRequest',
                     'event'    => 'ConsumableRequest',
-                    'FIELDS'   => 'id');
+                    'FIELDS'   => 'id'];
 
    $notif = new Notification();
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
 
-   $options = array('itemtype' => 'PluginConsumablesRequest',
+   $options = ['itemtype' => 'PluginConsumablesRequest',
                     'event'    => 'ConsumableResponse',
-                    'FIELDS'   => 'id');
+                    'FIELDS'   => 'id'];
 
    $notif = new Notification();
    foreach ($DB->request('glpi_notifications', $options) as $data) {
@@ -87,12 +87,12 @@ function plugin_consumables_uninstall() {
    $template    = new NotificationTemplate();
    $translation = new NotificationTemplateTranslation();
    $notif_template = new Notification_NotificationTemplate();
-   $options     = array('itemtype' => 'PluginConsumablesRequest',
-                        'FIELDS'   => 'id');
+   $options     = ['itemtype' => 'PluginConsumablesRequest',
+                        'FIELDS'   => 'id'];
 
    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
-      $options_template = array('notificationtemplates_id' => $data['id'],
-                                'FIELDS'                   => 'id');
+      $options_template = ['notificationtemplates_id' => $data['id'],
+                                'FIELDS'                   => 'id'];
       foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template) as $data_template) {
          $translation->delete($data_template);
       }
@@ -106,7 +106,7 @@ function plugin_consumables_uninstall() {
    // Delete rights associated with the plugin
    $profileRight = new ProfileRight();
    foreach (PluginConsumablesProfile::getAllRights() as $right) {
-      $profileRight->deleteByCriteria(array('name' => $right['field']));
+      $profileRight->deleteByCriteria(['name' => $right['field']]);
    }
 
    PluginConsumablesMenu::removeRightsFromSession();
@@ -123,7 +123,7 @@ function plugin_item_purge_consumables($item) {
    switch (get_class($item)) {
       case 'ConsumableItem' :
          $temp = new PluginConsumablesRequest();
-         $temp->deleteByCriteria(array('consumables_id' => $item->getField('id')), 1);
+         $temp->deleteByCriteria(['consumables_id' => $item->getField('id')], 1);
          break;
    }
 }
@@ -135,12 +135,13 @@ function plugin_item_purge_consumables($item) {
 function plugin_consumables_getDatabaseRelations() {
 
    $plugin = new Plugin();
-   if ($plugin->isActivated("consumables"))
-      return array("glpi_profiles"        => array("glpi_plugin_consumables_profiles" => "profiles_id"),
-                   "glpi_consumableitems" => array("glpi_plugin_consumables_requests" => "consumables_id"),
-                   "glpi_consumableitems" => array("glpi_plugin_consumables_options"  => "consumables_id"));
-   else
-      return array();
+   if ($plugin->isActivated("consumables")) {
+      return ["glpi_profiles"        => ["glpi_plugin_consumables_profiles" => "profiles_id"],
+                   "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumables_id"],
+                   "glpi_consumableitems" => ["glpi_plugin_consumables_options"  => "consumables_id"]];
+   } else {
+      return [];
+   }
 }
 
 // Define search option for types of the plugins
@@ -151,7 +152,7 @@ function plugin_consumables_getDatabaseRelations() {
  */
 function plugin_consumables_getAddSearchOptions($itemtype) {
 
-   $sopt = array();
+   $sopt = [];
 
    if ($itemtype == "ConsumableItem") {
       if (Session::haveRight("plugin_consumables", READ)) {
@@ -159,8 +160,8 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
          $sopt[185]['field']         = 'order_ref';
          $sopt[185]['name']          = __('Order reference', 'consumables');
          $sopt[185]['datatype']      = "text";
-         $sopt[185]['joinparams']    = array('jointype'  => 'child',
-                                             'linkfield' => 'consumables_id');
+         $sopt[185]['joinparams']    = ['jointype'  => 'child',
+                                             'linkfield' => 'consumables_id'];
          $sopt[185]['massiveaction'] = false;
 
          $sopt[186]['table']         = 'glpi_plugin_consumables_options';
@@ -168,19 +169,18 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
          $sopt[186]['name']          = __('Maximum number allowed for request', 'consumables');
          $sopt[186]['datatype']      = "number";
          $sopt[186]['linkfield']     = 'consumables_id';
-         $sopt[186]['joinparams']    = array('jointype'  => 'child',
-                                             'linkfield' => 'consumables_id');
+         $sopt[186]['joinparams']    = ['jointype'  => 'child',
+                                             'linkfield' => 'consumables_id'];
          $sopt[186]['massiveaction'] = false;
          $sopt[186]['searchtype']    = 'equals';
-
 
          $sopt[187]['table']         = 'glpi_plugin_consumables_options';
          $sopt[187]['field']         = 'groups';
          $sopt[187]['name']          = __('Allowed groups for request', 'consumables');
          $sopt[187]['datatype']      = "specific";
          $sopt[187]['linkfield']     = 'consumables_id';
-         $sopt[187]['joinparams']    = array('jointype'  => 'child',
-                                             'linkfield' => 'consumables_id');
+         $sopt[187]['joinparams']    = ['jointype'  => 'child',
+                                             'linkfield' => 'consumables_id'];
          $sopt[187]['massiveaction'] = false;
          $sopt[187]['nosearch']      = true;
       }
@@ -193,12 +193,12 @@ function plugin_consumables_MassiveActions($type) {
 
    switch ($type) {
       case 'ConsumableItem':
-         return array(
+         return [
             'PluginConsumablesOption' . MassiveAction::CLASS_ACTION_SEPARATOR . 'add_number' =>
                __('Maximum number allowed for request', 'consumables'),
             'PluginConsumablesOption' . MassiveAction::CLASS_ACTION_SEPARATOR . 'add_groups' =>
-               __('Add a group for request', 'consumables'));
+               __('Add a group for request', 'consumables')];
          break;
    }
-   return array();
+   return [];
 }

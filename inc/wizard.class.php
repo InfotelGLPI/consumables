@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of consumables.
 
  consumables is free software; you can redistribute it and/or modify
@@ -48,16 +48,14 @@ class PluginConsumablesWizard extends CommonDBTM
     * @param int $nb
     * @return translated
     */
-   static function getTypeName($nb = 0)
-   {
+   static function getTypeName($nb = 0) {
       return __('Consumables wizard', 'consumables');
    }
 
    /**
     * Show config menu
     */
-   function showMenu()
-   {
+   function showMenu() {
       global $CFG_GLPI;
 
       $request = new PluginConsumablesRequest();
@@ -97,8 +95,7 @@ class PluginConsumablesWizard extends CommonDBTM
     * Show wizard form of the current step
     * @param $step
     */
-   function showWizard($step)
-   {
+   function showWizard($step) {
 
       echo "<div class='consumables_wizard'>";
       switch ($step) {
