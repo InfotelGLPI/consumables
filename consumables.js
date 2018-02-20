@@ -1,5 +1,5 @@
 function consumables_initJs(root_doc, consumableTypeID, consumableID) {
-    this.usedConsumables = 0;
+    this.usedConsumables = {};
     this.root_doc = root_doc;
     this.consumableTypeID = consumableTypeID;
     this.consumableID = consumableID;
@@ -24,22 +24,29 @@ function consumables_addToCart(action, toobserve, toupdate) {
             if (data.success) {
                 var item_bloc = $('#' + toupdate);
                 var result = "<tr id='consumables_cartRow" + data.rowId + "'>\n";
-
                 // Insert row in cart
                 $.each(data.fields, function (index, row) {
                   if (row.hidden == undefined || !row.hidden) { // IS hidden row ?
-                      result += "<td>" + row.label.replace(/\\["|']/g, '"') + "<input type='hidden' id='" + index + "' name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'></td>\n";
+                      result += "<td>" + row.label.replace(/\\["|']/g, '"') + "<input type='hidden' id='" + index +
+                          "' name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'></td>\n";
 
-                      // Push used consumables
-                     if (index == 'number' && row.value != 0) {
-                         object.usedConsumables = object.usedConsumables + parseInt(row.label);
-                     }
                   } else {
-                      result += "<input type='hidden' id='" + index + "' name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'>";
+                      result += "<input type='hidden' id='" + index + "' " +
+                          "name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'>";
                   }
                 });
 
-                result += "<td><img style=\"cursor:pointer\" src=\"" + object.root_doc + "/plugins/consumables/pics/delete.png\" onclick=\"consumables_removeCart('consumables_cartRow" + data.rowId + "')\"></td></tr>";
+                // Push used consumables
+                var number = object.usedConsumables[data.fields.consumables_id.value];
+                if(number === undefined){
+                    object.usedConsumables[data.fields.consumables_id.value] = parseInt(data.fields.number.value);
+                } else {
+                    object.usedConsumables[data.fields.consumables_id.value] = object.usedConsumables[data.fields.consumables_id.value] + parseInt(data.fields.number.value);
+                }
+
+                result += "<td><img style=\"cursor:pointer\" " +
+                    "src=\"" + object.root_doc + "/plugins/consumables/pics/delete.png\" " +
+                    "onclick=\"consumables_removeCart('consumables_cartRow" + data.rowId + "')\"></td></tr>";
 
                 item_bloc.append(result);
                 item_bloc.css({"display": 'table'});
@@ -143,7 +150,7 @@ function consumables_reloadAvailableConsumablesNumber() {
          url: this.root_doc + '/plugins/consumables/ajax/request.php',
          data: {
             'action': 'reloadAvailableConsumablesNumber',
-            'used': this.usedConsumables,
+            'used': JSON.stringify(this.usedConsumables),
             'consumables_id': this.consumableID
          },
          success: function (result) {
@@ -165,11 +172,12 @@ function consumables_reloadAvailableConsumablesNumber() {
  */
 function consumables_removeCart(field_id) {
     var value = $("tr[id=" + field_id + "] input[id=number]").val();
+    var consumables_id = $("tr[id=" + field_id + "] input[id=consumables_id]").val();
 
     // Remove element from used consumables variable
-    this.usedConsumables = this.usedConsumables - parseInt(value);
-   if (this.usedConsumables < 0) {
-       this.usedConsumables = 0;
+    this.usedConsumables[consumables_id] = this.usedConsumables[consumables_id] - parseInt(value);
+   if (this.usedConsumables[consumables_id] < 0) {
+       this.usedConsumables[consumables_id] = 0;
    }
 
     // Reload consumable list

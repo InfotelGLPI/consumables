@@ -360,7 +360,8 @@ class PluginConsumablesRequest extends CommonDBTM {
       // Wizard title
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
       echo "<div class='consumables_wizard_title'><p>";
-      echo "<img class='consumables_wizard_img' src='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/pics/consumablerequest.png' alt='consumablerequest'/>&nbsp;";
+      echo "<img class='consumables_wizard_img' alt='consumablerequest'
+      src='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/pics/consumablerequest.png' />&nbsp;";
       echo __("Consumable request", "consumables");
       echo "</p></div>";
 
@@ -583,12 +584,15 @@ class PluginConsumablesRequest extends CommonDBTM {
          }
       }
       Dropdown::show("ConsumableItem", ['name'      => 'consumables_id',
-                                             'condition' => "`consumableitemtypes_id` = '$type' $crit",
-                                             'entity'    => $_SESSION['glpiactive_entity'],
-                                             'on_change' => 'loadAvailableConsumablesNumber(this);'
+                                        'condition' => "`consumableitemtypes_id` = '$type' $crit",
+                                        'entity'    => $_SESSION['glpiactive_entity'],
+                                        'on_change' => 'loadAvailableConsumablesNumber(this);'
       ]);
 
-      $script = "function loadAvailableConsumablesNumber(object){this.consumableID = object.value; consumables_reloadAvailableConsumablesNumber();}";
+      $script = "function loadAvailableConsumablesNumber(object){
+      this.consumableID = object.value; 
+      consumables_reloadAvailableConsumablesNumber();
+      }";
       echo Html::scriptBlock($script);
    }
 
@@ -601,9 +605,11 @@ class PluginConsumablesRequest extends CommonDBTM {
     * @return array
     */
    function loadAvailableConsumablesNumber($used = 0, $consumables_id = 0) {
-
-      $number = (self::countForConsumableItem($consumables_id)) - ($used);
-
+      if (isset($used->$consumables_id)) {
+         $number = (self::countForConsumableItem($consumables_id)) - ($used->$consumables_id);
+      } else {
+         $number = self::countForConsumableItem($consumables_id);
+      }
       if ($number < 0) {
          $number = 0;
       }

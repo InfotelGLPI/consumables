@@ -54,7 +54,7 @@ switch ($_POST['action']) {
    case 'reloadAvailableConsumablesNumber':
       header("Content-Type: text/html; charset=UTF-8");
       $request = new PluginConsumablesRequest();
-      $request->loadAvailableConsumablesNumber($_POST['used'], $_POST['consumables_id']);
+      $request->loadAvailableConsumablesNumber(json_decode(stripslashes($_POST['used'])), $_POST['consumables_id']);
       break;
 
    case 'loadConsumableInformation':
@@ -77,6 +77,6 @@ switch ($_POST['action']) {
 
    case 'loadAvailableConsumablesNumber':
       $request = new PluginConsumablesRequest();
-      $request->loadAvailableConsumablesNumber($_POST['consumables_id']);
+      $request->loadAvailableConsumablesNumber(0, $_POST['consumables_id']);
       break;
 }
