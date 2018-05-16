@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Consumables Development Team
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the GLPI - Consumables plugin package.
 # 
 # Translators:
 # Andrey Saridzha, 2015
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 10:38+0200\n"
-"PO-Revision-Date: 2017-10-13 08:55+0000\n"
+"POT-Creation-Date: 2018-05-16 16:05+0200\n"
+"PO-Revision-Date: 2018-05-16 14:06+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_consumables/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,15 +19,27 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:160 inc/field.class.php:75
+#: hook.php:161 inc/field.class.php:75
 msgid "Order reference"
 msgstr "Код заказа"
 
-#: setup.php:73 inc/field.class.php:54 inc/menu.class.php:43
+#: hook.php:169 hook.php:198 inc/option.class.php:111 inc/option.class.php:300
+msgid "Maximum number allowed for request"
+msgstr ""
+
+#: hook.php:179 inc/option.class.php:133
+msgid "Allowed groups for request"
+msgstr ""
+
+#: hook.php:200 inc/option.class.php:184 inc/option.class.php:310
+msgid "Add a group for request"
+msgstr ""
+
+#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:42
 #: inc/notificationtargetrequest.class.php:49
 #: inc/notificationtargetrequest.class.php:64 inc/request.class.php:52
-#: inc/request.class.php:364 inc/request.class.php:370 inc/wizard.class.php:72
-#: inc/wizard.class.php:80 inc/wizard.class.php:81
+#: inc/request.class.php:365 inc/request.class.php:371 inc/wizard.class.php:70
+#: inc/wizard.class.php:78 inc/wizard.class.php:79
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] "Заказ расходных материалов"
@@ -37,8 +49,8 @@ msgstr[3] "Заказ расходных материалов"
 
 #: inc/notificationtargetrequest.class.php:50
 #: inc/notificationtargetrequest.class.php:67 inc/profile.class.php:154
-#: inc/profile.class.php:210 inc/validation.class.php:66
-#: inc/validation.class.php:94 inc/wizard.class.php:88 inc/wizard.class.php:89
+#: inc/profile.class.php:210 inc/validation.class.php:64
+#: inc/validation.class.php:90 inc/wizard.class.php:86 inc/wizard.class.php:87
 msgid "Consumable validation"
 msgstr "Подтверждение получения расходных материалов"
 
@@ -67,21 +79,9 @@ msgstr "Заказчик расходных материалов"
 msgid "Consumable request options"
 msgstr ""
 
-#: inc/option.class.php:111
-msgid "Maximum number allowed for request"
-msgstr ""
-
 #: inc/option.class.php:120
 msgctxt "button"
 msgid "Define"
-msgstr ""
-
-#: inc/option.class.php:133
-msgid "Allowed groups for request"
-msgstr ""
-
-#: inc/option.class.php:184
-msgid "Add a group for request"
 msgstr ""
 
 #: inc/profile.class.php:146
@@ -129,20 +129,20 @@ msgstr "История запросов расходных материалов"
 msgid "Consumables request search"
 msgstr "Поиск запросов расходных материалов"
 
-#: inc/request.class.php:396 inc/request.class.php:442
-#: inc/request.class.php:807 inc/validation.class.php:128
+#: inc/request.class.php:397 inc/request.class.php:443
+#: inc/request.class.php:813 inc/validation.class.php:124
 msgid "Number"
 msgstr "Количество"
 
-#: inc/request.class.php:428
+#: inc/request.class.php:429
 msgid "Add to cart"
 msgstr "Добавить в заказ"
 
-#: inc/request.class.php:437
+#: inc/request.class.php:438
 msgid "Cart"
 msgstr "Заказ"
 
-#: inc/request.class.php:738
+#: inc/request.class.php:744
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Заказ оформлен"
@@ -150,28 +150,19 @@ msgstr[1] "Заказ оформлен"
 msgstr[2] "Заказ оформлен"
 msgstr[3] "Заказ оформлен"
 
-#: inc/request.class.php:750
+#: inc/request.class.php:756
 msgid "Please add consumables in cart"
 msgstr "Добавьте расходные материалы в заказ"
 
-#: inc/validation.class.php:252
+#: inc/validation.class.php:249
 msgid "Refuse"
 msgstr "Отказаться"
 
-#: inc/validation.class.php:340
-#, php-format
-msgid "Consumable %s validated"
-msgstr "Расходный материал %s подтвержден"
-
-#: inc/validation.class.php:348
+#: inc/validation.class.php:344
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Не достаточно запаса расходного материала %s "
 
-#: inc/validation.class.php:377
-msgid "Consumable refused"
-msgstr "В расходных материалах отказано"
-
-#: inc/wizard.class.php:53
+#: inc/wizard.class.php:52
 msgid "Consumables wizard"
 msgstr "Мастер заказа расходных материалов"

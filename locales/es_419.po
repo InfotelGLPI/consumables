@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Consumables Development Team
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the GLPI - Consumables plugin package.
 # 
 # Translators:
 # Emiliano Cagliari <thelordbat@gmail.com>, 2017
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 10:38+0200\n"
-"PO-Revision-Date: 2017-10-13 08:55+0000\n"
+"POT-Creation-Date: 2018-05-16 16:05+0200\n"
+"PO-Revision-Date: 2018-05-16 14:06+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/tsmr/GLPI_consumables/language/es_419/)\n"
 "MIME-Version: 1.0\n"
@@ -20,15 +20,27 @@ msgstr ""
 "Language: es_419\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:160 inc/field.class.php:75
+#: hook.php:161 inc/field.class.php:75
 msgid "Order reference"
 msgstr "Referencia del pedido"
 
-#: setup.php:73 inc/field.class.php:54 inc/menu.class.php:43
+#: hook.php:169 hook.php:198 inc/option.class.php:111 inc/option.class.php:300
+msgid "Maximum number allowed for request"
+msgstr ""
+
+#: hook.php:179 inc/option.class.php:133
+msgid "Allowed groups for request"
+msgstr ""
+
+#: hook.php:200 inc/option.class.php:184 inc/option.class.php:310
+msgid "Add a group for request"
+msgstr ""
+
+#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:42
 #: inc/notificationtargetrequest.class.php:49
 #: inc/notificationtargetrequest.class.php:64 inc/request.class.php:52
-#: inc/request.class.php:364 inc/request.class.php:370 inc/wizard.class.php:72
-#: inc/wizard.class.php:80 inc/wizard.class.php:81
+#: inc/request.class.php:365 inc/request.class.php:371 inc/wizard.class.php:70
+#: inc/wizard.class.php:78 inc/wizard.class.php:79
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] "Pedido de insumo"
@@ -36,8 +48,8 @@ msgstr[1] "Pedido de insumos"
 
 #: inc/notificationtargetrequest.class.php:50
 #: inc/notificationtargetrequest.class.php:67 inc/profile.class.php:154
-#: inc/profile.class.php:210 inc/validation.class.php:66
-#: inc/validation.class.php:94 inc/wizard.class.php:88 inc/wizard.class.php:89
+#: inc/profile.class.php:210 inc/validation.class.php:64
+#: inc/validation.class.php:90 inc/wizard.class.php:86 inc/wizard.class.php:87
 msgid "Consumable validation"
 msgstr "Aprobación de insumo"
 
@@ -66,21 +78,9 @@ msgstr "Solicitante de insumo"
 msgid "Consumable request options"
 msgstr ""
 
-#: inc/option.class.php:111
-msgid "Maximum number allowed for request"
-msgstr ""
-
 #: inc/option.class.php:120
 msgctxt "button"
 msgid "Define"
-msgstr ""
-
-#: inc/option.class.php:133
-msgid "Allowed groups for request"
-msgstr ""
-
-#: inc/option.class.php:184
-msgid "Add a group for request"
 msgstr ""
 
 #: inc/profile.class.php:146
@@ -126,47 +126,38 @@ msgstr "Historial de pedidos de insumos"
 msgid "Consumables request search"
 msgstr "Búsqueda de pedidos de insumos"
 
-#: inc/request.class.php:396 inc/request.class.php:442
-#: inc/request.class.php:807 inc/validation.class.php:128
+#: inc/request.class.php:397 inc/request.class.php:443
+#: inc/request.class.php:813 inc/validation.class.php:124
 msgid "Number"
 msgstr "Número"
 
-#: inc/request.class.php:428
+#: inc/request.class.php:429
 msgid "Add to cart"
 msgstr "Agregar al carro"
 
-#: inc/request.class.php:437
+#: inc/request.class.php:438
 msgid "Cart"
 msgstr "Carro"
 
-#: inc/request.class.php:738
+#: inc/request.class.php:744
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Insumo solicitado"
 msgstr[1] "Insumos solicitados"
 
-#: inc/request.class.php:750
+#: inc/request.class.php:756
 msgid "Please add consumables in cart"
 msgstr "Por favor agregue insumos en el carro"
 
-#: inc/validation.class.php:252
+#: inc/validation.class.php:249
 msgid "Refuse"
 msgstr "Rechazar"
 
-#: inc/validation.class.php:340
-#, php-format
-msgid "Consumable %s validated"
-msgstr "Insumo %s aprobado"
-
-#: inc/validation.class.php:348
+#: inc/validation.class.php:344
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "No hay suficiente stock del insumo %s"
 
-#: inc/validation.class.php:377
-msgid "Consumable refused"
-msgstr "Insumo rechazado"
-
-#: inc/wizard.class.php:53
+#: inc/wizard.class.php:52
 msgid "Consumables wizard"
 msgstr "Asistente de insumos"
