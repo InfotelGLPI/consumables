@@ -31,8 +31,7 @@
 /**
  * Class PluginConsumablesMenu
  */
-class PluginConsumablesMenu extends CommonGLPI
-{
+class PluginConsumablesMenu extends CommonGLPI {
    static $rightname = 'plugin_consumables';
 
    /**
@@ -47,12 +46,12 @@ class PluginConsumablesMenu extends CommonGLPI
     */
    static function getMenuContent() {
 
-      $menu = [];
+      $menu          = [];
       $menu['title'] = self::getMenuName();
-      $menu['page'] = "/plugins/consumables/front/wizard.php";
+      $menu['page']  = "/plugins/consumables/front/wizard.php";
       if (PluginConsumablesWizard::canCreate()) {
          $menu['links']['search'] = PluginConsumablesWizard::getSearchURL(false);
-         $menu['links']['add'] = PluginConsumablesWizard::getSearchURL(false);
+         $menu['links']['add']    = PluginConsumablesWizard::getSearchURL(false);
       }
 
       return $menu;

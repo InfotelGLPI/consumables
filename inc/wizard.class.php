@@ -39,13 +39,13 @@ if (!defined('GLPI_ROOT')) {
  * @package    Consumables
  * @author     Ludovic Dupont
  */
-class PluginConsumablesWizard extends CommonDBTM
-{
+class PluginConsumablesWizard extends CommonDBTM {
 
    static $rightname = "plugin_consumables";
 
    /**
     * @param int $nb
+    *
     * @return translated
     */
    static function getTypeName($nb = 0) {
@@ -93,6 +93,7 @@ class PluginConsumablesWizard extends CommonDBTM
 
    /**
     * Show wizard form of the current step
+    *
     * @param $step
     */
    function showWizard($step) {
