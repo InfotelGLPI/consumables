@@ -565,7 +565,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          foreach ($consumableitems as $consumableitem) {
             $groups = [];
             $option = new PluginConsumablesOption();
-            if ($option->getFromDBByCrit("WHERE `consumables_id` = " . $consumableitem['id'])) {
+            if ($option->getFromDBByCrit("`consumables_id` = " . $consumableitem['id'])) {
                $groups = $option->getAllowedGroups();
             }
 
@@ -618,7 +618,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       $maxcart = 0;
       $option  = new PluginConsumablesOption();
-      if ($option->getFromDBByCrit("WHERE `consumables_id` = " . $consumables_id)) {
+      if ($option->getFromDBByCrit("`consumables_id` = " . $consumables_id)) {
          $maxcart = $option->getMaxCart();
       }
       if ($maxcart > 0 && $number > $maxcart) {
