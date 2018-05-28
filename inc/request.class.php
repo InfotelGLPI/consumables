@@ -605,23 +605,23 @@ class PluginConsumablesRequest extends CommonDBTM {
     * @return array
     */
    function loadAvailableConsumablesNumber($used = 0, $consumables_id = 0) {
-      if (isset($used->$consumables_id)) {
-         $number = (self::countForConsumableItem($consumables_id)) - ($used->$consumables_id);
-      } else {
-         $number = self::countForConsumableItem($consumables_id);
-      }
-      if ($number < 0) {
-         $number = 0;
-      }
+
+      $number = self::countForConsumableItem($consumables_id);
 
       $maxcart = 0;
       $option  = new PluginConsumablesOption();
-      if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $consumables_id)) {
+      if ($option->getFromDBByCrit(["`consumables_id` = " . $consumables_id])) {
          $maxcart = $option->getMaxCart();
       }
+
       if ($maxcart > 0 && $number > $maxcart) {
          $number = $maxcart;
       }
+
+      if (isset($used->$consumables_id)) {
+         $number = $number - ($used->$consumables_id);
+      }
+
       if ($number > 0) {
          Dropdown::showNumber('number', ['value' => 0,
                                          'max'   => $number]);
