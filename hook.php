@@ -58,16 +58,16 @@ function plugin_consumables_uninstall() {
    include_once(GLPI_ROOT . "/plugins/consumables/inc/menu.class.php");
 
    $tables = ["glpi_plugin_consumables_profiles",
-                   "glpi_plugin_consumables_requests",
-                   "glpi_plugin_consumables_options"];
+              "glpi_plugin_consumables_requests",
+              "glpi_plugin_consumables_options"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
    }
 
    $options = ['itemtype' => 'PluginConsumablesRequest',
-                    'event'    => 'ConsumableRequest',
-                    'FIELDS'   => 'id'];
+               'event'    => 'ConsumableRequest',
+               'FIELDS'   => 'id'];
 
    $notif = new Notification();
    foreach ($DB->request('glpi_notifications', $options) as $data) {
@@ -75,8 +75,8 @@ function plugin_consumables_uninstall() {
    }
 
    $options = ['itemtype' => 'PluginConsumablesRequest',
-                    'event'    => 'ConsumableResponse',
-                    'FIELDS'   => 'id'];
+               'event'    => 'ConsumableResponse',
+               'FIELDS'   => 'id'];
 
    $notif = new Notification();
    foreach ($DB->request('glpi_notifications', $options) as $data) {
@@ -84,15 +84,15 @@ function plugin_consumables_uninstall() {
    }
 
    //templates
-   $template    = new NotificationTemplate();
-   $translation = new NotificationTemplateTranslation();
+   $template       = new NotificationTemplate();
+   $translation    = new NotificationTemplateTranslation();
    $notif_template = new Notification_NotificationTemplate();
-   $options     = ['itemtype' => 'PluginConsumablesRequest',
-                        'FIELDS'   => 'id'];
+   $options        = ['itemtype' => 'PluginConsumablesRequest',
+                      'FIELDS'   => 'id'];
 
    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
       $options_template = ['notificationtemplates_id' => $data['id'],
-                                'FIELDS'                   => 'id'];
+                           'FIELDS'                   => 'id'];
       foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template) as $data_template) {
          $translation->delete($data_template);
       }
@@ -137,8 +137,8 @@ function plugin_consumables_getDatabaseRelations() {
    $plugin = new Plugin();
    if ($plugin->isActivated("consumables")) {
       return ["glpi_profiles"        => ["glpi_plugin_consumables_profiles" => "profiles_id"],
-                   "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumables_id"],
-                   "glpi_consumableitems" => ["glpi_plugin_consumables_options"  => "consumables_id"]];
+              "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumables_id"],
+              "glpi_consumableitems" => ["glpi_plugin_consumables_options" => "consumables_id"]];
    } else {
       return [];
    }
@@ -156,33 +156,40 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
 
    if ($itemtype == "ConsumableItem") {
       if (Session::haveRight("plugin_consumables", READ)) {
-         $sopt[185]['table']         = 'glpi_plugin_consumables_fields';
-         $sopt[185]['field']         = 'order_ref';
-         $sopt[185]['name']          = __('Order reference', 'consumables');
-         $sopt[185]['datatype']      = "text";
-         $sopt[185]['joinparams']    = ['jointype'  => 'child',
-                                             'linkfield' => 'consumables_id'];
-         $sopt[185]['massiveaction'] = false;
-
-         $sopt[186]['table']         = 'glpi_plugin_consumables_options';
-         $sopt[186]['field']         = 'max_cart';
-         $sopt[186]['name']          = __('Maximum number allowed for request', 'consumables');
-         $sopt[186]['datatype']      = "number";
-         $sopt[186]['linkfield']     = 'consumables_id';
-         $sopt[186]['joinparams']    = ['jointype'  => 'child',
-                                             'linkfield' => 'consumables_id'];
-         $sopt[186]['massiveaction'] = false;
-         $sopt[186]['searchtype']    = 'equals';
-
-         $sopt[187]['table']         = 'glpi_plugin_consumables_options';
-         $sopt[187]['field']         = 'groups';
-         $sopt[187]['name']          = __('Allowed groups for request', 'consumables');
-         $sopt[187]['datatype']      = "specific";
-         $sopt[187]['linkfield']     = 'consumables_id';
-         $sopt[187]['joinparams']    = ['jointype'  => 'child',
-                                             'linkfield' => 'consumables_id'];
-         $sopt[187]['massiveaction'] = false;
-         $sopt[187]['nosearch']      = true;
+         $sopt[] = [
+            'id'            => 185,
+            'table'         => 'glpi_plugin_consumables_fields',
+            'field'         => 'order_ref',
+            'name'          => __('Order reference', 'consumables'),
+            'datatype'      => "text",
+            'joinparams'    => ['jointype'  => 'child',
+                                'linkfield' => 'consumables_id'],
+            'massiveaction' => false
+         ];
+         $sopt[] = [
+            'id'            => 186,
+            'table'         => 'glpi_plugin_consumables_options',
+            'field'         => 'max_cart',
+            'name'          => __('Maximum number allowed for request', 'consumables'),
+            'datatype'      => "number",
+            'linkfield'     => 'consumables_id',
+            'joinparams'    => ['jointype'  => 'child',
+                                'linkfield' => 'consumables_id'],
+            'massiveaction' => false,
+            'searchtype'    => 'equals'
+         ];
+         $sopt[] = [
+            'id'            => 187,
+            'table'         => 'glpi_plugin_consumables_options',
+            'field'         => 'groups',
+            'name'          => __('Allowed groups for request', 'consumables'),
+            'datatype'      => "specific",
+            'linkfield'     => 'consumables_id',
+            'joinparams'    => ['jointype'  => 'child',
+                                'linkfield' => 'consumables_id'],
+            'massiveaction' => false,
+            'nosearch'      => 'true'
+         ];
       }
    }
 

@@ -32,6 +32,7 @@ if (!defined('GLPI_ROOT')) {
 }
 
 // Class NotificationTarget
+
 /**
  * Class PluginConsumablesNotificationTargetRequest
  */
@@ -47,7 +48,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
     */
    function getEvents() {
       return [self::CONSUMABLE_REQUEST  => __('Consumable request', 'consumables'),
-                   self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables')];
+              self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables')];
    }
 
    /**
@@ -85,7 +86,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
          $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($item['datemod']);
          if (isset($item['end_date'])) {
-            $tmp['##consumablerequest.enddate##']  = Html::convDateTime($item['enddate']);
+            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($item['enddate']);
          }
          $tmp['##consumablerequest.requester##'] = Html::clean(getUserName($item['requesters_id']));
          $tmp['##consumablerequest.validator##'] = Html::clean(getUserName($item['validators_id']));
@@ -104,30 +105,30 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
    function getTags() {
 
       $tags = ['consumable.id'                    => __('Consumable ID', 'consumables'),
-                    'consumable.action'                => __('Type of event', 'consumables'),
-                    'consumable.entity'                => __('Entity'),
-                    'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
-                    'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
-                    'consumablerequest.requestdate'    => __('Request date'),
-                    'consumablerequest.enddate'        => __('End date'),
-                    'consumablerequest.requester'      => __('Requester'),
-                    'consumablerequest.status'         => __('Status'),
-                    'consumablerequest.number'         => __('Number of used consumables'),
-                    'consumablerequest.validator'      => __('Approver'),
-                    'consumablerequest.comment'        => __('Comments')];
+               'consumable.action'                => __('Type of event', 'consumables'),
+               'consumable.entity'                => __('Entity'),
+               'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
+               'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
+               'consumablerequest.requestdate'    => __('Request date'),
+               'consumablerequest.enddate'        => __('End date'),
+               'consumablerequest.requester'      => __('Requester'),
+               'consumablerequest.status'         => __('Status'),
+               'consumablerequest.number'         => __('Number of used consumables'),
+               'consumablerequest.validator'      => __('Approver'),
+               'consumablerequest.comment'        => __('Comments')];
 
       foreach ($tags as $tag => $label) {
          $this->addTagToList(['tag'   => $tag,
-                                   'label' => $label,
-                                   'lang'  => true,
-                                   'value' => true]);
+                              'label' => $label,
+                              'lang'  => true,
+                              'value' => true]);
       }
 
       $this->addTagToList(['tag'     => 'consumabledata',
-                                'label'   => __('Display each consumable', 'consumables'),
-                                'lang'    => true,
-                                'foreach' => true,
-                                'value'   => true]);
+                           'label'   => __('Display each consumable', 'consumables'),
+                           'lang'    => true,
+                           'foreach' => true,
+                           'value'   => true]);
 
       asort($this->tag_descriptions);
    }

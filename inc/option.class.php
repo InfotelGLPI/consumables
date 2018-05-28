@@ -64,7 +64,7 @@ class PluginConsumablesOption extends CommonDBTM {
          return false;
       }
       $data = [];
-      if ($this->getFromDBByQuery("WHERE `consumables_id` = " . $item->fields['id'])) {
+      if ($this->getFromDBByCrit(["`consumables_id` = " . $item->fields['id']])) {
          $data = $this->fields;
       }
       if (count($data) < 1) {
@@ -111,8 +111,8 @@ class PluginConsumablesOption extends CommonDBTM {
       echo __('Maximum number allowed for request', 'consumables');
       echo " </td>";
       echo "<td>";
-      Dropdown::showNumber('max_cart', ['value' =>$data['max_cart'],
-                                        'max' => 100]);
+      Dropdown::showNumber('max_cart', ['value' => $data['max_cart'],
+                                        'max'   => 100]);
       echo " </td>";
       if ($this->canCreate()) {
          echo "<td class='center'>";
@@ -147,8 +147,8 @@ class PluginConsumablesOption extends CommonDBTM {
                                  'delete_groups',
                                  _x('button', 'Delete permanently'),
                                  ['delete_groups' => 'delete_groups',
-                                       'id'            => $ID,
-                                       '_groups_id'    => $val],
+                                  'id'            => $ID,
+                                  '_groups_id'    => $val],
                                  $CFG_GLPI["root_doc"] . "/pics/delete.png");
             echo " </td>";
             echo "</tr>";
@@ -190,9 +190,9 @@ class PluginConsumablesOption extends CommonDBTM {
       $used = ($data["groups"] == '' ? [] : json_decode($data["groups"], true));
 
       Group::dropdown(['name'        => '_groups_id',
-                            'used'        => $used,
-                            'entity'      => $item->fields['entities_id'],
-                            'entity_sons' => $item->fields["is_recursive"]]);
+                       'used'        => $used,
+                       'entity'      => $item->fields['entities_id'],
+                       'entity_sons' => $item->fields["is_recursive"]]);
 
       echo "</td>";
       echo "<td><input type='hidden' name='consumables_id' value='" . $item->getID() . "'>";
@@ -299,8 +299,8 @@ class PluginConsumablesOption extends CommonDBTM {
          case "add_number":
             echo "</br>&nbsp;" . __('Maximum number allowed for request', 'consumables') . " : ";
             Dropdown::showNumber('max_cart', ['value' => 0,
-                                              'min' => 0,
-                                              'max' => 100]);
+                                              'min'   => 0,
+                                              'max'   => 100]);
             echo "&nbsp;" .
                  Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
@@ -308,9 +308,9 @@ class PluginConsumablesOption extends CommonDBTM {
 
          case "add_groups":
             echo "</br>&nbsp;" . __('Add a group for request', 'consumables') . " : ";
-            Group::dropdown(['name'        => '_groups_id']);
+            Group::dropdown(['name' => '_groups_id']);
             echo "&nbsp;" .
-            Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
+                 Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
             break;
       }
@@ -334,10 +334,10 @@ class PluginConsumablesOption extends CommonDBTM {
             foreach ($ids as $id) {
 
                $input = ['max_cart'       => $input['max_cart'],
-                              'consumables_id' => $id];
+                         'consumables_id' => $id];
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+                  if ($option->getFromDBByCrit(["`consumables_id` = " . $id])) {
 
                      $input['id'] = $option->getID();
                      if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
@@ -364,7 +364,7 @@ class PluginConsumablesOption extends CommonDBTM {
             foreach ($ids as $id) {
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+                  if ($option->getFromDBByCrit(["`consumables_id` = " . $id])) {
                      $groups = json_decode($option->fields["groups"], true);
 
                      if (count($groups) > 0) {
@@ -376,7 +376,7 @@ class PluginConsumablesOption extends CommonDBTM {
                      }
 
                      $params = ['id'     => $option->getID(),
-                                     'groups' => json_encode($groups)];
+                                'groups' => json_encode($groups)];
 
                      $params['id'] = $option->getID();
                      if ($option->can(-1, UPDATE, $params) && $option->update($params)) {
@@ -387,7 +387,7 @@ class PluginConsumablesOption extends CommonDBTM {
 
                   } else {
                      $params = ['consumables_id' => $id,
-                                     'groups'         => json_encode([$input['_groups_id']])];
+                                'groups'         => json_encode([$input['_groups_id']])];
 
                      if ($option->can(-1, CREATE, $params) && $option->add($params)) {
                         $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
@@ -419,7 +419,7 @@ class PluginConsumablesOption extends CommonDBTM {
             $groups      = json_decode($values['groups'], true);
             if (!empty($groups)) {
                foreach ($groups as $key => $val) {
-                  $list_groups .= Dropdown::getDropdownName("glpi_groups", $val)."<br>";
+                  $list_groups .= Dropdown::getDropdownName("glpi_groups", $val) . "<br>";
                }
             }
             return $list_groups;

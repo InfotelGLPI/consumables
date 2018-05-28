@@ -68,8 +68,8 @@ class PluginConsumablesField extends CommonDBTM {
          return false;
       }
       $consumables_id = $item->getID();
-      $field = new self();
-      $field->getFromDBByQuery(" WHERE `consumables_id` = '$consumables_id'");
+      $field          = new self();
+      $field->getFromDBByCrit(["consumables_id = '$consumables_id'"]);
 
       echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
       echo "<td>" . __('Order reference', 'consumables') . "</td>";
@@ -90,7 +90,7 @@ class PluginConsumablesField extends CommonDBTM {
 
       $field = new self();
       $field->add(['consumables_id' => $consumableItem->fields['id'],
-                        'order_ref'      => $consumableItem->input['order_ref']]);
+                   'order_ref'      => $consumableItem->input['order_ref']]);
    }
 
    /**
@@ -101,11 +101,11 @@ class PluginConsumablesField extends CommonDBTM {
    static function preUpdateConsumable(ConsumableItem $consumableItem) {
 
       $field = new self();
-      $field->getFromDBByQuery(" WHERE `consumables_id` = '" . $consumableItem->input['id'] . "'");
+      $field->getFromDBByCrit([" `consumables_id` = '" . $consumableItem->input['id'] . "'"]);
 
       if (!empty($field->fields)) {
          $field->update(['id'        => $field->fields['id'],
-                              'order_ref' => $consumableItem->input['order_ref']]);
+                         'order_ref' => $consumableItem->input['order_ref']]);
       } else {
          self::postAddConsumable($consumableItem);
       }

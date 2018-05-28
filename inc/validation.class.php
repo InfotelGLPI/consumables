@@ -210,8 +210,8 @@ class PluginConsumablesValidation extends CommonDBTM {
    function validationConsumable($params, $state = CommonITILValidation::WAITING) {
 
       $this->update(['id'            => $params['id'],
-                          'status'        => $state,
-                          'validators_id' => Session::getLoginUserID()]);
+                     'status'        => $state,
+                     'validators_id' => Session::getLoginUserID()]);
 
       return $state;
    }
@@ -353,8 +353,8 @@ class PluginConsumablesValidation extends CommonDBTM {
                if (!empty($added)) {
                   NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item,
                                                 ['entities_id' => $_SESSION['glpiactive_entity'],
-                                                      'consumables' => $added,
-                                                      'comment'     => $input['comment']]);
+                                                 'consumables' => $added,
+                                                 'comment'     => $input['comment']]);
                }
                break;
 
@@ -382,8 +382,8 @@ class PluginConsumablesValidation extends CommonDBTM {
                if (!empty($added)) {
                   NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE,
                                                 $item, ['entities_id' => $_SESSION['glpiactive_entity'],
-                                                             'consumables' => $added,
-                                                             'comment'     => $input['comment']]);
+                                                        'consumables' => $added,
+                                                        'comment'     => $input['comment']]);
                }
                break;
 
