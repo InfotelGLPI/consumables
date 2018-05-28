@@ -50,10 +50,10 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
    $field_id = Html::cleanId("dropdown_" . $_POST["name"] . $rand);
 
    $p = ['value'               => 0,
-              'valuename'           => Dropdown::EMPTY_VALUE,
-              'itemtype'            => $_POST["idtable"],
-              'display_emptychoice' => true,
-              'displaywith'         => ['otherserial', 'serial']];
+         'valuename'           => Dropdown::EMPTY_VALUE,
+         'itemtype'            => $_POST["idtable"],
+         'display_emptychoice' => true,
+         'displaywith'         => ['otherserial', 'serial']];
    if (isset($_POST['value'])) {
       $p['value'] = $_POST['value'];
    }
@@ -78,7 +78,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
 
    if (!empty($_POST['showItemSpecificity'])) {
       $params = ['items_id' => '__VALUE__',
-                      'itemtype' => $_POST["idtable"]];
+                 'itemtype' => $_POST["idtable"]];
       if (isset($_POST['entity_restrict'])) {
          $params['entity_restrict'] = $_POST['entity_restrict'];
       }
