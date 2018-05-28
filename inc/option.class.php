@@ -64,7 +64,7 @@ class PluginConsumablesOption extends CommonDBTM {
          return false;
       }
       $data = [];
-      if ($this->getFromDBByQuery("WHERE `consumables_id` = " . $item->fields['id'])) {
+      if ($this->getFromDBByCrit("WHERE `consumables_id` = " . $item->fields['id'])) {
          $data = $this->fields;
       }
       if (count($data) < 1) {
@@ -337,7 +337,7 @@ class PluginConsumablesOption extends CommonDBTM {
                          'consumables_id' => $id];
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+                  if ($option->getFromDBByCrit("WHERE `consumables_id` = " . $id)) {
 
                      $input['id'] = $option->getID();
                      if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
@@ -364,7 +364,7 @@ class PluginConsumablesOption extends CommonDBTM {
             foreach ($ids as $id) {
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByQuery("WHERE `consumables_id` = " . $id)) {
+                  if ($option->getFromDBByCrit("WHERE `consumables_id` = " . $id)) {
                      $groups = json_decode($option->fields["groups"], true);
 
                      if (count($groups) > 0) {
