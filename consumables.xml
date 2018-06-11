@@ -44,9 +44,9 @@
         <lang>fr_FR</lang>
         <lang>en_GB</lang>
         <lang>ru_RU</lang>
-        <lang>es_419</lang>
         <lang>pl_PL</lang>
         <lang>cs_CZ</lang>
+		<lang>es_419</lang>
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>
