@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-16 16:05+0200\n"
+"POT-Creation-Date: 2018-07-03 07:44+0200\n"
 "PO-Revision-Date: 2018-05-24 07:57+0000\n"
 "Last-Translator: Kirill Lavrik <kirill.lavrik@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_consumables/language/ru_RU/)\n"
@@ -20,25 +20,25 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:161 inc/field.class.php:75
+#: hook.php:165 inc/field.class.php:75
 msgid "Order reference"
 msgstr "Код заказа"
 
-#: hook.php:169 hook.php:198 inc/option.class.php:111 inc/option.class.php:300
+#: hook.php:175 hook.php:207 inc/option.class.php:111 inc/option.class.php:300
 msgid "Maximum number allowed for request"
 msgstr "Максимально допустимое количество запросов"
 
-#: hook.php:179 inc/option.class.php:133
+#: hook.php:187 inc/option.class.php:133
 msgid "Allowed groups for request"
 msgstr "Разрешенные группы для запроса"
 
-#: hook.php:200 inc/option.class.php:184 inc/option.class.php:310
+#: hook.php:209 inc/option.class.php:184 inc/option.class.php:310
 msgid "Add a group for request"
 msgstr "Добавить группу для запроса"
 
-#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:42
-#: inc/notificationtargetrequest.class.php:49
-#: inc/notificationtargetrequest.class.php:64 inc/request.class.php:52
+#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:41
+#: inc/notificationtargetrequest.class.php:50
+#: inc/notificationtargetrequest.class.php:65 inc/request.class.php:52
 #: inc/request.class.php:365 inc/request.class.php:371 inc/wizard.class.php:70
 #: inc/wizard.class.php:78 inc/wizard.class.php:79
 msgid "Consumable request"
@@ -48,31 +48,31 @@ msgstr[1] "Заказы расходных материалов"
 msgstr[2] "Заказы расходных материалов"
 msgstr[3] "Заказ расходных материалов"
 
-#: inc/notificationtargetrequest.class.php:50
-#: inc/notificationtargetrequest.class.php:67 inc/profile.class.php:154
+#: inc/notificationtargetrequest.class.php:51
+#: inc/notificationtargetrequest.class.php:68 inc/profile.class.php:154
 #: inc/profile.class.php:210 inc/validation.class.php:64
 #: inc/validation.class.php:90 inc/wizard.class.php:86 inc/wizard.class.php:87
 msgid "Consumable validation"
 msgstr "Подтверждение получения расходных материалов"
 
-#: inc/notificationtargetrequest.class.php:61
-#: inc/notificationtargetrequest.class.php:106
+#: inc/notificationtargetrequest.class.php:62
+#: inc/notificationtargetrequest.class.php:107
 msgid "Consumable ID"
 msgstr "ID расходного материала"
 
-#: inc/notificationtargetrequest.class.php:107
+#: inc/notificationtargetrequest.class.php:108
 msgid "Type of event"
 msgstr "Тип события"
 
-#: inc/notificationtargetrequest.class.php:127
+#: inc/notificationtargetrequest.class.php:128
 msgid "Display each consumable"
 msgstr "Показывать каждый расходный материал"
 
-#: inc/notificationtargetrequest.class.php:142
+#: inc/notificationtargetrequest.class.php:143
 msgid "Consumable approver"
 msgstr "Утверждающий расходные материалы"
 
-#: inc/notificationtargetrequest.class.php:143
+#: inc/notificationtargetrequest.class.php:144
 msgid "Consumable requester"
 msgstr "Заказчик расходных материалов"
 
@@ -131,7 +131,7 @@ msgid "Consumables request search"
 msgstr "Поиск запросов расходных материалов"
 
 #: inc/request.class.php:397 inc/request.class.php:443
-#: inc/request.class.php:813 inc/validation.class.php:124
+#: inc/request.class.php:815 inc/validation.class.php:124
 msgid "Number"
 msgstr "Количество"
 
@@ -143,7 +143,7 @@ msgstr "Добавить в заказ"
 msgid "Cart"
 msgstr "Заказ"
 
-#: inc/request.class.php:744
+#: inc/request.class.php:746
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Заказ оформлен"
@@ -151,7 +151,7 @@ msgstr[1] "Заказ оформлен"
 msgstr[2] "Заказ оформлен"
 msgstr[3] "Заказ оформлен"
 
-#: inc/request.class.php:756
+#: inc/request.class.php:758
 msgid "Please add consumables in cart"
 msgstr "Добавьте расходные материалы в заказ"
 

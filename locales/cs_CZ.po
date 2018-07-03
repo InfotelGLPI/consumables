@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-16 16:05+0200\n"
-"PO-Revision-Date: 2018-05-16 14:06+0000\n"
-"Last-Translator: Amandine Manceau\n"
+"POT-Creation-Date: 2018-07-03 07:44+0200\n"
+"PO-Revision-Date: 2018-06-26 12:54+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/tsmr/GLPI_consumables/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: hook.php:161 inc/field.class.php:75
+#: hook.php:165 inc/field.class.php:75
 msgid "Order reference"
 msgstr "Reference objednávky"
 
-#: hook.php:169 hook.php:198 inc/option.class.php:111 inc/option.class.php:300
+#: hook.php:175 hook.php:207 inc/option.class.php:111 inc/option.class.php:300
 msgid "Maximum number allowed for request"
 msgstr "Nejvyšší množství, o které je možné žádat"
 
-#: hook.php:179 inc/option.class.php:133
+#: hook.php:187 inc/option.class.php:133
 msgid "Allowed groups for request"
 msgstr "Skupiny které mohou žádat"
 
-#: hook.php:200 inc/option.class.php:184 inc/option.class.php:310
+#: hook.php:209 inc/option.class.php:184 inc/option.class.php:310
 msgid "Add a group for request"
 msgstr "Přidat skupinu pro požadavek"
 
-#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:42
-#: inc/notificationtargetrequest.class.php:49
-#: inc/notificationtargetrequest.class.php:64 inc/request.class.php:52
+#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:41
+#: inc/notificationtargetrequest.class.php:50
+#: inc/notificationtargetrequest.class.php:65 inc/request.class.php:52
 #: inc/request.class.php:365 inc/request.class.php:371 inc/wizard.class.php:70
 #: inc/wizard.class.php:78 inc/wizard.class.php:79
 msgid "Consumable request"
@@ -44,35 +44,35 @@ msgid_plural "Consumable requests"
 msgstr[0] "Požadavek na spotřební materiál"
 msgstr[1] "Požadavky na spotřební materiál"
 msgstr[2] "Požadavků na spotřební materiál"
-msgstr[3] "Požadavků na spotřební materiál"
+msgstr[3] "Požadavky na spotřební materiál"
 
-#: inc/notificationtargetrequest.class.php:50
-#: inc/notificationtargetrequest.class.php:67 inc/profile.class.php:154
+#: inc/notificationtargetrequest.class.php:51
+#: inc/notificationtargetrequest.class.php:68 inc/profile.class.php:154
 #: inc/profile.class.php:210 inc/validation.class.php:64
 #: inc/validation.class.php:90 inc/wizard.class.php:86 inc/wizard.class.php:87
 msgid "Consumable validation"
-msgstr "Ověření spotřebního materiálu"
+msgstr "Ověření požadavku na spotřební materiál"
 
-#: inc/notificationtargetrequest.class.php:61
-#: inc/notificationtargetrequest.class.php:106
+#: inc/notificationtargetrequest.class.php:62
+#: inc/notificationtargetrequest.class.php:107
 msgid "Consumable ID"
 msgstr "Identifikátor spotřebního materiálu"
 
-#: inc/notificationtargetrequest.class.php:107
+#: inc/notificationtargetrequest.class.php:108
 msgid "Type of event"
 msgstr "Typ události"
 
-#: inc/notificationtargetrequest.class.php:127
+#: inc/notificationtargetrequest.class.php:128
 msgid "Display each consumable"
 msgstr "Zobrazit každou položku spotřebního materiálu"
 
-#: inc/notificationtargetrequest.class.php:142
+#: inc/notificationtargetrequest.class.php:143
 msgid "Consumable approver"
 msgstr "Schvalovatel spotřebního materiálu"
 
-#: inc/notificationtargetrequest.class.php:143
+#: inc/notificationtargetrequest.class.php:144
 msgid "Consumable requester"
-msgstr "Požadovatel spotřebního materiálu"
+msgstr "Žadatel o spotřební materiál"
 
 #: inc/option.class.php:51
 msgid "Consumable request options"
@@ -118,7 +118,7 @@ msgstr "Zažádat o spotřební materiál pro skupiny"
 #: inc/request.class.php:169 inc/request.class.php:302
 #: inc/request.class.php:338
 msgid "Consumable request report"
-msgstr "Hlášení o požadavku na spotřební materiál"
+msgstr "Zpráva o požadavcích na spotřební materiál"
 
 #: inc/request.class.php:208
 msgid "Consumable requests history"
@@ -126,10 +126,10 @@ msgstr "Historie požadavků na spotřební materiál"
 
 #: inc/request.class.php:239
 msgid "Consumables request search"
-msgstr "Hledání požadavku na spotřební materiál"
+msgstr "Hledat požadavky na spotřební materiál"
 
 #: inc/request.class.php:397 inc/request.class.php:443
-#: inc/request.class.php:813 inc/validation.class.php:124
+#: inc/request.class.php:815 inc/validation.class.php:124
 msgid "Number"
 msgstr "Počet"
 
@@ -141,15 +141,15 @@ msgstr "Přidat do košíku"
 msgid "Cart"
 msgstr "Košík"
 
-#: inc/request.class.php:744
+#: inc/request.class.php:746
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
-msgstr[0] "Spotřební materiál kterého se týká"
-msgstr[1] "Spotřební materiál kterého se týká"
-msgstr[2] "Spotřební materiál kterého se týká"
-msgstr[3] "Spotřební materiál kterého se týká"
+msgstr[0] "Požadavek na spotřební materiál přidán"
+msgstr[1] "Požadavky na spotřební materiál přidány"
+msgstr[2] "Požadavků na spotřební materiál přidáno"
+msgstr[3] "Požadavky na spotřební materiál přidány"
 
-#: inc/request.class.php:756
+#: inc/request.class.php:758
 msgid "Please add consumables in cart"
 msgstr "Vložte spotřební materiál do košíku"
 
@@ -160,8 +160,8 @@ msgstr "Zamítnout"
 #: inc/validation.class.php:344
 #, php-format
 msgid "Not enough stock for consumable %s"
-msgstr "Na skladu není dostatek spotřebního materiálu %s"
+msgstr "Na skladě není dostatek spotřebního materiálu %s"
 
 #: inc/wizard.class.php:52
 msgid "Consumables wizard"
-msgstr "Průvodce spotřebním materiálem"
+msgstr "Průvodce žádostí o spotřební materiál"
