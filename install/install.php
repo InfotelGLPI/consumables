@@ -37,8 +37,7 @@ function install() {
 
    $migration = new Migration(100);
 
-   // Install script
-   $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-1.2.2.sql");
+
 
    // Notification
    // Request
