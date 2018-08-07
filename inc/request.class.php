@@ -161,6 +161,7 @@ class PluginConsumablesRequest extends CommonDBTM {
     * @param type $fields
     */
    function listItemsForConsumable($fields) {
+      $dbu = new DbUtils();
 
       if (!empty($fields)) {
          echo "<div class='center'>";
@@ -179,13 +180,13 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          foreach ($fields as $field) {
             echo "<tr class='tab_bg_1'>";
-            echo "<td>" . getUserName($field['requesters_id']) . "</td>";
-            echo "<td>" . getUserName($field['validators_id']) . "</td>";
+            echo "<td>" . $dbu->getUserName($field['requesters_id']) . "</td>";
+            echo "<td>" . $dbu->getUserName($field['validators_id']) . "</td>";
             echo "<td>" . $field['number'] . "</td>";
             echo "<td>" . Html::convDateTime($field['date_mod']) . "</td>";
             echo "<td>";
             if (!empty($field['give_itemtype'])) {
-               $give_item = getItemForItemtype($field['give_itemtype']);
+               $give_item = $dbu->getItemForItemtype($field['give_itemtype']);
                $give_item->getFromDB($field['give_items_id']);
                echo $give_item->getLink();
             }
@@ -287,6 +288,8 @@ class PluginConsumablesRequest extends CommonDBTM {
       $params['begin_date'] = "NULL";
       $params['end_date']   = "NULL";
 
+      $dbu = new DbUtils();
+
       foreach ($options as $key => $val) {
          $params[$key] = $val;
       }
@@ -317,8 +320,8 @@ class PluginConsumablesRequest extends CommonDBTM {
             $consumable->getFromDB($field['consumables_id']);
             $message .= "<td>" . $consumable->getLink() . "</td>";
             $message .= "<td>" . Dropdown::getDropdownName(ConsumableItemType::getTable(), $field['consumableitemtypes_id']) . "</td>";
-            $message .= "<td>" . getUserName($field['requesters_id']) . "</td>";
-            $message .= "<td>" . getUserName($field['validators_id']) . "</td>";
+            $message .= "<td>" . $dbu->getUserName($field['requesters_id']) . "</td>";
+            $message .= "<td>" . $dbu->getUserName($field['validators_id']) . "</td>";
             $message .= "<td>" . $field['number'] . "</td>";
             $message .= "<td>" . Html::convDateTime($field['date_mod']) . "</td>";
             $message .= "<td>";
@@ -356,6 +359,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       $request = new PluginConsumablesRequest();
       $request->getEmpty();
+      $dbu = new DbUtils();
 
       // Wizard title
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
@@ -373,7 +377,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<tr>";
       echo "<td>" . __('Requester') . "</td>";
       echo "<td>";
-      echo getUserName(Session::getLoginUserID());
+      echo $dbu->getUserName(Session::getLoginUserID());
       echo "</td>";
       echo "</tr>";
 
@@ -556,8 +560,9 @@ class PluginConsumablesRequest extends CommonDBTM {
     */
    function loadAvailableConsumables($type = 0) {
 
+      $dbu             = new DbUtils();
       $restrict        = "`consumableitemtypes_id` = " . $type;
-      $consumableitems = getAllDatasFromTable("glpi_consumableitems", $restrict);
+      $consumableitems = $dbu->getAllDataFromTable("glpi_consumableitems", $restrict);
       $crit            = "";
       $crit_ids        = [];
 
@@ -656,12 +661,13 @@ class PluginConsumablesRequest extends CommonDBTM {
    function addToCart($params) {
 
       list($success, $message) = $this->checkMandatoryFields($params);
+      $dbu = new DbUtils();
 
       $result = ['success' => $success,
                  'message' => $message,
                  'rowId'   => mt_rand(),
                  'fields'  => [
-                    'requesters_id'          => ['label' => getUserName(Session::getLoginUserID()),
+                    'requesters_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
                                                  'value' => Session::getLoginUserID()],
                     'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
                                                  'value' => $params['consumableitemtypes_id']],
@@ -669,7 +675,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                                                  'value' => $params['consumables_id']],
                     'number'                 => ['label' => $params['number'],
                                                  'value' => $params['number']],
-                    'give_items_id'          => ['label' => getUserName(Session::getLoginUserID()),
+                    'give_items_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
                                                  'value' => Session::getLoginUserID()],
                     'give_itemtype'          => ['label'  => User::getTypeName(),
                                                  'value'  => "User",
@@ -678,13 +684,13 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       // Give to
       if (!empty($params['give_itemtype'])) {
-         $give_item = getItemForItemtype($params['give_itemtype']);
+         $give_item = $dbu->getItemForItemtype($params['give_itemtype']);
 
          $result['fields']['give_itemtype'] = ['label'  => $give_item::getTypeName(),
                                                'value'  => $params['give_itemtype'],
                                                'hidden' => 1];
          if ($give_item::getType() == "User") {
-            $result['fields']['give_items_id'] = ['label' => getUserName($params['give_items_id']),
+            $result['fields']['give_items_id'] = ['label' => $dbu->getUserName($params['give_items_id']),
                                                   'value' => $params['give_items_id']];
          } else { // $give_item::getUserName() == "Group"
             $result['fields']['give_items_id'] = ['label' => Dropdown::getDropdownName($give_item->getTable(), $params['give_items_id']),

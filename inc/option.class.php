@@ -210,12 +210,13 @@ class PluginConsumablesOption extends CommonDBTM {
     * @return array|\datas
     */
    function prepareInputForUpdate($params) {
+      $dbu = new DbUtils();
 
       if (isset($params["add_groups"])) {
          $input = [];
 
          $restrict = "`id` = " . $params['id'];
-         $configs  = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
+         $configs  = $dbu->getAllDataFromTable("glpi_plugin_consumables_options", $restrict);
 
          $groups = [];
          if (!empty($configs)) {
@@ -243,7 +244,7 @@ class PluginConsumablesOption extends CommonDBTM {
       } else if (isset($params["delete_groups"])) {
 
          $restrict = "`id` = " . $params['id'];
-         $configs  = getAllDatasFromTable("glpi_plugin_consumables_options", $restrict);
+         $configs  = $dbu->getAllDataFromTable("glpi_plugin_consumables_options", $restrict);
 
          $groups = [];
          if (!empty($configs)) {

@@ -88,8 +88,9 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          if (isset($item['end_date'])) {
             $tmp['##consumablerequest.enddate##'] = Html::convDateTime($item['enddate']);
          }
-         $tmp['##consumablerequest.requester##'] = Html::clean(getUserName($item['requesters_id']));
-         $tmp['##consumablerequest.validator##'] = Html::clean(getUserName($item['validators_id']));
+         $dbu = new DbUtils();
+         $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($item['requesters_id']));
+         $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($item['validators_id']));
          $tmp['##consumablerequest.number##']    = $item['number'];
          $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($item['status']);
          $this->data['consumabledata'][]         = $tmp;

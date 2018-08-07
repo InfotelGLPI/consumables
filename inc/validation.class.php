@@ -91,6 +91,7 @@ class PluginConsumablesValidation extends CommonDBTM {
       echo "</p></div>";
 
       $rand = mt_rand();
+      $dbu  = new DbUtils();
 
       if ($this->canValidate()) {
          $fields = $this->find("`status` NOT IN ('" . CommonITILValidation::REFUSED . "','" . CommonITILValidation::ACCEPTED . "') 
@@ -135,7 +136,7 @@ class PluginConsumablesValidation extends CommonDBTM {
             echo "</td>";
 
             echo "<td>";
-            echo getUserName($field['requesters_id']);
+            echo $dbu->getUserName($field['requesters_id']);
             echo "</td>";
 
             echo "<td>";
@@ -152,7 +153,7 @@ class PluginConsumablesValidation extends CommonDBTM {
 
             echo "<td>";
             if (!empty($field['give_itemtype'])) {
-               $give_item = getItemForItemtype($field['give_itemtype']);
+               $give_item = $dbu->getItemForItemtype($field['give_itemtype']);
                $give_item->getFromDB($field['give_items_id']);
                echo $give_item->getLink();
             }

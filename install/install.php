@@ -37,8 +37,6 @@ function install() {
 
    $migration = new Migration(100);
 
-
-
    // Notification
    // Request
    $query_id = "INSERT INTO `glpi_notificationtemplates`(`name`, `itemtype`, `date_mod`) VALUES ('Consumables Request','PluginConsumablesRequest', NOW());";

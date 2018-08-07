@@ -36,7 +36,8 @@ Session::checkLoginUser();
 
 // Make a select box
 if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
-   $table = getTableForItemType($_POST["idtable"]);
+   $dbu = new DbUtils();
+   $table = $dbu->getTableForItemType($_POST["idtable"]);
 
    // Link to user for search only > normal users
    $link = "getDropdownValue.php";
