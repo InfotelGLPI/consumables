@@ -64,7 +64,7 @@ class PluginConsumablesOption extends CommonDBTM {
          return false;
       }
       $data = [];
-      if ($this->getFromDBByCrit(["`consumables_id` = " . $item->fields['id']])) {
+      if ($this->getFromDBByCrit(["consumables_id" => $item->fields['id']])) {
          $data = $this->fields;
       }
       if (count($data) < 1) {
@@ -215,7 +215,7 @@ class PluginConsumablesOption extends CommonDBTM {
       if (isset($params["add_groups"])) {
          $input = [];
 
-         $restrict = "`id` = " . $params['id'];
+         $restrict = ["id" => $params['id']];
          $configs  = $dbu->getAllDataFromTable("glpi_plugin_consumables_options", $restrict);
 
          $groups = [];
@@ -243,7 +243,7 @@ class PluginConsumablesOption extends CommonDBTM {
 
       } else if (isset($params["delete_groups"])) {
 
-         $restrict = "`id` = " . $params['id'];
+         $restrict = ["id" => $params['id']];
          $configs  = $dbu->getAllDataFromTable("glpi_plugin_consumables_options", $restrict);
 
          $groups = [];
@@ -286,7 +286,11 @@ class PluginConsumablesOption extends CommonDBTM {
     * @return mixed
     */
    function getAllowedGroups() {
-      return json_decode($this->fields['groups'], true);
+      if(!empty($this->fields['groups'])) {
+         return json_decode($this->fields['groups'], true);
+      } else {
+         return [];
+      }
    }
 
    /**
@@ -338,7 +342,7 @@ class PluginConsumablesOption extends CommonDBTM {
                          'consumables_id' => $id];
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByCrit(["`consumables_id` = " . $id])) {
+                  if ($option->getFromDBByCrit(["consumables_id" => $id])) {
 
                      $input['id'] = $option->getID();
                      if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
@@ -365,7 +369,7 @@ class PluginConsumablesOption extends CommonDBTM {
             foreach ($ids as $id) {
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByCrit(["`consumables_id` = " . $id])) {
+                  if ($option->getFromDBByCrit(["consumables_id" => $id])) {
                      $groups = json_decode($option->fields["groups"], true);
 
                      if (count($groups) > 0) {

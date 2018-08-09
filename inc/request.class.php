@@ -103,7 +103,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                $dbu = new DbUtils();
                return self::createTabEntry(self::getTypeName(),
                                            $dbu->countElementsInTable($this->getTable(),
-                                                                      "`consumables_id` = '" . $item->getID() . "'"));
+                                                                      ["consumables_id" => $item->getID()]));
             }
             return self::getTypeName();
          }
@@ -561,7 +561,7 @@ class PluginConsumablesRequest extends CommonDBTM {
    function loadAvailableConsumables($type = 0) {
 
       $dbu             = new DbUtils();
-      $restrict        = "`consumableitemtypes_id` = " . $type;
+      $restrict        = ["consumableitemtypes_id" => $type];
       $consumableitems = $dbu->getAllDataFromTable("glpi_consumableitems", $restrict);
       $crit            = "";
       $crit_ids        = [];
@@ -570,7 +570,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          foreach ($consumableitems as $consumableitem) {
             $groups = [];
             $option = new PluginConsumablesOption();
-            if ($option->getFromDBByCrit(["`consumables_id` = " . $consumableitem['id']])) {
+            if ($option->getFromDBByCrit(["consumables_id" => $consumableitem['id']])) {
                $groups = $option->getAllowedGroups();
             }
 
@@ -617,7 +617,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       $maxcart = 0;
       $option  = new PluginConsumablesOption();
-      if ($option->getFromDBByCrit(["`consumables_id` = " . $consumables_id])) {
+      if ($option->getFromDBByCrit(["consumables_id" => $consumables_id])) {
          $maxcart = $option->getMaxCart();
       }
 
@@ -646,7 +646,8 @@ class PluginConsumablesRequest extends CommonDBTM {
     */
    static function countForConsumableItem($consumables_id) {
 
-      $restrict = "`glpi_consumables`.`consumableitems_id` = '" . $consumables_id . "' AND `glpi_consumables`.`date_out`IS NULL";
+      $restrict = ["consumableitems_id" => $consumables_id,
+                   "date_out"           => NULL];
       $dbu      = new DbUtils();
       return $dbu->countElementsInTable(['glpi_consumables'], $restrict);
    }
