@@ -6,12 +6,14 @@
     <logo>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/consumables.png</logo>
     <description>
         <short>
-            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.]]></fr>
+            <cs><![CDATA[Tento zásuvný modul umožňuje spravovat požadavky na spotřební materiál pro koncové uživatele.]]></cs>
             <en><![CDATA[This plugin allows you to manage consumable requests for end user.]]></en>
+            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.]]></fr>
         </short>
         <long>
-            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
+            <cs><![CDATA[Tento zásuvný modul umožňuje spravovat požadavky na spotřební materiál pro koncové uživatele.<br />- Systém ověřování požadavku na spotřební materiál,<br />- Související oznamování,<br />- Průvodce pro uživatele na základě toho, co je dostupné na skladě.]]></cs>
             <en><![CDATA[This plugin allows you to manage consumable requests for end user.<br />- Validation system of consumable request,<br />- Associated notifications,<br />- Wizard user based on available stock.]]></en>
+            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
         </long>
     </description>
     <homepage>https://github.com/InfotelGLPI/consumables</homepage>
@@ -59,12 +61,16 @@
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>
-        <fr>
-            <tag>consommable</tag>
-        </fr>
+        <cs>
+            <tag>spotřební</tag>
+            <tag>materiál</tag>
+        </cs>
         <en>
             <tag>consumable</tag>
         </en>
+        <fr>
+            <tag>consommable</tag>
+        </fr>
     </tags>
     <screenshots>
         <screenshot>
