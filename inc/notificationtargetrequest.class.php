@@ -84,7 +84,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          $tmp['##consumable.id##']                    = $item['consumables_id'];
          $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
          $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
-         $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($item['datemod']);
+         $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($item['date_mod']);
          if (isset($item['end_date'])) {
             $tmp['##consumablerequest.enddate##'] = Html::convDateTime($item['enddate']);
          }
