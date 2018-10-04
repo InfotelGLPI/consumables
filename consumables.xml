@@ -52,9 +52,12 @@
         <lang>cs_CZ</lang>
         <lang>en_GB</lang>
         <lang>es_419</lang>
+        <lang>es_ES</lang>
+        <lang>fi_FI</lang>
         <lang>fr_FR</lang>
         <lang>pl_PL</lang>
         <lang>pt_BR</lang>
+        <lang>pt_PT</lang>
         <lang>ru_RU</lang>
     </langs>
     <license><![CDATA[GPL v2+]]></license>
