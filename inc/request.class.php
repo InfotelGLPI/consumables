@@ -150,7 +150,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          return false;
       }
 
-      $data = $this->find('`consumables_id` = ' . $item->fields['id'], "`date_mod` DESC");
+      $data = $this->find(['consumables_id' => $item->fields['id']], "`date_mod` DESC");
 
       $this->listItemsForConsumable($data);
    }
@@ -294,9 +294,20 @@ class PluginConsumablesRequest extends CommonDBTM {
          $params[$key] = $val;
       }
 
-      $data = $this->find('`requesters_id` = ' . $requesters_id . " "
-                          . "AND (`end_date` >= '" . $params['begin_date'] . "'  OR `end_date` IS NULL) "
-                          . "AND (`end_date` <= '" . $params['end_date'] . "' OR `end_date` IS NULL)", "`end_date` DESC");
+      $data = $this->find(['requesters_id'    => $requesters_id,
+                           [
+                              'OR' => [
+                                 'end_date' => ['>=', $params['end_date']],
+                                 'end_date' => NULL
+                              ]
+                           ],
+                           [
+                              'OR' => [
+                                 'end_date' => ['>=', $params['end_date']],
+                                 'end_date' => NULL
+                              ]
+                           ]],
+                          "`end_date` DESC");
 
       $message = null;
       if (!empty($data)) {
@@ -585,13 +596,16 @@ class PluginConsumablesRequest extends CommonDBTM {
                }
                if ($notallowed) {
                   $crit_ids[] = $consumableitem['id'];
-                  $crit       = "AND `id` NOT IN (" . implode(",", $crit_ids) . ")";
                }
             }
          }
       }
+      $criteria = $restrict;
+      if (count($crit_ids) > 0) {
+         $criteria += ['NOT' => ['id' => $crit_ids]];
+      }
       Dropdown::show("ConsumableItem", ['name'      => 'consumables_id',
-                                        'condition' => "`consumableitemtypes_id` = '$type' $crit",
+                                        'condition' => $criteria,
                                         'entity'    => $_SESSION['glpiactive_entity'],
                                         'on_change' => 'loadAvailableConsumablesNumber(this);'
       ]);
@@ -785,26 +799,6 @@ class PluginConsumablesRequest extends CommonDBTM {
       return $used;
    }
 
-   /**
-    * Get consumables of a given user
-    *
-    * @param type   $users_id
-    * @param string $condition
-    * @param string $order
-    *
-    * @return type
-    */
-   function getUserConsumables($users_id, $condition = "1", $order = "") {
-
-      $query = null;
-
-      if (!empty($users_id)) {
-         $query .= " `requesters_id` = $users_id";
-      }
-      $datas = $this->find("$query AND $condition");
-
-      return $datas;
-   }
 
    /**
     * Check mandatory fields

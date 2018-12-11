@@ -44,9 +44,8 @@ function consumables_addToCart(action, toobserve, toupdate) {
                object.usedConsumables[data.fields.consumables_id.value] = object.usedConsumables[data.fields.consumables_id.value] + parseInt(data.fields.number.value);
             }
 
-            result += "<td><img style=\"cursor:pointer\" " +
-               "src=\"" + object.root_doc + "/plugins/consumables/pics/delete.png\" " +
-               "onclick=\"consumables_removeCart('consumables_cartRow" + data.rowId + "')\"></td></tr>";
+            result += "<td><a href='#' onclick=\"consumables_removeCart('consumables_cartRow" + data.rowId + "')\"><i class='fa fa-times-circle fa-2x' style='color:darkred'></i></a>" +
+               "</td></tr>";
 
             item_bloc.append(result);
             item_bloc.css({"display": 'table'});

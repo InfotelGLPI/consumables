@@ -94,11 +94,11 @@ class PluginConsumablesValidation extends CommonDBTM {
       $dbu  = new DbUtils();
 
       if ($this->canValidate()) {
-         $fields = $this->find("`status` NOT IN ('" . CommonITILValidation::REFUSED . "','" . CommonITILValidation::ACCEPTED . "') 
-                              ", "`date_mod`");
+
+         $fields = $this->find(['NOT' => ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]]], "`date_mod`");
       } else {
-         $fields = $this->find("`status` NOT IN ('" . CommonITILValidation::REFUSED . "','" . CommonITILValidation::ACCEPTED . "') 
-                              AND `requesters_id` ='" . Session::getLoginUserID() . "'", "`date_mod`");
+         $fields = $this->find(['requesters_id' => Session::getLoginUserID(), 'NOT' => ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]]]
+                               , "`date_mod`");
       }
       echo "<div class='center'>";
 
@@ -307,8 +307,8 @@ class PluginConsumablesValidation extends CommonDBTM {
 
                      // Get available consumables
                      $outConsumable = [];
-                     $availables    = $consumable->find("`consumableitems_id` = '" . $item->fields['consumables_id'] . "' 
-                                                      AND `date_out` IS NULL");
+                     $availables    = $consumable->find(['consumableitems_id' => $item->fields['consumables_id'],
+                                                      'date_out' => NULL]);
                      foreach ($availables as $available) {
                         $outConsumable[] = $available;
                      }
