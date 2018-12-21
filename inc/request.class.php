@@ -150,7 +150,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          return false;
       }
 
-      $data = $this->find(['consumables_id' => $item->fields['id']], "`date_mod` DESC");
+      $data = $this->find(['consumables_id' => $item->fields['id']], ["date_mod DESC"]);
 
       $this->listItemsForConsumable($data);
    }
@@ -297,17 +297,17 @@ class PluginConsumablesRequest extends CommonDBTM {
       $data = $this->find(['requesters_id'    => $requesters_id,
                            [
                               'OR' => [
-                                 'end_date' => ['>=', $params['end_date']],
-                                 'end_date' => NULL
+                                 ['end_date' => ['>=', $params['end_date']]],
+                                 ['end_date' => NULL]
                               ]
                            ],
                            [
                               'OR' => [
-                                 'end_date' => ['>=', $params['end_date']],
-                                 'end_date' => NULL
+                                 ['end_date' => ['>=', $params['end_date']]],
+                                 ['end_date' => NULL]
                               ]
                            ]],
-                          "`end_date` DESC");
+                          ["end_date DESC"]);
 
       $message = null;
       if (!empty($data)) {

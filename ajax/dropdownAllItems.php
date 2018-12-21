@@ -70,7 +70,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
       foreach ($groups as $group) {
          $user_groups[] = $group['id'];
       }
-      $p['condition'] = Dropdown::addNewCondition("`id` IN ('" . implode("','", $user_groups) . "')");
+      $p['condition'] = Dropdown::addNewCondition(["id" =>$user_groups]);
    }
 
    echo Html::jsAjaxDropdown($_POST["name"], $field_id,

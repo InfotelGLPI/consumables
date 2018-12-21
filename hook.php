@@ -61,7 +61,8 @@ function plugin_consumables_uninstall() {
 
    $tables = ["glpi_plugin_consumables_profiles",
               "glpi_plugin_consumables_requests",
-              "glpi_plugin_consumables_options"];
+              "glpi_plugin_consumables_options",
+              "glpi_plugin_consumables_fields"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
