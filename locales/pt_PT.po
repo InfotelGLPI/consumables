@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-03 07:44+0200\n"
-"PO-Revision-Date: 2018-10-03 16:24+0000\n"
-"Last-Translator: Emperium EmperiuM <real.emperium@gmail.com>\n"
+"POT-Creation-Date: 2019-02-24 13:01+0100\n"
+"PO-Revision-Date: 2019-02-24 12:05+0000\n"
+"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/tsmr/GLPI_consumables/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,26 +18,27 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:165 inc/field.class.php:75
+#: hook.php:166 inc/field.class.php:75
 msgid "Order reference"
 msgstr "Referencia da encomenda "
 
-#: hook.php:175 hook.php:207 inc/option.class.php:111 inc/option.class.php:300
+#: hook.php:176 hook.php:208 inc/option.class.php:111 inc/option.class.php:305
 msgid "Maximum number allowed for request"
 msgstr "Numero máximo permitido por requisição "
 
-#: hook.php:187 inc/option.class.php:133
+#: hook.php:188 inc/option.class.php:133
 msgid "Allowed groups for request"
 msgstr "Grupos autorizados a fazer requisição"
 
-#: hook.php:209 inc/option.class.php:184 inc/option.class.php:310
+#: hook.php:210 inc/option.class.php:184 inc/option.class.php:315
 msgid "Add a group for request"
 msgstr "Adicionar um grupo para requisição"
 
-#: setup.php:72 inc/field.class.php:54 inc/menu.class.php:41
+#: setup.php:80 inc/field.class.php:54 inc/menu.class.php:41
 #: inc/notificationtargetrequest.class.php:50
 #: inc/notificationtargetrequest.class.php:65 inc/request.class.php:52
-#: inc/request.class.php:365 inc/request.class.php:371 inc/wizard.class.php:70
+#: inc/request.class.php:380 inc/request.class.php:386
+#: inc/servicecatalog.class.php:56 inc/wizard.class.php:70
 #: inc/wizard.class.php:78 inc/wizard.class.php:79
 msgid "Consumable request"
 msgid_plural "Consumable requests"
@@ -52,23 +53,23 @@ msgid "Consumable validation"
 msgstr "Validação do consumível "
 
 #: inc/notificationtargetrequest.class.php:62
-#: inc/notificationtargetrequest.class.php:107
+#: inc/notificationtargetrequest.class.php:108
 msgid "Consumable ID"
 msgstr "ID do consumível "
 
-#: inc/notificationtargetrequest.class.php:108
+#: inc/notificationtargetrequest.class.php:109
 msgid "Type of event"
 msgstr "Tipo de evento"
 
-#: inc/notificationtargetrequest.class.php:128
+#: inc/notificationtargetrequest.class.php:129
 msgid "Display each consumable"
 msgstr "Mostra cada consumível "
 
-#: inc/notificationtargetrequest.class.php:143
+#: inc/notificationtargetrequest.class.php:144
 msgid "Consumable approver"
 msgstr "Consumível aprovado "
 
-#: inc/notificationtargetrequest.class.php:144
+#: inc/notificationtargetrequest.class.php:145
 msgid "Consumable requester"
 msgstr "Requerente de consumível"
 
@@ -111,47 +112,51 @@ msgstr "Criar uma requisição de consumível para os utilizadores"
 msgid "Make a consumable request for groups"
 msgstr "Criar uma requisição de consumível para grupos"
 
-#: inc/request.class.php:169 inc/request.class.php:302
-#: inc/request.class.php:338
+#: inc/request.class.php:170 inc/request.class.php:316
+#: inc/request.class.php:352
 msgid "Consumable request report"
 msgstr "Relatório de requisição de consumível "
 
-#: inc/request.class.php:208
+#: inc/request.class.php:209
 msgid "Consumable requests history"
 msgstr "Histórico de requisições de consumível"
 
-#: inc/request.class.php:239
+#: inc/request.class.php:240
 msgid "Consumables request search"
 msgstr "Pesquisa de requisições de consumíveis "
 
-#: inc/request.class.php:397 inc/request.class.php:443
-#: inc/request.class.php:815 inc/validation.class.php:124
+#: inc/request.class.php:412 inc/request.class.php:458
+#: inc/request.class.php:816 inc/validation.class.php:128
 msgid "Number"
 msgstr "Número "
 
-#: inc/request.class.php:429
+#: inc/request.class.php:444
 msgid "Add to cart"
 msgstr "Adicionar ao carrinho "
 
-#: inc/request.class.php:438
+#: inc/request.class.php:453
 msgid "Cart"
 msgstr "Carrinho"
 
-#: inc/request.class.php:746
+#: inc/request.class.php:767
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Consumível afectado"
 msgstr[1] "Consumíveis afectados "
 
-#: inc/request.class.php:758
+#: inc/request.class.php:779
 msgid "Please add consumables in cart"
 msgstr "Por favor adicione consumíveis ao carrinho "
 
-#: inc/validation.class.php:249
+#: inc/servicecatalog.class.php:75
+msgid "See your consumables requests"
+msgstr ""
+
+#: inc/validation.class.php:253
 msgid "Refuse"
 msgstr "Recusado "
 
-#: inc/validation.class.php:344
+#: inc/validation.class.php:348
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Sem stock suficiente para o consumível %s"
