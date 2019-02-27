@@ -2,10 +2,10 @@
 Plugin consumables pour GLPI
 
 Ce plugin est sur Transifex - Aidez-nous à le traduire :
-https://www.transifex.com/tsmr/GLPI_consumables/
+https://www.transifex.com/infotelGLPI/GLPI_consumables/
 
 This plugin is on Transifex - Help us to translate :
-https://www.transifex.com/tsmr/GLPI_consumables/
+https://www.transifex.com/infotelGLPI/GLPI_consumables/
 
 ### Français
 
