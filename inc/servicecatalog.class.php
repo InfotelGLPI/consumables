@@ -46,7 +46,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     * @return bool
     */
    static function canUse() {
-      return Session::haveRight(self::$rightname, UPDATE);
+      return true;
    }
 
    /**
@@ -62,9 +62,14 @@ class PluginConsumablesServicecatalog extends CommonGLPI
    static function getMenuLogo() {
       global $CFG_GLPI;
 
-      $btclass = "bt-interface bt-purchaserequest";
-      return "<a class='".$btclass."' href='".$CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php'></a>";
+      $display =  "<a class='bt-interface' href='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php'>";
+      $fasize  = "fa-5x";
+      $display .= "<div class='bt-img-responsive center'>";
+      $display .= "<i class='fa-menu-sc fas fa-shopping-cart $fasize'></i>";//$style
+      $display .= "</div>";
+      $display .= "</a>";
 
+      return $display;
    }
 
    /**
