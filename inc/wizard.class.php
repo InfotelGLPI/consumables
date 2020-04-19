@@ -75,16 +75,16 @@ class PluginConsumablesWizard extends CommonDBTM {
       if ($request->canRequest()) {
          echo "<td class='center consumables_menu_item'>";
          echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablerequest'>";
-         echo "<img class='consumables_menu_img' src='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/pics/consumablerequest.png' alt=\"" . __("Consumable request", "consumables") . "\">";
-         echo "<br>" . __("Consumable request", "consumables") . "<br></a>";
+         echo "<i class='thumbnail fas fa-cart-plus fa-5x'></i>";
+         echo "<br><br>" . __("Consumable request", "consumables") . "<br></a>";
          echo "</td>";
       }
 
       // Consumable validation
       echo "<td class='center consumables_menu_item'>";
       echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablevalidation'>";
-      echo "<img class='consumables_menu_img' src='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/pics/consumablevalidation.png' alt=\"" . __("Consumable validation", "consumables") . "\">";
-      echo "<br>" . __("Consumable validation", "consumables") . "</a>";
+      echo "<i class='thumbnail fas fa-clipboard-check fa-5x'></i>";
+      echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";
       echo "</td>";
 
       echo "</tr>";

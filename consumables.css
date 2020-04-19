@@ -55,7 +55,6 @@
    padding: 5px;
    text-align: left;
    font-size: 14px;
-   width: 900px;
    background-color: #fff;
 }
 
@@ -76,15 +75,10 @@
 .consumables_menu_a {
    display: block;
    width: 150px;
-   height: 100px;
-   margin-top: 30px;
-   margin-bottom: 30px;
+   margin: 20px;
 }
 
 td.consumables_menu_item {
    border: solid 1px #fff;
 }
 
-td.consumables_menu_item:hover {
-   border: solid 1px #535b5c;
-}

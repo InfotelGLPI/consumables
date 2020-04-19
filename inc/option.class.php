@@ -149,7 +149,7 @@ class PluginConsumablesOption extends CommonDBTM {
                                  ['delete_groups' => 'delete_groups',
                                   'id'            => $ID,
                                   '_groups_id'    => $val],
-                                 $CFG_GLPI["root_doc"] . "/pics/delete.png");
+                                 'fa-times-circle');
             echo " </td>";
             echo "</tr>";
 

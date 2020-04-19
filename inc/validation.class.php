@@ -86,7 +86,8 @@ class PluginConsumablesValidation extends CommonDBTM {
 
       // Wizard title
       echo "<div class='consumables_wizard_title'><p>";
-      echo "<img class='consumables_wizard_img' src='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/pics/consumablevalidation.png' alt='consumablevalidation'/>&nbsp;";
+      echo "<i class='thumbnail fas fa-clipboard-check fa-2x'></i>";
+      echo "&nbsp;";
       echo __("Consumable validation", "consumables");
       echo "</p></div>";
 

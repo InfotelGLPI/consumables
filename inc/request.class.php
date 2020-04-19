@@ -375,8 +375,8 @@ class PluginConsumablesRequest extends CommonDBTM {
       // Wizard title
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
       echo "<div class='consumables_wizard_title'><p>";
-      echo "<img class='consumables_wizard_img' alt='consumablerequest'
-      src='" . $CFG_GLPI['root_doc'] . "/plugins/consumables/pics/consumablerequest.png' />&nbsp;";
+      echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
+      echo "&nbsp;";
       echo __("Consumable request", "consumables");
       echo "</p></div>";
 
@@ -439,9 +439,8 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          echo "<tr>";
          echo "<td class='center' colspan='4'>";
-         echo "<input type=\"button\" class=\"submit\" name=\"addToCart\" 
-         onclick=\"consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');\" 
-         value=\"" . __('Add to cart', 'consumables') . "\">";
+         echo "<a href='#' class='vsubmit' name='addToCart' 
+         onclick=\"consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');\" >".__('Add to cart', 'consumables')."</a>";
          echo "</td>";
          echo "</tr>";
       }
@@ -468,10 +467,10 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"button\" class=\"submit consumable_next_button\" name=\"addConsumables\" value=\"" . _sx('button', 'Post') . "\" 
-               onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">";
-         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" value=\"" . _sx('button', 'Cancel') . "\" 
-               onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
+         echo "<a href='#' class='vsubmit consumable_next_button' name='addConsumables' 
+               onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">"._sx('button', 'Post')."</a>";
+         echo "<a href='#' class='vsubmit consumable_previous_button'  name='previous'
+               onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">"._sx('button', 'Cancel')."</a>";
          echo "</td>";
          echo "</tr>";
          echo "</table>";
