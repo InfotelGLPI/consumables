@@ -381,7 +381,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</p></div>";
 
       // Add consumables request
-      echo "<table class='tab_cadre_fixe consumables_wizard_rank'>";
+      echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
       echo "<tr>";
       echo "<th colspan='4'>" . __("Consumable request", "consumables") . "</th>";
       echo "</tr>";
