@@ -189,7 +189,7 @@ class PluginConsumablesValidation extends CommonDBTM {
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"button\" class=\"consumable_previous_button submit\" name=\"previous\" 
+         echo "<input type=\"submit\" class=\"consumable_previous_button submit\" name=\"previous\" 
          value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
          echo "<input type='hidden' name='requesters_id' value='" . Session::getLoginUserID() . "'>";
          echo "</td>";
