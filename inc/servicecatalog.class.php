@@ -46,7 +46,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     * @return bool
     */
    static function canUse() {
-      return Session::haveRight(self::$rightname, UPDATE);
+      return Session::haveRight(self::$rightname, CREATE);
    }
 
    /**
@@ -70,18 +70,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     */
    static function getMenuLogo() {
 
-      $display = "";
-      $fasize  = "fa-6x";
-      $config  = new PluginServicecatalogConfig();
-      if ($config->getLayout() == PluginServicecatalogConfig::THUMBNAIL) {
-         $display .= "<div class='left'>";
-      } else {
-         $display .= "<div class='bt-img-responsive center'>";
-      }
-      $display .= "<i class='thumbnail fa-menu-sc fas fa-shopping-cart $fasize'></i>";//$style
-      $display .= "</div>";
-
-      return $display;
+      return "fas fa-shopping-cart";
    }
 
    /**

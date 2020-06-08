@@ -230,6 +230,7 @@ class PluginConsumablesValidation extends CommonDBTM {
       $forbidden = parent::getForbiddenStandardMassiveAction();
 
       $forbidden[] = 'update';
+      $forbidden[] = 'clone';
       $forbidden[] = 'purge';
 
       return $forbidden;
