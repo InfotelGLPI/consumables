@@ -769,9 +769,13 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          // Send notification
          if (!empty($added)) {
-            NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_REQUEST, $this,
-                                          ['entities_id' => $_SESSION['glpiactive_entity'],
-                                           'consumables' => $added]);
+            foreach ($added as $add){
+               $item = new pluginConsumablesRequest();
+               $item->getFromDB($add['id']);
+               NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_REQUEST, $item,
+                  ['entities_id' => $_SESSION['glpiactive_entity'],
+                     'consumables' => $add]);
+            }
          }
       } else {
          $success = false;
