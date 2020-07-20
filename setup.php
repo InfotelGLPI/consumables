@@ -44,6 +44,8 @@ function plugin_init_consumables() {
       Plugin::registerClass('PluginConsumablesProfile', ['addtabon' => 'Profile']);
       Plugin::registerClass('PluginConsumablesRequest', ['addtabon'                    => 'User',
                                                          'notificationtemplates_types' => true]);
+      Plugin::registerClass('PluginConsumablesRequest', ['addtabon'                    => 'Group',
+                                                         'notificationtemplates_types' => true]);
       Plugin::registerClass('PluginConsumablesRequest', ['addtabon' => 'ConsumableItem']);
 
       $PLUGIN_HOOKS['item_add']['consumables']        = ['ConsumableItem' => ['PluginConsumablesField', 'postAddConsumable']];

@@ -357,10 +357,14 @@ class PluginConsumablesValidation extends CommonDBTM {
                }
                // Send notification
                if (!empty($added)) {
-                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $item,
-                                                ['entities_id' => $_SESSION['glpiactive_entity'],
-                                                 'consumables' => $added,
-                                                 'comment'     => $input['comment']]);
+                  foreach ($added as $add) {
+                     $request = new PluginConsumablesRequest();
+                     $request->getFromDB($add['id']);
+                     NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $request,
+                        ['entities_id' => $_SESSION['glpiactive_entity'],
+                           'consumables' => $add,
+                           'comment' => $input['comment']]);
+                  }
                }
                break;
 
@@ -386,10 +390,14 @@ class PluginConsumablesValidation extends CommonDBTM {
                }
                // Send notification
                if (!empty($added)) {
-                  NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE,
-                                                $item, ['entities_id' => $_SESSION['glpiactive_entity'],
-                                                        'consumables' => $added,
-                                                        'comment'     => $input['comment']]);
+                  foreach ($added as $add) {
+                     $request = new PluginConsumablesRequest();
+                     $request->getFromDB($add['id']);
+                     NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_RESPONSE, $request,
+                        ['entities_id' => $_SESSION['glpiactive_entity'],
+                           'consumables' => $add,
+                           'comment' => $input['comment']]);
+                  }
                }
                break;
 

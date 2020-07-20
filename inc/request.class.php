@@ -98,6 +98,11 @@ class PluginConsumablesRequest extends CommonDBTM {
                return self::createTabEntry(self::getTypeName());
             }
             return self::getTypeName();
+         }else if ($item->getType() == 'Group' && self::canView()) {
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               return self::createTabEntry(self::getTypeName());
+            }
+            return self::getTypeName();
          } else if ($item->getType() == 'ConsumableItem' && self::canView()) {
             if ($_SESSION['glpishow_count_on_tabs']) {
                $dbu = new DbUtils();
@@ -127,7 +132,9 @@ class PluginConsumablesRequest extends CommonDBTM {
       $field = new self();
 
       if ($item->getType() == 'User' && self::canView()) {
-         $field->showForUser($item);
+         $field->showForUserOrGroup($item,[],User::getType());
+      }else if ($item->getType() == 'Group' && self::canView()) {
+         $field->showForUserOrGroup($item,[],Group::getType());
       } else if ($item->getType() == 'ConsumableItem' && self::canView()) {
          $options = new PluginConsumablesOption();
          $options->showForConsumable($item);
@@ -219,10 +226,11 @@ class PluginConsumablesRequest extends CommonDBTM {
     *
     * @param type  $item
     * @param array $options
+    * @param type  $type
     *
     * @return bool
     */
-   function showForUser($item, $options = []) {
+   function showForUserOrGroup($item, $options = [],$type) {
 
       global $CFG_GLPI;
 
@@ -254,7 +262,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       Html::showDateTimeField("end_date", ['value' => $end_date]);
       echo "</td>";
       echo "<td>";
-      echo "<input type=\"button\" class=\"submit\" name=\"addToCart\" onclick=\"consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables');\" value=\"" . __('Search') . "\">";
+      echo "<input type=\"button\" class=\"submit\" name=\"addToCart\" onclick=\"consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type');\" value=\"" . __('Search') . "\">";
       echo "<input type='hidden' name='requesters_id' value='" . $item->fields['id'] . "' >";
       echo "</td>";
       echo "</tr>";
@@ -262,7 +270,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       Html::closeForm();
 
       echo "<div class='center' id='consumables_searchConsumables'>";
-      $result = $this->listItemsForUser($item->fields['id'], ['begin_date' => $begin_date, 'end_date' => $end_date]);
+      $result = $this->listItemsForUserOrGroup($item->fields['id'], ['begin_date' => $begin_date, 'end_date' => $end_date],$type);
       echo $result['message'];
       echo "</div>";
 
@@ -279,11 +287,12 @@ class PluginConsumablesRequest extends CommonDBTM {
     *
     * @param       $requesters_id
     * @param array $options
+    * @param  $type
     *
     * @return array
     * @internal param type $fields
     */
-   function listItemsForUser($requesters_id, $options = []) {
+   function listItemsForUserOrGroup($requesters_id, $options = [],$type) {
 
       $params['begin_date'] = "NULL";
       $params['end_date']   = "NULL";
@@ -294,7 +303,8 @@ class PluginConsumablesRequest extends CommonDBTM {
          $params[$key] = $val;
       }
 
-      $data = $this->find(['requesters_id'    => $requesters_id,
+      $data = $this->find(['give_items_id'    => $requesters_id,
+                           'give_itemtype'    => $type,
                            [
                               'OR' => [
                                  ['end_date' => ['>=', $params['end_date']]],
@@ -769,9 +779,14 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          // Send notification
          if (!empty($added)) {
-            NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_REQUEST, $this,
-                                          ['entities_id' => $_SESSION['glpiactive_entity'],
-                                           'consumables' => $added]);
+            foreach ($added as $add){
+               $item = new pluginConsumablesRequest();
+               $item->getFromDB($add['id']);
+               NotificationEvent::raiseEvent(PluginConsumablesNotificationTargetRequest::CONSUMABLE_REQUEST, $item,
+                  ['entities_id' => $_SESSION['glpiactive_entity'],
+                     'consumables' => $add]);
+            }
+
          }
       } else {
          $success = false;

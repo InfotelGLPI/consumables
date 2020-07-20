@@ -42,6 +42,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
    const CONSUMABLE_RESPONSE = "ConsumableResponse";
    const VALIDATOR           = 30;
    const REQUESTER           = 31;
+   const RECIPIENT           = 32;
 
    /**
     * @return array
@@ -79,22 +80,22 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
       $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
       //Set values
-      foreach ($options['consumables'] as $id => $item) {
-         $tmp                                         = [];
-         $tmp['##consumable.id##']                    = $item['consumables_id'];
-         $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
-         $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
-         $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($item['date_mod']);
-         if (isset($item['end_date'])) {
-            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($item['enddate']);
-         }
-         $dbu = new DbUtils();
-         $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($item['requesters_id']));
-         $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($item['validators_id']));
-         $tmp['##consumablerequest.number##']    = $item['number'];
-         $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($item['status']);
-         $this->data['consumabledata'][]         = $tmp;
+//      foreach ($options['consumables'] as $id => $item) {
+      $tmp                                         = [];
+      $tmp['##consumable.id##']                    = $options['consumables']['consumables_id'];
+      $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $options['consumables']['consumables_id']);
+      $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $options['consumables']['consumableitemtypes_id']);
+      $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($options['consumables']['date_mod']);
+      if (isset($item['end_date'])) {
+         $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
       }
+      $dbu = new DbUtils();
+      $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($options['consumables']['requesters_id']));
+      $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($options['consumables']['validators_id']));
+      $tmp['##consumablerequest.number##']    = $options['consumables']['number'];
+      $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($options['consumables']['status']);
+      $this->data['consumabledata'][]         = $tmp;
+//      }
       if (isset($options['comment'])) {
          $this->data['##consumablerequest.comment##'] = Html::clean($options['comment']);
       }
@@ -143,6 +144,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
       $this->addTarget(self::VALIDATOR, __("Consumable approver", "consumables"));
       $this->addTarget(self::REQUESTER, __("Consumable requester", "consumables"));
+      $this->addTarget(self::RECIPIENT, __("Consumable recipient", "consumables"));
    }
 
    /**
@@ -158,6 +160,20 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          case self::REQUESTER:
             $this->addUserByField("requesters_id");
             break;
+         case self::RECIPIENT:
+            $this->addUserByRecipient("requesters_id");
+            break;
+      }
+   }
+
+   public function addUserByRecipient(){
+      $type = $this->obj->getField("give_itemtype");
+
+      if($type == User::getType()){
+         $this->addUserByField("give_items_id");
+      }else if ($type == Group::getType()){
+         $id = $this->obj->getField("give_items_id");
+         $this->addForGroup(0, $id);
       }
    }
 
