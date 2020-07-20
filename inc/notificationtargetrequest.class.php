@@ -42,6 +42,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
    const CONSUMABLE_RESPONSE = "ConsumableResponse";
    const VALIDATOR           = 30;
    const REQUESTER           = 31;
+   const RECIPIENT           = 32;
 
    /**
     * @return array
@@ -143,6 +144,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
       $this->addTarget(self::VALIDATOR, __("Consumable approver", "consumables"));
       $this->addTarget(self::REQUESTER, __("Consumable requester", "consumables"));
+      $this->addTarget(self::RECIPIENT, __("Consumable recipient", "consumables"));
    }
 
    /**
@@ -158,6 +160,20 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          case self::REQUESTER:
             $this->addUserByField("requesters_id");
             break;
+         case self::RECIPIENT:
+            $this->addUserByRecipient("requesters_id");
+            break;
+      }
+   }
+
+   public function addUserByRecipient(){
+      $type = $this->obj->getField("give_itemtype");
+
+      if($type == User::getType()){
+         $this->addUserByField("give_items_id");
+      }else if ($type == Group::getType()){
+         $id = $this->obj->getField("give_items_id");
+         $this->addForGroup(0, $id);
       }
    }
 

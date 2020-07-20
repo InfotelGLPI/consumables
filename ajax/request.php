@@ -72,7 +72,7 @@ switch ($_POST['action']) {
    case 'searchConsumables':
       header('Content-Type: application/json; charset=UTF-8"');
       $request = new PluginConsumablesRequest();
-      echo json_encode($request->listItemsForUser($_POST['requesters_id'], $_POST));
+      echo json_encode($request->listItemsForUserOrGroup($_POST['requesters_id'], $_POST,$_POST['type']));
       break;
 
    case 'loadAvailableConsumablesNumber':

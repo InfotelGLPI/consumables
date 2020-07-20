@@ -92,7 +92,7 @@ function consumables_showDialog(message, reload) {
    });
 }
 
-function consumables_searchConsumables(action, toobserve, toupdate) {
+function consumables_searchConsumables(action, toobserve, toupdate,type) {
 
    var formInput = getFormData(toobserve);
    var item_bloc = $('#' + toupdate);
@@ -104,7 +104,7 @@ function consumables_searchConsumables(action, toobserve, toupdate) {
       type: "POST",
       dataType: "json",
       url: this.root_doc + '/plugins/consumables/ajax/request.php',
-      data: 'action=' + action + '&' + formInput,
+      data: 'action=' + action + '&'+'type='+type+'&' + formInput,
       success: function (data) {
          var result = data.message;
 
