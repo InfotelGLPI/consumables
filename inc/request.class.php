@@ -403,7 +403,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr>";
-      echo "<td>" . _n('Consumable type', 'Consumable types', 1) . " <span class='red'>*</span></td>";
+      echo "<td>" . _n('Consumable type', 'Consumable types', 1) . " <span style='color:red;'>*</span></td>";
       echo "<td>";
       Dropdown::show("ConsumableItemType", ['entity' => $_SESSION['glpiactive_entity'], 'on_change' => 'loadAvailableConsumables(this);']);
       $script = "function loadAvailableConsumables(object){this.consumableTypeID = object.value; consumables_reloadAvailableConsumables();}";
@@ -412,14 +412,14 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr>";
-      echo "<td>" . _n('Consumable', 'Consumables', 1) . " <span class='red'>*</span></td>";
+      echo "<td>" . _n('Consumable', 'Consumables', 1) . " <span style='color:red;'>*</span></td>";
       echo "<td id='loadAvailableConsumables'>";
       echo "</td>";
 
       echo "</tr>";
 
       echo "<tr>";
-      echo "<td>" . __('Number', 'consumables') . " <span class='red'>*</span></td>";
+      echo "<td>" . __('Number', 'consumables') . " <span style='color:red;'>*</span></td>";
       echo "<td id='loadAvailableConsumablesNumber'>";
       $this->loadAvailableConsumablesNumber();
       echo "</td>";
@@ -444,7 +444,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "</tr>";
       }
 
-      if ($this->canCreate() && $this->canRequest()) {
+      if ($this->canCreate() || $this->canRequest()) {
          Html::requireJs('consumables');
 
          echo "<tr>";
@@ -472,7 +472,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</div>";
 
       // Footer
-      if ($this->canCreate() && $this->canRequest()) {
+      if ($this->canCreate() || $this->canRequest()) {
          echo "<br/><table width='100%'>";
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";

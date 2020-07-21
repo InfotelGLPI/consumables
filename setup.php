@@ -56,11 +56,11 @@ function plugin_init_consumables() {
       }
 
       if (class_exists('PluginServicecatalogMain')) {
-            $PLUGIN_HOOKS['servicecatalog']['consumables'] =  ['PluginConsumablesServicecatalog'];
-         }
-         
+         $PLUGIN_HOOKS['servicecatalog']['consumables'] = ['PluginConsumablesServicecatalog'];
+      }
+
       if (Session::haveRight("plugin_consumables", READ)) {
-         $PLUGIN_HOOKS['menu_toadd']['consumables']          = ['management' => 'PluginConsumablesMenu'];
+         $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => 'PluginConsumablesMenu'];
       }
       if (Session::haveRight("plugin_consumables", READ) && !class_exists('PluginServicecatalogMain')) {
          $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = '/front/wizard.php';
@@ -79,12 +79,12 @@ function plugin_init_consumables() {
 function plugin_version_consumables() {
 
    return [
-      'name'           => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
-      'version'        => PLUGIN_CONSUMABLES_VERSION,
-      'author'         => "<a href='http://blogglpi.infotel.com'>Infotel</a>",
-      'license'        => 'GPLv2+',
-      'homepage'       => 'https://github.com/InfotelGLPI/consumables',
-      'requirements'   => [
+      'name'         => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
+      'version'      => PLUGIN_CONSUMABLES_VERSION,
+      'author'       => "<a href='http://blogglpi.infotel.com'>Infotel</a>",
+      'license'      => 'GPLv2+',
+      'homepage'     => 'https://github.com/InfotelGLPI/consumables',
+      'requirements' => [
          'glpi' => [
             'min' => '9.5',
             'dev' => false
@@ -99,7 +99,7 @@ function plugin_version_consumables() {
  */
 function plugin_consumables_check_prerequisites() {
    if (version_compare(GLPI_VERSION, '9.5', 'lt')
-         || version_compare(GLPI_VERSION, '9.6', 'ge')) {
+       || version_compare(GLPI_VERSION, '9.6', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
          echo Plugin::messageIncompatible('core', '9.5');
       }

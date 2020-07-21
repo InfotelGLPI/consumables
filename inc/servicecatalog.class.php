@@ -33,12 +33,12 @@ if (!defined('GLPI_ROOT')) {
 
 
 /**
- * Class PluginPurchaserequestServicecatalog
+ * Class PluginConsumablesServicecatalog
  */
 class PluginConsumablesServicecatalog extends CommonGLPI
 {
 
-   static $rightname     = 'plugin_consumables';
+   static $rightname     = 'plugin_consumables_request';
 
    var     $dohistory = false;
 
@@ -46,7 +46,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     * @return bool
     */
    static function canUse() {
-      return Session::haveRight(self::$rightname, CREATE);
+      return Session::haveRight(self::$rightname, READ);
    }
 
    /**
@@ -78,7 +78,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     */
    static function getMenuComment() {
 
-      return __('See your consumables requests', 'consumables');
+      return __('Make a consumable request', 'consumables');
    }
 
    /**
