@@ -30,7 +30,7 @@
 include('../../../inc/includes.php');
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   Html::header(PluginConsumablesWizard::getTypeName(2), '', "plugins", "pluginconsumablesmenu");
+   Html::header(PluginConsumablesWizard::getTypeName(2), '', "management", "pluginconsumablesmenu");
 } else {
    Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
 }
