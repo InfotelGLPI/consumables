@@ -98,11 +98,11 @@ class PluginConsumablesValidation extends CommonDBTM {
 
          $fields = $this->find(['NOT' =>
                                    ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]]],
-                               ["date_mod"]);
+            ["requesters_id","consumableitemtypes_id"]);
       } else {
          $fields = $this->find(['requesters_id' => Session::getLoginUserID(),
                                 'NOT' => ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]]]
-                               , ["date_mod"]);
+                               , ["requesters_id","consumableitemtypes_id"]);
       }
       echo "<div class='center'>";
 
