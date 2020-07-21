@@ -80,22 +80,22 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
 
       $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
       //Set values
-      foreach ($options['consumables'] as $id => $item) {
+//      foreach ($options['consumables'] as $id => $item) {
          $tmp                                         = [];
-         $tmp['##consumable.id##']                    = $item['consumables_id'];
-         $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $item['consumables_id']);
-         $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $item['consumableitemtypes_id']);
-         $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($item['date_mod']);
-         if (isset($item['end_date'])) {
-            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($item['enddate']);
+         $tmp['##consumable.id##']                    = $options['consumables']['consumables_id'];
+         $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $options['consumables']['consumables_id']);
+         $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $options['consumables']['consumableitemtypes_id']);
+         $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($options['consumables']['date_mod']);
+         if (isset($options['consumables']['end_date'])) {
+            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
          }
          $dbu = new DbUtils();
-         $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($item['requesters_id']));
-         $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($item['validators_id']));
-         $tmp['##consumablerequest.number##']    = $item['number'];
-         $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($item['status']);
+         $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($options['consumables']['requesters_id']));
+         $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($options['consumables']['validators_id']));
+         $tmp['##consumablerequest.number##']    = $options['consumables']['number'];
+         $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($options['consumables']['status']);
          $this->data['consumabledata'][]         = $tmp;
-      }
+//      }
       if (isset($options['comment'])) {
          $this->data['##consumablerequest.comment##'] = Html::clean($options['comment']);
       }
