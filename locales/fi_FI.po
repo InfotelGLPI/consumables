@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-24 13:01+0100\n"
-"PO-Revision-Date: 2019-02-24 12:05+0000\n"
+"POT-Creation-Date: 2020-07-21 11:49+0200\n"
+"PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
-"Language-Team: Finnish (Finland) (http://www.transifex.com/tsmr/GLPI_consumables/language/fi_FI/)\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/infotelGLPI/GLPI_consumables/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,44 +34,48 @@ msgstr "Sallitut ryhmät pyynnölle"
 msgid "Add a group for request"
 msgstr "Lisää ryhmä pyynnölle"
 
-#: setup.php:80 inc/field.class.php:54 inc/menu.class.php:41
-#: inc/notificationtargetrequest.class.php:50
-#: inc/notificationtargetrequest.class.php:65 inc/request.class.php:52
-#: inc/request.class.php:380 inc/request.class.php:386
-#: inc/servicecatalog.class.php:56 inc/wizard.class.php:70
-#: inc/wizard.class.php:78 inc/wizard.class.php:79
+#: setup.php:82 inc/field.class.php:54 inc/menu.class.php:41
+#: inc/notificationtargetrequest.class.php:51
+#: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
+#: inc/request.class.php:390 inc/request.class.php:396
+#: inc/servicecatalog.class.php:65 inc/wizard.class.php:70
+#: inc/wizard.class.php:79
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] "Kulutustarvike pyyntö"
 msgstr[1] "Kulutustarvike pyynnöt"
 
-#: inc/notificationtargetrequest.class.php:51
-#: inc/notificationtargetrequest.class.php:68 inc/profile.class.php:154
+#: inc/notificationtargetrequest.class.php:52
+#: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:154
 #: inc/profile.class.php:210 inc/validation.class.php:64
-#: inc/validation.class.php:90 inc/wizard.class.php:86 inc/wizard.class.php:87
+#: inc/validation.class.php:91 inc/wizard.class.php:87
 msgid "Consumable validation"
 msgstr "Kulutustarvike vahvistus"
 
-#: inc/notificationtargetrequest.class.php:62
-#: inc/notificationtargetrequest.class.php:108
+#: inc/notificationtargetrequest.class.php:63
+#: inc/notificationtargetrequest.class.php:109
 msgid "Consumable ID"
 msgstr "Kulutustarvike ID"
 
-#: inc/notificationtargetrequest.class.php:109
+#: inc/notificationtargetrequest.class.php:110
 msgid "Type of event"
 msgstr "Tapahtuman tyyppi"
 
-#: inc/notificationtargetrequest.class.php:129
+#: inc/notificationtargetrequest.class.php:130
 msgid "Display each consumable"
 msgstr "Näytä kaikki kulutustarvikkeet"
 
-#: inc/notificationtargetrequest.class.php:144
+#: inc/notificationtargetrequest.class.php:145
 msgid "Consumable approver"
 msgstr "Hyväksyjä"
 
-#: inc/notificationtargetrequest.class.php:145
+#: inc/notificationtargetrequest.class.php:146
 msgid "Consumable requester"
 msgstr "Toimeksiantaja"
+
+#: inc/notificationtargetrequest.class.php:147
+msgid "Consumable recipient"
+msgstr ""
 
 #: inc/option.class.php:51
 msgid "Consumable request options"
@@ -87,6 +91,7 @@ msgid "Advanced"
 msgstr "Lisäasetukset"
 
 #: inc/profile.class.php:158 inc/profile.class.php:202
+#: inc/servicecatalog.class.php:81
 msgid "Make a consumable request"
 msgstr "Tee kulutustarvikepyyntö"
 
@@ -112,51 +117,47 @@ msgstr "Tee kulutustarvikepyyntö käyttäjille"
 msgid "Make a consumable request for groups"
 msgstr "Tee kulutustarvikepyyntö ryhmille"
 
-#: inc/request.class.php:170 inc/request.class.php:316
-#: inc/request.class.php:352
+#: inc/request.class.php:177 inc/request.class.php:326
+#: inc/request.class.php:362
 msgid "Consumable request report"
 msgstr "Kulutustarvikepyyntö raportti"
 
-#: inc/request.class.php:209
+#: inc/request.class.php:216
 msgid "Consumable requests history"
 msgstr "Kulutustarvikepyyntö historia"
 
-#: inc/request.class.php:240
+#: inc/request.class.php:248
 msgid "Consumables request search"
 msgstr "Kulutustarvikepyyntö haku"
 
-#: inc/request.class.php:412 inc/request.class.php:458
-#: inc/request.class.php:816 inc/validation.class.php:128
+#: inc/request.class.php:422 inc/request.class.php:467
+#: inc/request.class.php:830 inc/validation.class.php:129
 msgid "Number"
 msgstr "Määrä"
 
-#: inc/request.class.php:444
+#: inc/request.class.php:453
 msgid "Add to cart"
 msgstr "Lisää koriin"
 
-#: inc/request.class.php:453
+#: inc/request.class.php:462
 msgid "Cart"
 msgstr "Kori"
 
-#: inc/request.class.php:767
+#: inc/request.class.php:776
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Vaikutus kulutustarvikkeeseen"
 msgstr[1] "Vaikutus kulutustarvikkeisiin"
 
-#: inc/request.class.php:779
+#: inc/request.class.php:793
 msgid "Please add consumables in cart"
 msgstr "Lisää kulutustarvikkeita koriin"
 
-#: inc/servicecatalog.class.php:75
-msgid "See your consumables requests"
-msgstr ""
-
-#: inc/validation.class.php:253
+#: inc/validation.class.php:255
 msgid "Refuse"
 msgstr "Hylkää"
 
-#: inc/validation.class.php:348
+#: inc/validation.class.php:350
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Ei tarpeeksi varastoa kulutustarvikkeelle %s"
