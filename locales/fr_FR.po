@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-21 11:49+0200\n"
-"PO-Revision-Date: 2020-07-21 09:59+0000\n"
+"PO-Revision-Date: 2020-07-21 10:05+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: French (France) (http://www.transifex.com/infotelGLPI/GLPI_consumables/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "Demandeur de consommables"
 
 #: inc/notificationtargetrequest.class.php:147
 msgid "Consumable recipient"
-msgstr "Demandeur de consommables"
+msgstr "Destinataire du consommable"
 
 #: inc/option.class.php:51
 msgid "Consumable request options"
