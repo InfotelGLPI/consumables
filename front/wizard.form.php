@@ -28,6 +28,7 @@
  */
 
 include('../../../inc/includes.php');
+Session::checkLoginUser();
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::header(PluginConsumablesWizard::getTypeName(2), '', "management", "pluginconsumablesmenu");
