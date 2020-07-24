@@ -91,8 +91,17 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
             $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
          }
          $dbu = new DbUtils();
+         $give_to_id = $options['consumables']['give_items_id'];
+         $give_to_item = $options['consumables']['give_itemtype'];
+         if($give_to_item == 'user'){
+            $give_to = Html::clean($dbu->getUserName($give_to_id));
+         } else{
+            $group = new Group();
+            $group->getFromDB($give_to_id);
+            $give_to = Html::clean($group->getField('name'));
+         }
          $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($options['consumables']['requesters_id']));
-         $tmp['##consumablerequest.giveto##']    = Html::clean($dbu->getUserName($options['consumables']['give_to']));
+         $tmp['##consumablerequest.giveto##']    = $give_to;
          $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($options['consumables']['validators_id']));
          $tmp['##consumablerequest.number##']    = $options['consumables']['number'];
          $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($options['consumables']['status']);

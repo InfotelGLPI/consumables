@@ -39,6 +39,7 @@ function plugin_init_consumables() {
    $PLUGIN_HOOKS['add_css']['consumables']        = ['consumables.css'];
    $PLUGIN_HOOKS['javascript']['consumables'][]   = '/plugins/consumables/consumables.js';
 
+
    if (Session::getLoginUserID()) {
       $PLUGIN_HOOKS['post_item_form']['consumables'] = ['PluginConsumablesField', 'addFieldOrderReference'];
 
