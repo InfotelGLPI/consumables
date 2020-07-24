@@ -86,14 +86,9 @@ class PluginConsumablesValidation extends CommonDBTM {
          'id'            => '3',
          'table'         => 'glpi_consumableitems',
          'field'         => 'name',
+         'linkfield'     => 'consumables_id',
          'name'          =>  _n('Consumable', 'Consumables', 1),
-         'datatype'      => 'text',
-         'joinparams' => [
-            'beforejoin' => [
-               'table' => 'glpi_consumables'
-            ],
-            'jointype' => 'standard'
-         ]
+         'datatype'      => 'text'
       ];
 
       $tab[] = [
