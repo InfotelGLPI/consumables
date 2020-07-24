@@ -120,6 +120,14 @@ class PluginConsumablesValidation extends CommonDBTM {
          'datatype'      => 'specific'
       ];
 
+      $tab[] = [
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'date_mod',
+         'name'          => __('Request date'),
+         'datatype'      => 'datetime'
+      ];
+
       return $tab;
    }
 
