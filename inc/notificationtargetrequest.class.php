@@ -73,6 +73,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       $this->data['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
       $this->data['##lang.consumablerequest.requestdate##']    = __('Request date');
       $this->data['##lang.consumablerequest.requester##']      = __('Requester');
+      $this->data['##lang.consumablerequest.giveto##']        = __("Give to");
       $this->data['##lang.consumablerequest.status##']         = __('Status');
       $this->data['##lang.consumablerequest.number##']         = __('Number of used consumables');
       $this->data['##lang.consumablerequest.validator##']      = __('Approver');
@@ -91,6 +92,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          }
          $dbu = new DbUtils();
          $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($options['consumables']['requesters_id']));
+         $tmp['##consumablerequest.giveto##']    = Html::clean($dbu->getUserName($options['consumables']['give_to']));
          $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($options['consumables']['validators_id']));
          $tmp['##consumablerequest.number##']    = $options['consumables']['number'];
          $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($options['consumables']['status']);
@@ -114,6 +116,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
                'consumablerequest.requestdate'    => __('Request date'),
                'consumablerequest.enddate'        => __('End date'),
                'consumablerequest.requester'      => __('Requester'),
+               'consumablerequest.giveto'         => __('Give to'),
                'consumablerequest.status'         => __('Status'),
                'consumablerequest.number'         => __('Number of used consumables'),
                'consumablerequest.validator'      => __('Approver'),
