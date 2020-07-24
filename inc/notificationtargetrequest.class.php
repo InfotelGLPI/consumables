@@ -93,7 +93,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       $dbu = new DbUtils();
       $give_to_id = $options['consumables']['give_items_id'];
       $give_to_item = $options['consumables']['give_itemtype'];
-      if($give_to_item == 'user'){
+      if($give_to_item == 'User'){
          $give_to = Html::clean($dbu->getUserName($give_to_id));
       } else{
          $group = new Group();
