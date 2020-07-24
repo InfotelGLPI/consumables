@@ -31,8 +31,9 @@ define('PLUGIN_CONSUMABLES_VERSION', '1.6.0');
 
 // Init the hooks of the plugins -Needed
 function plugin_init_consumables() {
-   global $PLUGIN_HOOKS;
+   global $PLUGIN_HOOKS,$CFG_GLPI;
 
+   $CFG_GLPI['glpitablesitemtype']['PluginConsumablesValidation'] = 'glpi_plugin_consumables_requests';
    $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
    $PLUGIN_HOOKS['change_profile']['consumables'] = ['PluginConsumablesProfile', 'initProfile'];
    $PLUGIN_HOOKS['add_css']['consumables']        = ['consumables.css'];
