@@ -53,6 +53,7 @@ if (!empty($_GET['action'])) {
             ]
          ],
             'as_map'=>0];
+         $p = Search::manageParams(PluginConsumablesRequest::getType(), $_GET);
          Search::showList("PluginConsumablesValidation",$p);
          break;
    }

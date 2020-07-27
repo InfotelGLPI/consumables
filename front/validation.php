@@ -43,6 +43,7 @@ $p = ['criteria'   => [
    ]
 ],
    'as_map'=>0];
+$p = Search::manageParams(PluginConsumablesRequest::getType(), $_GET);
    Search::showList("PluginConsumablesValidation",$p);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
