@@ -43,7 +43,12 @@ $p = ['criteria'   => [
    ]
 ],
    'as_map'=>0];
-$p = Search::manageParams(PluginConsumablesRequest::getType(), $_GET);
+$p = Search::manageParams(PluginConsumablesValidation::getType(), $_GET);
+$p["criteria"][0] =  [
+   'field'      => 6,        // field index in search options
+   'searchtype' => 'equals',  // type of search
+   'value'      => 2,         // value to search
+];
    Search::showList("PluginConsumablesValidation",$p);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
