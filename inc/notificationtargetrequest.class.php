@@ -73,6 +73,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       $this->data['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
       $this->data['##lang.consumablerequest.requestdate##']    = __('Request date');
       $this->data['##lang.consumablerequest.requester##']      = __('Requester');
+      $this->data['##lang.consumablerequest.giveto##']         = __("Give to");
       $this->data['##lang.consumablerequest.status##']         = __('Status');
       $this->data['##lang.consumablerequest.number##']         = __('Number of used consumables');
       $this->data['##lang.consumablerequest.validator##']      = __('Approver');
@@ -90,7 +91,17 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
          $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
       }
       $dbu = new DbUtils();
+      $give_to_id = $options['consumables']['give_items_id'];
+      $give_to_item = $options['consumables']['give_itemtype'];
+      if($give_to_item == 'User'){
+         $give_to = Html::clean($dbu->getUserName($give_to_id));
+      } else{
+         $group = new Group();
+         $group->getFromDB($give_to_id);
+         $give_to = Html::clean($group->getField('name'));
+      }
       $tmp['##consumablerequest.requester##'] = Html::clean($dbu->getUserName($options['consumables']['requesters_id']));
+      $tmp['##consumablerequest.giveto##']    = $give_to;
       $tmp['##consumablerequest.validator##'] = Html::clean($dbu->getUserName($options['consumables']['validators_id']));
       $tmp['##consumablerequest.number##']    = $options['consumables']['number'];
       $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($options['consumables']['status']);
@@ -114,6 +125,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
                'consumablerequest.requestdate'    => __('Request date'),
                'consumablerequest.enddate'        => __('End date'),
                'consumablerequest.requester'      => __('Requester'),
+               'consumablerequest.giveto'         => __('Give to'),
                'consumablerequest.status'         => __('Status'),
                'consumablerequest.number'         => __('Number of used consumables'),
                'consumablerequest.validator'      => __('Approver'),

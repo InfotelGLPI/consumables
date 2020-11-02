@@ -55,6 +55,81 @@ class PluginConsumablesValidation extends CommonDBTM {
       $this->request = new PluginConsumablesRequest();
    }
 
+   function rawSearchOptions() {
+
+      $tab = [];
+
+      $tab[] = [
+         'id' => 'common',
+         'name' => self::getTypeName(2)
+      ];
+
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => 'glpi_users',
+         'field'              => 'name',
+         'linkfield'          => 'requesters_id',
+         'name'               => __('Requester'),
+         'datatype'           => 'dropdown'
+      ];
+
+      $tab[] = [
+         'id'            => '2',
+         'table'         => 'glpi_consumableitemtypes',
+         'field'         => 'name',
+         'linkfield'     => 'consumableitemtypes_id',
+         'name'          => _n('Consumable type', 'Consumable types', 1),
+         'datatype'      => 'text'
+      ];
+
+      $tab[] = [
+         'id'            => '3',
+         'table'         => 'glpi_consumableitems',
+         'field'         => 'name',
+         'linkfield'     => 'consumables_id',
+         'name'          =>  _n('Consumable', 'Consumables', 1),
+         'datatype'      => 'text'
+      ];
+
+      $tab[] = [
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'number',
+         'name'          => __('Number', 'consumables'),
+         'datatype'      => 'integer'
+      ];
+
+      $tab[] = [
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'give_items_id',
+         'name'          => __("Give to"),
+         'datatype'      => 'specific',
+         'datatype'      => 'specific',
+         'searchtype'    => 'equals',
+         'additionalfields' => ['give_itemtype']
+      ];
+
+      $tab[] = [
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'status',
+         'name'          => __('Status'),
+         'searchtype'    => 'equals',
+         'datatype'      => 'specific'
+      ];
+
+      $tab[] = [
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'date_mod',
+         'name'          => __('Request date'),
+         'datatype'      => 'datetime'
+      ];
+
+      return $tab;
+   }
+
    /**
     * @param int $nb
     *

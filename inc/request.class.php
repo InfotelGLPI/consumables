@@ -72,6 +72,27 @@ class PluginConsumablesRequest extends CommonDBTM {
       return Session::haveRight("plugin_consumables_user", 1);
    }
 
+   static function getSpecificValueToDisplay($field, $values, array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      $dbu  = new DbUtils();
+
+      switch ($field) {
+         case 'status':
+            return CommonITILValidation::getStatus($values['status']);
+            break;
+         case 'give_items_id':
+            if (!empty($values['give_itemtype'])) {
+               $give_item = $dbu->getItemForItemtype($values['give_itemtype']);
+               $give_item->getFromDB($values['give_items_id']);
+               return $give_item->getLink();
+            }
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
+   }
+
    /**
     * Have I the global right to "request group" the Object
     * May be overloaded if needed (ex KnowbaseItem)

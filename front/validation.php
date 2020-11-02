@@ -36,31 +36,21 @@ if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
 }
 
-if (!empty($_GET['action'])) {
-   switch ($_GET['action']) {
-      case 'consumablerequest':
-         $consumablerequest = new PluginConsumablesRequest();
-         $consumablerequest->showConsumableRequest();
-         break;
-      case 'consumablevalidation':
-         $p = ['criteria' => [
-            [
-               'field' => 6,        // field index in search options
-               'searchtype' => 'equals',  // type of search
-               'value' => 2,         // value to search
-            ]
-         ],
-            'as_map' => 0];
-         $p = Search::manageParams(PluginConsumablesValidation::getType(), $_GET);
-         $p["criteria"][0] =  [
-            'field'      => 6,        // field index in search options
-            'searchtype' => 'equals',  // type of search
-            'value'      => 2,         // value to search
-         ];
-         Search::showList("PluginConsumablesValidation", $p);
-         break;
-   }
-}
+   $p = ['criteria'   => [
+      [
+         'field'      => 6,        // field index in search options
+         'searchtype' => 'equals',  // type of search
+         'value'      => 2,         // value to search
+      ]
+   ],
+      'as_map'=>0];
+$p = Search::manageParams(PluginConsumablesValidation::getType(), $_GET);
+$p["criteria"][0] =  [
+   'field'      => 6,        // field index in search options
+   'searchtype' => 'equals',  // type of search
+   'value'      => 2,         // value to search
+];
+   Search::showList("PluginConsumablesValidation",$p);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::footer();
