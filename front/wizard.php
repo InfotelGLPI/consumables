@@ -30,14 +30,26 @@
 include('../../../inc/includes.php');
 Session::checkLoginUser();
 
+$plugin = new Plugin();
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::header(PluginConsumablesWizard::getTypeName(2), '', "management", "pluginconsumablesmenu");
 } else {
-   Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
+   if ($plugin->isActivated('servicecatalog')) {
+      PluginServicecatalogMain::showDefaultHeaderHelpdesk(PluginConsumablesWizard::getTypeName(2));
+      echo "<br>";
+   } else {
+      Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
+   }
 }
 
 $wizard = new PluginConsumablesWizard();
 $wizard->showMenu();
+
+if (Session::getCurrentInterface() != 'central'
+    && $plugin->isActivated('servicecatalog')) {
+
+   PluginServicecatalogMain::showNavBarFooter('consumables');
+}
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::footer();
