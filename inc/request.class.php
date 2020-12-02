@@ -553,6 +553,8 @@ class PluginConsumablesRequest extends CommonDBTM {
       $params['showItemSpecificity'] = '';
       $params['condition']           = '';
       $params['emptylabel']          = Dropdown::EMPTY_VALUE;
+      $params['display']             = true;
+      $params['rand']                = mt_rand();
 
       if (is_array($options) && count($options)) {
          foreach ($options as $key => $val) {
@@ -562,7 +564,9 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       $rand = Dropdown::showItemType($params['itemtypes'], ['checkright' => $params['checkright'],
                                                             'name'       => $params['itemtype_name'],
-                                                            'emptylabel' => $params['emptylabel']]);
+                                                            'emptylabel' => $params['emptylabel'],
+                                                            'display'    => $params['display'],
+                                                            'rand'       => $params['rand']]);
 
       if ($rand) {
          $p = ['idtable'             => '__VALUE__',
@@ -573,7 +577,10 @@ class PluginConsumablesRequest extends CommonDBTM {
          $field_id = Html::cleanId("dropdown_" . $params['itemtype_name'] . $rand);
          $show_id  = Html::cleanId("show_" . $params['items_id_name'] . $rand);
 
-         Ajax::updateItemOnSelectEvent($field_id, $show_id, $CFG_GLPI["root_doc"] . "/plugins/consumables/ajax/dropdownAllItems.php", $p);
+         Ajax::updateItemOnSelectEvent($field_id,
+                                       $show_id,
+                                       $CFG_GLPI["root_doc"] . "/plugins/consumables/ajax/dropdownAllItems.php",
+                                       $p);
 
          echo "<br><span id='$show_id'>&nbsp;</span>\n";
 
@@ -585,7 +592,9 @@ class PluginConsumablesRequest extends CommonDBTM {
             echo "</script>\n";
 
             $p["idtable"] = $params['default_itemtype'];
-            Ajax::updateItem($show_id, $CFG_GLPI["root_doc"] . "/ajax/dropdownAllItems.php", $p);
+            Ajax::updateItem($show_id,
+                             $CFG_GLPI["root_doc"] . "/ajax/dropdownAllItems.php",
+                             $p);
          }
       }
       return $rand;
