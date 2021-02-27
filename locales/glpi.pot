@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-10 16:40+0000\n"
+"POT-Creation-Date: 2021-02-27 12:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 #: setup.php:83 inc/field.class.php:54 inc/menu.class.php:41
 #: inc/notificationtargetrequest.class.php:51
 #: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
-#: inc/request.class.php:411 inc/request.class.php:417
+#: inc/request.class.php:412 inc/request.class.php:418
 #: inc/servicecatalog.class.php:65 inc/wizard.class.php:70
 #: inc/wizard.class.php:79
 msgid "Consumable request"
@@ -117,8 +117,8 @@ msgstr ""
 msgid "Make a consumable request for groups"
 msgstr ""
 
-#: inc/request.class.php:198 inc/request.class.php:347
-#: inc/request.class.php:383
+#: inc/request.class.php:198 inc/request.class.php:348
+#: inc/request.class.php:384
 msgid "Consumable request report"
 msgstr ""
 
@@ -130,27 +130,27 @@ msgstr ""
 msgid "Consumables request search"
 msgstr ""
 
-#: inc/request.class.php:443 inc/request.class.php:488
-#: inc/request.class.php:860 inc/validation.class.php:98
+#: inc/request.class.php:444 inc/request.class.php:489
+#: inc/request.class.php:861 inc/validation.class.php:98
 #: inc/validation.class.php:204
 msgid "Number"
 msgstr ""
 
-#: inc/request.class.php:474
+#: inc/request.class.php:475
 msgid "Add to cart"
 msgstr ""
 
-#: inc/request.class.php:483
+#: inc/request.class.php:484
 msgid "Cart"
 msgstr ""
 
-#: inc/request.class.php:806
+#: inc/request.class.php:807
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/request.class.php:823
+#: inc/request.class.php:824
 msgid "Please add consumables in cart"
 msgstr ""
 
