@@ -23,6 +23,10 @@
         <author>Infotel</author>
     </authors>
     <versions>
+		<version>
+            <num>1.6.0</num>
+            <compatibility>9.5</compatibility>
+        </version>
         <version>
             <num>1.5.0</num>
             <compatibility>9.4</compatibility>
