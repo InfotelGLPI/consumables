@@ -3,6 +3,8 @@
 # This file is distributed under the same license as the GLPI - Consumables plugin package.
 # 
 # Translators:
+# Alexandr Dyuzhev <frduke@yandex.ru>, 2021
+# Andrey Saridzha, 2015
 # Andrey Saridzha, 2015
 # Kirill Lavrik <kirill.lavrik@gmail.com>, 2018
 # Nikolai Petrov <techobsl@yandex.ru>, 2017
@@ -10,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-02 17:35+0100\n"
-"PO-Revision-Date: 2020-07-21 09:58+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
+"POT-Creation-Date: 2021-02-27 12:39+0000\n"
+"PO-Revision-Date: 2021-04-02 07:19+0000\n"
+"Last-Translator: Александр Дюжев <frduke51@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/infotelGLPI/GLPI_consumables/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,10 +38,10 @@ msgstr "Разрешенные группы для запроса"
 msgid "Add a group for request"
 msgstr "Добавить группу для запроса"
 
-#: setup.php:82 inc/field.class.php:54 inc/menu.class.php:41
+#: setup.php:83 inc/field.class.php:54 inc/menu.class.php:41
 #: inc/notificationtargetrequest.class.php:51
 #: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
-#: inc/request.class.php:390 inc/request.class.php:396
+#: inc/request.class.php:412 inc/request.class.php:418
 #: inc/servicecatalog.class.php:65 inc/wizard.class.php:70
 #: inc/wizard.class.php:79
 msgid "Consumable request"
@@ -51,39 +53,39 @@ msgstr[3] "Заказ расходных материалов"
 
 #: inc/notificationtargetrequest.class.php:52
 #: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:154
-#: inc/profile.class.php:210 inc/validation.class.php:64
-#: inc/validation.class.php:91 inc/wizard.class.php:87
+#: inc/profile.class.php:210 inc/validation.class.php:139
+#: inc/validation.class.php:166 inc/wizard.class.php:87
 msgid "Consumable validation"
 msgstr "Подтверждение получения расходных материалов"
 
 #: inc/notificationtargetrequest.class.php:63
-#: inc/notificationtargetrequest.class.php:109
+#: inc/notificationtargetrequest.class.php:120
 msgid "Consumable ID"
 msgstr "ID расходного материала"
 
-#: inc/notificationtargetrequest.class.php:110
+#: inc/notificationtargetrequest.class.php:121
 msgid "Type of event"
 msgstr "Тип события"
 
-#: inc/notificationtargetrequest.class.php:130
+#: inc/notificationtargetrequest.class.php:142
 msgid "Display each consumable"
 msgstr "Показывать каждый расходный материал"
 
-#: inc/notificationtargetrequest.class.php:145
+#: inc/notificationtargetrequest.class.php:157
 msgid "Consumable approver"
 msgstr "Утверждающий расходные материалы"
 
-#: inc/notificationtargetrequest.class.php:146
+#: inc/notificationtargetrequest.class.php:158
 msgid "Consumable requester"
 msgstr "Заказчик расходных материалов"
 
-#: inc/notificationtargetrequest.class.php:147
+#: inc/notificationtargetrequest.class.php:159
 msgid "Consumable recipient"
-msgstr ""
+msgstr "Получатель расходного материала"
 
 #: inc/option.class.php:51
 msgid "Consumable request options"
-msgstr "Потребляемые варианты запроса"
+msgstr "Свойства запроса расходных материалов"
 
 #: inc/option.class.php:120
 msgctxt "button"
@@ -97,15 +99,15 @@ msgstr "Расширенные"
 #: inc/profile.class.php:158 inc/profile.class.php:202
 #: inc/servicecatalog.class.php:81
 msgid "Make a consumable request"
-msgstr "Делать запрос расходных материалов"
+msgstr "Создать запрос расходных материалов"
 
 #: inc/profile.class.php:166
 msgid "Make a consumable request for all users"
-msgstr "Делать запрос расходных материалов для всех групп"
+msgstr "Создать запрос расходных материалов для всех групп"
 
 #: inc/profile.class.php:171
 msgid "Make a consumable request for my groups"
-msgstr "Делать запрос расходных материалов для своей группы"
+msgstr "Создать запрос расходных материалов для своей группы"
 
 #: inc/profile.class.php:191
 msgid "Consumable"
@@ -117,39 +119,40 @@ msgstr[3] "Расходные материалы"
 
 #: inc/profile.class.php:198
 msgid "Make a consumable request for users"
-msgstr "Делать запрос расходных материалов для пользователей"
+msgstr "Создать запрос расходных материалов для пользователей"
 
 #: inc/profile.class.php:206
 msgid "Make a consumable request for groups"
-msgstr "Делать запрос расходных материалов для групп"
+msgstr "Создать запрос расходных материалов для групп"
 
-#: inc/request.class.php:177 inc/request.class.php:326
-#: inc/request.class.php:362
+#: inc/request.class.php:198 inc/request.class.php:348
+#: inc/request.class.php:384
 msgid "Consumable request report"
 msgstr "Отчет по запросам расходных материалов"
 
-#: inc/request.class.php:216
+#: inc/request.class.php:237
 msgid "Consumable requests history"
 msgstr "История запросов расходных материалов"
 
-#: inc/request.class.php:248
+#: inc/request.class.php:269
 msgid "Consumables request search"
 msgstr "Поиск запросов расходных материалов"
 
-#: inc/request.class.php:422 inc/request.class.php:467
-#: inc/request.class.php:830 inc/validation.class.php:129
+#: inc/request.class.php:444 inc/request.class.php:489
+#: inc/request.class.php:861 inc/validation.class.php:98
+#: inc/validation.class.php:204
 msgid "Number"
 msgstr "Количество"
 
-#: inc/request.class.php:453
+#: inc/request.class.php:475
 msgid "Add to cart"
 msgstr "Добавить в заказ"
 
-#: inc/request.class.php:462
+#: inc/request.class.php:484
 msgid "Cart"
 msgstr "Заказ"
 
-#: inc/request.class.php:776
+#: inc/request.class.php:807
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Заказ оформлен"
@@ -157,15 +160,15 @@ msgstr[1] "Заказ оформлен"
 msgstr[2] "Заказ оформлен"
 msgstr[3] "Заказ оформлен"
 
-#: inc/request.class.php:793
+#: inc/request.class.php:824
 msgid "Please add consumables in cart"
 msgstr "Добавьте расходные материалы в заказ"
 
-#: inc/validation.class.php:255
+#: inc/validation.class.php:330
 msgid "Refuse"
 msgstr "Отказаться"
 
-#: inc/validation.class.php:350
+#: inc/validation.class.php:425
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Не достаточно запаса расходного материала %s "
