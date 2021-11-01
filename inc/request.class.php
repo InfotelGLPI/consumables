@@ -283,8 +283,12 @@ class PluginConsumablesRequest extends CommonDBTM {
       Html::showDateTimeField("end_date", ['value' => $end_date]);
       echo "</td>";
       echo "<td>";
-      echo "<input type=\"button\" class=\"submit\" name=\"addToCart\" onclick=\"consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type');\" value=\"" . __('Search') . "\">";
-      echo "<input type='hidden' name='requesters_id' value='" . $item->fields['id'] . "' >";
+      echo Html::submit(__('Search'), [
+         'name'      => 'addToCart',
+         'class' => 'btn btn-primary',
+         'onclick'   => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')"
+      ]);
+      echo Html::hidden('requesters_id', ['value' => $item->fields['id']]);
       echo "</td>";
       echo "</tr>";
       echo "</table></div>";
@@ -406,11 +410,12 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       // Wizard title
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
-      echo "<div class='consumables_wizard_title'><p>";
+
+      echo "<div class='alert alert-secondary'>";
       echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
       echo "&nbsp;";
       echo __("Consumable request", "consumables");
-      echo "</p></div>";
+      echo "</div>";
 
       // Add consumables request
       echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
@@ -471,7 +476,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          echo "<tr>";
          echo "<td class='center' colspan='4'>";
-         echo "<a href='#' class='vsubmit' name='addToCart' 
+         echo "<a href='#' class='btn btn-primary' name='addToCart' 
          onclick=\"consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');\" >" . __('Add to cart', 'consumables') . "</a>";
          echo "</td>";
          echo "</tr>";
@@ -499,9 +504,9 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<a href='#' class='vsubmit consumable_next_button' name='addConsumables' 
+         echo "<a href='#' class='btn btn-primary consumable_next_button' name='addConsumables' 
                onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">" . _sx('button', 'Post') . "</a>";
-         echo "<a href='#' class='vsubmit consumable_previous_button'  name='previous'
+         echo "<a href='#' class='btn btn-primary consumable_previous_button'  name='previous'
                onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">" . _sx('button', 'Cancel') . "</a>";
          echo "</td>";
          echo "</tr>";
@@ -687,7 +692,8 @@ class PluginConsumablesRequest extends CommonDBTM {
          Dropdown::showNumber('number', ['value' => 0,
                                          'max'   => $number]);
       } else {
-         echo __('No consumable') . "<input type='hidden' name='number' value='0'>";
+         echo __('No consumable');
+         echo Html::hidden('number', ['value' => 0]);
       }
    }
 
@@ -804,7 +810,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                //                  $this->update($input);
                //               }
 
-               $message = _n('Consumable affected', 'Consumables affected', count($params['consumables_cart']), 'consumables');
+               $message = "<div class='alert alert-success'>"._n('Consumable affected', 'Consumables affected', count($params['consumables_cart']), 'consumables')."</div>";
             }
          }
 
@@ -870,7 +876,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       }
 
       if ($checkKo) {
-         return [false, sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))];
+         return [false, "<div class='alert alert-important alert-warning d-flex'>".sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))."</div>"];
       }
 
       return [true, null];

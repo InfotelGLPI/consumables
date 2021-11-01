@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CONSUMABLES_VERSION', '1.6.0');
+define('PLUGIN_CONSUMABLES_VERSION', '1.7.0');
 
 // Init the hooks of the plugins -Needed
 function plugin_init_consumables() {
@@ -87,7 +87,7 @@ function plugin_version_consumables() {
       'homepage'     => 'https://github.com/InfotelGLPI/consumables',
       'requirements' => [
          'glpi' => [
-            'min' => '9.5',
+            'min' => '10.0',
             'dev' => false
          ]
       ]
@@ -99,10 +99,10 @@ function plugin_version_consumables() {
  * @return bool
  */
 function plugin_consumables_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.5', 'lt')
-       || version_compare(GLPI_VERSION, '9.6', 'ge')) {
+   if (version_compare(GLPI_VERSION, '10.0', 'lt')
+       || version_compare(GLPI_VERSION, '11.0', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', '9.5');
+         echo Plugin::messageIncompatible('core', '10.0');
       }
       return false;
    }

@@ -160,11 +160,11 @@ class PluginConsumablesValidation extends CommonDBTM {
       }
 
       // Wizard title
-      echo "<div class='consumables_wizard_title'><p>";
-      echo "<i class='thumbnail fas fa-clipboard-check fa-2x'></i>";
+      echo "<div class='alert alert-secondary'>";
+      echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
       echo "&nbsp;";
       echo __("Consumable validation", "consumables");
-      echo "</p></div>";
+      echo "</div>";
 
       $rand = mt_rand();
       $dbu  = new DbUtils();
@@ -264,9 +264,12 @@ class PluginConsumablesValidation extends CommonDBTM {
          echo "<tr>";
          echo "<td class='consumables_wizard_button'>";
          echo "<div id='dialog-confirm'></div>";
-         echo "<input type=\"submit\" class=\"consumable_previous_button submit\" name=\"previous\" 
-         value=\"" . _sx('button', 'Cancel') . "\" onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">";
-         echo "<input type='hidden' name='requesters_id' value='" . Session::getLoginUserID() . "'>";
+         echo Html::submit(_sx('button', 'Cancel'), [
+            'name'      => 'previous',
+            'class' => 'consumable_previous_button btn btn-primary',
+            'onclick'   => "consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php')"
+         ]);
+         echo Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]);
          echo "</td>";
          echo "</tr>";
          echo "</table>";

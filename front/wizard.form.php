@@ -50,6 +50,11 @@ if (!empty($_GET['action'])) {
          $consumablerequest->showConsumableRequest();
          break;
       case 'consumablevalidation':
+         echo "<div class='alert alert-secondary'>";
+         echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
+         echo "&nbsp;";
+         echo __("Consumable validation", "consumables");
+         echo "</div>";
          $p = ['criteria' => [
             [
                'field' => 6,        // field index in search options

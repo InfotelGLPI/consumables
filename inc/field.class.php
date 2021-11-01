@@ -74,7 +74,7 @@ class PluginConsumablesField extends CommonDBTM {
       echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
       echo "<td>" . __('Order reference', 'consumables') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($field, "order_ref");
+      echo Html::input('name', ['order_ref' => $field, 'size' => 40]);
       echo "</td>";
       echo "<td colspan='2'></td>";
       echo "</tr>";

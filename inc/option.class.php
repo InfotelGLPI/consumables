@@ -116,13 +116,12 @@ class PluginConsumablesOption extends CommonDBTM {
       echo " </td>";
       if ($this->canCreate()) {
          echo "<td class='center'>";
-         echo "<input type=\"submit\" name=\"update\" class=\"submit\"
-         value=\"" . _sx('button', 'Define', 'consumables') . "\" >";
+         echo Html::submit(_sx('button', 'Define', 'consumables'), ['name' => 'update', 'class' => 'btn btn-primary']);
          echo "</td>";
       }
       echo "</tr>";
-      echo "<input type='hidden' name='consumables_id' value='" . $data['consumables_id'] . "'>";
-      echo "<input type='hidden' name='id' value='" . $ID . "'>";
+      echo Html::hidden('consumables_id', ['value' => $data['consumables_id']]);
+      echo Html::hidden('id', ['value' => $ID]);
       echo "</table>";
       Html::closeForm();
 
@@ -162,8 +161,8 @@ class PluginConsumablesOption extends CommonDBTM {
          echo "</tr>";
       }
 
-      echo "<input type='hidden' name='consumables_id' value='" . $data['consumables_id'] . "'>";
-      echo "<input type='hidden' name='id' value='" . $ID . "'>";
+      echo Html::hidden('consumables_id', ['value' => $data['consumables_id']]);
+      echo Html::hidden('id', ['value' => $ID]);
       echo "</table>";
       Html::closeForm();
       echo "</div>";
@@ -195,9 +194,11 @@ class PluginConsumablesOption extends CommonDBTM {
                        'entity_sons' => $item->fields["is_recursive"]]);
 
       echo "</td>";
-      echo "<td><input type='hidden' name='consumables_id' value='" . $item->getID() . "'>";
-      echo "<input type='hidden' name='id' value='" . $data['id'] . "'>";
-      echo "<input type='submit' class='submit' name='add_groups' value='" . _sx('button', 'Add') . "'></td>";
+      echo "<td>";
+      echo Html::hidden('consumables_id', ['value' => $item->getID()]);
+      echo Html::hidden('id', ['value' => $data['id']]);
+      echo Html::submit(_sx('button', 'Add'), ['name' => 'add_groups', 'class' => 'btn btn-primary']);
+      echo "</td>";
       echo "</tr>";
       echo "</table>";
       Html::closeForm();
