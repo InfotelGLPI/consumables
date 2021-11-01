@@ -299,6 +299,8 @@ class PluginConsumablesRequest extends CommonDBTM {
                                                                             'end_date' => $end_date]);
       echo $result['message'];
       echo "</div>";
+      echo Html::css("/plugins/consumables/lib/jquery-ui/jquery-ui.css");
+      echo Html::script("/plugins/consumables/lib/jquery-ui/jquery-ui.min.js");
 
       echo "<div id='dialog-confirm'></div>";
 
@@ -476,7 +478,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          echo "<tr>";
          echo "<td class='center' colspan='4'>";
-         echo "<a href='#' class='btn btn-primary' name='addToCart' 
+         echo "<a href='#' class='btn btn-info' name='addToCart' 
          onclick=\"consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');\" >" . __('Add to cart', 'consumables') . "</a>";
          echo "</td>";
          echo "</tr>";
@@ -502,11 +504,14 @@ class PluginConsumablesRequest extends CommonDBTM {
       if ($this->canCreate() || $this->canRequest()) {
          echo "<br/><table width='100%'>";
          echo "<tr>";
-         echo "<td class='consumables_wizard_button'>";
+         echo "<td>";
+         echo Html::css("/plugins/consumables/lib/jquery-ui/jquery-ui.css");
+         echo Html::script("/plugins/consumables/lib/jquery-ui/jquery-ui.min.js");
+
          echo "<div id='dialog-confirm'></div>";
-         echo "<a href='#' class='btn btn-primary consumable_next_button' name='addConsumables' 
+         echo "<a href='#' class='btn btn-success consumable_next_button' name='addConsumables' 
                onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">" . _sx('button', 'Post') . "</a>";
-         echo "<a href='#' class='btn btn-primary consumable_previous_button'  name='previous'
+         echo "<a href='#' class='btn btn-warning consumable_previous_button'  name='previous'
                onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">" . _sx('button', 'Cancel') . "</a>";
          echo "</td>";
          echo "</tr>";
@@ -876,7 +881,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       }
 
       if ($checkKo) {
-         return [false, "<div class='alert alert-important alert-warning d-flex'>".sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))."</div>"];
+         return [false, "<div>".sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))."</div>"];
       }
 
       return [true, null];

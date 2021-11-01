@@ -69,7 +69,7 @@ class PluginConsumablesWizard extends CommonDBTM {
       echo "</div>";
 
       echo "<div align='center'>";
-      echo "<table class='tab_cadre' cellpadding='5'>";
+      echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
 //      echo "<tr>";
 //      echo "<th colspan='5'>" . __("Consumable request", "consumables") . "</th>";
       echo "</tr>";
@@ -77,7 +77,7 @@ class PluginConsumablesWizard extends CommonDBTM {
 
       // Consumable request
       if ($request->canRequest()) {
-         echo "<td class='center consumables_menu_item'>";
+         echo "<td class='center'>";
          echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablerequest'>";
          echo "<i class='thumbnail fas fa-cart-plus fa-4x'></i>";
          echo "<br><br>" . __("Consumable request", "consumables") . "<br></a>";
@@ -85,7 +85,7 @@ class PluginConsumablesWizard extends CommonDBTM {
       }
 
       // Consumable validation
-      echo "<td class='center consumables_menu_item'>";
+      echo "<td class='center'>";
       echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablevalidation'>";
       echo "<i class='thumbnail fas fa-clipboard-check fa-4x'></i>";
       echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";

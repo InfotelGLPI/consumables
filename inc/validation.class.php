@@ -262,7 +262,10 @@ class PluginConsumablesValidation extends CommonDBTM {
       if ($this->canCreate() && $this->canValidate()) {
          echo "<br/><table width='100%'>";
          echo "<tr>";
-         echo "<td class='consumables_wizard_button'>";
+         echo "<td>";
+         echo Html::css("/plugins/consumables/lib/jquery-ui/jquery-ui.css");
+         echo Html::script("/plugins/consumables/lib/jquery-ui/jquery-ui.min.js");
+
          echo "<div id='dialog-confirm'></div>";
          echo Html::submit(_sx('button', 'Cancel'), [
             'name'      => 'previous',
