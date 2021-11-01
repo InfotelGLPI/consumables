@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-01 13:07+0000\n"
+"POT-Creation-Date: 2021-11-01 13:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 #: setup.php:83 inc/field.class.php:54 inc/menu.class.php:41
 #: inc/notificationtargetrequest.class.php:51
 #: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
-#: inc/request.class.php:417 inc/request.class.php:423
+#: inc/request.class.php:419 inc/request.class.php:425
 #: inc/servicecatalog.class.php:65 inc/wizard.class.php:68
 #: inc/wizard.class.php:83
 msgid "Consumable request"
@@ -117,8 +117,8 @@ msgstr ""
 msgid "Make a consumable request for groups"
 msgstr ""
 
-#: inc/request.class.php:198 inc/request.class.php:352
-#: inc/request.class.php:388
+#: inc/request.class.php:198 inc/request.class.php:354
+#: inc/request.class.php:390
 msgid "Consumable request report"
 msgstr ""
 
@@ -130,35 +130,35 @@ msgstr ""
 msgid "Consumables request search"
 msgstr ""
 
-#: inc/request.class.php:449 inc/request.class.php:494
-#: inc/request.class.php:867 inc/validation.class.php:98
+#: inc/request.class.php:451 inc/request.class.php:496
+#: inc/request.class.php:872 inc/validation.class.php:98
 #: inc/validation.class.php:204
 msgid "Number"
 msgstr ""
 
-#: inc/request.class.php:480
+#: inc/request.class.php:482
 msgid "Add to cart"
 msgstr ""
 
-#: inc/request.class.php:489
+#: inc/request.class.php:491
 msgid "Cart"
 msgstr ""
 
-#: inc/request.class.php:813
+#: inc/request.class.php:818
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/request.class.php:830
+#: inc/request.class.php:835
 msgid "Please add consumables in cart"
 msgstr ""
 
-#: inc/validation.class.php:333
+#: inc/validation.class.php:336
 msgid "Refuse"
 msgstr ""
 
-#: inc/validation.class.php:428
+#: inc/validation.class.php:431
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr ""
