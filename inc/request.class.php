@@ -299,9 +299,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                                                                             'end_date' => $end_date]);
       echo $result['message'];
       echo "</div>";
-      echo Html::css("/plugins/consumables/lib/jquery-ui/jquery-ui.css");
-      echo Html::script("/plugins/consumables/lib/jquery-ui/jquery-ui.min.js");
-
+      Html::requireJs('glpi_dialog');
       echo "<div id='dialog-confirm'></div>";
 
       Html::requireJs('consumables');
@@ -413,11 +411,11 @@ class PluginConsumablesRequest extends CommonDBTM {
       // Wizard title
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
 
-      echo "<div class='alert alert-secondary'>";
+      echo "<h3><div class='alert alert-secondary'>";
       echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
       echo "&nbsp;";
       echo __("Consumable request", "consumables");
-      echo "</div>";
+      echo "</div></h3>";
 
       // Add consumables request
       echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
@@ -505,9 +503,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<br/><table width='100%'>";
          echo "<tr>";
          echo "<td>";
-         echo Html::css("/plugins/consumables/lib/jquery-ui/jquery-ui.css");
-         echo Html::script("/plugins/consumables/lib/jquery-ui/jquery-ui.min.js");
-
+         Html::requireJs('glpi_dialog');
          echo "<div id='dialog-confirm'></div>";
          echo "<a href='#' class='btn btn-success consumable_next_button' name='addConsumables' 
                onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">" . _sx('button', 'Post') . "</a>";
@@ -815,7 +811,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                //                  $this->update($input);
                //               }
 
-               $message = "<div class='alert alert-success'>"._n('Consumable affected', 'Consumables affected', count($params['consumables_cart']), 'consumables')."</div>";
+               $message = "<div class='alert alert-important alert-success d-flex'>"._n('Consumable affected', 'Consumables affected', count($params['consumables_cart']), 'consumables')."</div>";
             }
          }
 
@@ -881,7 +877,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       }
 
       if ($checkKo) {
-         return [false, "<div>".sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))."</div>"];
+         return [false, "<div class='alert alert-important alert-warning d-flex'>".sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))."</div>"];
       }
 
       return [true, null];

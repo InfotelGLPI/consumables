@@ -76,20 +76,17 @@ function consumables_addConsumables(action, toobserve) {
 
 function consumables_showDialog(message, reload) {
 
-   $("#dialog-confirm").html(message);
-   $("#dialog-confirm").dialog({
-      resizable: false,
-      height: 140,
-      modal: true,
-      buttons: {
-         OK: function () {
-            $(this).dialog("close");
-            if (reload) {
-               window.location.reload();
-            }
+   glpi_html_dialog({
+      title: __("Add to cart", "consumables"),
+      body: message,
+      id: 'add_badges',
+      buttons: [{
+         label: __("Close"),
+         click: function(event) {
+            window.location.reload();
          }
-      }
-   });
+      }],
+   })
 }
 
 function consumables_searchConsumables(action, toobserve, toupdate,type) {

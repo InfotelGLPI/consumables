@@ -263,9 +263,7 @@ class PluginConsumablesValidation extends CommonDBTM {
          echo "<br/><table width='100%'>";
          echo "<tr>";
          echo "<td>";
-         echo Html::css("/plugins/consumables/lib/jquery-ui/jquery-ui.css");
-         echo Html::script("/plugins/consumables/lib/jquery-ui/jquery-ui.min.js");
-
+         Html::requireJs('glpi_dialog');
          echo "<div id='dialog-confirm'></div>";
          echo Html::submit(_sx('button', 'Cancel'), [
             'name'      => 'previous',

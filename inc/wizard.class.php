@@ -64,9 +64,10 @@ class PluginConsumablesWizard extends CommonDBTM {
          return false;
       }
 
-      echo "<div class='alert alert-secondary' role='alert'>";
+      echo "<h3><div class='alert alert-secondary' role='alert'>";
+      echo "<i class='fas fas fa-id-badge'></i>&nbsp;";
       echo __("Consumable request", "consumables");
-      echo "</div>";
+      echo "</div></h3>";
 
       echo "<div align='center'>";
       echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
