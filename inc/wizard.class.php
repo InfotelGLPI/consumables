@@ -65,7 +65,7 @@ class PluginConsumablesWizard extends CommonDBTM {
       }
 
       echo "<h3><div class='alert alert-secondary' role='alert'>";
-      echo "<i class='fas fas fa-id-badge'></i>&nbsp;";
+      echo "<i class='fas fas fa-cart-plus'></i>&nbsp;";
       echo __("Consumable request", "consumables");
       echo "</div></h3>";
 
