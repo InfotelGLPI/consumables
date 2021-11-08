@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CONSUMABLES_VERSION', '1.7.0');
+define('PLUGIN_CONSUMABLES_VERSION', '2.0.0');
 
 // Init the hooks of the plugins -Needed
 function plugin_init_consumables() {

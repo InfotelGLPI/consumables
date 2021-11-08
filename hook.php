@@ -37,7 +37,7 @@ function plugin_consumables_install() {
 
    if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
       // Install script
-      $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-2.0.0.sql");
       include(GLPI_ROOT . "/plugins/consumables/install/install.php");
       install();
    } else if (!$DB->tableExists("glpi_plugin_consumables_options")) {
