@@ -5,11 +5,11 @@ DROP TABLE IF EXISTS `glpi_plugin_consumables_profiles`;
 CREATE TABLE `glpi_plugin_consumables_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `profiles_id` int(11) NOT NULL DEFAULT '0' COMMENT 'RELATION to glpi_profiles (id)',
-  `consumables` char(1) collate utf8_unicode_ci DEFAULT NULL,
-  `consumables_request` char(1) collate utf8_unicode_ci DEFAULT NULL,
-  `consumables_for_all` char(1) collate utf8_unicode_ci DEFAULT NULL,
-  `consumables_for_group` char(1) collate utf8_unicode_ci DEFAULT NULL,
-  `validate`  char(1) collate utf8_unicode_ci DEFAULT NULL,
+  `consumables` char(1) collate utf8mb4_unicode_ci DEFAULT NULL,
+  `consumables_request` char(1) collate utf8mb4_unicode_ci DEFAULT NULL,
+  `consumables_for_all` char(1) collate utf8mb4_unicode_ci DEFAULT NULL,
+  `consumables_for_group` char(1) collate utf8mb4_unicode_ci DEFAULT NULL,
+  `validate`  char(1) collate utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `profiles_id` (`profiles_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `glpi_plugin_consumables_options`;
 CREATE TABLE `glpi_plugin_consumables_options` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `consumables_id` int(11) NOT NULL DEFAULT '0',
-  `groups` longtext collate utf8_unicode_ci DEFAULT NULL,
+  `groups` longtext collate utf8mb4_unicode_ci DEFAULT NULL,
   `max_cart` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
