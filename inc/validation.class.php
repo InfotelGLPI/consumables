@@ -356,7 +356,10 @@ class PluginConsumablesValidation extends CommonDBTM {
             switch ($ma->getAction()) {
                case "validate":
                case "refuse":
-                  echo "<textarea cols='80' rows='7' name='comment'></textarea><br><br>";
+               Html::textarea(['name'            => 'comment',
+                               'cols'       => 80,
+                               'rows'       => 7,
+                               'enable_richtext' => false]);
                   break;
             }
             return parent::showMassiveActionsSubForm($ma);
