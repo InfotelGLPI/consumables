@@ -65,35 +65,28 @@ class PluginConsumablesWizard extends CommonDBTM {
       }
 
       echo "<h3><div class='alert alert-secondary' role='alert'>";
-      echo "<i class='fas fas fa-cart-plus'></i>&nbsp;";
+      echo "<i class='ti ti-shopping-cart-plus'></i>&nbsp;";
       echo __("Consumable request", "consumables");
       echo "</div></h3>";
 
-      echo "<div align='center'>";
-      echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
-//      echo "<tr>";
-//      echo "<th colspan='5'>" . __("Consumable request", "consumables") . "</th>";
-      echo "</tr>";
-      echo "<tr class='tab_bg_1' style='background-color:white;'>";
-
+      echo "<div class='row consumables_wizard_row' style='margin: 0 auto;'>";
       // Consumable request
       if ($request->canRequest()) {
-         echo "<td class='center'>";
-         echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablerequest'>";
-         echo "<i class='thumbnail fas fa-cart-plus fa-4x'></i>";
+         echo "<div class='center col-md-5 consumables_wizard_rank'>";
+         echo "<a class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablerequest'>";
+         echo "<i class='thumbnail ti ti-shopping-cart-plus' style='font-size: 4.5em;'></i>";
          echo "<br><br>" . __("Consumable request", "consumables") . "<br></a>";
-         echo "</td>";
+         echo "</div>";
       }
-
+      echo "<div style='width: 10px;'></div>";
       // Consumable validation
-      echo "<td class='center'>";
-      echo "<a  class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablevalidation'>";
-      echo "<i class='thumbnail fas fa-clipboard-check fa-4x'></i>";
+      echo "<div class='center col-md-6 consumables_wizard_rank'>";
+      echo "<a class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablevalidation'>";
+      echo "<i class='thumbnail ti ti-clipboard-check' style='font-size: 4.5em;'></i>";
       echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";
-      echo "</td>";
+      echo "</div>";
 
-      echo "</tr>";
-      echo "</table></div>";
+      echo "</div>";
    }
 
    /**

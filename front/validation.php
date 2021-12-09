@@ -37,7 +37,6 @@ if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
 } else {
    if ($plugin->isActivated('servicecatalog')) {
       PluginServicecatalogMain::showDefaultHeaderHelpdesk(PluginConsumablesWizard::getTypeName(2));
-      echo "<br>";
    } else {
       Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
    }

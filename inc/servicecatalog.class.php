@@ -70,7 +70,18 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     */
    static function getMenuLogo() {
 
-      return "fas fa-shopping-cart";
+      return PluginConsumablesRequest::getIcon();
+   }
+
+   /**
+    * @return string
+    * @throws \GlpitestSQLError
+    */
+   static function getMenuLogoCss() {
+
+      $addstyle = "font-size: 4.5em;";
+      return $addstyle;
+
    }
 
    /**

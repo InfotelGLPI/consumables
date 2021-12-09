@@ -37,7 +37,6 @@ if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
 } else {
    if ($plugin->isActivated('servicecatalog')) {
       PluginServicecatalogMain::showDefaultHeaderHelpdesk(PluginConsumablesWizard::getTypeName(2));
-      echo "<br>";
    } else {
       Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
    }
@@ -51,7 +50,7 @@ if (!empty($_GET['action'])) {
          break;
       case 'consumablevalidation':
          echo "<div class='alert alert-secondary'>";
-         echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
+         echo "<i class='thumbnail ti ti-shopping-cart-plus fa-2x'></i>";
          echo "&nbsp;";
          echo __("Consumable validation", "consumables");
          echo "</div>";

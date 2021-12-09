@@ -52,6 +52,10 @@ class PluginConsumablesRequest extends CommonDBTM {
       return _n('Consumable request', 'Consumable requests', 1, 'consumables');
    }
 
+   static function getIcon() {
+      return "ti ti-shopping-cart";
+   }
+
    /**
     * Have I the global right to "request" the Object
     * May be overloaded if needed (ex KnowbaseItem)
@@ -412,13 +416,14 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
 
       echo "<h3><div class='alert alert-secondary'>";
-      echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
+      echo "<i class='thumbnail ti ti-shopping-cart-plus fa-2x'></i>";
       echo "&nbsp;";
       echo __("Consumable request", "consumables");
       echo "</div></h3>";
 
       // Add consumables request
-      echo "<table class='tab_cadre_fixe consumables_wizard_rank' style='width: 950px;'>";
+      echo "<div style='overflow-x:auto;'>";
+      echo "<table class='tab_cadre_fixe consumables_wizard_rank'>";
       echo "<tr>";
       echo "<th colspan='4'>" . __("Consumable request", "consumables") . "</th>";
       echo "</tr>";
@@ -496,6 +501,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<th></th>";
       echo "</tr>";
       echo "</table>";
+      echo "</div>";
       echo "</div>";
 
       // Footer

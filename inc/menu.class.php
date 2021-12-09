@@ -54,13 +54,9 @@ class PluginConsumablesMenu extends CommonGLPI {
          $menu['links']['add']    = PluginConsumablesWizard::getSearchURL(false);
       }
 
-      $menu['icon'] = self::getIcon();
+      $menu['icon'] = PluginConsumablesRequest::getIcon();
 
       return $menu;
-   }
-
-   static function getIcon() {
-      return "fas fa-shopping-cart";
    }
 
    static function removeRightsFromSession() {

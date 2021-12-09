@@ -161,7 +161,7 @@ class PluginConsumablesValidation extends CommonDBTM {
 
       // Wizard title
       echo "<div class='alert alert-secondary'>";
-      echo "<i class='thumbnail fas fa-cart-plus fa-2x'></i>";
+      echo "<i class='thumbnail ti ti-shopping-cart-plus fa-2x'></i>";
       echo "&nbsp;";
       echo __("Consumable validation", "consumables");
       echo "</div>";
@@ -188,6 +188,7 @@ class PluginConsumablesValidation extends CommonDBTM {
             Html::showMassiveActions($massiveactionparams);
          }
 
+         echo "<div style='overflow-x:auto;'>";
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr>";
          echo "<th colspan='7'>" . self::getTypeName() . "</th>";
@@ -256,6 +257,7 @@ class PluginConsumablesValidation extends CommonDBTM {
          echo __("No item to display");
       }
 
+      echo "</div>";
       echo "</div>";
 
       // Footer
