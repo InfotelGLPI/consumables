@@ -108,7 +108,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
       $this->data['consumabledata'][]         = $tmp;
 //      }
       if (isset($options['comment'])) {
-         $this->data['##consumablerequest.comment##'] = Glpi\Toolbox\RichText::getSafeHtml($options['comment']);
+         $this->data['##consumablerequest.comment##'] = Glpi\RichText\RichText::getSafeHtml($options['comment']);
       }
    }
 
