@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-10 15:59+0000\n"
+"POT-Creation-Date: 2021-12-13 07:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,11 +34,11 @@ msgstr ""
 msgid "Add a group for request"
 msgstr ""
 
-#: setup.php:83 inc/field.class.php:54 inc/menu.class.php:41
+#: setup.php:92 inc/field.class.php:54 inc/menu.class.php:41
 #: inc/notificationtargetrequest.class.php:51
 #: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
 #: inc/request.class.php:421 inc/request.class.php:428
-#: inc/servicecatalog.class.php:65 inc/wizard.class.php:69
+#: inc/servicecatalog.class.php:64 inc/wizard.class.php:69
 #: inc/wizard.class.php:78
 msgid "Consumable request"
 msgid_plural "Consumable requests"
@@ -91,7 +91,7 @@ msgid "Advanced"
 msgstr ""
 
 #: inc/profile.class.php:158 inc/profile.class.php:202
-#: inc/servicecatalog.class.php:92
+#: inc/servicecatalog.class.php:91
 msgid "Make a consumable request"
 msgstr ""
 
