@@ -53,9 +53,8 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     * @return string
     */
    static function getMenuLink() {
-      global $CFG_GLPI;
 
-      return $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php";
+      return PLUGINCONSUMABLES_WEBDIR . "/front/wizard.php";
    }
 
    /**

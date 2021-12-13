@@ -309,7 +309,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       Html::requireJs('consumables');
 
       // Init consumable cart javascript
-      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . $CFG_GLPI['root_doc'] . '");});');
+      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGINCONSUMABLES_WEBDIR . '");});');
    }
 
    /**
@@ -514,7 +514,7 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<a href='#' class='btn btn-success consumable_next_button' name='addConsumables' 
                onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">" . _sx('button', 'Post') . "</a>";
          echo "<a href='#' class='btn btn-warning consumable_previous_button'  name='previous'
-               onclick=\"consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php');\">" . _sx('button', 'Cancel') . "</a>";
+               onclick=\"consumables_cancel('" . PLUGINCONSUMABLES_WEBDIR . "/front/wizard.php');\">" . _sx('button', 'Cancel') . "</a>";
          echo "</td>";
          echo "</tr>";
          echo "</table>";
@@ -523,7 +523,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       Html::requireJs('consumables');
 
       // Init consumable cart javascript
-      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . $CFG_GLPI['root_doc'] . '", 
+      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGINCONSUMABLES_WEBDIR . '", 
                                                             "dropdown_consumable_itemtypes_id$rand");});');
 
       Html::closeForm();
@@ -592,7 +592,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          Ajax::updateItemOnSelectEvent($field_id,
                                        $show_id,
-                                       $CFG_GLPI["root_doc"] . "/plugins/consumables/ajax/dropdownAllItems.php",
+                                       PLUGINCONSUMABLES_WEBDIR . "/ajax/dropdownAllItems.php",
                                        $p);
 
          echo "<br><span id='$show_id'>&nbsp;</span>\n";

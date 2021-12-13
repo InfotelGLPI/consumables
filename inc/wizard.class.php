@@ -73,7 +73,7 @@ class PluginConsumablesWizard extends CommonDBTM {
       // Consumable request
       if ($request->canRequest()) {
          echo "<div class='center col-md-5 consumables_wizard_rank'>";
-         echo "<a class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablerequest'>";
+         echo "<a class='consumables_menu_a' href='" . PLUGINCONSUMABLES_WEBDIR . "/front/wizard.form.php?action=consumablerequest'>";
          echo "<i class='thumbnail ti ti-shopping-cart-plus' style='font-size: 4.5em;'></i>";
          echo "<br><br>" . __("Consumable request", "consumables") . "<br></a>";
          echo "</div>";
@@ -81,7 +81,7 @@ class PluginConsumablesWizard extends CommonDBTM {
       echo "<div style='width: 10px;'></div>";
       // Consumable validation
       echo "<div class='center col-md-6 consumables_wizard_rank'>";
-      echo "<a class='consumables_menu_a' href='" . $CFG_GLPI["root_doc"] . "/plugins/consumables/front/wizard.form.php?action=consumablevalidation'>";
+      echo "<a class='consumables_menu_a' href='" . PLUGINCONSUMABLES_WEBDIR . "/front/wizard.form.php?action=consumablevalidation'>";
       echo "<i class='thumbnail ti ti-clipboard-check' style='font-size: 4.5em;'></i>";
       echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";
       echo "</div>";

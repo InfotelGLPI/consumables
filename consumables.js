@@ -16,7 +16,7 @@ function consumables_addToCart(action, toobserve, toupdate) {
    var formInput = getFormData(toobserve);
 
    $.ajax({
-      url: this.root_doc + '/plugins/consumables/ajax/request.php',
+      url: this.root_doc + '/ajax/request.php',
       type: "POST",
       dataType: "json",
       data: 'action=' + action + '&' + formInput,
@@ -66,7 +66,7 @@ function consumables_addConsumables(action, toobserve) {
    $.ajax({
       type: "POST",
       dataType: "json",
-      url: this.root_doc + '/plugins/consumables/ajax/request.php',
+      url: this.root_doc + '/ajax/request.php',
       data: 'action=' + action + '&' + formInput,
       success: function (data) {
          consumables_showDialog(data.message, data.success);
@@ -95,12 +95,12 @@ function consumables_searchConsumables(action, toobserve, toupdate,type) {
    var item_bloc = $('#' + toupdate);
 
    // Loading
-   item_bloc.html('<div style="width:100%;text-align:center"><img src="' + this.root_doc + '/plugins/consumables/pics/large-loading.gif"></div>');
+   item_bloc.html('<div style="width:100%;text-align:center"><img src="' + this.root_doc + '/pics/large-loading.gif"></div>');
 
    $.ajax({
       type: "POST",
       dataType: "json",
-      url: this.root_doc + '/plugins/consumables/ajax/request.php',
+      url: this.root_doc + '/ajax/request.php',
       data: 'action=' + action + '&'+'type='+type+'&' + formInput,
       success: function (data) {
          var result = data.message;
@@ -122,7 +122,7 @@ function consumables_reloadAvailableConsumables() {
 
    $.ajax({
       type: "POST",
-      url: this.root_doc + '/plugins/consumables/ajax/request.php',
+      url: this.root_doc + '/ajax/request.php',
       data: {
          'action': 'reloadAvailableConsumables',
          'type': type
@@ -143,7 +143,7 @@ function consumables_reloadAvailableConsumablesNumber() {
 
    $.ajax({
       type: "POST",
-      url: this.root_doc + '/plugins/consumables/ajax/request.php',
+      url: this.root_doc + '/ajax/request.php',
       data: {
          'action': 'reloadAvailableConsumablesNumber',
          'used': JSON.stringify(this.usedConsumables),

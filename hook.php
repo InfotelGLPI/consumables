@@ -33,15 +33,15 @@
 function plugin_consumables_install() {
    global $DB;
 
-   include_once(GLPI_ROOT . "/plugins/consumables/inc/profile.class.php");
+   include_once(PLUGIN_CONSUMABLES_DIR . "/inc/profile.class.php");
 
    if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
       // Install script
-      $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/empty-2.0.0.sql");
-      include(GLPI_ROOT . "/plugins/consumables/install/install.php");
+      $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.0.0.sql");
+      include(PLUGIN_CONSUMABLES_DIR . "/install/install.php");
       install();
    } else if (!$DB->tableExists("glpi_plugin_consumables_options")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/consumables/install/sql/update-1.2.2.sql");
+      $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-1.2.2.sql");
    }
 
    PluginConsumablesProfile::initProfile();
@@ -56,8 +56,8 @@ function plugin_consumables_install() {
 function plugin_consumables_uninstall() {
    global $DB;
 
-   include_once(GLPI_ROOT . "/plugins/consumables/inc/profile.class.php");
-   include_once(GLPI_ROOT . "/plugins/consumables/inc/menu.class.php");
+   include_once(PLUGIN_CONSUMABLES_DIR . "/inc/profile.class.php");
+   include_once(PLUGIN_CONSUMABLES_DIR . "/inc/menu.class.php");
 
    $tables = ["glpi_plugin_consumables_profiles",
               "glpi_plugin_consumables_requests",

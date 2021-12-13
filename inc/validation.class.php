@@ -270,7 +270,7 @@ class PluginConsumablesValidation extends CommonDBTM {
          echo Html::submit(_sx('button', 'Cancel'), [
             'name'      => 'previous',
             'class' => 'consumable_previous_button btn btn-primary',
-            'onclick'   => "consumables_cancel('" . $CFG_GLPI['root_doc'] . "/plugins/consumables/front/wizard.php')"
+            'onclick'   => "consumables_cancel('" . PLUGINCONSUMABLES_WEBDIR . "/front/wizard.php')"
          ]);
          echo Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]);
          echo "</td>";
@@ -281,7 +281,7 @@ class PluginConsumablesValidation extends CommonDBTM {
       Html::requireJs('consumables');
 
       // Init consumable cart javascript
-      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . $CFG_GLPI['root_doc'] . '");});');
+      echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGINCONSUMABLES_WEBDIR . '");});');
    }
 
 

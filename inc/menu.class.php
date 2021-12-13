@@ -48,7 +48,7 @@ class PluginConsumablesMenu extends CommonGLPI {
 
       $menu          = [];
       $menu['title'] = self::getMenuName();
-      $menu['page']  = "/plugins/consumables/front/wizard.php";
+      $menu['page']  = PluginConsumablesWizard::getSearchURL(false);
       if (PluginConsumablesWizard::canCreate()) {
          $menu['links']['search'] = PluginConsumablesWizard::getSearchURL(false);
          $menu['links']['add']    = PluginConsumablesWizard::getSearchURL(false);
