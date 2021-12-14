@@ -30,12 +30,12 @@
 define('PLUGIN_CONSUMABLES_VERSION', '2.0.0');
 
 if (!defined("PLUGIN_CONSUMABLES_DIR")) {
-   define("PLUGINCONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
-   define("PLUGINCONSUMABLES_DIR_NOFULL", Plugin::getPhpDir("consumables",false));
+   define("PLUGIN_CONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
+   define("PLUGIN_CONSUMABLES_DIR_NOFULL", Plugin::getPhpDir("consumables",false));
 }
-if (!defined("PLUGINCONSUMABLES_WEBDIR")) {
-   define("PLUGINCONSUMABLES_WEBDIR", Plugin::getWebDir("consumables"));
-   define("PLUGINCONSUMABLES_NOTFULL_WEBDIR", Plugin::getPhpDir("consumables",false));
+if (!defined("PLUGIN_CONSUMABLES_WEBDIR")) {
+   define("PLUGIN_CONSUMABLES_WEBDIR", Plugin::getWebDir("consumables"));
+   define("PLUGIN_CONSUMABLES_NOTFULL_WEBDIR", Plugin::getPhpDir("consumables",false));
 }
 
 // Init the hooks of the plugins -Needed
@@ -46,7 +46,7 @@ function plugin_init_consumables() {
    $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
    $PLUGIN_HOOKS['change_profile']['consumables'] = ['PluginConsumablesProfile', 'initProfile'];
    $PLUGIN_HOOKS['add_css']['consumables']        = ['consumables.css'];
-   $PLUGIN_HOOKS['javascript']['consumables'][]   = PLUGINCONSUMABLES_NOTFULL_WEBDIR.'/consumables.js';
+   $PLUGIN_HOOKS['javascript']['consumables'][]   = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/consumables.js';
 
    if (Session::getLoginUserID()) {
       $PLUGIN_HOOKS['post_item_form']['consumables'] = ['PluginConsumablesField', 'addFieldOrderReference'];
