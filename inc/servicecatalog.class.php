@@ -58,6 +58,15 @@ class PluginConsumablesServicecatalog extends CommonGLPI
    }
 
    /**
+    * @return string
+    */
+   static function getNavBarLink() {
+      global $CFG_GLPI;
+
+      return PLUGIN_CONSUMABLES_DIR_NOFULL . "/front/wizard.php";
+   }
+
+   /**
     * @return string|\translated
     */
    static function getMenuTitle() {

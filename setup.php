@@ -72,8 +72,9 @@ function plugin_init_consumables() {
       if (Session::haveRight("plugin_consumables", READ)) {
          $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => 'PluginConsumablesMenu'];
       }
-      if (Session::haveRight("plugin_consumables", READ) && !class_exists('PluginServicecatalogMain')) {
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = '/front/wizard.php';
+      if (Session::haveRight("plugin_consumables", READ)
+          && !class_exists('PluginServicecatalogMain')) {
+         $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/front/wizard.php';
       }
 
       // Post item purge
