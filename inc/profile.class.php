@@ -125,18 +125,15 @@ class PluginConsumablesProfile extends Profile {
     * @internal param int $items_id id of the profile
     * @internal param value $target url of target
     */
-   function showForm($profiles_id = 0, $options = []) {
+   function showForm($profiles_id = 0, $openform = true, $closeform = true) {
 
-      echo "<div class='firstbloc'>";
       $profile = new Profile();
-      if ($profiles_id > 0) {
-         $profile->check($profiles_id, READ);
-      } else {
-         // Create item
-         $profile->check(-1, CREATE);
+      echo "<div class='firstbloc'>";
+      if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE])) && $openform) {
+         echo "<form method='post' action='" . $profile->getFormURL() . "'>";
       }
 
-      $profile->showFormHeader($options);
+      $profile->getFromDB($profiles_id);
 
       $rights = $this->getAllRights();
       $profile->displayRightsChoiceMatrix($rights, ['default_class' => 'tab_bg_2',
@@ -174,8 +171,14 @@ class PluginConsumablesProfile extends Profile {
                           'checked' => $effective_rights['plugin_consumables_group']]);
       echo "</td>";
       echo "</tr>\n";
-
-      $profile->showFormButtons($options);
+      echo "</table>";
+      if ($canedit && $closeform) {
+         echo "<div class='center'>";
+         echo Html::hidden('id', ['value' => $profiles_id]);
+         echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
+         echo "</div>\n";
+         Html::closeForm();
+      }
 
       echo "</div>";
    }
