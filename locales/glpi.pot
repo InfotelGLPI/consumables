@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-14 08:20+0000\n"
+"POT-Creation-Date: 2022-01-22 15:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,8 +46,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: front/wizard.form.php:55 inc/notificationtargetrequest.class.php:52
-#: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:154
-#: inc/profile.class.php:210 inc/validation.class.php:139
+#: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:151
+#: inc/profile.class.php:213 inc/validation.class.php:139
 #: inc/validation.class.php:166 inc/wizard.class.php:86
 msgid "Consumable validation"
 msgstr ""
@@ -86,34 +86,34 @@ msgctxt "button"
 msgid "Define"
 msgstr ""
 
-#: inc/profile.class.php:146
+#: inc/profile.class.php:143
 msgid "Advanced"
 msgstr ""
 
-#: inc/profile.class.php:158 inc/profile.class.php:202
+#: inc/profile.class.php:155 inc/profile.class.php:205
 #: inc/servicecatalog.class.php:100
 msgid "Make a consumable request"
 msgstr ""
 
-#: inc/profile.class.php:166
+#: inc/profile.class.php:163
 msgid "Make a consumable request for all users"
 msgstr ""
 
-#: inc/profile.class.php:171
+#: inc/profile.class.php:168
 msgid "Make a consumable request for my groups"
 msgstr ""
 
-#: inc/profile.class.php:191
+#: inc/profile.class.php:194
 msgid "Consumable"
 msgid_plural "Consumables"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/profile.class.php:198
+#: inc/profile.class.php:201
 msgid "Make a consumable request for users"
 msgstr ""
 
-#: inc/profile.class.php:206
+#: inc/profile.class.php:209
 msgid "Make a consumable request for groups"
 msgstr ""
 
