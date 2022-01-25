@@ -481,7 +481,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
          echo "<tr>";
          echo "<td class='center' colspan='4'>";
-         echo "<a href='#' class='btn btn-info' name='addToCart' 
+         echo "<a href='#' class='submit btn btn-info' name='addToCart' 
          onclick=\"consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');\" >" . __('Add to cart', 'consumables') . "</a>";
          echo "</td>";
          echo "</tr>";
@@ -511,9 +511,9 @@ class PluginConsumablesRequest extends CommonDBTM {
          echo "<td>";
          Html::requireJs('glpi_dialog');
          echo "<div id='dialog-confirm'></div>";
-         echo "<a href='#' class='btn btn-success consumable_next_button' name='addConsumables' 
+         echo "<a href='#' class='submit btn btn-success consumable_next_button' name='addConsumables' 
                onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">" . _sx('button', 'Post') . "</a>";
-         echo "<a href='#' class='btn btn-warning consumable_previous_button'  name='previous'
+         echo "<a href='#' class='submit btn btn-warning consumable_previous_button'  name='previous'
                onclick=\"consumables_cancel('" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php');\">" . _sx('button', 'Cancel') . "</a>";
          echo "</td>";
          echo "</tr>";
