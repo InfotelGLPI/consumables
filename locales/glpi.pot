@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-17 06:44+0000\n"
+"POT-Creation-Date: 2022-02-17 11:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:166 inc/field.class.php:75
+#: hook.php:166 inc/field.class.php:76
 msgid "Order reference"
 msgstr ""
 
@@ -130,27 +130,27 @@ msgstr ""
 msgid "Consumables request search"
 msgstr ""
 
-#: inc/request.class.php:461 inc/request.class.php:506
-#: inc/request.class.php:911 inc/validation.class.php:98
+#: inc/request.class.php:458 inc/request.class.php:503
+#: inc/request.class.php:906 inc/validation.class.php:98
 #: inc/validation.class.php:205
 msgid "Number"
 msgstr ""
 
-#: inc/request.class.php:492
+#: inc/request.class.php:489
 msgid "Add to cart"
 msgstr ""
 
-#: inc/request.class.php:501
+#: inc/request.class.php:498
 msgid "Cart"
 msgstr ""
 
-#: inc/request.class.php:857
+#: inc/request.class.php:852
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/request.class.php:874
+#: inc/request.class.php:869
 msgid "Please add consumables in cart"
 msgstr ""
 
