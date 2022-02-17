@@ -288,9 +288,9 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</td>";
       echo "<td>";
       echo Html::submit(__('Search'), [
-         'name'      => 'addToCart',
-         'class' => 'btn btn-primary',
-         'onclick'   => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')"
+         'name'    => 'addToCart',
+         'class'   => 'btn btn-primary',
+         'onclick' => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')"
       ]);
       echo Html::hidden('requesters_id', ['value' => $item->fields['id']]);
       echo "</td>";
@@ -300,7 +300,7 @@ class PluginConsumablesRequest extends CommonDBTM {
 
       echo "<div class='center' id='consumables_searchConsumables'>";
       $result = $this->listItemsForUserOrGroup($item->fields['id'], $type, ['begin_date' => $begin_date,
-                                                                            'end_date' => $end_date]);
+                                                                            'end_date'   => $end_date]);
       echo $result['message'];
       echo "</div>";
       Html::requireJs('glpi_dialog');
@@ -437,7 +437,8 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<tr>";
       echo "<td>" . _n('Consumable type', 'Consumable types', 1) . " <span style='color:red;'>*</span></td>";
       echo "<td>";
-      Dropdown::show("ConsumableItemType", ['entity' => $_SESSION['glpiactive_entity'], 'on_change' => 'loadAvailableConsumables(this);']);
+      Dropdown::show("ConsumableItemType", ['entity'    => $_SESSION['glpiactive_entity'],
+                                            'on_change' => 'loadAvailableConsumables(this);']);
       $script = "function loadAvailableConsumables(object){this.consumableTypeID = object.value; consumables_reloadAvailableConsumables();}";
       echo Html::scriptBlock($script);
       echo "</td>";
@@ -447,7 +448,13 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<td>" . _n('Consumable', 'Consumables', 1) . " <span style='color:red;'>*</span></td>";
       echo "<td id='loadAvailableConsumables'>";
       echo "</td>";
+      echo "</tr>";
 
+      echo "<tr>";
+      echo "<td></td>";
+      echo "<td id='seeConsumablesInfos'>";
+      $this->seeConsumablesInfos();
+      echo "</td>";
       echo "</tr>";
 
       echo "<tr>";
@@ -665,8 +672,38 @@ class PluginConsumablesRequest extends CommonDBTM {
       $script = "function loadAvailableConsumablesNumber(object){
       this.consumableID = object.value; 
       consumables_reloadAvailableConsumablesNumber();
+      consumables_seeConsumablesInfos();
       }";
       echo Html::scriptBlock($script);
+   }
+
+
+   /**
+    * Reload consumables list
+    *
+    * @param int|type $used
+    * @param int      $consumables_id
+    *
+    * @return array
+    */
+   function seeConsumablesInfos($consumables_id = 0) {
+
+      $consumable = new ConsumableItem();
+      if ($consumable->getFromDB($consumables_id)) {
+
+         //         $picture_url = Toolbox::getPictureUrl();
+         //         Toolbox::logInfo($picture_url);
+         $pictures = json_decode($consumable->fields['pictures'], true);
+         foreach ($pictures as $picture) {
+            $picture_url = Toolbox::getPictureUrl($picture);
+            echo "<div class='boxnoteleft'>";
+            echo "<img class='user_picture_small' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='" .
+                 $picture_url . "'>";
+            echo "</br>" . $consumable->fields['comment'];
+            echo "</div>"; // boxnoteleft
+         }
+
+      }
    }
 
    /**
@@ -817,7 +854,7 @@ class PluginConsumablesRequest extends CommonDBTM {
                //                  $this->update($input);
                //               }
 
-               $message = "<div class='alert alert-important alert-success d-flex'>"._n('Consumable affected', 'Consumables affected', count($params['consumables_cart']), 'consumables')."</div>";
+               $message = "<div class='alert alert-important alert-success d-flex'>" . _n('Consumable affected', 'Consumables affected', count($params['consumables_cart']), 'consumables') . "</div>";
             }
          }
 
@@ -883,7 +920,7 @@ class PluginConsumablesRequest extends CommonDBTM {
       }
 
       if ($checkKo) {
-         return [false, "<div class='alert alert-important alert-warning d-flex'>".sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg))."</div>"];
+         return [false, "<div class='alert alert-important alert-warning d-flex'>" . sprintf(__("Mandatory fields are not filled. Please correct: %s"), implode(', ', $msg)) . "</div>"];
       }
 
       return [true, null];

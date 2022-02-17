@@ -161,6 +161,28 @@ function consumables_reloadAvailableConsumablesNumber() {
    });
 }
 
+function consumables_seeConsumablesInfos() {
+
+   $.ajax({
+      type: "POST",
+      url: this.root_doc + '/ajax/request.php',
+      data: {
+         'action': 'seeConsumablesInfos',
+         'used': JSON.stringify(this.usedConsumables),
+         'consumables_id': this.consumableID
+      },
+      success: function (result) {
+         var item_bloc = $('#seeConsumablesInfos');
+         item_bloc.html(result);
+
+         var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
+         while (scripts = scriptsFinder.exec(result)) {
+            eval(scripts[1]);
+         }
+      }
+   });
+}
+
 /**
  * consumables_removeCart : delete text input
  *

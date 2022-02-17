@@ -51,6 +51,12 @@ switch ($_POST['action']) {
       $request->loadAvailableConsumables($_POST['type']);
       break;
 
+   case 'seeConsumablesInfos':
+      header("Content-Type: text/html; charset=UTF-8");
+      $request = new PluginConsumablesRequest();
+      $request->seeConsumablesInfos($_POST['consumables_id']);
+      break;
+
    case 'reloadAvailableConsumablesNumber':
       header("Content-Type: text/html; charset=UTF-8");
       $request = new PluginConsumablesRequest();

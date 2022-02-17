@@ -89,8 +89,10 @@ class PluginConsumablesField extends CommonDBTM {
    static function postAddConsumable(ConsumableItem $consumableItem) {
 
       $field = new self();
-      $field->add(['consumables_id' => $consumableItem->fields['id'],
-                   'order_ref'      => $consumableItem->input['order_ref']]);
+      if (isset($consumableItem->input['order_ref'])) {
+         $field->add(['consumables_id' => $consumableItem->fields['id'],
+                      'order_ref'      => $consumableItem->input['order_ref']]);
+      }
    }
 
    /**

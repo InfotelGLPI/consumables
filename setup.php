@@ -65,9 +65,9 @@ function plugin_init_consumables() {
          $PLUGIN_HOOKS['use_massive_action']['consumables'] = 1;
       }
 
-      if (class_exists('PluginServicecatalogMain')) {
+//      if (class_exists('PluginServicecatalogMain')) {
          $PLUGIN_HOOKS['servicecatalog']['consumables'] = ['PluginConsumablesServicecatalog'];
-      }
+//      }
 
       if (Session::haveRight("plugin_consumables", READ)) {
          $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => 'PluginConsumablesMenu'];
