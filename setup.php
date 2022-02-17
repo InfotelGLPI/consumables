@@ -75,6 +75,7 @@ function plugin_init_consumables() {
       if (Session::haveRight("plugin_consumables", READ)
           && !class_exists('PluginServicecatalogMain')) {
          $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/front/wizard.php';
+         $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['consumables'] = PluginConsumablesRequest::getIcon();
       }
 
       // Post item purge
