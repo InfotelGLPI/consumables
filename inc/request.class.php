@@ -432,6 +432,9 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "<td>";
       echo $dbu->getUserName(Session::getLoginUserID());
       echo "</td>";
+      echo "<td rowspan='4' id='seeConsumablesInfos'>";
+      $this->seeConsumablesInfos();
+      echo "</td>";
       echo "</tr>";
 
       echo "<tr>";
@@ -450,12 +453,6 @@ class PluginConsumablesRequest extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
-      echo "<tr>";
-      echo "<td></td>";
-      echo "<td id='seeConsumablesInfos'>";
-      $this->seeConsumablesInfos();
-      echo "</td>";
-      echo "</tr>";
 
       echo "<tr>";
       echo "<td>" . __('Number', 'consumables') . " <span style='color:red;'>*</span></td>";
@@ -696,11 +693,9 @@ class PluginConsumablesRequest extends CommonDBTM {
          $pictures = json_decode($consumable->fields['pictures'], true);
          foreach ($pictures as $picture) {
             $picture_url = Toolbox::getPictureUrl($picture);
-            echo "<div class='boxnoteleft'>";
-            echo "<img class='user_picture_small' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='" .
+            echo "<img class='user_picture' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='" .
                  $picture_url . "'>";
             echo "</br>" . $consumable->fields['comment'];
-            echo "</div>"; // boxnoteleft
          }
 
       }

@@ -71,13 +71,14 @@ class PluginConsumablesField extends CommonDBTM {
       $field          = new self();
       $field->getFromDBByCrit(["consumables_id" => $consumables_id]);
 
-      echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
-      echo "<td>" . __('Order reference', 'consumables') . "</td>";
-      echo "<td>";
-      echo Html::input('name', ['order_ref' => $field, 'size' => 40]);
-      echo "</td>";
-      echo "<td colspan='2'></td>";
-      echo "</tr>";
+      echo "<div class='form-field row col-12 col-sm-6  mb-2'>";
+      echo "<label class='col-form-label col-xxl-4 text-xxl-end'>";
+      echo  __('Order reference', 'consumables');
+      echo "</label>";
+      echo "<div class='col-xxl-7  field-container'>";
+      echo Html::input('name', ['value' => $field->fields['order_ref'], 'size' => 40]);
+      echo "</div>";
+      echo "</div>";
 
    }
 
