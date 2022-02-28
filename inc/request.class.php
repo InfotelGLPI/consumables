@@ -691,13 +691,14 @@ class PluginConsumablesRequest extends CommonDBTM {
          //         $picture_url = Toolbox::getPictureUrl();
          //         Toolbox::logInfo($picture_url);
          $pictures = json_decode($consumable->fields['pictures'], true);
-         foreach ($pictures as $picture) {
-            $picture_url = Toolbox::getPictureUrl($picture);
-            echo "<img class='user_picture' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='" .
-                 $picture_url . "'>";
-            echo "</br>" . $consumable->fields['comment'];
+         if (isset($pictures) && is_array($pictures)) {
+            foreach ($pictures as $picture) {
+               $picture_url = Toolbox::getPictureUrl($picture);
+               echo "<img class='user_picture' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='" .
+                    $picture_url . "'>";
+               echo "</br>" . $consumable->fields['comment'];
+            }
          }
-
       }
    }
 
