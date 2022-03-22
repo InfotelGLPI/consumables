@@ -46,7 +46,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     * @return bool
     */
    static function canUse() {
-      return true;
+      return Session::haveRight("plugin_consumables_request", 1);
    }
 
    /**
