@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-25 08:12+0000\n"
+"POT-Creation-Date: 2022-07-26 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:166 inc/field.class.php:75
+#: hook.php:165 inc/field.class.php:75
 msgid "Order reference"
 msgstr ""
 
-#: hook.php:176 hook.php:208 inc/option.class.php:111 inc/option.class.php:306
+#: hook.php:175 hook.php:207 inc/option.class.php:111 inc/option.class.php:306
 msgid "Maximum number allowed for request"
 msgstr ""
 
-#: hook.php:188 inc/option.class.php:132
+#: hook.php:187 inc/option.class.php:132
 msgid "Allowed groups for request"
 msgstr ""
 
-#: hook.php:210 inc/option.class.php:183 inc/option.class.php:316
+#: hook.php:209 inc/option.class.php:183 inc/option.class.php:316
 msgid "Add a group for request"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgid_plural "Consumable requests"
 msgstr[0] ""
 msgstr[1] ""
 
-#: front/wizard.form.php:55 inc/notificationtargetrequest.class.php:52
+#: front/wizard.form.php:53 inc/notificationtargetrequest.class.php:52
 #: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:151
 #: inc/profile.class.php:213 inc/validation.class.php:139
 #: inc/validation.class.php:166 inc/wizard.class.php:86
