@@ -30,11 +30,10 @@
 include('../../../inc/includes.php');
 Session::checkLoginUser();
 
-$plugin = new Plugin();
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::header(PluginConsumablesWizard::getTypeName(2), '', "management", "pluginconsumablesmenu");
 } else {
-   if ($plugin->isActivated('servicecatalog')) {
+   if (Plugin::isPluginActive('servicecatalog')) {
       PluginServicecatalogMain::showDefaultHeaderHelpdesk(PluginConsumablesWizard::getTypeName(2));
    } else {
       Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
@@ -45,7 +44,7 @@ $wizard = new PluginConsumablesWizard();
 $wizard->showMenu();
 
 if (Session::getCurrentInterface() != 'central'
-    && $plugin->isActivated('servicecatalog')) {
+    && Plugin::isPluginActive('servicecatalog')) {
 
    PluginServicecatalogMain::showNavBarFooter('consumables');
 }

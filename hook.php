@@ -137,8 +137,7 @@ function plugin_item_purge_consumables($item) {
  */
 function plugin_consumables_getDatabaseRelations() {
 
-   $plugin = new Plugin();
-   if ($plugin->isActivated("consumables")) {
+   if (Plugin::isPluginActive("consumables")) {
       return ["glpi_profiles"        => ["glpi_plugin_consumables_profiles" => "profiles_id"],
               "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumables_id"],
               "glpi_consumableitems" => ["glpi_plugin_consumables_options" => "consumables_id"]];
