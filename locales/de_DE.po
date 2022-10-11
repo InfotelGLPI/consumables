@@ -1,0 +1,168 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Consumables Development Team
+# This file is distributed under the same license as the GLPI - Consumables plugin package.
+# 
+# Translators:
+# Michael Schieferer, 2022
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI Project - consumables plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-26 13:54+0000\n"
+"PO-Revision-Date: 2015-09-17 11:45+0000\n"
+"Last-Translator: Michael Schieferer, 2022\n"
+"Language-Team: German (Germany) (http://www.transifex.com/infotelGLPI/GLPI_consumables/language/de_DE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: hook.php:165 inc/field.class.php:75
+msgid "Order reference"
+msgstr "Bestellreferenz"
+
+#: hook.php:175 hook.php:207 inc/option.class.php:111 inc/option.class.php:306
+msgid "Maximum number allowed for request"
+msgstr "Maximal erlaubte Anzahl pro Anfrage"
+
+#: hook.php:187 inc/option.class.php:132
+msgid "Allowed groups for request"
+msgstr "Berechtigte Gruppe für Anfrage"
+
+#: hook.php:209 inc/option.class.php:183 inc/option.class.php:316
+msgid "Add a group for request"
+msgstr "Gruppe dieser Anfrage hinzufügen"
+
+#: setup.php:94 inc/field.class.php:54 inc/menu.class.php:41
+#: inc/notificationtargetrequest.class.php:51
+#: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
+#: inc/request.class.php:421 inc/request.class.php:428
+#: inc/servicecatalog.class.php:73 inc/wizard.class.php:69
+#: inc/wizard.class.php:78
+msgid "Consumable request"
+msgid_plural "Consumable requests"
+msgstr[0] "Anfrage für Verbrauchsmaterial"
+msgstr[1] "Anfragen für Verbrauchsmaterialien"
+
+#: front/wizard.form.php:53 inc/notificationtargetrequest.class.php:52
+#: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:151
+#: inc/profile.class.php:213 inc/validation.class.php:139
+#: inc/validation.class.php:166 inc/wizard.class.php:86
+msgid "Consumable validation"
+msgstr "Verbrauchsmaterial bestätigen"
+
+#: inc/notificationtargetrequest.class.php:63
+#: inc/notificationtargetrequest.class.php:120
+msgid "Consumable ID"
+msgstr "Verbrauchsmaterial ID"
+
+#: inc/notificationtargetrequest.class.php:121
+msgid "Type of event"
+msgstr "Art der Ereignisses"
+
+#: inc/notificationtargetrequest.class.php:142
+msgid "Display each consumable"
+msgstr "Jedes Verbrauchsmaterial anzeigen"
+
+#: inc/notificationtargetrequest.class.php:157
+msgid "Consumable approver"
+msgstr "Genehmiger für Verbrauchsmaterial"
+
+#: inc/notificationtargetrequest.class.php:158
+msgid "Consumable requester"
+msgstr "Anfragesteller für Verbrauchsmaterial"
+
+#: inc/notificationtargetrequest.class.php:159
+msgid "Consumable recipient"
+msgstr "Empfänger des Verbrauchsmaterials"
+
+#: inc/option.class.php:51
+msgid "Consumable request options"
+msgstr "Anfrageoptionen Verbrauchsmaterial"
+
+#: inc/option.class.php:119
+msgctxt "button"
+msgid "Define"
+msgstr "Definieren"
+
+#: inc/profile.class.php:143
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: inc/profile.class.php:155 inc/profile.class.php:205
+#: inc/servicecatalog.class.php:100
+msgid "Make a consumable request"
+msgstr "Anfrage für Verbrauchsmaterial einreichen"
+
+#: inc/profile.class.php:163
+msgid "Make a consumable request for all users"
+msgstr "Verbrauchsmaterial-Anfrage für alle Benutzer einreichen"
+
+#: inc/profile.class.php:168
+msgid "Make a consumable request for my groups"
+msgstr "Verbrauchsmaterial-Anfrage für meine Gruppe einreichen"
+
+#: inc/profile.class.php:194
+msgid "Consumable"
+msgid_plural "Consumables"
+msgstr[0] "Verbrauchsmaterial"
+msgstr[1] "Verbrauchsmaterialen"
+
+#: inc/profile.class.php:201
+msgid "Make a consumable request for users"
+msgstr "Verbrauchsmaterial-Anfrage für Benutzer einreichen"
+
+#: inc/profile.class.php:209
+msgid "Make a consumable request for groups"
+msgstr "Verbrauchsmaterial-Anfrage für Gruppen einreichen"
+
+#: inc/request.class.php:202 inc/request.class.php:356
+#: inc/request.class.php:392
+msgid "Consumable request report"
+msgstr "Bericht zu Verbrauchsmaterialanfragen"
+
+#: inc/request.class.php:241
+msgid "Consumable requests history"
+msgstr "Verlauf der Verbrauchsmaterialanfragen"
+
+#: inc/request.class.php:273
+msgid "Consumables request search"
+msgstr "Verbrauchsmaterialanfragen suchen"
+
+#: inc/request.class.php:458 inc/request.class.php:503
+#: inc/request.class.php:907 inc/validation.class.php:98
+#: inc/validation.class.php:205
+msgid "Number"
+msgstr "Nummer"
+
+#: inc/request.class.php:489
+msgid "Add to cart"
+msgstr "Zum Warenkorb hinzufügen"
+
+#: inc/request.class.php:498
+msgid "Cart"
+msgstr "Warenkorb"
+
+#: inc/request.class.php:853
+msgid "Consumable affected"
+msgid_plural "Consumables affected"
+msgstr[0] "Betroffenes Verbrauchsmaterial"
+msgstr[1] "Betroffene Verbrauchsmaterialien"
+
+#: inc/request.class.php:870
+msgid "Please add consumables in cart"
+msgstr "Bitte Verbrauchsmaterialien zu Warenkorb hinzufügen"
+
+#: inc/validation.class.php:336
+msgid "Refuse"
+msgstr "Ablehnen"
+
+#: inc/validation.class.php:434
+#, php-format
+msgid "Not enough stock for consumable %s"
+msgstr "Nicht genug Verbrauchsmaterial auf Lager %s"
+
+#: inc/wizard.class.php:52
+msgid "Consumables wizard"
+msgstr "Verbrauchsmaterialien-Assistent"
