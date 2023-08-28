@@ -54,19 +54,19 @@ switch ($_POST['action']) {
    case 'seeConsumablesInfos':
       header("Content-Type: text/html; charset=UTF-8");
       $request = new PluginConsumablesRequest();
-      $request->seeConsumablesInfos($_POST['consumables_id']);
+      $request->seeConsumablesInfos($_POST['consumableitems_id']);
       break;
 
    case 'reloadAvailableConsumablesNumber':
       header("Content-Type: text/html; charset=UTF-8");
       $request = new PluginConsumablesRequest();
-      $request->loadAvailableConsumablesNumber(json_decode(stripslashes($_POST['used'])), $_POST['consumables_id']);
+      $request->loadAvailableConsumablesNumber(json_decode(stripslashes($_POST['used'])), $_POST['consumableitems_id']);
       break;
 
    case 'loadConsumableInformation':
       header("Content-Type: text/html; charset=UTF-8");
       $validation = new PluginConsumablesValidation();
-      $validation->loadConsumableInformation(Session::getLoginUserID(), $_POST['consumables_id']);
+      $validation->loadConsumableInformation(Session::getLoginUserID(), $_POST['consumableitems_id']);
       break;
 
    case 'validationConsumables':
@@ -83,6 +83,6 @@ switch ($_POST['action']) {
 
    case 'loadAvailableConsumablesNumber':
       $request = new PluginConsumablesRequest();
-      $request->loadAvailableConsumablesNumber(0, $_POST['consumables_id']);
+      $request->loadAvailableConsumablesNumber(0, $_POST['consumableitems_id']);
       break;
 }

@@ -86,7 +86,7 @@ class PluginConsumablesValidation extends CommonDBTM {
          'id'            => '3',
          'table'         => 'glpi_consumableitems',
          'field'         => 'name',
-         'linkfield'     => 'consumables_id',
+         'linkfield'     => 'consumableitems_id',
          'name'          =>  _n('Consumable', 'Consumables', 1),
          'datatype'      => 'text'
       ];
@@ -224,7 +224,7 @@ class PluginConsumablesValidation extends CommonDBTM {
             echo "</td>";
 
             echo "<td>";
-            echo Dropdown::getDropdownName("glpi_consumableitems", $field['consumables_id']);
+            echo Dropdown::getDropdownName("glpi_consumableitems", $field['consumableitems_id']);
             echo "</td>";
 
             echo "<td>";
@@ -396,7 +396,7 @@ class PluginConsumablesValidation extends CommonDBTM {
 
                      // Get available consumables
                      $outConsumable = [];
-                     $availables    = $consumable->find(['consumableitems_id' => $item->fields['consumables_id'],
+                     $availables    = $consumable->find(['consumableitems_id' => $item->fields['consumableitems_id'],
                                                          'date_out' => NULL]);
                      foreach ($availables as $available) {
                         $outConsumable[] = $available;
@@ -432,7 +432,7 @@ class PluginConsumablesValidation extends CommonDBTM {
                      } else {
                         $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                         $ma->addMessage(sprintf(__('Not enough stock for consumable %s', 'consumables'),
-                                                Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumables_id'])));
+                                                Dropdown::getDropdownName("glpi_consumableitems", $item->fields['consumableitems_id'])));
                      }
                   } else {
                      $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);

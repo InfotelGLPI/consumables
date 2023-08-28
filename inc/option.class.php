@@ -64,7 +64,7 @@ class PluginConsumablesOption extends CommonDBTM {
          return false;
       }
       $data = [];
-      if ($this->getFromDBByCrit(["consumables_id" => $item->fields['id']])) {
+      if ($this->getFromDBByCrit(["consumableitems_id" => $item->fields['id']])) {
          $data = $this->fields;
       }
       if (count($data) < 1) {
@@ -81,7 +81,7 @@ class PluginConsumablesOption extends CommonDBTM {
     * @return array
     */
    function initConfig($ID) {
-      $input['consumables_id'] = $ID;
+      $input['consumableitems_id'] = $ID;
       $input['groups']         = "";
       $input['max_cart']       = "0";
       $this->add($input);
@@ -120,7 +120,7 @@ class PluginConsumablesOption extends CommonDBTM {
          echo "</td>";
       }
       echo "</tr>";
-      echo Html::hidden('consumables_id', ['value' => $data['consumables_id']]);
+      echo Html::hidden('consumableitems_id', ['value' => $data['consumableitems_id']]);
       echo Html::hidden('id', ['value' => $ID]);
       echo "</table>";
       Html::closeForm();
@@ -161,7 +161,7 @@ class PluginConsumablesOption extends CommonDBTM {
          echo "</tr>";
       }
 
-      echo Html::hidden('consumables_id', ['value' => $data['consumables_id']]);
+      echo Html::hidden('consumableitems_id', ['value' => $data['consumableitems_id']]);
       echo Html::hidden('id', ['value' => $ID]);
       echo "</table>";
       Html::closeForm();
@@ -195,7 +195,7 @@ class PluginConsumablesOption extends CommonDBTM {
 
       echo "</td>";
       echo "<td>";
-      echo Html::hidden('consumables_id', ['value' => $item->getID()]);
+      echo Html::hidden('consumableitems_id', ['value' => $item->getID()]);
       echo Html::hidden('id', ['value' => $data['id']]);
       echo Html::submit(_sx('button', 'Add'), ['name' => 'add_groups', 'class' => 'btn btn-primary']);
       echo "</td>";
@@ -340,10 +340,10 @@ class PluginConsumablesOption extends CommonDBTM {
             foreach ($ids as $id) {
 
                $input = ['max_cart'       => $input['max_cart'],
-                         'consumables_id' => $id];
+                         'consumableitems_id' => $id];
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByCrit(["consumables_id" => $id])) {
+                  if ($option->getFromDBByCrit(["consumableitems_id" => $id])) {
 
                      $input['id'] = $option->getID();
                      if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
@@ -370,7 +370,7 @@ class PluginConsumablesOption extends CommonDBTM {
             foreach ($ids as $id) {
 
                if ($item->getFromDB($id)) {
-                  if ($option->getFromDBByCrit(["consumables_id" => $id])) {
+                  if ($option->getFromDBByCrit(["consumableitems_id" => $id])) {
                      $groups = json_decode($option->fields["groups"], true);
 
                      if (count($groups) > 0) {
@@ -392,7 +392,7 @@ class PluginConsumablesOption extends CommonDBTM {
                      }
 
                   } else {
-                     $params = ['consumables_id' => $id,
+                     $params = ['consumableitems_id' => $id,
                                 'groups'         => json_encode([$input['_groups_id']])];
 
                      if ($option->can(-1, CREATE, $params) && $option->add($params)) {

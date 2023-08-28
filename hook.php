@@ -37,11 +37,13 @@ function plugin_consumables_install() {
 
    if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
       // Install script
-      $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.0.0.sql");
+      $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.0.1.sql");
       include(PLUGIN_CONSUMABLES_DIR . "/install/install.php");
       install();
    } else if (!$DB->tableExists("glpi_plugin_consumables_options")) {
       $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-1.2.2.sql");
+   }  else if (!$DB->fieldExists("glpi_plugin_consumables_options", "consumableitems_id")) {
+       $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.0.1.sql");
    }
 
    PluginConsumablesProfile::initProfile();
@@ -126,7 +128,7 @@ function plugin_item_purge_consumables($item) {
    switch (get_class($item)) {
       case 'ConsumableItem' :
          $temp = new PluginConsumablesRequest();
-         $temp->deleteByCriteria(['consumables_id' => $item->getField('id')], 1);
+         $temp->deleteByCriteria(['consumableitems_id' => $item->getField('id')], 1);
          break;
    }
 }
@@ -139,8 +141,8 @@ function plugin_consumables_getDatabaseRelations() {
 
    if (Plugin::isPluginActive("consumables")) {
       return ["glpi_profiles"        => ["glpi_plugin_consumables_profiles" => "profiles_id"],
-              "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumables_id"],
-              "glpi_consumableitems" => ["glpi_plugin_consumables_options" => "consumables_id"]];
+              "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumableitems_id"],
+              "glpi_consumableitems" => ["glpi_plugin_consumables_options" => "consumableitems_id"]];
    } else {
       return [];
    }
@@ -165,7 +167,7 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
             'name'          => __('Order reference', 'consumables'),
             'datatype'      => "text",
             'joinparams'    => ['jointype'  => 'child',
-                                'linkfield' => 'consumables_id'],
+                                'linkfield' => 'consumableitems_id'],
             'massiveaction' => false
          ];
          $sopt[] = [
@@ -174,9 +176,9 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
             'field'         => 'max_cart',
             'name'          => __('Maximum number allowed for request', 'consumables'),
             'datatype'      => "number",
-            'linkfield'     => 'consumables_id',
+            'linkfield'     => 'consumableitems_id',
             'joinparams'    => ['jointype'  => 'child',
-                                'linkfield' => 'consumables_id'],
+                                'linkfield' => 'consumableitems_id'],
             'massiveaction' => false,
             'searchtype'    => 'equals'
          ];
@@ -186,9 +188,9 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
             'field'         => 'groups',
             'name'          => __('Allowed groups for request', 'consumables'),
             'datatype'      => "specific",
-            'linkfield'     => 'consumables_id',
+            'linkfield'     => 'consumableitems_id',
             'joinparams'    => ['jointype'  => 'child',
-                                'linkfield' => 'consumables_id'],
+                                'linkfield' => 'consumableitems_id'],
             'massiveaction' => false,
             'nosearch'      => 'true'
          ];

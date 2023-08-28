@@ -67,9 +67,9 @@ class PluginConsumablesField extends CommonDBTM {
       if (!in_array($item::getType(), self::$types)) {
          return false;
       }
-      $consumables_id = $item->getID();
+      $consumableitems_id = $item->getID();
       $field          = new self();
-      if($field->getFromDBByCrit(["consumables_id" => $consumables_id])) {
+      if($field->getFromDBByCrit(["consumableitems_id" => $consumableitems_id])) {
          echo "<div class='form-field row col-12 col-sm-6  mb-2'>";
          echo "<label class='col-form-label col-xxl-4 text-xxl-end'>";
          echo  __('Order reference', 'consumables');
@@ -90,7 +90,7 @@ class PluginConsumablesField extends CommonDBTM {
 
       $field = new self();
       if (isset($consumableItem->input['order_ref'])) {
-         $field->add(['consumables_id' => $consumableItem->fields['id'],
+         $field->add(['consumableitems_id' => $consumableItem->fields['id'],
                       'order_ref'      => $consumableItem->input['order_ref']]);
       }
    }
@@ -103,7 +103,7 @@ class PluginConsumablesField extends CommonDBTM {
    static function preUpdateConsumable(ConsumableItem $consumableItem) {
 
       $field = new self();
-      $field->getFromDBByCrit(["consumables_id" => $consumableItem->input['id']]);
+      $field->getFromDBByCrit(["consumableitems_id" => $consumableItem->input['id']]);
 
       if (!empty($field->fields)) {
          $field->update(['id'        => $field->fields['id'],

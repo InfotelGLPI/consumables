@@ -37,11 +37,11 @@ function consumables_addToCart(action, toobserve, toupdate) {
             });
 
             // Push used consumables
-            var number = object.usedConsumables[data.fields.consumables_id.value];
+            var number = object.usedConsumables[data.fields.consumableitems_id.value];
             if (number === undefined) {
-               object.usedConsumables[data.fields.consumables_id.value] = parseInt(data.fields.number.value);
+               object.usedConsumables[data.fields.consumableitems_id.value] = parseInt(data.fields.number.value);
             } else {
-               object.usedConsumables[data.fields.consumables_id.value] = object.usedConsumables[data.fields.consumables_id.value] + parseInt(data.fields.number.value);
+               object.usedConsumables[data.fields.consumableitems_id.value] = object.usedConsumables[data.fields.consumableitems_id.value] + parseInt(data.fields.number.value);
             }
 
             result += "<td><a href='#' onclick=\"consumables_removeCart('consumables_cartRow" + data.rowId + "')\"><i class='ti ti-circle-x fa-2x' style='color:darkred'></i></a>" +
@@ -147,7 +147,7 @@ function consumables_reloadAvailableConsumablesNumber() {
       data: {
          'action': 'reloadAvailableConsumablesNumber',
          'used': JSON.stringify(this.usedConsumables),
-         'consumables_id': this.consumableID
+         'consumableitems_id': this.consumableID
       },
       success: function (result) {
          var item_bloc = $('#loadAvailableConsumablesNumber');
@@ -169,7 +169,7 @@ function consumables_seeConsumablesInfos() {
       data: {
          'action': 'seeConsumablesInfos',
          'used': JSON.stringify(this.usedConsumables),
-         'consumables_id': this.consumableID
+         'consumableitems_id': this.consumableID
       },
       success: function (result) {
          var item_bloc = $('#seeConsumablesInfos');
@@ -190,12 +190,12 @@ function consumables_seeConsumablesInfos() {
  */
 function consumables_removeCart(field_id) {
    var value = $("tr[id=" + field_id + "] input[id=number]").val();
-   var consumables_id = $("tr[id=" + field_id + "] input[id=consumables_id]").val();
+   var consumableitems_id = $("tr[id=" + field_id + "] input[id=consumableitems_id]").val();
 
    // Remove element from used consumables variable
-   this.usedConsumables[consumables_id] = this.usedConsumables[consumables_id] - parseInt(value);
-   if (this.usedConsumables[consumables_id] < 0) {
-      this.usedConsumables[consumables_id] = 0;
+   this.usedConsumables[consumableitems_id] = this.usedConsumables[consumableitems_id] - parseInt(value);
+   if (this.usedConsumables[consumableitems_id] < 0) {
+      this.usedConsumables[consumableitems_id] = 0;
    }
 
    // Reload consumable list

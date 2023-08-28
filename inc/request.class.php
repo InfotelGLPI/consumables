@@ -141,7 +141,7 @@ class PluginConsumablesRequest extends CommonDBTM
                         self::getTypeName(),
                         $dbu->countElementsInTable(
                             $this->getTable(),
-                            ["consumables_id" => $item->getID()]
+                            ["consumableitems_id" => $item->getID()]
                         )
                     );
                 }
@@ -193,7 +193,7 @@ class PluginConsumablesRequest extends CommonDBTM
             return false;
         }
 
-        $data = $this->find(['consumables_id' => $item->fields['id']], ["date_mod DESC"]);
+        $data = $this->find(['consumableitems_id' => $item->fields['id']], ["date_mod DESC"]);
 
         $this->listItemsForConsumable($data);
     }
@@ -382,7 +382,7 @@ class PluginConsumablesRequest extends CommonDBTM
             $consumable = new ConsumableItem();
             foreach ($data as $field) {
                 $message .= "<tr class='tab_bg_1'>";
-                $consumable->getFromDB($field['consumables_id']);
+                $consumable->getFromDB($field['consumableitems_id']);
                 $message .= "<td>" . $consumable->getLink() . "</td>";
                 $message .= "<td>" . Dropdown::getDropdownName(ConsumableItemType::getTable(), $field['consumableitemtypes_id']) . "</td>";
                 $message .= "<td>" . $dbu->getUserName($field['requesters_id']) . "</td>";
@@ -657,7 +657,7 @@ class PluginConsumablesRequest extends CommonDBTM
             foreach ($consumableitems as $consumableitem) {
                 $groups = [];
                 $option = new PluginConsumablesOption();
-                if ($option->getFromDBByCrit(["consumables_id" => $consumableitem['id']])) {
+                if ($option->getFromDBByCrit(["consumableitems_id" => $consumableitem['id']])) {
                     $groups = $option->getAllowedGroups();
                 }
 
@@ -680,7 +680,7 @@ class PluginConsumablesRequest extends CommonDBTM
         if (count($crit_ids) > 0) {
             $criteria += ['NOT' => ['id' => $crit_ids]];
         }
-        Dropdown::show("ConsumableItem", ['name'      => 'consumables_id',
+        Dropdown::show("ConsumableItem", ['name'      => 'consumableitems_id',
                                           'condition' => $criteria,
                                           'entity'    => $_SESSION['glpiactive_entity'],
                                           'on_change' => 'loadAvailableConsumablesNumber(this);'
@@ -699,14 +699,14 @@ class PluginConsumablesRequest extends CommonDBTM
      * Reload consumables list
      *
      * @param int|type $used
-     * @param int      $consumables_id
+     * @param int      $consumableitems_id
      *
      * @return array
      */
-    public function seeConsumablesInfos($consumables_id = 0)
+    public function seeConsumablesInfos($consumableitems_id = 0)
     {
         $consumable = new ConsumableItem();
-        if ($consumable->getFromDB($consumables_id)) {
+        if ($consumable->getFromDB($consumableitems_id)) {
          //         $picture_url = Toolbox::getPictureUrl();
          //         Toolbox::logInfo($picture_url);
             if (isset($consumable->fields['pictures'])) {
@@ -727,17 +727,17 @@ class PluginConsumablesRequest extends CommonDBTM
      * Reload consumables list
      *
      * @param int|type $used
-     * @param int      $consumables_id
+     * @param int      $consumableitems_id
      *
      * @return array
      */
-    public function loadAvailableConsumablesNumber($used = 0, $consumables_id = 0)
+    public function loadAvailableConsumablesNumber($used = 0, $consumableitems_id = 0)
     {
-        $number = self::countForConsumableItem($consumables_id);
+        $number = self::countForConsumableItem($consumableitems_id);
 
         $maxcart = 0;
         $option  = new PluginConsumablesOption();
-        if ($option->getFromDBByCrit(["consumables_id" => $consumables_id])) {
+        if ($option->getFromDBByCrit(["consumableitems_id" => $consumableitems_id])) {
             $maxcart = $option->getMaxCart();
         }
 
@@ -745,8 +745,8 @@ class PluginConsumablesRequest extends CommonDBTM
             $number = $maxcart;
         }
 
-        if (isset($used->$consumables_id)) {
-            $number = $number - ($used->$consumables_id);
+        if (isset($used->$consumableitems_id)) {
+            $number = $number - ($used->$consumableitems_id);
         }
 
         if ($number > 0) {
@@ -759,15 +759,15 @@ class PluginConsumablesRequest extends CommonDBTM
     }
 
     /**
-     * @param $consumables_id
+     * @param $consumableitems_id
      *
      * @return int
      * @internal param string $item ConsumableItem object
      *
      */
-    public static function countForConsumableItem($consumables_id)
+    public static function countForConsumableItem($consumableitems_id)
     {
-        $restrict = ["consumableitems_id" => $consumables_id,
+        $restrict = ["consumableitems_id" => $consumableitems_id,
                      "date_out"           => null];
         $dbu      = new DbUtils();
         return $dbu->countElementsInTable(['glpi_consumables'], $restrict);
@@ -793,8 +793,8 @@ class PluginConsumablesRequest extends CommonDBTM
                                                    'value' => Session::getLoginUserID()],
                       'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
                                                    'value' => $params['consumableitemtypes_id']],
-                      'consumables_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumables_id']),
-                                                   'value' => $params['consumables_id']],
+                      'consumableitems_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumableitems_id']),
+                                                   'value' => $params['consumableitems_id']],
                       'number'                 => ['label' => $params['number'],
                                                    'value' => $params['number']],
                       'give_items_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
@@ -837,14 +837,14 @@ class PluginConsumablesRequest extends CommonDBTM
             foreach ($params['consumables_cart'] as $row) {
                 list($success, $message) = $this->checkMandatoryFields($row);
                 if ($success) {
-               //               $consumableExist = $this->find("`consumables_id` = ".$row['consumables_id']." "
+               //               $consumableExist = $this->find("`consumableitems_id` = ".$row['consumableitems_id']." "
                //                                             . "AND `status` = '".CommonITILValidation::NONE."' "
                //                                             . "AND `give_itemtype` = '".$row['give_itemtype']."'"
                //                                             . "AND `give_items_id` = '".$row['give_items_id']."'"
                //                                             . "AND `requesters_id` = '".$row['requesters_id']."'");
                //               if (empty($consumableExist)) {
                     $input = ['consumableitemtypes_id' => $row['consumableitemtypes_id'],
-                              'consumables_id'         => $row['consumables_id'],
+                              'consumableitems_id'     => $row['consumableitems_id'],
                               'number'                 => $row['number'],
                               'date_mod'               => date("Y-m-d H:i:s"),
                               'give_items_id'          => $row['give_items_id'],
@@ -861,7 +861,7 @@ class PluginConsumablesRequest extends CommonDBTM
                //                  $consumableExist = reset($consumableExist);
                //                  $input = ['id'                     => $consumableExist['id'],
                //                                 'consumableitemtypes_id' => $row['consumableitemtypes_id'],
-               //                                 'consumables_id'         => $row['consumables_id'],
+               //                                 'consumableitems_id'         => $row['consumableitems_id'],
                //                                 'number'                 => $row['number'] + $consumableExist['number'],
                //                                 'end_date'               => $row['end_date'],
                //                                 'give_items_id'          => $row['give_items_id'],
@@ -906,7 +906,7 @@ class PluginConsumablesRequest extends CommonDBTM
         $datas = $this->find();
         if (!empty($datas)) {
             foreach ($datas as $data) {
-                $used[] = $data['consumables_id'];
+                $used[] = $data['consumableitems_id'];
             }
         }
 
@@ -927,7 +927,7 @@ class PluginConsumablesRequest extends CommonDBTM
         $checkKo = false;
 
         $mandatory_fields = ['consumableitemtypes_id' => _n('Consumable type', 'Consumable types', 1),
-                             'consumables_id'         => _n('Consumable', 'Consumables', 1),
+                             'consumableitems_id'     => _n('Consumable', 'Consumables', 1),
                              'number'                 => __('Number', 'consumables')];
 
         foreach ($input as $key => $value) {
