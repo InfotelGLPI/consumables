@@ -56,16 +56,20 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
       'itemtype'            => $_POST["idtable"],
       'display_emptychoice' => true,
       'displaywith'         => ['otherserial', 'serial'],
-      '_idor_token'         => Session::getNewIDORToken($_POST["idtable"]),
+   ];
+   $idor_params = [
+       'displaywith' => ['otherserial', 'serial'],
    ];
    if (isset($_POST['value'])) {
       $p['value'] = $_POST['value'];
    }
    if (isset($_POST['entity_restrict'])) {
       $p['entity_restrict'] = $_POST['entity_restrict'];
+      $idor_params['entity_restrict'] = $_POST['entity_restrict'];
    }
    if (isset($_POST['condition'])) {
       $p['condition'] = $_POST['condition'];
+      $idor_params['condition'] = $_POST['condition'];
    }
    if ($_POST['idtable'] == 'Group') {
       $groups      = Group_User::getUserGroups(Session::getLoginUserID());
@@ -74,7 +78,10 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
          $user_groups[] = $group['id'];
       }
       $p['condition'] = Dropdown::addNewCondition(["id" =>$user_groups]);
+      $idor_params['condition'] = $p['condition'];
    }
+    $p['_idor_token'] = Session::getNewIDORToken($_POST["idtable"], $idor_params);
+
 
    echo Html::jsAjaxDropdown($_POST["name"], $field_id,
                              $CFG_GLPI['root_doc'] . "/ajax/" . $link,
