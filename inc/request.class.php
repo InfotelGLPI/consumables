@@ -69,6 +69,10 @@ class PluginConsumablesRequest extends CommonDBTM
         return Session::haveRight("plugin_consumables_request", 1);
     }
 
+    static function canValidate() {
+        return Session::haveRight("plugin_consumables_validation", 1);
+    }
+
     /**
      * Have I the global right to "request user" the Object
      * May be overloaded if needed (ex KnowbaseItem)
@@ -419,7 +423,7 @@ class PluginConsumablesRequest extends CommonDBTM
     {
         global $CFG_GLPI;
 
-        if (!$this->canView()) {
+        if (!$this->canView() && !$this->canRequest()) {
             return false;
         }
 

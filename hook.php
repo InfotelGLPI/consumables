@@ -67,7 +67,7 @@ function plugin_consumables_uninstall() {
               "glpi_plugin_consumables_fields"];
 
    foreach ($tables as $table) {
-      $DB->query("DROP TABLE IF EXISTS `$table`;");
+      $DB->dropTable($table);
    }
 
    $options = ['itemtype' => 'PluginConsumablesRequest',
@@ -160,40 +160,34 @@ function plugin_consumables_getAddSearchOptions($itemtype) {
 
    if ($itemtype == "ConsumableItem") {
       if (Session::haveRight("plugin_consumables", READ)) {
-         $sopt[] = [
-            'id'            => 185,
-            'table'         => 'glpi_plugin_consumables_fields',
-            'field'         => 'order_ref',
-            'name'          => __('Order reference', 'consumables'),
-            'datatype'      => "text",
-            'joinparams'    => ['jointype'  => 'child',
-                                'linkfield' => 'consumableitems_id'],
-            'massiveaction' => false
-         ];
-         $sopt[] = [
-            'id'            => 186,
-            'table'         => 'glpi_plugin_consumables_options',
-            'field'         => 'max_cart',
-            'name'          => __('Maximum number allowed for request', 'consumables'),
-            'datatype'      => "number",
-            'linkfield'     => 'consumableitems_id',
-            'joinparams'    => ['jointype'  => 'child',
-                                'linkfield' => 'consumableitems_id'],
-            'massiveaction' => false,
-            'searchtype'    => 'equals'
-         ];
-         $sopt[] = [
-            'id'            => 187,
-            'table'         => 'glpi_plugin_consumables_options',
-            'field'         => 'groups',
-            'name'          => __('Allowed groups for request', 'consumables'),
-            'datatype'      => "specific",
-            'linkfield'     => 'consumableitems_id',
-            'joinparams'    => ['jointype'  => 'child',
-                                'linkfield' => 'consumableitems_id'],
-            'massiveaction' => false,
-            'nosearch'      => 'true'
-         ];
+
+          $sopt[185]['table']         = 'glpi_plugin_consumables_fields';
+          $sopt[185]['field']         = 'order_ref';
+          $sopt[185]['name']          = __('Order reference', 'consumables');
+          $sopt[185]['datatype']      = "text";
+          $sopt[185]['joinparams']    = ['jointype'  => 'child',
+              'linkfield' => 'consumableitems_id'];
+          $sopt[185]['massiveaction'] = false;
+
+          $sopt[186]['table']         = 'glpi_plugin_consumables_options';
+          $sopt[186]['field']         = 'max_cart';
+          $sopt[186]['name']          = __('Maximum number allowed for request', 'consumables');
+          $sopt[186]['datatype']      = "number";
+          $sopt[186]['linkfield']      = "consumableitems_id";
+          $sopt[186]['joinparams']    = ['jointype'  => 'child',
+              'linkfield' => 'consumableitems_id'];
+          $sopt[186]['massiveaction'] = false;
+
+          $sopt[187]['table']         = 'glpi_plugin_consumables_options';
+          $sopt[187]['field']         = 'groups';
+          $sopt[187]['name']          = __('Allowed groups for request', 'consumables');
+          $sopt[187]['datatype']      = "specific";
+          $sopt[187]['linkfield']      = "consumableitems_id";
+          $sopt[187]['joinparams']    = ['jointype'  => 'child',
+              'linkfield' => 'consumableitems_id'];
+          $sopt[187]['massiveaction'] = false;
+          $sopt[187]['nosearch'] = true;
+
       }
    }
 

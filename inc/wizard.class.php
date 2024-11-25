@@ -52,7 +52,7 @@ class PluginConsumablesWizard extends CommonDBTM {
       return __('Consumables wizard', 'consumables');
    }
 
-   /**
+    /**
     * Show config menu
     */
    function showMenu() {
@@ -60,7 +60,7 @@ class PluginConsumablesWizard extends CommonDBTM {
 
       $request = new PluginConsumablesRequest();
 
-      if (!$this->canView()) {
+      if (!$this->canView() && !$request->canRequest()) {
          return false;
       }
 
@@ -78,14 +78,16 @@ class PluginConsumablesWizard extends CommonDBTM {
          echo "<br><br>" . __("Consumable request", "consumables") . "<br></a>";
          echo "</div>";
       }
-      echo "<div style='width: 10px;'></div>";
-      // Consumable validation
-      echo "<div class='center col-md-6 consumables_wizard_rank'>";
-      echo "<a class='consumables_menu_a' href='" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.form.php?action=consumablevalidation'>";
-      echo "<i class='thumbnail ti ti-clipboard-check' style='font-size: 4.5em;'></i>";
-      echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";
-      echo "</div>";
 
+       if ($request->canValidate()) {
+           echo "<div style='width: 10px;'></div>";
+           // Consumable validation
+           echo "<div class='center col-md-6 consumables_wizard_rank'>";
+           echo "<a class='consumables_menu_a' href='" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.form.php?action=consumablevalidation'>";
+           echo "<i class='thumbnail ti ti-clipboard-check' style='font-size: 4.5em;'></i>";
+           echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";
+           echo "</div>";
+       }
       echo "</div>";
    }
 
