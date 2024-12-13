@@ -882,8 +882,9 @@ class PluginConsumablesRequest extends CommonDBTM
             // Send notification
             if (!empty($added)) {
                 foreach ($added as $add) {
-                    $item = new pluginConsumablesRequest();
+                    $item = new self();
                     $item->getFromDB($add['id']);
+
                     NotificationEvent::raiseEvent(
                         PluginConsumablesNotificationTargetRequest::CONSUMABLE_REQUEST,
                         $item,

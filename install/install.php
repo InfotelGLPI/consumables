@@ -47,7 +47,7 @@ function install() {
 
    $query = "INSERT INTO `glpi_notificationtemplatetranslations` (`notificationtemplates_id`, `subject`, `content_text`, `content_html`)
 VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
-'##FOREACHconsumabledatas##
+'##FOREACHconsumabledata##
 ##lang.consumable.entity## :##consumable.entity##
 ##lang.consumablerequest.requester## : ##consumablerequest.requester##
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##
@@ -55,8 +55,8 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.number## : ##consumablerequest.number##
 ##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##
 ##lang.consumablerequest.status## : ##consumablerequest.status##
-##ENDFOREACHconsumabledatas##',
-'##FOREACHconsumabledatas##&lt;br /&gt; &lt;br /&gt;
+##ENDFOREACHconsumabledata##',
+'##FOREACHconsumabledata##&lt;br /&gt; &lt;br /&gt;
 &lt;p&gt;##lang.consumable.entity## :##consumable.entity##&lt;br /&gt; &lt;br /&gt;
 ##lang.consumablerequest.requester## : ##consumablerequest.requester##&lt;br /&gt;
 ##lang.consumablerequest.consumabletype## : ##consumablerequest.consumabletype##&lt;br /&gt;
@@ -64,7 +64,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.number## : ##consumablerequest.number##&lt;br /&gt;
 ##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
-##ENDFOREACHconsumabledatas##');";
+##ENDFOREACHconsumabledata##');";
    $DB->query($query);
 
    $query = "INSERT INTO `glpi_notifications` (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`)
@@ -90,7 +90,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 
    $query = "INSERT INTO `glpi_notificationtemplatetranslations` (`notificationtemplates_id`, `subject`, `content_text`, `content_html`)
 VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
-'##FOREACHconsumabledatas##
+'##FOREACHconsumabledata##
 ##lang.consumable.entity## :##consumable.entity##
 ##lang.consumablerequest.requester## : ##consumablerequest.requester##
 ##lang.consumablerequest.validator## : ##consumablerequest.validator##
@@ -99,9 +99,9 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.number## : ##consumablerequest.number##
 ##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##
 ##lang.consumablerequest.status## : ##consumablerequest.status##
-##ENDFOREACHconsumabledatas##
+##ENDFOREACHconsumabledata##
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##',
-'##FOREACHconsumabledatas##&lt;br /&gt; &lt;br /&gt;
+'##FOREACHconsumabledata##&lt;br /&gt; &lt;br /&gt;
 &lt;p&gt;##lang.consumable.entity## :##consumable.entity##&lt;br /&gt; &lt;br /&gt;
 ##lang.consumablerequest.requester## : ##consumablerequest.requester##&lt;br /&gt;
 ##lang.consumablerequest.validator## : ##consumablerequest.validator##&lt;br /&gt;
@@ -111,7 +111,7 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##&lt;br /&gt;
-##ENDFOREACHconsumabledatas##');";
+##ENDFOREACHconsumabledata##');";
    $DB->query($query);
 
    $query = "INSERT INTO `glpi_notifications` (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`)

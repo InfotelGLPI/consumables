@@ -28,165 +28,192 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
-
-// Class NotificationTarget
 
 /**
  * Class PluginConsumablesNotificationTargetRequest
  */
-class PluginConsumablesNotificationTargetRequest extends NotificationTarget {
+class PluginConsumablesNotificationTargetRequest extends NotificationTarget
+{
 
-   const CONSUMABLE_REQUEST  = "ConsumableRequest";
-   const CONSUMABLE_RESPONSE = "ConsumableResponse";
-   const VALIDATOR           = 30;
-   const REQUESTER           = 31;
-   const RECIPIENT           = 32;
+    const CONSUMABLE_REQUEST = "ConsumableRequest";
+    const CONSUMABLE_RESPONSE = "ConsumableResponse";
+    const VALIDATOR = 30;
+    const REQUESTER = 31;
+    const RECIPIENT = 32;
 
-   /**
-    * @return array
-    */
-   function getEvents() {
-      return [self::CONSUMABLE_REQUEST  => __('Consumable request', 'consumables'),
-              self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables')];
-   }
+    /**
+     * @return array
+     */
+    function getEvents()
+    {
+        return [
+            self::CONSUMABLE_REQUEST => __('Consumable request', 'consumables'),
+            self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables')
+        ];
+    }
 
-   /**
-    * @param       $event
-    * @param array $options
-    */
-   function addDataForTemplate($event, $options = []) {
+    public function validateSendTo($event, array $infos, $notify_me = false, $emitter = null)
+    {
+        // Always send notification for satisfaction : if send on ticket closure
+        // Always send notification for new ticket
+        if (in_array($event, ['ConsumableRequest', 'ConsumableResponse'])) {
+            return true;
+        }
 
-      // Set labels
-      $this->data['##lang.consumable.entity##'] = __('Entity');
-      $this->data['##lang.consumable.id##']     = __('Consumable ID', 'consumables');
-      switch ($event) {
-         case self::CONSUMABLE_REQUEST:
-            $this->data['##consumable.action##'] = __('Consumable request', 'consumables');
-            break;
-         case self::CONSUMABLE_RESPONSE:
-            $this->data['##consumable.action##'] = __('Consumable validation', 'consumables');
-            break;
-      }
-      $this->data['##lang.consumablerequest.consumable##']     = _n('Consumable', 'Consumables', 1);
-      $this->data['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
-      $this->data['##lang.consumablerequest.requestdate##']    = __('Request date');
-      $this->data['##lang.consumablerequest.requester##']      = __('Requester');
-      $this->data['##lang.consumablerequest.giveto##']         = __("Give to");
-      $this->data['##lang.consumablerequest.status##']         = __('Status');
-      $this->data['##lang.consumablerequest.number##']         = __('Number of used consumables');
-      $this->data['##lang.consumablerequest.validator##']      = __('Approver');
-      $this->data['##lang.consumablerequest.comment##']        = __('Comments');
+        return parent::validateSendTo($event, $infos, $notify_me, $emitter);
+    }
 
-      $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
-      //Set values
+    /**
+     * @param       $event
+     * @param array $options
+     */
+    function addDataForTemplate($event, $options = [])
+    {
+        // Set labels
+        $this->data['##lang.consumable.entity##'] = __('Entity');
+        $this->data['##lang.consumable.id##'] = __('Consumable ID', 'consumables');
+        switch ($event) {
+            case self::CONSUMABLE_REQUEST:
+                $this->data['##consumable.action##'] = __('Consumable request', 'consumables');
+                break;
+            case self::CONSUMABLE_RESPONSE:
+                $this->data['##consumable.action##'] = __('Consumable validation', 'consumables');
+                break;
+        }
+        $this->data['##lang.consumablerequest.consumable##'] = _n('Consumable', 'Consumables', 1);
+        $this->data['##lang.consumablerequest.consumabletype##'] = _n('Consumable type', 'Consumable types', 1);
+        $this->data['##lang.consumablerequest.requestdate##'] = __('Request date');
+        $this->data['##lang.consumablerequest.requester##'] = __('Requester');
+        $this->data['##lang.consumablerequest.giveto##'] = __("Give to");
+        $this->data['##lang.consumablerequest.status##'] = __('Status');
+        $this->data['##lang.consumablerequest.number##'] = __('Number of used consumables');
+        $this->data['##lang.consumablerequest.validator##'] = __('Approver');
+        $this->data['##lang.consumablerequest.comment##'] = __('Comments');
+
+        $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
+        //Set values
 //      foreach ($options['consumables'] as $id => $item) {
-      $tmp                                         = [];
-      $tmp['##consumable.id##']                    = $options['consumables']['consumableitems_id'];
-      $tmp['##consumablerequest.consumable##']     = Dropdown::getDropdownName(ConsumableItem::getTable(), $options['consumables']['consumableitems_id']);
-      $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(ConsumableItemType::getTable(), $options['consumables']['consumableitemtypes_id']);
-      $tmp['##consumablerequest.requestdate##']    = Html::convDateTime($options['consumables']['date_mod']);
-      if (isset($item['end_date'])) {
-         $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
-      }
-      $dbu = new DbUtils();
-      $give_to_id = $options['consumables']['give_items_id'];
-      $give_to_item = $options['consumables']['give_itemtype'];
-      if($give_to_item == 'User'){
-         $give_to = $dbu->getUserName($give_to_id);
-      } else{
-         $group = new Group();
-         $group->getFromDB($give_to_id);
-         $give_to = $group->getField('name');
-      }
-      $tmp['##consumablerequest.requester##'] = $dbu->getUserName($options['consumables']['requesters_id']);
-      $tmp['##consumablerequest.giveto##']    = $give_to;
-      $tmp['##consumablerequest.validator##'] = $dbu->getUserName($options['consumables']['validators_id']);
-      $tmp['##consumablerequest.number##']    = $options['consumables']['number'];
-      $tmp['##consumablerequest.status##']    = CommonITILValidation::getStatus($options['consumables']['status']);
-      $this->data['consumabledata'][]         = $tmp;
+        $tmp = [];
+        $tmp['##consumable.id##'] = $options['consumables']['consumableitems_id'];
+        $tmp['##consumablerequest.consumable##'] = Dropdown::getDropdownName(
+            ConsumableItem::getTable(),
+            $options['consumables']['consumableitems_id']
+        );
+        $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(
+            ConsumableItemType::getTable(),
+            $options['consumables']['consumableitemtypes_id']
+        );
+        $tmp['##consumablerequest.requestdate##'] = Html::convDateTime($options['consumables']['date_mod']);
+        if (isset($item['end_date'])) {
+            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
+        }
+
+        $give_to_id = $options['consumables']['give_items_id'];
+        $give_to_item = $options['consumables']['give_itemtype'];
+        if ($give_to_item == 'User') {
+            $give_to = getUserName($give_to_id);
+        } else {
+            $group = new Group();
+            $group->getFromDB($give_to_id);
+            $give_to = $group->getField('name');
+        }
+        $tmp['##consumablerequest.requester##'] = getUserName($options['consumables']['requesters_id']);
+        $tmp['##consumablerequest.giveto##'] = $give_to;
+        $tmp['##consumablerequest.validator##'] = getUserName($options['consumables']['validators_id']);
+        $tmp['##consumablerequest.number##'] = $options['consumables']['number'];
+        $tmp['##consumablerequest.status##'] = CommonITILValidation::getStatus($options['consumables']['status']);
+
+        $this->data['consumabledata'][] = $tmp;
 //      }
-      if (isset($options['comment'])) {
-         $this->data['##consumablerequest.comment##'] = Glpi\RichText\RichText::getSafeHtml($options['comment']);
-      }
-   }
+        if (isset($options['comment'])) {
+            $this->data['##consumablerequest.comment##'] = Glpi\RichText\RichText::getSafeHtml($options['comment']);
+        }
+    }
 
-   /**
-    *
-    */
-   function getTags() {
+    /**
+     *
+     */
+    function getTags()
+    {
+        $tags = [
+            'consumable.id' => __('Consumable ID', 'consumables'),
+            'consumable.action' => __('Type of event', 'consumables'),
+            'consumable.entity' => __('Entity'),
+            'consumablerequest.consumable' => _n('Consumable', 'Consumables', 1),
+            'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
+            'consumablerequest.requestdate' => __('Request date'),
+            'consumablerequest.enddate' => __('End date'),
+            'consumablerequest.requester' => __('Requester'),
+            'consumablerequest.giveto' => __('Give to'),
+            'consumablerequest.status' => __('Status'),
+            'consumablerequest.number' => __('Number of used consumables'),
+            'consumablerequest.validator' => __('Approver'),
+            'consumablerequest.comment' => __('Comments')
+        ];
 
-      $tags = ['consumable.id'                    => __('Consumable ID', 'consumables'),
-               'consumable.action'                => __('Type of event', 'consumables'),
-               'consumable.entity'                => __('Entity'),
-               'consumablerequest.consumable'     => _n('Consumable', 'Consumables', 1),
-               'consumablerequest.consumabletype' => _n('Consumable type', 'Consumable types', 1),
-               'consumablerequest.requestdate'    => __('Request date'),
-               'consumablerequest.enddate'        => __('End date'),
-               'consumablerequest.requester'      => __('Requester'),
-               'consumablerequest.giveto'         => __('Give to'),
-               'consumablerequest.status'         => __('Status'),
-               'consumablerequest.number'         => __('Number of used consumables'),
-               'consumablerequest.validator'      => __('Approver'),
-               'consumablerequest.comment'        => __('Comments')];
+        foreach ($tags as $tag => $label) {
+            $this->addTagToList([
+                'tag' => $tag,
+                'label' => $label,
+                'lang' => true,
+                'value' => true
+            ]);
+        }
 
-      foreach ($tags as $tag => $label) {
-         $this->addTagToList(['tag'   => $tag,
-                              'label' => $label,
-                              'lang'  => true,
-                              'value' => true]);
-      }
+        $this->addTagToList([
+            'tag' => 'consumabledata',
+            'label' => __('Display each consumable', 'consumables'),
+            'lang' => true,
+            'foreach' => true,
+            'value' => true
+        ]);
 
-      $this->addTagToList(['tag'     => 'consumabledata',
-                           'label'   => __('Display each consumable', 'consumables'),
-                           'lang'    => true,
-                           'foreach' => true,
-                           'value'   => true]);
+        asort($this->tag_descriptions);
+    }
 
-      asort($this->tag_descriptions);
-   }
+    /**
+     * Get additionnals targets for Tickets
+     *
+     * @param string $event
+     */
+    public function addAdditionalTargets($event = '')
+    {
+        $this->addTarget(self::VALIDATOR, __("Consumable approver", "consumables"));
+        $this->addTarget(self::REQUESTER, __("Consumable requester", "consumables"));
+        $this->addTarget(self::RECIPIENT, __("Consumable recipient", "consumables"));
+    }
 
-   /**
-    * Get additionnals targets for Tickets
-    *
-    * @param string $event
-    */
-   public function addAdditionalTargets($event = '') {
+    /**
+     * @param $data
+     * @param $options
+     */
+    public function addSpecificTargets($data, $options)
+    {
+        switch ($data['items_id']) {
+            case self::VALIDATOR:
+                $this->addUserByField("validators_id");
+                break;
+            case self::REQUESTER:
+                $this->addUserByField("requesters_id");
+                break;
+            case self::RECIPIENT:
+                $this->addUserByRecipient();
+                break;
+        }
+    }
 
-      $this->addTarget(self::VALIDATOR, __("Consumable approver", "consumables"));
-      $this->addTarget(self::REQUESTER, __("Consumable requester", "consumables"));
-      $this->addTarget(self::RECIPIENT, __("Consumable recipient", "consumables"));
-   }
+    public function addUserByRecipient()
+    {
+        $type = $this->obj->getField("give_itemtype");
 
-   /**
-    * @param $data
-    * @param $options
-    */
-   public function addSpecificTargets($data, $options) {
-
-      switch ($data['items_id']) {
-         case self::VALIDATOR:
-            $this->addUserByField("validators_id");
-            break;
-         case self::REQUESTER:
-            $this->addUserByField("requesters_id");
-            break;
-         case self::RECIPIENT:
-            $this->addUserByRecipient("requesters_id");
-            break;
-      }
-   }
-
-   public function addUserByRecipient(){
-      $type = $this->obj->getField("give_itemtype");
-
-      if($type == User::getType()){
-         $this->addUserByField("give_items_id");
-      }else if ($type == Group::getType()){
-         $id = $this->obj->getField("give_items_id");
-         $this->addForGroup(0, $id);
-      }
-   }
+        if ($type == User::getType()) {
+            $this->addUserByField("give_items_id");
+        } elseif ($type == Group::getType()) {
+            $id = $this->obj->getField("give_items_id");
+            $this->addForGroup(0, $id);
+        }
+    }
 
 }
