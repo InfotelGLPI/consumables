@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-13 18:10+0000\n"
+"POT-Creation-Date: 2025-06-26 08:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,7 +131,7 @@ msgid "Consumables request search"
 msgstr ""
 
 #: inc/request.class.php:477 inc/request.class.php:522
-#: inc/request.class.php:936 inc/validation.class.php:100
+#: inc/request.class.php:944 inc/validation.class.php:100
 #: inc/validation.class.php:213
 msgid "Number"
 msgstr ""
@@ -144,13 +144,13 @@ msgstr ""
 msgid "Cart"
 msgstr ""
 
-#: inc/request.class.php:878
+#: inc/request.class.php:886
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/request.class.php:898
+#: inc/request.class.php:906
 msgid "Please add consumables in cart"
 msgstr ""
 
