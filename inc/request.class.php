@@ -282,7 +282,7 @@ class PluginConsumablesRequest extends CommonDBTM
         $begin_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . "-1 MONTH"));
         $end_date   = date('Y-m-d H:i:s');
 
-        echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL($this->getType()) . "' id='consumables_formSearchConsumables'>";
+        echo "<form name='form' method='post' action='' id='consumables_formSearchConsumables'>";
         echo "<div align='center'>";
         echo "<table class='tab_cadre_fixe'>";
         echo "<tr>";
@@ -789,24 +789,32 @@ class PluginConsumablesRequest extends CommonDBTM
         list($success, $message) = $this->checkMandatoryFields($params);
         $dbu = new DbUtils();
 
-        $result = ['success' => $success,
-                   'message' => $message,
-                   'rowId'   => mt_rand(),
-                   'fields'  => [
-                      'requesters_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
-                                                   'value' => Session::getLoginUserID()],
-                      'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
-                                                   'value' => $params['consumableitemtypes_id']],
-                      'consumableitems_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumableitems_id']),
-                                                   'value' => $params['consumableitems_id']],
-                      'number'                 => ['label' => $params['number'],
-                                                   'value' => $params['number']],
-                      'give_items_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
-                                                   'value' => Session::getLoginUserID()],
-                      'give_itemtype'          => ['label'  => User::getTypeName(),
-                                                   'value'  => "User",
-                                                   'hidden' => 1]
-                   ]];
+        if (isset($params['consumableitems_id'])) {
+            $result = ['success' => $success,
+                'message' => $message,
+                'rowId'   => mt_rand(),
+                'fields'  => [
+                    'requesters_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
+                        'value' => Session::getLoginUserID()],
+                    'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
+                        'value' => $params['consumableitemtypes_id']],
+                    'consumableitems_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumableitems_id']),
+                        'value' => $params['consumableitems_id']],
+                    'number'                 => ['label' => $params['number'],
+                        'value' => $params['number']],
+                    'give_items_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
+                        'value' => Session::getLoginUserID()],
+                    'give_itemtype'          => ['label'  => User::getTypeName(),
+                        'value'  => "User",
+                        'hidden' => 1]
+                ]];
+        } else {
+            $result = ['success' => $success,
+                'message' => $message,
+                'rowId'   => mt_rand(),
+                'fields'  => []];
+        }
+
 
         // Give to
         if (!empty($params['give_itemtype'])) {
