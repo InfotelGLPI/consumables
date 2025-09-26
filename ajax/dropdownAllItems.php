@@ -35,60 +35,67 @@ Session::checkLoginUser();
 
 // Make a select box
 if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
-   $dbu = new DbUtils();
-   $table = $dbu->getTableForItemType($_POST["idtable"]);
+    $dbu = new DbUtils();
+    $table = $dbu->getTableForItemType($_POST["idtable"]);
 
    // Link to user for search only > normal users
-   $link = "getDropdownValue.php";
+    $link = "getDropdownValue.php";
 
-   if ($_POST["idtable"] == 'User') {
-      $link = "getDropdownUsers.php";
-   }
+    if ($_POST["idtable"] == 'User') {
+        $link = "getDropdownUsers.php";
+    }
 
-   $rand = mt_rand();
+    $rand = mt_rand();
 
-   $field_id = Html::cleanId("dropdown_" . $_POST["name"] . $rand);
+    $field_id = Html::cleanId("dropdown_" . $_POST["name"] . $rand);
 
-   $p        = [
+    $p        = [
       'value'               => 0,
       'valuename'           => Dropdown::EMPTY_VALUE,
       'itemtype'            => $_POST["idtable"],
       'display_emptychoice' => true,
       'displaywith'         => ['otherserial', 'serial'],
       '_idor_token'         => Session::getNewIDORToken($_POST["idtable"]),
-   ];
-   if (isset($_POST['value'])) {
-      $p['value'] = $_POST['value'];
-   }
-   if (isset($_POST['entity_restrict'])) {
-      $p['entity_restrict'] = $_POST['entity_restrict'];
-   }
-   if (isset($_POST['condition'])) {
-      $p['condition'] = $_POST['condition'];
-   }
-   if ($_POST['idtable'] == 'Group') {
-      $groups      = Group_User::getUserGroups(Session::getLoginUserID());
-      $user_groups = [];
-      foreach ($groups as $group) {
-         $user_groups[] = $group['id'];
-      }
-      $p['condition'] = Dropdown::addNewCondition(["id" =>$user_groups]);
-   }
+    ];
+    if (isset($_POST['value'])) {
+        $p['value'] = $_POST['value'];
+    }
+    if (isset($_POST['entity_restrict'])) {
+        $p['entity_restrict'] = $_POST['entity_restrict'];
+    }
+    if (isset($_POST['condition'])) {
+        $p['condition'] = $_POST['condition'];
+    }
+    if ($_POST['idtable'] == 'Group') {
+        $groups      = Group_User::getUserGroups(Session::getLoginUserID());
+        $user_groups = [];
+        foreach ($groups as $group) {
+            $user_groups[] = $group['id'];
+        }
+        $p['condition'] = Dropdown::addNewCondition(["id" =>$user_groups]);
+    }
 
-   echo Html::jsAjaxDropdown($_POST["name"], $field_id,
-                             $CFG_GLPI['root_doc'] . "/ajax/" . $link,
-                             $p);
+    echo Html::jsAjaxDropdown(
+        $_POST["name"],
+        $field_id,
+        $CFG_GLPI['root_doc'] . "/ajax/" . $link,
+        $p
+    );
 
-   if (!empty($_POST['showItemSpecificity'])) {
-      $params = ['items_id' => '__VALUE__',
+    if (!empty($_POST['showItemSpecificity'])) {
+        $params = ['items_id' => '__VALUE__',
                  'itemtype' => $_POST["idtable"]];
-      if (isset($_POST['entity_restrict'])) {
-         $params['entity_restrict'] = $_POST['entity_restrict'];
-      }
+        if (isset($_POST['entity_restrict'])) {
+            $params['entity_restrict'] = $_POST['entity_restrict'];
+        }
 
-      Ajax::updateItemOnSelectEvent($field_id, "showItemSpecificity_" . $_POST["name"] . "$rand",
-                                    $_POST['showItemSpecificity'], $params);
+        Ajax::updateItemOnSelectEvent(
+            $field_id,
+            "showItemSpecificity_" . $_POST["name"] . "$rand",
+            $_POST['showItemSpecificity'],
+            $params
+        );
 
-      echo "<br><span id='showItemSpecificity_" . $_POST["name"] . "$rand'>&nbsp;</span>\n";
-   }
+        echo "<br><span id='showItemSpecificity_" . $_POST["name"] . "$rand'>&nbsp;</span>\n";
+    }
 }

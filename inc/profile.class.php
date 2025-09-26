@@ -50,7 +50,7 @@ class PluginConsumablesProfile extends Profile
         return '';
     }
 
-    static function getIcon() {
+    public static function getIcon() {
         return PluginConsumablesRequest::getIcon();
     }
 

@@ -28,7 +28,7 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 
@@ -38,79 +38,87 @@ if (!defined('GLPI_ROOT')) {
 class PluginConsumablesServicecatalog extends CommonGLPI
 {
 
-   static $rightname     = 'plugin_consumables_request';
+    public static $rightname     = 'plugin_consumables_request';
 
-   var     $dohistory = false;
+    public $dohistory = false;
 
    /**
     * @return bool
     */
-   static function canUse() {
-      return Session::haveRight("plugin_consumables_request", 1);
-   }
+    public static function canUse()
+    {
+        return Session::haveRight("plugin_consumables_request", 1);
+    }
 
    /**
     * @return string
     */
-   static function getMenuLink() {
+    public static function getMenuLink()
+    {
 
-      return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
-   }
+        return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
+    }
 
    /**
     * @return string
     */
-   static function getNavBarLink() {
-      global $CFG_GLPI;
+    public static function getNavBarLink()
+    {
+        global $CFG_GLPI;
 
-      return PLUGIN_CONSUMABLES_DIR_NOFULL . "/front/wizard.php";
-   }
+        return PLUGIN_CONSUMABLES_DIR_NOFULL . "/front/wizard.php";
+    }
 
    /**
     * @return string|\translated
     */
-   static function getMenuTitle() {
-      return _n('Consumable request', 'Consumable requests', 2, 'consumables');
-   }
+    public static function getMenuTitle()
+    {
+        return _n('Consumable request', 'Consumable requests', 2, 'consumables');
+    }
 
    /**
     * @return string
     */
-   static function getMenuLogo() {
+    public static function getMenuLogo()
+    {
 
-      return PluginConsumablesRequest::getIcon();
-   }
+        return PluginConsumablesRequest::getIcon();
+    }
 
    /**
     * @return string
     * @throws \GlpitestSQLError
     */
-   static function getMenuLogoCss() {
+    public static function getMenuLogoCss()
+    {
 
-      $addstyle = "font-size: 4.5em;";
-      return $addstyle;
-
-   }
+        $addstyle = "font-size: 4.5em;";
+        return $addstyle;
+    }
 
    /**
     * @return string|\translated
     */
-   static function getMenuComment() {
+    public static function getMenuComment()
+    {
 
-      return __('Make a consumable request', 'consumables');
-   }
-
-   /**
-    * @return string
-    */
-   static function getLinkList() {
-      return "";
-   }
+        return __('Make a consumable request', 'consumables');
+    }
 
    /**
     * @return string
     */
-   static function getList() {
-      return "";
-   }
+    public static function getLinkList()
+    {
+        return "";
+    }
+
+   /**
+    * @return string
+    */
+    public static function getList()
+    {
+        return "";
+    }
 }

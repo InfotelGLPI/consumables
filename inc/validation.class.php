@@ -44,12 +44,12 @@ class PluginConsumablesValidation extends CommonDBTM
 
     private $request;
 
-    static $rightname = "plugin_consumables";
+    public static $rightname = "plugin_consumables";
 
     /**
      * PluginConsumablesValidation constructor.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -57,7 +57,7 @@ class PluginConsumablesValidation extends CommonDBTM
         $this->request = new PluginConsumablesRequest();
     }
 
-    function rawSearchOptions()
+    public function rawSearchOptions()
     {
         $tab = [];
 
@@ -137,7 +137,7 @@ class PluginConsumablesValidation extends CommonDBTM
      *
      * @return translated
      */
-    static function getTypeName($nb = 0)
+    public static function getTypeName($nb = 0)
     {
         return __('Consumable validation', 'consumables');
     }
@@ -148,7 +148,7 @@ class PluginConsumablesValidation extends CommonDBTM
      *
      * @return booleen
      **/
-    static function canValidate()
+    public static function canValidate()
     {
         return Session::haveRight("plugin_consumables_validation", 1);
     }
@@ -156,7 +156,7 @@ class PluginConsumablesValidation extends CommonDBTM
     /**
      * Show consumable validation
      */
-    function showConsumableValidation()
+    public function showConsumableValidation()
     {
         global $CFG_GLPI;
 
@@ -175,17 +175,21 @@ class PluginConsumablesValidation extends CommonDBTM
         $dbu = new DbUtils();
 
         if ($this->canValidate()) {
-            $fields = $this->find([
+            $fields = $this->find(
+                [
                 'NOT' =>
                     ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]]
-            ],
-                ["requesters_id", "consumableitemtypes_id"]);
+                ],
+                ["requesters_id", "consumableitemtypes_id"]
+            );
         } else {
-            $fields = $this->find([
+            $fields = $this->find(
+                [
                     'requesters_id' => Session::getLoginUserID(),
                     'NOT' => ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]]
-                ]
-                , ["requesters_id", "consumableitemtypes_id"]);
+                ],
+                ["requesters_id", "consumableitemtypes_id"]
+            );
         }
         echo "<div class='center'>";
 
@@ -303,7 +307,7 @@ class PluginConsumablesValidation extends CommonDBTM
      *
      * @return int
      */
-    function validationConsumable($params, $state = CommonITILValidation::WAITING)
+    public function validationConsumable($params, $state = CommonITILValidation::WAITING)
     {
 //        $this->update([
 //            'id' => $params['id'],
@@ -319,7 +323,7 @@ class PluginConsumablesValidation extends CommonDBTM
     /**
      * @return an|array
      */
-    function getForbiddenStandardMassiveAction()
+    public function getForbiddenStandardMassiveAction()
     {
         $forbidden = parent::getForbiddenStandardMassiveAction();
 
@@ -339,7 +343,7 @@ class PluginConsumablesValidation extends CommonDBTM
      * *@since version 0.84
      *
      */
-    function getSpecificMassiveActions($checkitem = null)
+    public function getSpecificMassiveActions($checkitem = null)
     {
         $isadmin = static::canValidate();
         $actions = parent::getSpecificMassiveActions($checkitem);
@@ -363,7 +367,7 @@ class PluginConsumablesValidation extends CommonDBTM
      * @internal param array $input of input datas
      *
      */
-    static function showMassiveActionsSubForm(MassiveAction $ma)
+    public static function showMassiveActionsSubForm(MassiveAction $ma)
     {
         $itemtype = $ma->getItemtype(false);
 
@@ -395,7 +399,7 @@ class PluginConsumablesValidation extends CommonDBTM
      * @see CommonDBTM::processMassiveActionsForOneItemtype()
      *
      */
-    static function processMassiveActionsForOneItemtype(
+    public static function processMassiveActionsForOneItemtype(
         MassiveAction $ma,
         CommonDBTM $item,
         array $ids
@@ -407,7 +411,7 @@ class PluginConsumablesValidation extends CommonDBTM
 
         if (count($ids)) {
             switch ($ma->getAction()) {
-                case "validate" :
+                case "validate":
                     $added = [];
                     foreach ($ids as $key => $val) {
                         if ($item->can($key, UPDATE)) {
@@ -429,10 +433,10 @@ class PluginConsumablesValidation extends CommonDBTM
                                 $result = [1];
                                 for ($i = 0; $i < $item->fields['number']; $i++) {
                                     if (isset($outConsumable[$i]) && $consumable->out(
-                                            $outConsumable[$i]['id'],
-                                            $item->fields['give_itemtype'],
-                                            $item->fields['give_items_id']
-                                        )
+                                        $outConsumable[$i]['id'],
+                                        $item->fields['give_itemtype'],
+                                        $item->fields['give_items_id']
+                                    )
                                     ) {
                                         $result[] = 1;
                                     } else {
@@ -490,7 +494,7 @@ class PluginConsumablesValidation extends CommonDBTM
                     }
                     break;
 
-                case "refuse" :
+                case "refuse":
                     $added = [];
                     foreach ($ids as $key => $val) {
                         if ($item->can($key, UPDATE)) {
@@ -528,10 +532,9 @@ class PluginConsumablesValidation extends CommonDBTM
                     }
                     break;
 
-                default :
+                default:
                     return parent::doSpecificMassiveActions($ma->POST);
             }
         }
     }
-
 }
