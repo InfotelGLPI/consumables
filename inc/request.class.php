@@ -322,7 +322,7 @@ class PluginConsumablesRequest extends CommonDBTM
         Html::requireJs('glpi_dialog');
         echo "<div id='dialog-confirm'></div>";
 
-        Html::requireJs('consumables');
+//        Html::requireJs('consumables');
 
         // Init consumable cart javascript
         echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGIN_CONSUMABLES_WEBDIR . '");});');
@@ -500,7 +500,7 @@ class PluginConsumablesRequest extends CommonDBTM
         }
 
         if ($this->canCreate() || $this->canRequest()) {
-            Html::requireJs('consumables');
+//            Html::requireJs('consumables');
 
             echo "<tr>";
             echo "<td class='center' colspan='4'>";
@@ -543,7 +543,7 @@ class PluginConsumablesRequest extends CommonDBTM
             echo "</table>";
         }
 
-        Html::requireJs('consumables');
+//        Html::requireJs('consumables');
 
         // Init consumable cart javascript
         echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGIN_CONSUMABLES_WEBDIR . '", 

@@ -40,9 +40,9 @@ function install() {
    // Notification
    // Request
    $query_id = "INSERT INTO `glpi_notificationtemplates`(`name`, `itemtype`, `date_mod`) VALUES ('Consumables Request','PluginConsumablesRequest', NOW());";
-   $result = $DB->query($query_id) or die($DB->error());
+   $result = $DB->doQuery($query_id) or die($DB->error());
    $query_id = "SELECT `id` FROM `glpi_notificationtemplates` WHERE `itemtype`='PluginConsumablesRequest' AND `name` = 'Consumables Request'";
-   $result = $DB->query($query_id) or die($DB->error());
+   $result = $DB->doQuery($query_id) or die($DB->error());
    $itemtype = $DB->result($result, 0, 'id');
 
    $query = "INSERT INTO `glpi_notificationtemplatetranslations` (`notificationtemplates_id`, `subject`, `content_text`, `content_html`)
@@ -65,27 +65,27 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.requestdate## : ##consumablerequest.requestdate##&lt;br /&gt;
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##ENDFOREACHconsumabledata##');";
-   $DB->query($query);
+   $DB->doQuery($query);
 
    $query = "INSERT INTO `glpi_notifications` (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`)
               VALUES ('Consumable request', 0, 'PluginConsumablesRequest', 'ConsumableRequest', 1);";
-   $DB->query($query);
+   $DB->doQuery($query);
 
    //retrieve notification id
    $query_id = "SELECT `id` FROM `glpi_notifications`
                WHERE `name` = 'Consumable request' AND `itemtype` = 'PluginConsumablesRequest' AND `event` = 'ConsumableRequest'";
-   $result = $DB->query($query_id) or die ($DB->error());
+   $result = $DB->doQuery($query_id) or die ($DB->error());
    $notification = $DB->result($result, 0, 'id');
 
    $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
                VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
-   $DB->query($query);
+   $DB->doQuery($query);
 
    // Request validation
    $query_id = "INSERT INTO `glpi_notificationtemplates`(`name`, `itemtype`, `date_mod`, `comment`, `css`) VALUES ('Consumables Request Validation','PluginConsumablesRequest', NOW(),'','');";
-   $result = $DB->query($query_id) or die($DB->error());
+   $result = $DB->doQuery($query_id) or die($DB->error());
    $query_id = "SELECT `id` FROM `glpi_notificationtemplates` WHERE `itemtype`='PluginConsumablesRequest' AND `name` = 'Consumables Request Validation'";
-   $result = $DB->query($query_id) or die($DB->error());
+   $result = $DB->doQuery($query_id) or die($DB->error());
    $itemtype = $DB->result($result, 0, 'id');
 
    $query = "INSERT INTO `glpi_notificationtemplatetranslations` (`notificationtemplates_id`, `subject`, `content_text`, `content_html`)
@@ -112,22 +112,22 @@ VALUES('" . $itemtype . "', '##consumable.action## : ##consumable.entity##',
 ##lang.consumablerequest.status## : ##consumablerequest.status##&lt;br /&gt;
 ##lang.consumablerequest.comment## : ##consumablerequest.comment##&lt;br /&gt;
 ##ENDFOREACHconsumabledata##');";
-   $DB->query($query);
+   $DB->doQuery($query);
 
    $query = "INSERT INTO `glpi_notifications` (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`)
               VALUES ('Consumable request validation', 0, 'PluginConsumablesRequest', 'ConsumableResponse', 1);";
-   $DB->query($query);
+   $DB->doQuery($query);
 
    //retrieve notification id
    $query_id = "SELECT `id` FROM `glpi_notifications`
                WHERE `name` = 'Consumable request validation' AND `itemtype` = 'PluginConsumablesRequest' 
                AND `event` = 'ConsumableResponse'";
-   $result = $DB->query($query_id) or die ($DB->error());
+   $result = $DB->doQuery($query_id) or die ($DB->error());
    $notification = $DB->result($result, 0, 'id');
 
    $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
                VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
-   $DB->query($query);
+   $DB->doQuery($query);
 
    $migration->executeMigration();
 

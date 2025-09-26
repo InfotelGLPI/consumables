@@ -45,9 +45,13 @@ class PluginConsumablesProfile extends Profile
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
         if ($item->getType() == 'Profile') {
-            return PluginConsumablesMenu::getMenuName();
+            return self::createTabEntry(PluginConsumablesMenu::getMenuName());
         }
         return '';
+    }
+
+    static function getIcon() {
+        return PluginConsumablesRequest::getIcon();
     }
 
     /**

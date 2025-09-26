@@ -27,6 +27,10 @@
  --------------------------------------------------------------------------
  */
 
+global $CFG_GLPI;
+
+use Glpi\Plugin\Hooks;
+
 define('PLUGIN_CONSUMABLES_VERSION', '2.0.1');
 
 if (!defined("PLUGIN_CONSUMABLES_DIR")) {
@@ -34,7 +38,8 @@ if (!defined("PLUGIN_CONSUMABLES_DIR")) {
    define("PLUGIN_CONSUMABLES_DIR_NOFULL", Plugin::getPhpDir("consumables",false));
 }
 if (!defined("PLUGIN_CONSUMABLES_WEBDIR")) {
-   define("PLUGIN_CONSUMABLES_WEBDIR", Plugin::getWebDir("consumables"));
+    $root = $CFG_GLPI['root_doc'] . '/plugins/consumables';
+   define("PLUGIN_CONSUMABLES_WEBDIR", $root);
    define("PLUGIN_CONSUMABLES_NOTFULL_WEBDIR", Plugin::getPhpDir("consumables",false));
 }
 
@@ -45,8 +50,8 @@ function plugin_init_consumables() {
    $CFG_GLPI['glpitablesitemtype']['PluginConsumablesValidation'] = 'glpi_plugin_consumables_requests';
    $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
    $PLUGIN_HOOKS['change_profile']['consumables'] = ['PluginConsumablesProfile', 'initProfile'];
-   $PLUGIN_HOOKS['add_css']['consumables']        = ['consumables.css'];
-   $PLUGIN_HOOKS['javascript']['consumables'][]   = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/consumables.js';
+   $PLUGIN_HOOKS[Hooks::ADD_CSS]['consumables']        = 'css/consumables.css';
+   $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['consumables']   = 'js/consumables.js';
 
    if (Session::getLoginUserID()) {
       $PLUGIN_HOOKS['post_item_form']['consumables'] = ['PluginConsumablesField', 'addFieldOrderReference'];
@@ -98,8 +103,8 @@ function plugin_version_consumables() {
       'homepage'     => 'https://github.com/InfotelGLPI/consumables',
       'requirements' => [
          'glpi' => [
-            'min' => '10.0',
-            'max' => '11.0',
+            'min' => '11.0',
+            'max' => '12.0',
             'dev' => false
          ]
       ]

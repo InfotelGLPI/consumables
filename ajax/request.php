@@ -27,8 +27,8 @@
  --------------------------------------------------------------------------
  */
 
-include("../../../inc/includes.php");
 
+Session::checkRight('plugin_consumables', UPDATE);
 Session::checkLoginUser();
 //Html::header_nocache();
 

@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+
 
 Session::checkRight('plugin_consumables_request', READ);
 
