@@ -31,40 +31,44 @@
 /**
  * Class PluginConsumablesMenu
  */
-class PluginConsumablesMenu extends CommonGLPI {
-   static $rightname = 'plugin_consumables';
+class PluginConsumablesMenu extends CommonGLPI
+{
+    public static $rightname = 'plugin_consumables';
 
    /**
     * @return translated
     */
-   static function getMenuName() {
-      return _n('Consumable request', 'Consumable requests', 1, 'consumables');
-   }
+    public static function getMenuName()
+    {
+        return _n('Consumable request', 'Consumable requests', 1, 'consumables');
+    }
 
    /**
     * @return array
     */
-   static function getMenuContent() {
+    public static function getMenuContent()
+    {
 
-      $menu          = [];
-      $menu['title'] = self::getMenuName();
-      $menu['page']  = PluginConsumablesWizard::getSearchURL(false);
-      if (PluginConsumablesWizard::canCreate()) {
-         $menu['links']['search'] = PluginConsumablesWizard::getSearchURL(false);
-         $menu['links']['add']    = PluginConsumablesWizard::getSearchURL(false);
-      }
+        $menu          = [];
+        $menu['title'] = self::getMenuName();
+        $menu['page']  = PluginConsumablesWizard::getSearchURL(false);
+        if (PluginConsumablesWizard::canCreate()) {
+            $menu['links']['search'] = PluginConsumablesWizard::getSearchURL(false);
+            $menu['links']['add']    = PluginConsumablesWizard::getSearchURL(false);
+        }
 
-      $menu['icon'] = PluginConsumablesRequest::getIcon();
+        $menu['icon'] = PluginConsumablesRequest::getIcon();
 
-      return $menu;
-   }
+        return $menu;
+    }
 
-   static function removeRightsFromSession() {
-      if (isset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu'])) {
-         unset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu']);
-      }
-      if (isset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu'])) {
-         unset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu']);
-      }
-   }
+    public static function removeRightsFromSession()
+    {
+        if (isset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu'])) {
+            unset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu']);
+        }
+        if (isset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu'])) {
+            unset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu']);
+        }
+    }
 }

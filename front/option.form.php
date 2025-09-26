@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+
 Session::checkLoginUser();
 
 $option = new PluginConsumablesOption();
@@ -35,8 +35,6 @@ $option = new PluginConsumablesOption();
 if (isset($_POST["add_groups"])
     || isset($_POST["delete_groups"])
     || isset($_POST["update"])) {
-
-   $option->update($_POST);
-   Html::back();
-
+    $option->update($_POST);
+    Html::back();
 }

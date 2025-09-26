@@ -46,7 +46,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
     /**
      * @return array
      */
-    function getEvents()
+    public function getEvents()
     {
         return [
             self::CONSUMABLE_REQUEST => __('Consumable request', 'consumables'),
@@ -69,7 +69,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
      * @param       $event
      * @param array $options
      */
-    function addDataForTemplate($event, $options = [])
+    public function addDataForTemplate($event, $options = [])
     {
         // Set labels
         $this->data['##lang.consumable.entity##'] = __('Entity');
@@ -135,7 +135,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
     /**
      *
      */
-    function getTags()
+    public function getTags()
     {
         $tags = [
             'consumable.id' => __('Consumable ID', 'consumables'),
