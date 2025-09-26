@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-26 08:13+0000\n"
+"POT-Creation-Date: 2025-09-26 16:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,33 +22,33 @@ msgstr ""
 msgid "Order reference"
 msgstr ""
 
-#: hook.php:174 hook.php:203 inc/option.class.php:111 inc/option.class.php:306
+#: hook.php:174 hook.php:203 inc/option.class.php:116 inc/option.class.php:312
 msgid "Maximum number allowed for request"
 msgstr ""
 
-#: hook.php:183 inc/option.class.php:132
+#: hook.php:183 inc/option.class.php:137
 msgid "Allowed groups for request"
 msgstr ""
 
-#: hook.php:205 inc/option.class.php:183 inc/option.class.php:316
+#: hook.php:205 inc/option.class.php:189 inc/option.class.php:322
 msgid "Add a group for request"
 msgstr ""
 
-#: setup.php:94 inc/field.class.php:54 inc/menu.class.php:41
+#: setup.php:99 inc/field.class.php:54 inc/menu.class.php:43
 #: inc/notificationtargetrequest.class.php:52
 #: inc/notificationtargetrequest.class.php:79 inc/request.class.php:53
 #: inc/request.class.php:440 inc/request.class.php:447
-#: inc/servicecatalog.class.php:73 inc/wizard.class.php:69
-#: inc/wizard.class.php:78
+#: inc/servicecatalog.class.php:77 inc/wizard.class.php:72
+#: inc/wizard.class.php:81
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] ""
 msgstr[1] ""
 
 #: front/wizard.form.php:54 inc/notificationtargetrequest.class.php:53
-#: inc/notificationtargetrequest.class.php:82 inc/profile.class.php:160
-#: inc/profile.class.php:223 inc/validation.class.php:142
-#: inc/validation.class.php:171 inc/wizard.class.php:88
+#: inc/notificationtargetrequest.class.php:82 inc/profile.class.php:164
+#: inc/profile.class.php:227 inc/validation.class.php:142
+#: inc/validation.class.php:171 inc/wizard.class.php:91
 msgid "Consumable validation"
 msgstr ""
 
@@ -77,43 +77,43 @@ msgstr ""
 msgid "Consumable recipient"
 msgstr ""
 
-#: inc/option.class.php:51
+#: inc/option.class.php:53
 msgid "Consumable request options"
 msgstr ""
 
-#: inc/option.class.php:119
+#: inc/option.class.php:124
 msgctxt "button"
 msgid "Define"
 msgstr ""
 
-#: inc/profile.class.php:152
+#: inc/profile.class.php:156
 msgid "Advanced"
 msgstr ""
 
-#: inc/profile.class.php:164 inc/profile.class.php:215
-#: inc/servicecatalog.class.php:100
+#: inc/profile.class.php:168 inc/profile.class.php:219
+#: inc/servicecatalog.class.php:106
 msgid "Make a consumable request"
 msgstr ""
 
-#: inc/profile.class.php:172
+#: inc/profile.class.php:176
 msgid "Make a consumable request for all users"
 msgstr ""
 
-#: inc/profile.class.php:177
+#: inc/profile.class.php:181
 msgid "Make a consumable request for my groups"
 msgstr ""
 
-#: inc/profile.class.php:204
+#: inc/profile.class.php:208
 msgid "Consumable"
 msgid_plural "Consumables"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/profile.class.php:211
+#: inc/profile.class.php:215
 msgid "Make a consumable request for users"
 msgstr ""
 
-#: inc/profile.class.php:219
+#: inc/profile.class.php:223
 msgid "Make a consumable request for groups"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgstr ""
 
 #: inc/request.class.php:477 inc/request.class.php:522
 #: inc/request.class.php:944 inc/validation.class.php:100
-#: inc/validation.class.php:213
+#: inc/validation.class.php:217
 msgid "Number"
 msgstr ""
 
@@ -154,15 +154,15 @@ msgstr[1] ""
 msgid "Please add consumables in cart"
 msgstr ""
 
-#: inc/validation.class.php:350
+#: inc/validation.class.php:354
 msgid "Refuse"
 msgstr ""
 
-#: inc/validation.class.php:461
+#: inc/validation.class.php:465
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr ""
 
-#: inc/wizard.class.php:52
+#: inc/wizard.class.php:54
 msgid "Consumables wizard"
 msgstr ""
