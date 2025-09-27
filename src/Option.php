@@ -27,14 +27,24 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Consumables;
+
+use CommonDBTM;
+use DbUtils;
+use Dropdown;
+use Group;
+use Html;
+use MassiveAction;
+use Toolbox;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginConsumablesOption
+ * Class Option
  */
-class PluginConsumablesOption extends CommonDBTM
+class Option extends CommonDBTM
 {
 
     public static $rightname = "plugin_consumables";
@@ -56,7 +66,7 @@ class PluginConsumablesOption extends CommonDBTM
    /**
     * Show
     *
-    * @param type $item
+    * @param  $item
     *
     * @return bool
     */
@@ -107,7 +117,7 @@ class PluginConsumablesOption extends CommonDBTM
         $ID = $data['id'];
 
         echo "<div class='center'>";
-        echo "<form action='" . Toolbox::getItemTypeFormURL('PluginConsumablesOption') . "' method='post'>";
+        echo "<form action='" . Toolbox::getItemTypeFormURL(self::class) . "' method='post'>";
         echo "<table class='tab_cadre_fixe'>";
         echo "<tr>";
         echo "<th colspan='3'>" . self::getTypeName(1) . "</th>";
@@ -130,7 +140,7 @@ class PluginConsumablesOption extends CommonDBTM
         echo "</table>";
         Html::closeForm();
 
-        echo "<form action='" . Toolbox::getItemTypeFormURL('PluginConsumablesOption') . "' method='post'>";
+        echo "<form action='" . Toolbox::getItemTypeFormURL(self::class) . "' method='post'>";
         echo "<table class='tab_cadre_fixe'>";
         echo "<tr class='tab_bg_1'>";
         echo "<th colspan='2'>";
@@ -147,7 +157,7 @@ class PluginConsumablesOption extends CommonDBTM
                 echo "</td>";
                 echo "<td>";
                 Html::showSimpleForm(
-                    Toolbox::getItemTypeFormURL('PluginConsumablesOption'),
+                    Toolbox::getItemTypeFormURL(self::class),
                     'delete_groups',
                     _x('button', 'Delete permanently'),
                     ['delete_groups' => 'delete_groups',
@@ -183,7 +193,7 @@ class PluginConsumablesOption extends CommonDBTM
     public static function showAddGroup($item, $data)
     {
 
-        echo "<form action='" . Toolbox::getItemTypeFormURL('PluginConsumablesOption') . "' method='post'>";
+        echo "<form action='" . Toolbox::getItemTypeFormURL(self::class) . "' method='post'>";
         echo "<table class='tab_cadre_fixe' cellpadding='5'>";
         echo "<tr class='tab_bg_1 center'>";
         echo "<th>" . __('Add a group for request', 'consumables') . "</th>";
@@ -211,9 +221,9 @@ class PluginConsumablesOption extends CommonDBTM
     }
 
    /**
-    * @param array|\datas $params
+    * @param array $params
     *
-    * @return array|\datas
+    * @return array
     */
     public function prepareInputForUpdate($params)
     {

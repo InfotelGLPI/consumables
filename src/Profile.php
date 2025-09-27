@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -27,14 +28,22 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Consumables;
+
+use CommonGLPI;
+use DbUtils;
+use Html;
+use ProfileRight;
+use Session;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginConsumablesProfile
+ * Class Profile
  */
-class PluginConsumablesProfile extends Profile
+class Profile extends \Profile
 {
     /**
      * @param CommonGLPI $item
@@ -45,13 +54,14 @@ class PluginConsumablesProfile extends Profile
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
         if ($item->getType() == 'Profile') {
-            return self::createTabEntry(PluginConsumablesMenu::getMenuName());
+            return self::createTabEntry(Menu::getMenuName());
         }
         return '';
     }
 
-    public static function getIcon() {
-        return PluginConsumablesRequest::getIcon();
+    public static function getIcon()
+    {
+        return Request::getIcon();
     }
 
     /**
@@ -68,10 +78,10 @@ class PluginConsumablesProfile extends Profile
             $prof = new self();
 
             self::addDefaultProfileInfos($ID, ['plugin_consumables'            => 0,
-                                               'plugin_consumables_request'    => 0,
-                                               'plugin_consumables_user'       => 0,
-                                               'plugin_consumables_group'      => 0,
-                                               'plugin_consumables_validation' => 0]);
+                'plugin_consumables_request'    => 0,
+                'plugin_consumables_user'       => 0,
+                'plugin_consumables_group'      => 0,
+                'plugin_consumables_validation' => 0]);
             $prof->showForm($ID);
         }
 
@@ -87,10 +97,10 @@ class PluginConsumablesProfile extends Profile
         self::addDefaultProfileInfos(
             $ID,
             ['plugin_consumables'            => ALLSTANDARDRIGHT,
-             'plugin_consumables_request'    => 1,
-             'plugin_consumables_user'       => 1,
-             'plugin_consumables_group'      => 1,
-             'plugin_consumables_validation' => 1],
+                'plugin_consumables_request'    => 1,
+                'plugin_consumables_user'       => 1,
+                'plugin_consumables_group'      => 1,
+                'plugin_consumables_validation' => 1],
             true
         );
     }
@@ -140,7 +150,7 @@ class PluginConsumablesProfile extends Profile
      */
     public function showForm($profiles_id = 0, $openform = true, $closeform = true)
     {
-        $profile = new Profile();
+        $profile = new \Profile();
         echo "<div class='firstbloc'>";
         if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE])) && $openform) {
             echo "<form method='post' action='" . $profile->getFormURL() . "'>";
@@ -150,25 +160,25 @@ class PluginConsumablesProfile extends Profile
 
         $rights = $this->getAllRights();
         $profile->displayRightsChoiceMatrix($rights, ['default_class' => 'tab_bg_2',
-                                                      'title'         => __('General')]);
+            'title'         => __('General')]);
 
         echo "<table class='tab_cadre_fixehov'>";
         echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Advanced', 'consumables') . "</th></tr>\n";
 
         $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_consumables_user',
-                                                                          'plugin_consumables_group',
-                                                                          'plugin_consumables_validation',
-                                                                          'plugin_consumables_request']);
+            'plugin_consumables_group',
+            'plugin_consumables_validation',
+            'plugin_consumables_request']);
 
         echo "<tr class='tab_bg_2'>";
         echo "<td>" . __('Consumable validation', 'consumables') . "</td>";
         echo "<td>";
         Html::showCheckbox(['name'    => '_plugin_consumables_validation[1_0]',
-                            'checked' => $effective_rights['plugin_consumables_validation']]);
+            'checked' => $effective_rights['plugin_consumables_validation']]);
         echo "<td>" . __('Make a consumable request', 'consumables') . "</td>";
         echo "<td>";
         Html::showCheckbox(['name'    => '_plugin_consumables_request[1_0]',
-                            'checked' => $effective_rights['plugin_consumables_request']]);
+            'checked' => $effective_rights['plugin_consumables_request']]);
         echo "</td>";
         echo "</tr>\n";
 
@@ -176,12 +186,12 @@ class PluginConsumablesProfile extends Profile
         echo "<td>" . __('Make a consumable request for all users', 'consumables') . "</td>";
         echo "<td>";
         Html::showCheckbox(['name'    => '_plugin_consumables_user[1_0]',
-                            'checked' => $effective_rights['plugin_consumables_user']]);
+            'checked' => $effective_rights['plugin_consumables_user']]);
         echo "</td>";
         echo "<td>" . __('Make a consumable request for my groups', 'consumables') . "</td>";
         echo "<td>";
         Html::showCheckbox(['name'    => '_plugin_consumables_group[1_0]',
-                            'checked' => $effective_rights['plugin_consumables_group']]);
+            'checked' => $effective_rights['plugin_consumables_group']]);
         echo "</td>";
         echo "</tr>\n";
         echo "</table>";
@@ -204,28 +214,28 @@ class PluginConsumablesProfile extends Profile
     public static function getAllRights($all = false)
     {
         $rights = [
-           ['itemtype' => 'PluginConsumablesRequest',
-            'label'    => _n('Consumable', 'Consumables', 2, 'consumables'),
-            'field'    => 'plugin_consumables'
-           ],
+            ['itemtype' => Request::class,
+                'label'    => _n('Consumable', 'Consumables', 2, 'consumables'),
+                'field'    => 'plugin_consumables',
+            ],
         ];
 
         if ($all) {
-            $rights[] = ['itemtype' => 'PluginConsumablesRequest',
-                         'label'    => __('Make a consumable request for users', 'consumables'),
-                         'field'    => 'plugin_consumables_user'];
+            $rights[] = ['itemtype' => Request::class,
+                'label'    => __('Make a consumable request for users', 'consumables'),
+                'field'    => 'plugin_consumables_user'];
 
-            $rights[] = ['itemtype' => 'PluginConsumablesRequest',
-                         'label'    => __('Make a consumable request', 'consumables'),
-                         'field'    => 'plugin_consumables_request'];
+            $rights[] = ['itemtype' => Request::class,
+                'label'    => __('Make a consumable request', 'consumables'),
+                'field'    => 'plugin_consumables_request'];
 
-            $rights[] = ['itemtype' => 'PluginConsumablesRequest',
-                         'label'    => __('Make a consumable request for groups', 'consumables'),
-                         'field'    => 'plugin_consumables_group'];
+            $rights[] = ['itemtype' => Request::class,
+                'label'    => __('Make a consumable request for groups', 'consumables'),
+                'field'    => 'plugin_consumables_group'];
 
-            $rights[] = ['itemtype' => 'PluginConsumablesRequest',
-                         'label'    => __('Consumable validation', 'consumables'),
-                         'field'    => 'plugin_consumables_validation'];
+            $rights[] = ['itemtype' => Request::class,
+                'label'    => __('Consumable validation', 'consumables'),
+                'field'    => 'plugin_consumables_validation'];
         }
 
         return $rights;
@@ -275,20 +285,20 @@ class PluginConsumablesProfile extends Profile
 
         $it = $DB->request([
             'FROM' => 'glpi_plugin_consumables_profiles',
-            'WHERE' => ['profiles_id' => $profiles_id]
+            'WHERE' => ['profiles_id' => $profiles_id],
         ]);
         foreach ($it as $profile_data) {
             $matching       = ['consumables' => 'plugin_consumables',
-                               'user'        => 'plugin_consumables_user',
-                               'request'     => 'plugin_consumables_request',
-                               'group'       => 'plugin_consumables_group',
-                               'validation'  => 'plugin_consumables_validation'];
+                'user'        => 'plugin_consumables_user',
+                'request'     => 'plugin_consumables_request',
+                'group'       => 'plugin_consumables_group',
+                'validation'  => 'plugin_consumables_validation'];
             $current_rights = ProfileRight::getProfileRights($profiles_id, array_values($matching));
             foreach ($matching as $old => $new) {
                 if (!isset($current_rights[$old])) {
                     $DB->update('glpi_profilerights', ['rights' => self::translateARight($profile_data[$old])], [
                         'name'        => $new,
-                        'profiles_id' => $profiles_id
+                        'profiles_id' => $profiles_id,
                     ]);
                 }
             }
@@ -316,7 +326,7 @@ class PluginConsumablesProfile extends Profile
         //Migration old rights in new ones
         $it = $DB->request([
             'SELECT' => ['id'],
-            'FROM' => 'glpi_profiles'
+            'FROM' => 'glpi_profiles',
         ]);
         foreach ($it as $prof) {
             self::migrateOneProfile($prof['id']);
@@ -325,8 +335,8 @@ class PluginConsumablesProfile extends Profile
             'FROM' => 'glpi_profilerights',
             'WHERE' => [
                 'profiles_id' => $_SESSION['glpiactiveprofile']['id'],
-                'name' => ['LIKE', '%plugin_consumables%']
-            ]
+                'name' => ['LIKE', '%plugin_consumables%'],
+            ],
         ]);
         foreach ($it as $prof) {
             if (isset($_SESSION['glpiactiveprofile'])) {

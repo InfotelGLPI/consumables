@@ -30,62 +30,69 @@
 global $CFG_GLPI;
 
 use Glpi\Plugin\Hooks;
+use GlpiPlugin\Consumables\Field;
+use GlpiPlugin\Consumables\Menu;
+use GlpiPlugin\Consumables\Profile;
+use GlpiPlugin\Consumables\Request;
+use GlpiPlugin\Consumables\Validation;
+use GlpiPlugin\Servicecatalog\Main;
 
 define('PLUGIN_CONSUMABLES_VERSION', '2.0.1');
 
 if (!defined("PLUGIN_CONSUMABLES_DIR")) {
-   define("PLUGIN_CONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
-   define("PLUGIN_CONSUMABLES_DIR_NOFULL", Plugin::getPhpDir("consumables",false));
+    define("PLUGIN_CONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
+    define("PLUGIN_CONSUMABLES_DIR_NOFULL", Plugin::getPhpDir("consumables", false));
 }
 if (!defined("PLUGIN_CONSUMABLES_WEBDIR")) {
     $root = $CFG_GLPI['root_doc'] . '/plugins/consumables';
-   define("PLUGIN_CONSUMABLES_WEBDIR", $root);
-   define("PLUGIN_CONSUMABLES_NOTFULL_WEBDIR", Plugin::getPhpDir("consumables",false));
+    define("PLUGIN_CONSUMABLES_WEBDIR", $root);
+    define("PLUGIN_CONSUMABLES_NOTFULL_WEBDIR", Plugin::getPhpDir("consumables", false));
 }
 
 // Init the hooks of the plugins -Needed
-function plugin_init_consumables() {
-   global $PLUGIN_HOOKS,$CFG_GLPI;
+function plugin_init_consumables()
+{
+    global $PLUGIN_HOOKS,$CFG_GLPI;
 
-   $CFG_GLPI['glpitablesitemtype']['PluginConsumablesValidation'] = 'glpi_plugin_consumables_requests';
-   $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
-   $PLUGIN_HOOKS['change_profile']['consumables'] = ['PluginConsumablesProfile', 'initProfile'];
-   $PLUGIN_HOOKS[Hooks::ADD_CSS]['consumables']        = 'css/consumables.css';
-   $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['consumables']   = 'js/consumables.js';
+    $CFG_GLPI['glpitablesitemtype'][Validation::class] = 'glpi_plugin_consumables_requests';
+    $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
+    $PLUGIN_HOOKS['change_profile']['consumables'] = [Profile::class, 'initProfile'];
+    $PLUGIN_HOOKS[Hooks::ADD_CSS]['consumables']        = 'css/consumables.css';
+    $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['consumables']   = 'js/consumables.js';
 
-   if (Session::getLoginUserID()) {
-      $PLUGIN_HOOKS['post_item_form']['consumables'] = ['PluginConsumablesField', 'addFieldOrderReference'];
+    if (Session::getLoginUserID()) {
+        $PLUGIN_HOOKS['post_item_form']['consumables'] = [Field::class, 'addFieldOrderReference'];
 
-      Plugin::registerClass('PluginConsumablesProfile', ['addtabon' => 'Profile']);
-      Plugin::registerClass('PluginConsumablesRequest', ['addtabon'                    => 'User',
+        Plugin::registerClass(Profile::class, ['addtabon' => 'Profile']);
+        Plugin::registerClass(Request::class, ['addtabon'                    => 'User',
                                                          'notificationtemplates_types' => true]);
-      Plugin::registerClass('PluginConsumablesRequest', ['addtabon'                    => 'Group',
+        Plugin::registerClass(Request::class, ['addtabon'                    => 'Group',
                                                          'notificationtemplates_types' => true]);
-      Plugin::registerClass('PluginConsumablesRequest', ['addtabon' => 'ConsumableItem']);
+        Plugin::registerClass(Request::class, ['addtabon' => 'ConsumableItem']);
 
-      $PLUGIN_HOOKS['item_add']['consumables']        = ['ConsumableItem' => ['PluginConsumablesField', 'postAddConsumable']];
-      $PLUGIN_HOOKS['pre_item_update']['consumables'] = ['ConsumableItem' => ['PluginConsumablesField', 'preUpdateConsumable']];
+        $PLUGIN_HOOKS['item_add']['consumables']        = ['ConsumableItem' => [Field::class, 'postAddConsumable']];
+        $PLUGIN_HOOKS['pre_item_update']['consumables'] = ['ConsumableItem' => [Field::class, 'preUpdateConsumable']];
 
-      if (Session::haveRight("plugin_consumables", UPDATE)) {
-         $PLUGIN_HOOKS['use_massive_action']['consumables'] = 1;
-      }
+        if (Session::haveRight("plugin_consumables", UPDATE)) {
+            $PLUGIN_HOOKS['use_massive_action']['consumables'] = 1;
+        }
 
-//      if (class_exists('PluginServicecatalogMain')) {
-         $PLUGIN_HOOKS['servicecatalog']['consumables'] = ['PluginConsumablesServicecatalog'];
+//      if (class_exists(Main::class)) {
+         $PLUGIN_HOOKS['servicecatalog']['consumables'] = [Servicecatalog::class];
 //      }
 
-      if (Session::haveRight("plugin_consumables", READ)) {
-         $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => 'PluginConsumablesMenu'];
-      }
-      if (Session::haveRight("plugin_consumables", READ)
-          && !class_exists('PluginServicecatalogMain')) {
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/front/wizard.php';
-         $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['consumables'] = PluginConsumablesRequest::getIcon();
-      }
+        if (Session::haveRight("plugin_consumables", READ)) {
+            $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => Menu::class];
+        }
+        if (Session::haveRight("plugin_consumables", READ)
+          && !class_exists(Main::class)) {
+            $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/front/wizard.php';
+            $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['consumables'] = Request::getIcon();
+        }
 
-      // Post item purge
-      $PLUGIN_HOOKS['item_purge']['consumables'] = ['ConsumableItem' => 'plugin_item_purge_consumables'];
-   }
+       // Post item purge
+        $PLUGIN_HOOKS['item_purge']['consumables'] = ['ConsumableItem' => 'plugin_item_purge_consumables'];
+    }
 }
 
 // Get the name and the version of the plugin - Needed
@@ -93,9 +100,10 @@ function plugin_init_consumables() {
 /**
  * @return array
  */
-function plugin_version_consumables() {
+function plugin_version_consumables()
+{
 
-   return [
+    return [
       'name'         => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
       'version'      => PLUGIN_CONSUMABLES_VERSION,
       'author'       => "<a href='http://blogglpi.infotel.com'>Infotel</a>",
@@ -108,5 +116,5 @@ function plugin_version_consumables() {
             'dev' => false
          ]
       ]
-   ];
+    ];
 }

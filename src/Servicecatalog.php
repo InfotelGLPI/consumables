@@ -27,15 +27,20 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Consumables;
+
+use CommonGLPI;
+use Session;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 
 /**
- * Class PluginConsumablesServicecatalog
+ * Class Servicecatalog
  */
-class PluginConsumablesServicecatalog extends CommonGLPI
+class Servicecatalog extends CommonGLPI
 {
 
     public static $rightname     = 'plugin_consumables_request';
@@ -70,7 +75,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     }
 
    /**
-    * @return string|\translated
+    * @return string
     */
     public static function getMenuTitle()
     {
@@ -83,7 +88,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     public static function getMenuLogo()
     {
 
-        return PluginConsumablesRequest::getIcon();
+        return Request::getIcon();
     }
 
    /**
@@ -98,7 +103,7 @@ class PluginConsumablesServicecatalog extends CommonGLPI
     }
 
    /**
-    * @return string|\translated
+    * @return string
     */
     public static function getMenuComment()
     {

@@ -27,62 +27,63 @@
  --------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Consumables\Request;
+use GlpiPlugin\Consumables\Validation;
 
 Session::checkRight('plugin_consumables', UPDATE);
 Session::checkLoginUser();
-//Html::header_nocache();
 
 switch ($_POST['action']) {
     case 'addToCart':
         header('Content-Type: application/json; charset=UTF-8"');
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         echo json_encode($request->addToCart($_POST));
         break;
 
     case 'addConsumables':
         header('Content-Type: application/json; charset=UTF-8"');
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         echo json_encode($request->addConsumables($_POST));
         break;
 
     case 'reloadAvailableConsumables':
         header("Content-Type: text/html; charset=UTF-8");
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         $request->loadAvailableConsumables($_POST['type']);
         break;
 
     case 'seeConsumablesInfos':
         header("Content-Type: text/html; charset=UTF-8");
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         $request->seeConsumablesInfos($_POST['consumableitems_id']);
         break;
 
     case 'reloadAvailableConsumablesNumber':
         header("Content-Type: text/html; charset=UTF-8");
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         $request->loadAvailableConsumablesNumber(json_decode(stripslashes($_POST['used'])), $_POST['consumableitems_id']);
         break;
 
     case 'loadConsumableInformation':
         header("Content-Type: text/html; charset=UTF-8");
-        $validation = new PluginConsumablesValidation();
+        $validation = new Validation();
         $validation->loadConsumableInformation(Session::getLoginUserID(), $_POST['consumableitems_id']);
         break;
 
     case 'validationConsumables':
         header('Content-Type: application/json; charset=UTF-8"');
-        $validation = new PluginConsumablesValidation();
+        $validation = new Validation();
         echo json_encode($validation->validationConsumable($_POST));
         break;
 
     case 'searchConsumables':
         header('Content-Type: application/json; charset=UTF-8"');
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         echo json_encode($request->listItemsForUserOrGroup($_POST['requesters_id'], $_POST['type'], $_POST));
         break;
 
     case 'loadAvailableConsumablesNumber':
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
         $request->loadAvailableConsumablesNumber(0, $_POST['consumableitems_id']);
         break;
 }

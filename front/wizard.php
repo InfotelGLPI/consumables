@@ -27,27 +27,29 @@
  --------------------------------------------------------------------------
  */
 
-
+use GlpiPlugin\Consumables\Menu;
+use GlpiPlugin\Consumables\Wizard;
+use GlpiPlugin\Servicecatalog\Main;
 
 Session::checkRight('plugin_consumables_request', READ);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   Html::header(PluginConsumablesWizard::getTypeName(2), '', "management", "pluginconsumablesmenu");
+   Html::header(Wizard::getTypeName(2), '', "management", Menu::class);
 } else {
    if (Plugin::isPluginActive('servicecatalog')) {
-      PluginServicecatalogMain::showDefaultHeaderHelpdesk(PluginConsumablesWizard::getTypeName(2));
+      Main::showDefaultHeaderHelpdesk(Wizard::getTypeName(2));
    } else {
-      Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
+      Html::helpHeader(Wizard::getTypeName(2));
    }
 }
 
-$wizard = new PluginConsumablesWizard();
+$wizard = new Wizard();
 $wizard->showMenu();
 
 if (Session::getCurrentInterface() != 'central'
     && Plugin::isPluginActive('servicecatalog')) {
 
-   PluginServicecatalogMain::showNavBarFooter('consumables');
+   Main::showNavBarFooter('consumables');
 }
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {

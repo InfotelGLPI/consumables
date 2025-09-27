@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -27,21 +28,32 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Consumables;
+
+use CommonITILValidation;
+use ConsumableItem;
+use ConsumableItemType;
+use Dropdown;
+use Glpi\RichText\RichText;
+use Group;
+use Html;
+use NotificationTarget;
+use User;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginConsumablesNotificationTargetRequest
+ * Class NotificationTargetRequest
  */
-class PluginConsumablesNotificationTargetRequest extends NotificationTarget
+class NotificationTargetRequest extends NotificationTarget
 {
-
-    const CONSUMABLE_REQUEST = "ConsumableRequest";
-    const CONSUMABLE_RESPONSE = "ConsumableResponse";
-    const VALIDATOR = 30;
-    const REQUESTER = 31;
-    const RECIPIENT = 32;
+    public const CONSUMABLE_REQUEST = "ConsumableRequest";
+    public const CONSUMABLE_RESPONSE = "ConsumableResponse";
+    public const VALIDATOR = 30;
+    public const REQUESTER = 31;
+    public const RECIPIENT = 32;
 
     /**
      * @return array
@@ -50,7 +62,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
     {
         return [
             self::CONSUMABLE_REQUEST => __('Consumable request', 'consumables'),
-            self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables')
+            self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables'),
         ];
     }
 
@@ -94,7 +106,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
 
         $this->data['##consumable.entity##'] = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
         //Set values
-//      foreach ($options['consumables'] as $id => $item) {
+        //      foreach ($options['consumables'] as $id => $item) {
         $tmp = [];
         $tmp['##consumable.id##'] = $options['consumables']['consumableitems_id'];
         $tmp['##consumablerequest.consumable##'] = Dropdown::getDropdownName(
@@ -126,9 +138,9 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
         $tmp['##consumablerequest.status##'] = CommonITILValidation::getStatus($options['consumables']['status']);
 
         $this->data['consumabledata'][] = $tmp;
-//      }
+        //      }
         if (isset($options['comment'])) {
-            $this->data['##consumablerequest.comment##'] = Glpi\RichText\RichText::getSafeHtml($options['comment']);
+            $this->data['##consumablerequest.comment##'] = RichText::getSafeHtml($options['comment']);
         }
     }
 
@@ -150,7 +162,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
             'consumablerequest.status' => __('Status'),
             'consumablerequest.number' => __('Number of used consumables'),
             'consumablerequest.validator' => __('Approver'),
-            'consumablerequest.comment' => __('Comments')
+            'consumablerequest.comment' => __('Comments'),
         ];
 
         foreach ($tags as $tag => $label) {
@@ -158,7 +170,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
                 'tag' => $tag,
                 'label' => $label,
                 'lang' => true,
-                'value' => true
+                'value' => true,
             ]);
         }
 
@@ -167,7 +179,7 @@ class PluginConsumablesNotificationTargetRequest extends NotificationTarget
             'label' => __('Display each consumable', 'consumables'),
             'lang' => true,
             'foreach' => true,
-            'value' => true
+            'value' => true,
         ]);
 
         asort($this->tag_descriptions);

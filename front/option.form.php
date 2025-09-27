@@ -27,10 +27,11 @@
  --------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Consumables\Option;
 
 Session::checkLoginUser();
 
-$option = new PluginConsumablesOption();
+$option = new Option();
 
 if (isset($_POST["add_groups"])
     || isset($_POST["delete_groups"])

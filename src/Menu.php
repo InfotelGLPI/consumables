@@ -28,15 +28,19 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Consumables;
+
+use CommonGLPI;
+
 /**
- * Class PluginConsumablesMenu
+ * Class Menu
  */
-class PluginConsumablesMenu extends CommonGLPI
+class Menu extends CommonGLPI
 {
     public static $rightname = 'plugin_consumables';
 
    /**
-    * @return translated
+    * @return string
     */
     public static function getMenuName()
     {
@@ -51,24 +55,24 @@ class PluginConsumablesMenu extends CommonGLPI
 
         $menu          = [];
         $menu['title'] = self::getMenuName();
-        $menu['page']  = PluginConsumablesWizard::getSearchURL(false);
-        if (PluginConsumablesWizard::canCreate()) {
-            $menu['links']['search'] = PluginConsumablesWizard::getSearchURL(false);
-            $menu['links']['add']    = PluginConsumablesWizard::getSearchURL(false);
+        $menu['page']  = Wizard::getSearchURL(false);
+        if (Wizard::canCreate()) {
+            $menu['links']['search'] = Wizard::getSearchURL(false);
+            $menu['links']['add']    = Wizard::getSearchURL(false);
         }
 
-        $menu['icon'] = PluginConsumablesRequest::getIcon();
+        $menu['icon'] = Request::getIcon();
 
         return $menu;
     }
 
     public static function removeRightsFromSession()
     {
-        if (isset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu'])) {
-            unset($_SESSION['glpimenu']['plugins']['types']['PluginConsumablesMenu']);
+        if (isset($_SESSION['glpimenu']['plugins']['types'][Menu::class])) {
+            unset($_SESSION['glpimenu']['plugins']['types'][Menu::class]);
         }
-        if (isset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu'])) {
-            unset($_SESSION['glpimenu']['plugins']['content']['pluginconsumablesmenu']);
+        if (isset($_SESSION['glpimenu']['plugins']['content'][Menu::class])) {
+            unset($_SESSION['glpimenu']['plugins']['content'][Menu::class]);
         }
     }
 }

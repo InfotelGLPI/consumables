@@ -27,19 +27,19 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Consumables;
+
+use CommonDBTM;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginConsumablesMenu
+ * Class Wizard
  *
- * This class shows the plugin main page
- *
- * @package    Consumables
- * @author     Ludovic Dupont
  */
-class PluginConsumablesWizard extends CommonDBTM
+class Wizard extends CommonDBTM
 {
 
     public static $rightname = "plugin_consumables";
@@ -47,7 +47,7 @@ class PluginConsumablesWizard extends CommonDBTM
    /**
     * @param int $nb
     *
-    * @return translated
+    * @return string
     */
     public static function getTypeName($nb = 0)
     {
@@ -59,9 +59,8 @@ class PluginConsumablesWizard extends CommonDBTM
     */
     public function showMenu()
     {
-        global $CFG_GLPI;
 
-        $request = new PluginConsumablesRequest();
+        $request = new Request();
 
         if (!$this->canView() && !$request->canRequest()) {
             return false;
@@ -105,11 +104,11 @@ class PluginConsumablesWizard extends CommonDBTM
         echo "<div class='consumables_wizard'>";
         switch ($step) {
             case 'consumablerequest':
-                $consumablerequest = new PluginConsumablesRequest();
+                $consumablerequest = new Request();
                 $consumablerequest->showConsumableRequest();
                 break;
             case 'consumablevalidation':
-                $consumablevalidation = new PluginConsumablesValidation();
+                $consumablevalidation = new Validation();
                 $consumablevalidation->showConsumableValidation();
                 break;
         }

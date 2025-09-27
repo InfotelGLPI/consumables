@@ -27,24 +27,28 @@
  --------------------------------------------------------------------------
  */
 
-
+use GlpiPlugin\Consumables\Menu;
+use GlpiPlugin\Consumables\Request;
+use GlpiPlugin\Consumables\Validation;
+use GlpiPlugin\Consumables\Wizard;
+use GlpiPlugin\Servicecatalog\Main;
 
 Session::checkRight('plugin_consumables_request', READ);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   Html::header(PluginConsumablesWizard::getTypeName(2), '', "management", "pluginconsumablesmenu");
+   Html::header(Wizard::getTypeName(2), '', "management", Menu::class);
 } else {
    if (Plugin::isPluginActive('servicecatalog')) {
-      PluginServicecatalogMain::showDefaultHeaderHelpdesk(PluginConsumablesWizard::getTypeName(2));
+      Main::showDefaultHeaderHelpdesk(Wizard::getTypeName(2));
    } else {
-      Html::helpHeader(PluginConsumablesWizard::getTypeName(2));
+      Html::helpHeader(Wizard::getTypeName(2));
    }
 }
 
 if (!empty($_GET['action'])) {
    switch ($_GET['action']) {
       case 'consumablerequest':
-         $consumablerequest = new PluginConsumablesRequest();
+         $consumablerequest = new Request();
          $consumablerequest->showConsumableRequest();
          break;
       case 'consumablevalidation':
@@ -61,13 +65,13 @@ if (!empty($_GET['action'])) {
             ]
          ],
             'as_map' => 0];
-         $p = Search::manageParams(PluginConsumablesValidation::getType(), $_GET);
+         $p = Search::manageParams(Validation::getType(), $_GET);
          $p["criteria"][0] =  [
             'field'      => 6,        // field index in search options
             'searchtype' => 'equals',  // type of search
             'value'      => 2,         // value to search
          ];
-         Search::showList("PluginConsumablesValidation", $p);
+         Search::showList(Validation::class, $p);
          break;
    }
 }
@@ -75,7 +79,7 @@ if (!empty($_GET['action'])) {
 if (Session::getCurrentInterface() != 'central'
     && Plugin::isPluginActive('servicecatalog')) {
 
-   PluginServicecatalogMain::showNavBarFooter('consumables');
+   Main::showNavBarFooter('consumables');
 }
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
