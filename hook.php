@@ -73,10 +73,11 @@ function plugin_consumables_uninstall()
         $DB->dropTable($table, true);
     }
 
+    $notif   = new Notification();
     $options = ['itemtype' => Request::class];
-
-    $notif = new Notification();
-    foreach ($DB->request('glpi_notifications', $options) as $data) {
+    foreach ($DB->request([
+        'FROM' => 'glpi_notifications',
+        'WHERE' => $options]) as $data) {
         $notif->delete($data);
     }
 
@@ -85,16 +86,23 @@ function plugin_consumables_uninstall()
     $translation    = new NotificationTemplateTranslation();
     $notif_template = new Notification_NotificationTemplate();
     $options        = ['itemtype' => Request::class];
+    foreach ($DB->request([
+        'FROM' => 'glpi_notificationtemplates',
+        'WHERE' => $options]) as $data) {
+        $options_template = [
+            'notificationtemplates_id' => $data['id']
+        ];
 
-    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
-        $options_template = ['notificationtemplates_id' => $data['id'],
-            'FIELDS'                   => 'id'];
-        foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template) as $data_template) {
+        foreach ($DB->request([
+            'FROM' => 'glpi_notificationtemplatetranslations',
+            'WHERE' => $options_template]) as $data_template) {
             $translation->delete($data_template);
         }
         $template->delete($data);
 
-        foreach ($DB->request('glpi_notifications_notificationtemplates', $options_template) as $data_template) {
+        foreach ($DB->request([
+            'FROM' => 'glpi_notifications_notificationtemplates',
+            'WHERE' => $options_template]) as $data_template) {
             $notif_template->delete($data_template);
         }
     }
