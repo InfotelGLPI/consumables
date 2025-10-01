@@ -313,7 +313,7 @@ class Request extends CommonDBTM
         $end_date   = date('Y-m-d H:i:s');
 
         echo "<form name='form' method='post' action='' id='consumables_formSearchConsumables'>";
-        echo "<div align='center'>";
+        echo "<div class='center'>";
         echo "<table class='tab_cadre_fixe'>";
         echo "<tr>";
         echo "<th colspan='6'>" . __('Consumables request search', 'consumables') . "</th>";
