@@ -6,11 +6,11 @@
     <logo>https://raw.githubusercontent.com/InfotelGLPI/consumables/master/consumables.png</logo>
     <description>
         <short>
-            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.]]></fr>
+            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateurs finaux.]]></fr>
             <en><![CDATA[This plugin allows you to manage consumable requests for end user.]]></en>
         </short>
         <long>
-            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateur finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
+            <fr><![CDATA[Ce plugin vous permet de gérer les demandes de consommables pour les utilisateurs finaux.<br />- Système de validation de demande de consommables,<br />- Notifications associées,<br />- Wizard utilisateur basé sur le stock disponible.]]></fr>
             <en><![CDATA[This plugin allows you to manage consumable requests for end user.<br />- Validation system of consumable request,<br />- Associated notifications,<br />- Wizard user based on available stock.]]></en>
         </long>
     </description>
@@ -23,6 +23,11 @@
         <author>Infotel</author>
     </authors>
     <versions>
+        <version>
+            <num>2.1.1</num>
+            <compatibility>~11.0</compatibility>
+            <download_url>https://github.com/InfotelGLPI/consumables/releases/download/2.1.1/glpi-consumables-2.1.1.tar.bz2</download_url>
+        </version>
         <version>
             <num>2.1.0</num>
             <compatibility>~11.0</compatibility>
