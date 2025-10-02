@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 08:04+0000\n"
+"POT-Creation-Date: 2025-10-02 07:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgid "Add a group for request"
 msgstr ""
 
 #: setup.php:107 src/Field.php:62 src/Menu.php:47
-#: src/Notificationtargetrequest.php:64 src/Notificationtargetrequest.php:91
+#: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:91
 #: src/Request.php:68 src/Request.php:470 src/Request.php:477
 #: src/Servicecatalog.php:82 src/Wizard.php:71 src/Wizard.php:80
 msgid "Consumable request"
@@ -43,33 +43,33 @@ msgid_plural "Consumable requests"
 msgstr[0] ""
 msgstr[1] ""
 
-#: front/wizard.form.php:58 src/Notificationtargetrequest.php:65
-#: src/Notificationtargetrequest.php:94 src/Profile.php:174 src/Profile.php:237
+#: front/wizard.form.php:58 src/NotificationTargetRequest.php:65
+#: src/NotificationTargetRequest.php:94 src/Profile.php:174 src/Profile.php:237
 #: src/Validation.php:141 src/Validation.php:168 src/Wizard.php:90
 msgid "Consumable validation"
 msgstr ""
 
-#: src/Notificationtargetrequest.php:88 src/Notificationtargetrequest.php:153
+#: src/NotificationTargetRequest.php:88 src/NotificationTargetRequest.php:153
 msgid "Consumable ID"
 msgstr ""
 
-#: src/Notificationtargetrequest.php:154
+#: src/NotificationTargetRequest.php:154
 msgid "Type of event"
 msgstr ""
 
-#: src/Notificationtargetrequest.php:179
+#: src/NotificationTargetRequest.php:179
 msgid "Display each consumable"
 msgstr ""
 
-#: src/Notificationtargetrequest.php:195
+#: src/NotificationTargetRequest.php:195
 msgid "Consumable approver"
 msgstr ""
 
-#: src/Notificationtargetrequest.php:196
+#: src/NotificationTargetRequest.php:196
 msgid "Consumable requester"
 msgstr ""
 
-#: src/Notificationtargetrequest.php:197
+#: src/NotificationTargetRequest.php:197
 msgid "Consumable recipient"
 msgstr ""
 
