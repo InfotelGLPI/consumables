@@ -106,7 +106,7 @@ function plugin_version_consumables()
     return [
       'name'         => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
       'version'      => PLUGIN_CONSUMABLES_VERSION,
-      'author'       => "<a href='http://blogglpi.infotel.com'>Infotel</a>",
+      'author'       => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD",
       'license'      => 'GPLv2+',
       'homepage'     => 'https://github.com/InfotelGLPI/consumables',
       'requirements' => [
