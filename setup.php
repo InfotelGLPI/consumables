@@ -35,6 +35,7 @@ use GlpiPlugin\Consumables\Menu;
 use GlpiPlugin\Consumables\Profile;
 use GlpiPlugin\Consumables\Request;
 use GlpiPlugin\Consumables\Validation;
+use GlpiPlugin\Consumables\Servicecatalog;
 use GlpiPlugin\Servicecatalog\Main;
 
 define('PLUGIN_CONSUMABLES_VERSION', '2.1.1');
