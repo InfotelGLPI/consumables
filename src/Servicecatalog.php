@@ -71,7 +71,7 @@ class Servicecatalog extends CommonGLPI
     {
         global $CFG_GLPI;
 
-        return PLUGIN_CONSUMABLES_DIR_NOFULL . "/front/wizard.php";
+        return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
     }
 
    /**

@@ -810,7 +810,7 @@ class Request extends CommonDBTM
     /**
      * Add consumable to cart
      *
-     * @param type $params
+     * @param $params
      *
      * @return array
      */

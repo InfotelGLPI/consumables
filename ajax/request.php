@@ -30,7 +30,7 @@
 use GlpiPlugin\Consumables\Request;
 use GlpiPlugin\Consumables\Validation;
 
-Session::checkRight('plugin_consumables', UPDATE);
+Session::checkRight('plugin_consumables_request', 1);
 Session::checkLoginUser();
 
 switch ($_POST['action']) {
@@ -64,11 +64,11 @@ switch ($_POST['action']) {
         $request->loadAvailableConsumablesNumber(json_decode(stripslashes($_POST['used'])), $_POST['consumableitems_id']);
         break;
 
-    case 'loadConsumableInformation':
-        header("Content-Type: text/html; charset=UTF-8");
-        $validation = new Validation();
-        $validation->loadConsumableInformation(Session::getLoginUserID(), $_POST['consumableitems_id']);
-        break;
+//    case 'loadConsumableInformation':
+//        header("Content-Type: text/html; charset=UTF-8");
+//        $validation = new Validation();
+//        $validation->loadConsumableInformation(Session::getLoginUserID(), $_POST['consumableitems_id']);
+//        break;
 
     case 'validationConsumables':
         header('Content-Type: application/json; charset=UTF-8"');

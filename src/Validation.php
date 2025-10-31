@@ -297,7 +297,7 @@ class Validation extends CommonDBTM
     /**
      * Validation consumable
      *
-     * @param type $params
+     * @param $params
      * @param int $state
      *
      * @return int

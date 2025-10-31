@@ -41,12 +41,10 @@ define('PLUGIN_CONSUMABLES_VERSION', '2.1.1');
 
 if (!defined("PLUGIN_CONSUMABLES_DIR")) {
     define("PLUGIN_CONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
-    define("PLUGIN_CONSUMABLES_DIR_NOFULL", Plugin::getPhpDir("consumables", false));
 }
 if (!defined("PLUGIN_CONSUMABLES_WEBDIR")) {
     $root = $CFG_GLPI['root_doc'] . '/plugins/consumables';
     define("PLUGIN_CONSUMABLES_WEBDIR", $root);
-    define("PLUGIN_CONSUMABLES_NOTFULL_WEBDIR", Plugin::getPhpDir("consumables", false));
 }
 
 // Init the hooks of the plugins -Needed
@@ -85,8 +83,9 @@ function plugin_init_consumables()
             $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => Menu::class];
         }
         if (Session::haveRight("plugin_consumables", READ)
+                || Session::haveRight("plugin_consumables_request", 1)
           && !class_exists(Main::class)) {
-            $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_NOTFULL_WEBDIR.'/front/wizard.php';
+            $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_WEBDIR.'/front/wizard.php';
             $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['consumables'] = Request::getIcon();
         }
 
