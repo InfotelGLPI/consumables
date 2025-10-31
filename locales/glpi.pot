@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-31 17:04+0000\n"
+"POT-Creation-Date: 2025-10-31 17:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Add a group for request"
 msgstr ""
 
-#: setup.php:106 src/Field.php:62 src/Menu.php:47
+#: setup.php:107 src/Field.php:62 src/Menu.php:47
 #: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:91
 #: src/Request.php:68 src/Request.php:470 src/Request.php:477
 #: src/Servicecatalog.php:82 src/Wizard.php:71 src/Wizard.php:80
