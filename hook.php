@@ -158,9 +158,8 @@ function plugin_consumables_getDatabaseRelations()
 {
 
     if (Plugin::isPluginActive("consumables")) {
-        return ["glpi_profiles"        => ["glpi_plugin_consumables_profiles" => "profiles_id"],
-            "glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumableitems_id"],
-            "glpi_consumableitems" => ["glpi_plugin_consumables_options" => "consumableitems_id"]];
+        return ["glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumableitems_id",
+                                            "glpi_plugin_consumables_options" => "consumableitems_id"]];
     } else {
         return [];
     }

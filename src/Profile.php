@@ -271,7 +271,7 @@ class Profile extends \Profile
      * @since 0.85
      * Migration rights from old system to the new one for one profile
      *
-     * @param $profiles_id the profile ID
+     * @param $profiles_id
      *
      * @return bool
      */
