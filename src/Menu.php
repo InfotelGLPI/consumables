@@ -27,10 +27,10 @@
  along with consumables. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-
 namespace GlpiPlugin\Consumables;
-
-use CommonGLPI;
+use \CommonGLPI;
+use GlpiPlugin\Consumables\Wizard;
+use GlpiPlugin\Consumables\Request;
 
 /**
  * Class Menu
@@ -39,34 +39,40 @@ class Menu extends CommonGLPI
 {
     public static $rightname = 'plugin_consumables';
 
-   /**
-    * @return string
-    */
-    public static function getMenuName()
-    {
-        return _n('Consumable request', 'Consumable requests', 1, 'consumables');
-    }
+// declare(strict_types=1); must be at the top of the file, not inside a class
 
-   /**
-    * @return array
-    */
-    public static function getMenuContent()
-    {
 
-        $menu          = [];
-        $menu['title'] = self::getMenuName();
-        $menu['page']  = Wizard::getSearchURL(false);
-        if (Wizard::canCreate()) {
-            $menu['links']['search'] = Wizard::getSearchURL(false);
-            $menu['links']['add']    = Wizard::getSearchURL(false);
+        /**
+         * @return string
+         */
+        public static function getMenuName(): string
+        {
+            return _n('Consumable request', 'Consumable requests', 1, 'consumables');
         }
 
-        $menu['icon'] = Request::getIcon();
 
+    /**
+     * @return array
+     */
+    public static function getMenuContent(): array
+    {
+        $menu = [];
+        $menu['title'] = self::getMenuName();
+        // Fallback: use wizard.php as menu page
+        $menu['page'] = PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php';
+        // Permissions: always show for now (fix as needed)
+        $menu['links']['search'] = $menu['page'];
+        $menu['links']['add'] = $menu['page'];
+        $menu['icon'] = 'ti ti-shopping-cart';
         return $menu;
     }
 
-    public static function removeRightsFromSession()
+    /**
+    /**
+     * Remove rights from session for this menu
+     * @return void
+     */
+    public static function removeRightsFromSession(): void
     {
         if (isset($_SESSION['glpimenu']['plugins']['types'][Menu::class])) {
             unset($_SESSION['glpimenu']['plugins']['types'][Menu::class]);

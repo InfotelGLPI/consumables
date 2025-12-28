@@ -26,34 +26,12 @@
  along with consumables. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+namespace GlpiPlugin\Consumables;
+use \CommonDBTM;
 
-use GlpiPlugin\Consumables\Menu;
-use GlpiPlugin\Consumables\Wizard;
-use GlpiPlugin\Servicecatalog\Main;
-
-\Session::checkRight('plugin_consumables_request', READ);
-
-if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   \Html::header(Wizard::getTypeName(2), '', "management", Menu::class);
-} else {
-   if (\Plugin::isPluginActive('servicecatalog')) {
-      Main::showDefaultHeaderHelpdesk(Wizard::getTypeName(2));
-   } else {
-      \Html::helpHeader(Wizard::getTypeName(2));
-   }
-}
-
-$wizard = new Wizard();
-$wizard->showMenu();
-
-if (\Session::getCurrentInterface() != 'central'
-   && \Plugin::isPluginActive('servicecatalog')) {
-
-   Main::showNavBarFooter('consumables');
-}
-
-if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   \Html::footer();
-} else {
-   \Html::helpFooter();
+class ConsumableItem extends CommonDBTM {
+    public $fields = [];
+    public $input = [];
+    public static function getType() { return 'ConsumableItem'; }
+    public function getID() { return $this->fields['id'] ?? 0; }
 }

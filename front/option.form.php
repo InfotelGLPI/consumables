@@ -29,7 +29,7 @@
 
 use GlpiPlugin\Consumables\Option;
 
-Session::checkLoginUser();
+\Session::checkLoginUser();
 
 $option = new Option();
 
@@ -37,5 +37,5 @@ if (isset($_POST["add_groups"])
     || isset($_POST["delete_groups"])
     || isset($_POST["update"])) {
     $option->update($_POST);
-    Html::back();
+    \Html::back();
 }

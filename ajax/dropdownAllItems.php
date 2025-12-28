@@ -28,8 +28,8 @@
  */
 
 header("Content-Type: text/html; charset=UTF-8");
-Html::header_nocache();
-Session::checkLoginUser();
+\Html::header_nocache();
+\Session::checkLoginUser();
 
 global $CFG_GLPI;
 
@@ -47,7 +47,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
 
     $rand = mt_rand();
 
-    $field_id = Html::cleanId("dropdown_" . $_POST["name"] . $rand);
+    $field_id = \Html::cleanId("dropdown_" . $_POST["name"] . $rand);
 
     $p        = [
       'value'               => 0,
@@ -55,7 +55,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
       'itemtype'            => $_POST["idtable"],
       'display_emptychoice' => true,
       'displaywith'         => ['otherserial', 'serial'],
-      '_idor_token'         => Session::getNewIDORToken($_POST["idtable"]),
+    '_idor_token'         => \Session::getNewIDORToken($_POST["idtable"]),
     ];
     if (isset($_POST['value'])) {
         $p['value'] = $_POST['value'];
@@ -75,7 +75,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
         $p['condition'] = Dropdown::addNewCondition(["id" =>$user_groups]);
     }
 
-    echo Html::jsAjaxDropdown(
+    echo \Html::jsAjaxDropdown(
         $_POST["name"],
         $field_id,
         $CFG_GLPI['root_doc'] . "/ajax/" . $link,

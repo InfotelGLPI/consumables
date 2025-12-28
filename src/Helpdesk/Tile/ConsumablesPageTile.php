@@ -70,13 +70,13 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
     #[Override]
     public static function canCreate(): bool
     {
-        return self::canUpdate();
+        return static::canUpdate();
     }
 
     #[Override]
     public static function canPurge(): bool
     {
-        return self::canUpdate();
+        return static::canUpdate();
     }
 
     public static function getPossiblesPages(): array
@@ -112,7 +112,7 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
     }
 
     #[Override]
-    public function isAvailable(SessionInfo $session_info): bool
+    public function isAvailable(...$args): bool
     {
         return Session::haveRight("plugin_consumables_request", 1);
     }
@@ -120,7 +120,7 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
     #[Override]
     public function getDatabaseId(): int
     {
-        return $this->fields['id'];
+        return (($this->fields['id'] ?? ''));
     }
 
     #[Override]

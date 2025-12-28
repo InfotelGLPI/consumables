@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -26,10 +27,9 @@
  along with consumables. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-
 namespace GlpiPlugin\Consumables;
-
 use CommonGLPI;
+use GlpiPlugin\Consumables\Request;
 use Session;
 
 if (!defined('GLPI_ROOT')) {
@@ -42,42 +42,50 @@ if (!defined('GLPI_ROOT')) {
  */
 class Servicecatalog extends CommonGLPI
 {
-
-    public static $rightname     = 'plugin_consumables_request';
-
-    public $dohistory = false;
+    public static string $rightname = 'plugin_consumables_request';
+    public bool $dohistory = false;
 
    /**
     * @return bool
     */
+    /**
+     * @return bool|int
+     */
     public static function canUse()
     {
-        return Session::haveRight("plugin_consumables_request", 1);
+        return Session::haveRight('plugin_consumables_request', 1);
     }
 
    /**
     * @return string
     */
-    public static function getMenuLink()
+    /**
+     * @return string
+     */
+    public static function getMenuLink(): string
     {
-
-        return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
+        return PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php';
     }
 
    /**
     * @return string
     */
-    public static function getNavBarLink()
+    /**
+     * @return string
+     */
+    public static function getNavBarLink(): string
     {
         global $CFG_GLPI;
-
-        return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
+        return PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php';
     }
 
    /**
     * @return string
     */
-    public static function getMenuTitle()
+    /**
+     * @return string
+     */
+    public static function getMenuTitle(): string
     {
         return _n('Consumable request', 'Consumable requests', 2, 'consumables');
     }
@@ -85,9 +93,11 @@ class Servicecatalog extends CommonGLPI
    /**
     * @return string
     */
-    public static function getMenuLogo()
+    /**
+     * @return string
+     */
+    public static function getMenuLogo(): string
     {
-
         return Request::getIcon();
     }
 
@@ -95,35 +105,45 @@ class Servicecatalog extends CommonGLPI
     * @return string
     * @throws \GlpitestSQLError
     */
-    public static function getMenuLogoCss()
+    /**
+     * @return string
+     */
+    public static function getMenuLogoCss(): string
     {
-
-        $addstyle = "font-size: 4.5em;";
+        $addstyle = 'font-size: 4.5em;';
         return $addstyle;
     }
 
    /**
     * @return string
     */
-    public static function getMenuComment()
+    /**
+     * @return string
+     */
+    public static function getMenuComment(): string
     {
-
         return __('Make a consumable request', 'consumables');
     }
 
    /**
     * @return string
     */
-    public static function getLinkList()
+    /**
+     * @return string
+     */
+    public static function getLinkList(): string
     {
-        return "";
+        return '';
     }
 
    /**
     * @return string
     */
-    public static function getList()
+    /**
+     * @return string
+     */
+    public static function getList(): string
     {
-        return "";
+        return '';
     }
 }

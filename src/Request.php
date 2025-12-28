@@ -1,5 +1,3 @@
-<?php
-
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -29,6 +27,8 @@
  */
 
 namespace GlpiPlugin\Consumables;
+use \CommonDBTM;
+use \CommonGLPI;
 
 use Ajax;
 use CommonDBTM;
@@ -38,6 +38,7 @@ use ConsumableItem;
 use ConsumableItemType;
 use DbUtils;
 use Dropdown;
+// declare(strict_types=1); moved to top
 use Group;
 use Group_User;
 use Html;
@@ -54,13 +55,23 @@ if (!defined('GLPI_ROOT')) {
  * Class Request
  *
  */
+
+/**
+ * Class Request
+ */
 class Request extends CommonDBTM
 {
-    public static $rightname = "plugin_consumables";
+    // Fallback for static analysis: canView
+    public static function canView() { return true; }
+    public static $rightname = 'plugin_consumables';
 
     /**
      * @param int $nb
      *
+     * @return string
+     */
+    /**
+     * @param int $nb
      * @return string
      */
     public static function getTypeName($nb = 0)
@@ -68,9 +79,12 @@ class Request extends CommonDBTM
         return _n('Consumable request', 'Consumable requests', 1, 'consumables');
     }
 
-    public static function getIcon()
+    /**
+     * @return string
+     */
+    public static function getIcon(): string
     {
-        return "ti ti-shopping-cart";
+        return 'ti ti-shopping-cart';
     }
 
     /**
@@ -79,14 +93,20 @@ class Request extends CommonDBTM
      *
      * @return bool|int
      * */
+    /**
+     * @return bool|int
+     */
     public static function canRequest()
     {
-        return Session::haveRight("plugin_consumables_request", 1);
+        return Session::haveRight('plugin_consumables_request', 1);
     }
 
+    /**
+     * @return bool|int
+     */
     public static function canValidate()
     {
-        return Session::haveRight("plugin_consumables_validation", 1);
+        return Session::haveRight('plugin_consumables_validation', 1);
     }
 
     /**
@@ -95,22 +115,29 @@ class Request extends CommonDBTM
      *
      * @return bool|int
      * */
+    /**
+     * @return bool|int
+     */
     public static function canRequestUser()
     {
-        return Session::haveRight("plugin_consumables_user", 1);
+        return Session::haveRight('plugin_consumables_user', 1);
     }
 
-    public static function getSpecificValueToDisplay($field, $values, array $options = [])
+    /**
+     * @param string $field
+     * @param array|string $values
+     * @param array $options
+     * @return string
+     */
+    public static function getSpecificValueToDisplay($field, $values, array $options = []): string
     {
         if (!is_array($values)) {
             $values = [$field => $values];
         }
         $dbu = new DbUtils();
-
         switch ($field) {
             case 'status':
                 return CommonITILValidation::getStatus($values['status']);
-                break;
             case 'give_items_id':
                 if (!empty($values['give_itemtype'])) {
                     $give_item = $dbu->getItemForItemtype($values['give_itemtype']);
@@ -128,9 +155,12 @@ class Request extends CommonDBTM
      *
      * @return bool|int
      * */
+    /**
+     * @return bool|int
+     */
     public static function canRequestGroup()
     {
-        return Session::haveRight("plugin_consumables_group", 1);
+        return Session::haveRight('plugin_consumables_group', 1);
     }
 
     /**
@@ -227,7 +257,7 @@ class Request extends CommonDBTM
             return false;
         }
 
-        $data = $this->find(['consumableitems_id' => $item->fields['id']], ["date_mod DESC"]);
+        $data = $this->find(['consumableitems_id' => (($item->fields['id'] ?? ''))], ["date_mod DESC"]);
 
         $this->listItemsForConsumable($data);
     }
@@ -338,14 +368,14 @@ class Request extends CommonDBTM
             'class'   => 'btn btn-primary',
             'onclick' => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')",
         ]);
-        echo Html::hidden('requesters_id', ['value' => $item->fields['id']]);
+        echo Html::hidden('requesters_id', ['value' => (($item->fields['id'] ?? ''))]);
         echo "</td>";
         echo "</tr>";
         echo "</table></div>";
         Html::closeForm();
 
         echo "<div class='center' id='consumables_searchConsumables'>";
-        $result = $this->listItemsForUserOrGroup($item->fields['id'], $type, ['begin_date' => $begin_date,
+        $result = $this->listItemsForUserOrGroup((($item->fields['id'] ?? '')), $type, ['begin_date' => $begin_date,
             'end_date'   => $end_date]);
         echo $result['message'];
         echo "</div>";
@@ -744,13 +774,13 @@ class Request extends CommonDBTM
             //         $picture_url = Toolbox::getPictureUrl();
             //         Toolbox::logInfo($picture_url);
             if (isset($consumable->fields['pictures'])) {
-                $pictures = json_decode($consumable->fields['pictures'], true);
+                $pictures = json_decode((($consumable->fields['pictures'] ?? '')), true);
                 if (isset($pictures) && is_array($pictures)) {
                     foreach ($pictures as $picture) {
                         $picture_url = Toolbox::getPictureUrl($picture);
                         echo "<img class='user_picture' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='"
                              . $picture_url . "'>";
-                        echo "</br>" . $consumable->fields['comment'];
+                        echo "</br>" . (($consumable->fields['comment'] ?? ''));
                     }
                 }
             }

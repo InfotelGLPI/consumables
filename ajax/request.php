@@ -30,8 +30,8 @@
 use GlpiPlugin\Consumables\Request;
 use GlpiPlugin\Consumables\Validation;
 
-Session::checkRight('plugin_consumables_request', 1);
-Session::checkLoginUser();
+\Session::checkRight('plugin_consumables_request', 1);
+\Session::checkLoginUser();
 
 switch ($_POST['action']) {
     case 'addToCart':

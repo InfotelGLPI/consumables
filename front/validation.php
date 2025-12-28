@@ -32,15 +32,15 @@ use GlpiPlugin\Consumables\Validation;
 use GlpiPlugin\Consumables\Wizard;
 use GlpiPlugin\Servicecatalog\Main;
 
-Session::checkLoginUser();
+\Session::checkLoginUser();
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   Html::header(Wizard::getTypeName(2), '', "management", Menu::class);
+   \Html::header(Wizard::getTypeName(2), '', "management", Menu::class);
 } else {
-   if (Plugin::isPluginActive('servicecatalog')) {
+   if (\Plugin::isPluginActive('servicecatalog')) {
       Main::showDefaultHeaderHelpdesk(Wizard::getTypeName(2));
    } else {
-      Html::helpHeader(Wizard::getTypeName(2));
+      \Html::helpHeader(Wizard::getTypeName(2));
    }
 }
 
@@ -60,14 +60,14 @@ $p["criteria"][0] =  [
 ];
    Search::showList(Validation::class,$p);
 
-if (Session::getCurrentInterface() != 'central'
-    && Plugin::isPluginActive('servicecatalog')) {
+if (\Session::getCurrentInterface() != 'central'
+   && \Plugin::isPluginActive('servicecatalog')) {
 
    Main::showNavBarFooter('consumables');
 }
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   Html::footer();
+   \Html::footer();
 } else {
-   Html::helpFooter();
+   \Html::helpFooter();
 }
