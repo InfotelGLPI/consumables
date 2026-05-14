@@ -32,7 +32,7 @@ use GlpiPlugin\Consumables\Validation;
 use GlpiPlugin\Consumables\Wizard;
 use GlpiPlugin\Servicecatalog\Main;
 
-Session::checkLoginUser();
+Session::checkRight('plugin_consumables_validation', 1);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    Html::header(Wizard::getTypeName(2), '', "management", Menu::class);

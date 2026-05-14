@@ -29,13 +29,16 @@
 
 use GlpiPlugin\Consumables\Option;
 
-Session::checkLoginUser();
+Session::checkRight('plugin_consumables', UPDATE);
 
 $option = new Option();
 
 if (isset($_POST["add_groups"])
     || isset($_POST["delete_groups"])
     || isset($_POST["update"])) {
+    if (!$option->can((int) ($_POST['id'] ?? 0), UPDATE)) {
+        Html::back();
+    }
     $option->update($_POST);
     Html::back();
 }

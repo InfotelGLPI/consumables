@@ -107,19 +107,21 @@ function plugin_consumables_uninstall()
         }
     }
 
-    $itemtypes = ['Alert',
-        'DisplayPreference',
-        'Document_Item',
-        'ImpactItem',
-        'Item_Ticket',
-        'Link_Itemtype',
-        'Notepad',
-        'SavedSearch',
-        'DropdownTranslation',
-        'NotificationTemplate',
-        'Notification'];
+    $itemtypes = [
+        Alert::class,
+        DisplayPreference::class,
+        Document_Item::class,
+        ImpactItem::class,
+        Item_Ticket::class,
+        Link_Itemtype::class,
+        Notepad::class,
+        SavedSearch::class,
+        DropdownTranslation::class,
+        NotificationTemplate::class,
+        Notification::class,
+    ];
     foreach ($itemtypes as $itemtype) {
-        $item = new $itemtype;
+        $item = new $itemtype();
         $item->deleteByCriteria(['itemtype' => Request::class]);
     }
 

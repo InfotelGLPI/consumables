@@ -35,13 +35,13 @@ Session::checkLoginUser();
 
 switch ($_POST['action']) {
     case 'addToCart':
-        header('Content-Type: application/json; charset=UTF-8"');
+        header('Content-Type: application/json; charset=UTF-8');
         $request = new Request();
         echo json_encode($request->addToCart($_POST));
         break;
 
     case 'addConsumables':
-        header('Content-Type: application/json; charset=UTF-8"');
+        header('Content-Type: application/json; charset=UTF-8');
         $request = new Request();
         echo json_encode($request->addConsumables($_POST));
         break;
@@ -61,7 +61,7 @@ switch ($_POST['action']) {
     case 'reloadAvailableConsumablesNumber':
         header("Content-Type: text/html; charset=UTF-8");
         $request = new Request();
-        $request->loadAvailableConsumablesNumber(json_decode(stripslashes($_POST['used'])), $_POST['consumableitems_id']);
+        $request->loadAvailableConsumablesNumber(json_decode($_POST['used']), $_POST['consumableitems_id']);
         break;
 
 //    case 'loadConsumableInformation':
@@ -71,15 +71,25 @@ switch ($_POST['action']) {
 //        break;
 
     case 'validationConsumables':
-        header('Content-Type: application/json; charset=UTF-8"');
+        header('Content-Type: application/json; charset=UTF-8');
+        if (!Session::haveRight('plugin_consumables_validation', 1)) {
+            echo json_encode(['error' => 'Access denied']);
+            break;
+        }
         $validation = new Validation();
         echo json_encode($validation->validationConsumable($_POST));
         break;
 
     case 'searchConsumables':
-        header('Content-Type: application/json; charset=UTF-8"');
+        header('Content-Type: application/json; charset=UTF-8');
+        $requesters_id = (int) ($_POST['requesters_id'] ?? 0);
+        if (!Session::haveRight('plugin_consumables', READ)
+            && $requesters_id !== (int) Session::getLoginUserID()) {
+            echo json_encode(['error' => 'Access denied', 'message' => '']);
+            break;
+        }
         $request = new Request();
-        echo json_encode($request->listItemsForUserOrGroup($_POST['requesters_id'], $_POST['type'], $_POST));
+        echo json_encode($request->listItemsForUserOrGroup($requesters_id, $_POST['type'], $_POST));
         break;
 
     case 'loadAvailableConsumablesNumber':

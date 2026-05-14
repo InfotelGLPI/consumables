@@ -34,14 +34,15 @@ Session::checkLoginUser();
 global $CFG_GLPI;
 
 // Make a select box
-if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
+$idtable = $_POST["idtable"] ?? '';
+if ($idtable !== '' && getItemForItemtype($idtable) !== false) {
     $dbu = new DbUtils();
-    $table = $dbu->getTableForItemType($_POST["idtable"]);
+    $table = $dbu->getTableForItemType($idtable);
 
    // Link to user for search only > normal users
     $link = "getDropdownValue.php";
 
-    if ($_POST["idtable"] == 'User') {
+    if ($idtable == 'User') {
         $link = "getDropdownUsers.php";
     }
 
@@ -52,10 +53,10 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
     $p        = [
       'value'               => 0,
       'valuename'           => Dropdown::EMPTY_VALUE,
-      'itemtype'            => $_POST["idtable"],
+      'itemtype'            => $idtable,
       'display_emptychoice' => true,
       'displaywith'         => ['otherserial', 'serial'],
-      '_idor_token'         => Session::getNewIDORToken($_POST["idtable"]),
+      '_idor_token'         => Session::getNewIDORToken($idtable),
     ];
     if (isset($_POST['value'])) {
         $p['value'] = $_POST['value'];
@@ -66,7 +67,7 @@ if ($_POST["idtable"] && class_exists($_POST["idtable"])) {
     if (isset($_POST['condition'])) {
         $p['condition'] = $_POST['condition'];
     }
-    if ($_POST['idtable'] == 'Group') {
+    if ($idtable == 'Group') {
         $groups      = Group_User::getUserGroups(Session::getLoginUserID());
         $user_groups = [];
         foreach ($groups as $group) {

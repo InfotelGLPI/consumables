@@ -304,14 +304,19 @@ class Validation extends CommonDBTM
      */
     public function validationConsumable($params, $state = CommonITILValidation::WAITING)
     {
-        //        $this->update([
-        //            'id' => $params['id'],
-        //            'status' => $state,
-        //            'validators_id' => Session::getLoginUserID()
-        //        ]);
-        //
-        //        return $state;
-        return CommonITILValidation::ACCEPTED;
+        if (!Session::haveRight('plugin_consumables_validation', 1)) {
+            return ['error' => 'Access denied'];
+        }
+        $id = (int) ($params['id'] ?? 0);
+        if ($id <= 0 || !$this->getFromDB($id)) {
+            return ['error' => 'Record not found'];
+        }
+        $this->update([
+            'id'            => $id,
+            'status'        => $state,
+            'validators_id' => Session::getLoginUserID(),
+        ]);
+        return $state;
     }
 
 
@@ -424,10 +429,7 @@ class Validation extends CommonDBTM
                             // Check if enough stock
                             if (!empty($outConsumable) && count($outConsumable) >= $item->fields['number']) {
                                 // Give consumable
-                                $state = $validation->validationConsumable(
-                                    $item->fields,
-                                    CommonITILValidation::ACCEPTED
-                                );
+                                $state = CommonITILValidation::ACCEPTED;
                                 $added['status'] = $state;
                                 $added['validators_id'] = Session::getLoginUserID();
                                 $added['id'] = $item->getID();
@@ -490,11 +492,11 @@ class Validation extends CommonDBTM
                     foreach ($ids as $key => $val) {
                         if (Session::haveRight("plugin_consumables_validation", 1)) {
                             // Validation status update
-                            $state = $validation->validationConsumable($item->fields, CommonITILValidation::REFUSED);
+                            $state = CommonITILValidation::REFUSED;
                             if ($state == CommonITILValidation::REFUSED) {
                                 $added['status'] = $state;
                                 $added['validators_id'] = Session::getLoginUserID();
-                                $added['id'] = $item->getID();
+                                $added['id'] = $key;
                                 if ($item->update($added)) {
                                     $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                                 } else {

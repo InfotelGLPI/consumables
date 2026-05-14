@@ -60,13 +60,12 @@ function plugin_init_consumables()
     $tiles_manager->registerPluginTileType(new ConsumablesPageTile());
 
     $CFG_GLPI['glpitablesitemtype'][Validation::class] = 'glpi_plugin_consumables_requests';
-    $PLUGIN_HOOKS['csrf_compliant']['consumables'] = true;
-    $PLUGIN_HOOKS['change_profile']['consumables'] = [Profile::class, 'initProfile'];
+    $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['consumables'] = [Profile::class, 'initProfile'];
     $PLUGIN_HOOKS[Hooks::ADD_CSS]['consumables']        = 'css/consumables.css';
-    $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['consumables']   = 'js/consumables.js';
+    $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['consumables'] = 'js/consumables.js';
 
     if (Session::getLoginUserID()) {
-        $PLUGIN_HOOKS['post_item_form']['consumables'] = [Field::class, 'addFieldOrderReference'];
+        $PLUGIN_HOOKS[Hooks::POST_ITEM_FORM]['consumables'] = [Field::class, 'addFieldOrderReference'];
 
         Plugin::registerClass(Profile::class, ['addtabon' => 'Profile']);
         Plugin::registerClass(Request::class, ['addtabon'                    => 'User',
@@ -75,11 +74,11 @@ function plugin_init_consumables()
             'notificationtemplates_types' => true]);
         Plugin::registerClass(Request::class, ['addtabon' => 'ConsumableItem']);
 
-        $PLUGIN_HOOKS['item_add']['consumables']        = ['ConsumableItem' => [Field::class, 'postAddConsumable']];
-        $PLUGIN_HOOKS['pre_item_update']['consumables'] = ['ConsumableItem' => [Field::class, 'preUpdateConsumable']];
+        $PLUGIN_HOOKS[Hooks::ITEM_ADD]['consumables']        = ['ConsumableItem' => [Field::class, 'postAddConsumable']];
+        $PLUGIN_HOOKS[Hooks::PRE_ITEM_UPDATE]['consumables'] = ['ConsumableItem' => [Field::class, 'preUpdateConsumable']];
 
         if (Session::haveRight("plugin_consumables", UPDATE)) {
-            $PLUGIN_HOOKS['use_massive_action']['consumables'] = 1;
+            $PLUGIN_HOOKS[Hooks::USE_MASSIVE_ACTION]['consumables'] = 1;
         }
 
         //      if (class_exists(Main::class)) {
@@ -87,17 +86,17 @@ function plugin_init_consumables()
         //      }
 
         if (Session::haveRight("plugin_consumables", READ)) {
-            $PLUGIN_HOOKS['menu_toadd']['consumables'] = ['management' => Menu::class];
+            $PLUGIN_HOOKS[Hooks::MENU_TOADD]['consumables'] = ['management' => Menu::class];
         }
-        if (Session::haveRight("plugin_consumables", READ)
-                || Session::haveRight("plugin_consumables_request", 1)
+        if ((Session::haveRight("plugin_consumables", READ)
+                || Session::haveRight("plugin_consumables_request", 1))
           && !class_exists(Main::class)) {
-            $PLUGIN_HOOKS['helpdesk_menu_entry']['consumables'] = PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php';
-            $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['consumables'] = Request::getIcon();
+            $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY]['consumables']      = PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php';
+            $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY_ICON]['consumables'] = Request::getIcon();
         }
 
         // Post item purge
-        $PLUGIN_HOOKS['item_purge']['consumables'] = ['ConsumableItem' => 'plugin_item_purge_consumables'];
+        $PLUGIN_HOOKS[Hooks::ITEM_PURGE]['consumables'] = ['ConsumableItem' => 'plugin_item_purge_consumables'];
     }
 }
 

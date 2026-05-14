@@ -113,10 +113,10 @@
     </tags>
     <screenshots>
         <screenshot>
-            https://raw.githubusercontent.com/InfotelGLPI/consumables/master/wiki/Menu%20plugin%20consumables.png
+            https://github.com/InfotelGLPI/consumables/blob/master/wiki/Menu%20plugin%20consumables.png?raw=true
         </screenshot>
         <screenshot>
-            https://raw.githubusercontent.com/InfotelGLPI/consumables/master/wiki/Wizard%20plugin%20consumables.png
+            https://github.com/InfotelGLPI/consumables/blob/master/wiki/Wizard%20plugin%20consumables.png?raw=true
         </screenshot>
     </screenshots>
 </root>
