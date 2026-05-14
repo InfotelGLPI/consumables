@@ -61,7 +61,7 @@ class NotificationTargetRequest extends NotificationTarget
     public function getEvents()
     {
         return [
-            self::CONSUMABLE_REQUEST => __('Consumable request', 'consumables'),
+            self::CONSUMABLE_REQUEST => _n('Consumable request', 'Consumable requests', 1, 'consumables'),
             self::CONSUMABLE_RESPONSE => __('Consumable validation', 'consumables'),
         ];
     }
@@ -88,7 +88,7 @@ class NotificationTargetRequest extends NotificationTarget
         $this->data['##lang.consumable.id##'] = __('Consumable ID', 'consumables');
         switch ($event) {
             case self::CONSUMABLE_REQUEST:
-                $this->data['##consumable.action##'] = __('Consumable request', 'consumables');
+                $this->data['##consumable.action##'] = _n('Consumable request', 'Consumable requests', 1, 'consumables');
                 break;
             case self::CONSUMABLE_RESPONSE:
                 $this->data['##consumable.action##'] = __('Consumable validation', 'consumables');
