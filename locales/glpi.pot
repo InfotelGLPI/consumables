@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 14:06+0000\n"
+"POT-Creation-Date: 2026-05-14 10:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,26 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:184 src/Field.php:84
+#: hook.php:185 src/Field.php:84
 msgid "Order reference"
 msgstr ""
 
-#: hook.php:192 hook.php:221 src/Option.php:126 src/Option.php:322
+#: hook.php:193 hook.php:222 src/Option.php:126 src/Option.php:322
 msgid "Maximum number allowed for request"
 msgstr ""
 
-#: hook.php:201 src/Option.php:147
+#: hook.php:202 src/Option.php:147
 msgid "Allowed groups for request"
 msgstr ""
 
-#: hook.php:223 src/Option.php:199 src/Option.php:332
+#: hook.php:224 src/Option.php:199 src/Option.php:332
 msgid "Add a group for request"
 msgstr ""
 
-#: setup.php:107 src/Field.php:62 src/Menu.php:47
+#: setup.php:112 src/Field.php:62 src/Menu.php:47
 #: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:91
 #: src/Request.php:68 src/Request.php:470 src/Request.php:477
 #: src/Servicecatalog.php:82 src/Wizard.php:71 src/Wizard.php:80
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:67
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:85
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] ""
@@ -147,11 +149,11 @@ msgstr[1] ""
 msgid "Please add consumables in cart"
 msgstr ""
 
-#: src/Validation.php:349
+#: src/Validation.php:354
 msgid "Refuse"
 msgstr ""
 
-#: src/Validation.php:456
+#: src/Validation.php:458
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr ""
