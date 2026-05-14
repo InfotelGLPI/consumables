@@ -14,7 +14,7 @@ class ValidationTest extends DbTestCase
 {
     private int $requestId = 0;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->login();
