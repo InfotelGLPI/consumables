@@ -41,13 +41,15 @@ function plugin_consumables_install()
 
     if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
         // Install script
-        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.0.1.sql");
+        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.1.2.sql");
         include(PLUGIN_CONSUMABLES_DIR . "/install/install.php");
         install_notifications_consumables();
     } elseif (!$DB->tableExists("glpi_plugin_consumables_options")) {
         $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-1.2.2.sql");
     } elseif (!$DB->fieldExists("glpi_plugin_consumables_options", "consumableitems_id")) {
         $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.0.1.sql");
+    } elseif (!$DB->tableExists("glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles")) {
+        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.1.2.sql");
     }
 
     Profile::initProfile();
