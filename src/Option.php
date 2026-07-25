@@ -32,6 +32,7 @@ namespace GlpiPlugin\Consumables;
 use CommonDBTM;
 use DbUtils;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
 use Group;
 use Html;
 use MassiveAction;
@@ -114,73 +115,40 @@ class Option extends CommonDBTM
     {
         global $CFG_GLPI;
 
-        $ID = $data['id'];
+        $ID       = $data['id'];
+        $form_url = Toolbox::getItemTypeFormURL(self::class);
 
-        echo "<div class='center'>";
-        echo "<form action='" . Toolbox::getItemTypeFormURL(self::class) . "' method='post'>";
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr>";
-        echo "<th colspan='3'>" . self::getTypeName(1) . "</th>";
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>";
-        echo __('Maximum number allowed for request', 'consumables');
-        echo " </td>";
-        echo "<td>";
-        Dropdown::showNumber('max_cart', ['value' => $data['max_cart'],
-                                        'max'   => 100]);
-        echo " </td>";
-        if ($this->canCreate()) {
-            echo "<td class='center'>";
-            echo Html::submit(_sx('button', 'Define', 'consumables'), ['name' => 'update', 'class' => 'btn btn-primary']);
-            echo "</td>";
-        }
-        echo "</tr>";
-        echo Html::hidden('consumableitems_id', ['value' => $data['consumableitems_id']]);
-        echo Html::hidden('id', ['value' => $ID]);
-        echo "</table>";
-        Html::closeForm();
-
-        echo "<form action='" . Toolbox::getItemTypeFormURL(self::class) . "' method='post'>";
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr class='tab_bg_1'>";
-        echo "<th colspan='2'>";
-        echo __('Allowed groups for request', 'consumables');
-        echo " </th>";
-        echo "</tr>";
-
-        $groups = json_decode($data['groups'], true);
+        $groups_rows = [];
+        $groups      = json_decode($data['groups'], true);
         if (!empty($groups)) {
-            foreach ($groups as $key => $val) {
-                echo "<tr class='tab_bg_1 center'>";
-                echo "<td>";
-                echo Dropdown::getDropdownName("glpi_groups", $val);
-                echo "</td>";
-                echo "<td>";
-                Html::showSimpleForm(
-                    Toolbox::getItemTypeFormURL(self::class),
-                    'delete_groups',
-                    _x('button', 'Delete permanently'),
-                    ['delete_groups' => 'delete_groups',
-                                  'id'            => $ID,
-                                  '_groups_id'    => $val],
-                    'fa-times-circle'
-                );
-                echo " </td>";
-                echo "</tr>";
+            foreach ($groups as $val) {
+                $groups_rows[] = [
+                    'name'        => Dropdown::getDropdownName("glpi_groups", $val),
+                    'delete_form' => Html::getSimpleForm(
+                        $form_url,
+                        'delete_groups',
+                        _x('button', 'Delete permanently'),
+                        ['delete_groups' => 'delete_groups',
+                            'id'         => $ID,
+                            '_groups_id' => $val],
+                        'fa-times-circle'
+                    ),
+                ];
             }
-        } else {
-            echo "<tr class='tab_bg_1'>";
-            echo "<td colspan='2'>";
-            echo __('None');
-            echo "</td>";
-            echo "</tr>";
         }
 
-        echo Html::hidden('consumableitems_id', ['value' => $data['consumableitems_id']]);
-        echo Html::hidden('id', ['value' => $ID]);
-        echo "</table>";
-        Html::closeForm();
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@consumables/option_form.html.twig', [
+            'form_url'           => $form_url,
+            'title'              => self::getTypeName(1),
+            'max_cart_dropdown'  => Dropdown::showNumber('max_cart', ['value'   => $data['max_cart'],
+                'max'     => 100,
+                'display' => false]),
+            'can_create'         => $this->canCreate(),
+            'define_button'      => Html::submit(_sx('button', 'Define', 'consumables'), ['name' => 'update', 'class' => 'btn btn-primary']),
+            'consumableitems_id' => $data['consumableitems_id'],
+            'id'                 => $ID,
+            'groups_rows'        => $groups_rows,
+        ]);
 
         self::showAddGroup($item, $data);
     }
@@ -192,32 +160,19 @@ class Option extends CommonDBTM
     */
     public static function showAddGroup($item, $data)
     {
-
-        echo "<form action='" . Toolbox::getItemTypeFormURL(self::class) . "' method='post'>";
-        echo "<table class='tab_cadre_fixe' cellpadding='5'>";
-        echo "<tr class='tab_bg_1 center'>";
-        echo "<th>" . __('Add a group for request', 'consumables') . "</th>";
-        echo "<th>&nbsp;</th>";
-        echo "</tr>";
-        echo "<tr class='tab_bg_1 center'>";
-        echo "<td>";
-
         $used = ($data["groups"] == '' ? [] : json_decode($data["groups"], true));
 
-        Group::dropdown(['name'        => '_groups_id',
-                       'used'        => $used,
-                       'entity'      => $item->fields['entities_id'],
-                       'entity_sons' => $item->fields["is_recursive"]]);
-
-        echo "</td>";
-        echo "<td>";
-        echo Html::hidden('consumableitems_id', ['value' => $item->getID()]);
-        echo Html::hidden('id', ['value' => $data['id']]);
-        echo Html::submit(_sx('button', 'Add'), ['name' => 'add_groups', 'class' => 'btn btn-primary']);
-        echo "</td>";
-        echo "</tr>";
-        echo "</table>";
-        Html::closeForm();
+        TemplateRenderer::getInstance()->display('@consumables/option_add_group.html.twig', [
+            'form_url'           => Toolbox::getItemTypeFormURL(self::class),
+            'group_dropdown'     => Group::dropdown(['name'        => '_groups_id',
+                'used'        => $used,
+                'entity'      => $item->fields['entities_id'],
+                'entity_sons' => $item->fields["is_recursive"],
+                'display'     => false]),
+            'consumableitems_id' => $item->getID(),
+            'id'                 => $data['id'],
+            'add_button'         => Html::submit(_sx('button', 'Add'), ['name' => 'add_groups', 'class' => 'btn btn-primary']),
+        ]);
     }
 
    /**
@@ -319,22 +274,23 @@ class Option extends CommonDBTM
 
         switch ($ma->getAction()) {
             case "add_number":
-                echo "</br>&nbsp;" . __('Maximum number allowed for request', 'consumables') . " : ";
-                Dropdown::showNumber('max_cart', ['value' => 0,
-                                              'min'   => 0,
-                                              'max'   => 100]);
-                echo "&nbsp;" .
-                   Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
+                TemplateRenderer::getInstance()->display('@consumables/option_massiveaction.html.twig', [
+                    'label'  => __('Maximum number allowed for request', 'consumables'),
+                    'field'  => Dropdown::showNumber('max_cart', ['value'   => 0,
+                        'min'     => 0,
+                        'max'     => 100,
+                        'display' => false]),
+                    'submit' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']),
+                ]);
                 return true;
-            break;
 
             case "add_groups":
-                echo "</br>&nbsp;" . __('Add a group for request', 'consumables') . " : ";
-                Group::dropdown(['name' => '_groups_id']);
-                echo "&nbsp;" .
-                 Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
+                TemplateRenderer::getInstance()->display('@consumables/option_massiveaction.html.twig', [
+                    'label'  => __('Add a group for request', 'consumables'),
+                    'field'  => Group::dropdown(['name' => '_groups_id', 'display' => false]),
+                    'submit' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']),
+                ]);
                 return true;
-            break;
         }
     }
 
@@ -435,7 +391,9 @@ class Option extends CommonDBTM
                 $groups      = json_decode($values['groups'], true);
                 if (!empty($groups)) {
                     foreach ($groups as $key => $val) {
-                        $list_groups .= Dropdown::getDropdownName("glpi_groups", $val) . "<br>";
+                        // 'specific' search columns are rendered as HTML: escape the
+                        // group label (a group name may contain HTML/JS).
+                        $list_groups .= htmlescape(Dropdown::getDropdownName("glpi_groups", $val)) . "<br>";
                     }
                 }
                 return $list_groups;

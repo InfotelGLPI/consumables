@@ -31,6 +31,7 @@ namespace GlpiPlugin\Consumables;
 
 use CommonDBTM;
 use ConsumableItem;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 
 if (!defined('GLPI_ROOT')) {
@@ -79,14 +80,9 @@ class Field extends CommonDBTM
         $consumableitems_id = $item->getID();
         $field          = new self();
         if ($field->getFromDBByCrit(["consumableitems_id" => $consumableitems_id])) {
-            echo "<div class='form-field row col-12 col-sm-6  mb-2'>";
-            echo "<label class='col-form-label col-xxl-4 text-xxl-end'>";
-            echo  __('Order reference', 'consumables');
-            echo "</label>";
-            echo "<div class='col-xxl-7  field-container'>";
-            echo Html::input('name', ['value' => $field->fields['order_ref'], 'size' => 40]);
-            echo "</div>";
-            echo "</div>";
+            TemplateRenderer::getInstance()->display('@consumables/field_order_reference.html.twig', [
+                'order_ref_input' => Html::input('name', ['value' => $field->fields['order_ref'], 'size' => 40]),
+            ]);
         }
     }
 

@@ -5,6 +5,35 @@ function consumables_initJs(root_doc, consumableTypeID, consumableID) {
    this.consumableID = consumableID;
 }
 
+/**
+ * Bound to the consumable-type dropdown on_change; reloads the consumable list.
+ */
+function loadAvailableConsumables(object) {
+   this.consumableTypeID = object.value;
+   consumables_reloadAvailableConsumables();
+}
+
+/**
+ * Bound to the consumable dropdown on_change; reloads the number field and pictures.
+ */
+function loadAvailableConsumablesNumber(object) {
+   this.consumableID = object.value;
+   consumables_reloadAvailableConsumablesNumber();
+   consumables_seeConsumablesInfos();
+}
+
+/**
+ * Bootstrap the wizard once the DOM is ready.
+ * The GLPI web dir is read from the [data-root-doc] attribute placed on the
+ * request form, the user/group search form and the validation list.
+ */
+$(function () {
+   var $root = $('[data-root-doc]').first();
+   if ($root.length) {
+      consumables_initJs($root.data('rootDoc'));
+   }
+});
+
 
 /**
  * consumables_add_custom_values : add text input

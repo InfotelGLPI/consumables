@@ -1,0 +1,85 @@
+{#
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2015-2026 by the consumables Development Team.
+
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of consumables.
+
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<div class="consumables_wizard" data-root-doc="{{ webdir }}">
+    <div class="alert alert-secondary">
+        <i class="thumbnail ti ti-shopping-cart-plus fa-2x"></i>&nbsp;{{ __('Consumable validation', 'consumables') }}
+    </div>
+
+    <div class="center">
+        {% if rows is not empty %}
+            {{ ma_open|raw }}
+            {{ ma_top|raw }}
+            <div style="overflow-x:auto;">
+                <table class="tab_cadre_fixe">
+                    <tr>
+                        <th colspan="7">{{ title }}</th>
+                    </tr>
+                    <tr>
+                        <th width="10">{{ check_all|raw }}</th>
+                        <th>{{ __('Requester') }}</th>
+                        <th>{{ _n('Consumable type', 'Consumable types', 1) }}</th>
+                        <th>{{ _n('Consumable', 'Consumables', 1) }}</th>
+                        <th>{{ __('Number', 'consumables') }}</th>
+                        <th>{{ __('Give to') }}</th>
+                        <th>{{ _x('item', 'State') }}</th>
+                    </tr>
+                    {% for row in rows %}
+                        <tr class="tab_bg_1">
+                            <td width="10">{{ row.checkbox|raw }}</td>
+                            <td>{{ row.requester }}</td>
+                            <td>{{ row.type }}</td>
+                            <td>{{ row.consumable }}</td>
+                            <td>{{ row.number }}</td>
+                            <td>{{ row.give_link|raw }}</td>
+                            <td>
+                                <div style="background-color:{{ row.status_color }};">{{ row.status }}</div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {{ ma_bottom|raw }}
+                    {{ close_form|raw }}
+                </table>
+            </div>
+        {% else %}
+            {{ __('No item to display') }}
+        {% endif %}
+    </div>
+
+    {% if footer.show %}
+        <br>
+        <table width="100%">
+            <tr>
+                <td>
+                    <div id="dialog-confirm"></div>
+                    {{ footer.cancel_button|raw }}
+                    {{ footer.hidden|raw }}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+</div>

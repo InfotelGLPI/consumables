@@ -1,0 +1,65 @@
+{#
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2015-2026 by the consumables Development Team.
+
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of consumables.
+
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<div class="center">
+    {% if rows is not empty %}
+        <table class="tab_cadre_fixe">
+            <tr>
+                <th colspan="6">{{ __('Consumable request report', 'consumables') }}</th>
+            </tr>
+            <tr>
+                <th>{{ __('Requester') }}</th>
+                <th>{{ __('Approver') }}</th>
+                <th>{{ __('Number of used consumables') }}</th>
+                <th>{{ __('Request date') }}</th>
+                <th>{{ __('Give to') }}</th>
+                <th>{{ __('Status') }}</th>
+            </tr>
+            {% for row in rows %}
+                <tr class="tab_bg_1">
+                    <td>{{ row.requester }}</td>
+                    <td>{{ row.approver }}</td>
+                    <td>{{ row.number }}</td>
+                    <td>{{ row.date }}</td>
+                    <td>{{ row.give_link|raw }}</td>
+                    <td>
+                        <div style="background-color:{{ row.status_color }};">{{ row.status }}</div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <table class="tab_cadre_fixe">
+            <tr>
+                <th colspan="6">{{ __('Consumable requests history', 'consumables') }}</th>
+            </tr>
+            <tr>
+                <td class="center">{{ __('No results found') }}</td>
+            </tr>
+        </table>
+    {% endif %}
+</div>

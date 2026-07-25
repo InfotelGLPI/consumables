@@ -27,6 +27,7 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Application\View\TemplateRenderer;
 use GlpiPlugin\Consumables\Menu;
 use GlpiPlugin\Consumables\Request;
 use GlpiPlugin\Consumables\Validation;
@@ -52,11 +53,10 @@ if (!empty($_GET['action'])) {
          $consumablerequest->showConsumableRequest();
          break;
       case 'consumablevalidation':
-         echo "<div class='alert alert-secondary'>";
-         echo "<i class='thumbnail ti ti-shopping-cart-plus fa-2x'></i>";
-         echo "&nbsp;";
-         echo __("Consumable validation", "consumables");
-         echo "</div>";
+         // Search::showList() does not enforce the itemtype right; the validation
+         // queue must stay restricted to validators, not mere requesters.
+         Session::checkRight('plugin_consumables_validation', READ);
+         TemplateRenderer::getInstance()->display('@consumables/validation_header.html.twig');
          $p = ['criteria' => [
             [
                'field' => 6,        // field index in search options

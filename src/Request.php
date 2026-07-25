@@ -37,6 +37,7 @@ use ConsumableItem;
 use ConsumableItemType;
 use DbUtils;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
 use Group;
 use Group_User;
 use Html;
@@ -238,57 +239,28 @@ class Request extends CommonDBTM
      */
     public function listItemsForConsumable($fields)
     {
-        $dbu = new DbUtils();
-
-        if (!empty($fields)) {
-            echo "<div class='center'>";
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr>";
-            echo "<th colspan='6'>" . __('Consumable request report', 'consumables') . "</th>";
-            echo "</tr>";
-            echo "<tr>";
-            echo "<th>" . __('Requester') . "</th>";
-            echo "<th>" . __('Approver') . "</th>";
-            echo "<th>" . __('Number of used consumables') . "</th>";
-            echo "<th>" . __('Request date') . "</th>";
-            echo "<th>" . __("Give to") . "</th>";
-            echo "<th>" . __("Status") . "</th>";
-            echo "</tr>";
-
-            foreach ($fields as $field) {
-                echo "<tr class='tab_bg_1'>";
-                echo "<td>" . getUserName($field['requesters_id']) . "</td>";
-                echo "<td>" . getUserName($field['validators_id']) . "</td>";
-                echo "<td>" . $field['number'] . "</td>";
-                echo "<td>" . Html::convDateTime($field['date_mod']) . "</td>";
-                echo "<td>";
-                if (!empty($field['give_itemtype'])) {
-                    $give_item = getItemForItemtype($field['give_itemtype']);
-                    $give_item->getFromDB($field['give_items_id']);
-                    echo $give_item->getLink();
-                }
-                echo "</td>";
-                echo "<td>";
-                $bgcolor = CommonITILValidation::getStatusColor($field['status']);
-                $status  = CommonITILValidation::getStatus($field['status']);
-                echo "<div style='background-color:" . $bgcolor . ";'>" . $status . "</div>";
-                echo "</td>";
-                echo "</tr>";
+        $rows = [];
+        foreach ($fields as $field) {
+            $give_link = '';
+            if (!empty($field['give_itemtype'])) {
+                $give_item = getItemForItemtype($field['give_itemtype']);
+                $give_item->getFromDB($field['give_items_id']);
+                $give_link = $give_item->getLink();
             }
-
-            echo "</table>";
-            echo "</div>";
-            echo "</div>";
-        } else {
-            echo "<div class='center'>";
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr>";
-            echo "<th colspan='6'>" . __('Consumable requests history', 'consumables') . "</th>";
-            echo "</tr>";
-            echo "<tr><td class='center'>" . __s('No results found') . "</td></tr>";
-            echo "</table>";
-            echo "</div>";
+            $rows[] = [
+                'requester'    => getUserName($field['requesters_id']),
+                'approver'     => getUserName($field['validators_id']),
+                'number'       => $field['number'],
+                'date'         => Html::convDateTime($field['date_mod']),
+                'give_link'    => $give_link,
+                'status'       => CommonITILValidation::getStatus($field['status']),
+                'status_color' => CommonITILValidation::getStatusColor($field['status']),
+            ];
         }
+
+        echo TemplateRenderer::getInstance()->render('@consumables/request_consumable_list.html.twig', [
+            'rows' => $rows,
+        ]);
     }
 
     /**
@@ -311,50 +283,31 @@ class Request extends CommonDBTM
         $begin_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . "-1 MONTH"));
         $end_date   = date('Y-m-d H:i:s');
 
-        echo "<form name='form' method='post' action='' id='consumables_formSearchConsumables'>";
-        echo "<div class='center'>";
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr>";
-        echo "<th colspan='6'>" . __('Consumables request search', 'consumables') . "</th>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>";
-        echo __('Begin date');
-        echo "</td>";
-        echo "<td>";
+        ob_start();
         Html::showDateTimeField("begin_date", ['value' => $begin_date]);
-        echo "</td>";
-        echo "<td>";
-        echo __('End date');
-        echo "</td>";
-        echo "<td>";
-        Html::showDateTimeField("end_date", ['value' => $end_date]);
-        echo "</td>";
-        echo "<td>";
-        echo Html::submit(__('Search'), [
-            'name'    => 'addToCart',
-            'class'   => 'btn btn-primary',
-            'onclick' => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')",
-        ]);
-        echo Html::hidden('requesters_id', ['value' => $item->fields['id']]);
-        echo "</td>";
-        echo "</tr>";
-        echo "</table></div>";
-        Html::closeForm();
+        $begin_date_field = ob_get_clean();
 
-        echo "<div class='center' id='consumables_searchConsumables'>";
+        ob_start();
+        Html::showDateTimeField("end_date", ['value' => $end_date]);
+        $end_date_field = ob_get_clean();
+
         $result = $this->listItemsForUserOrGroup($item->fields['id'], $type, ['begin_date' => $begin_date,
             'end_date'   => $end_date]);
-        echo $result['message'];
-        echo "</div>";
+
         Html::requireJs('glpi_dialog');
-        echo "<div id='dialog-confirm'></div>";
 
-        //        Html::requireJs('consumables');
-
-        // Init consumable cart javascript
-        echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGIN_CONSUMABLES_WEBDIR . '");});');
+        TemplateRenderer::getInstance()->display('@consumables/request_search.html.twig', [
+            'begin_date_field' => $begin_date_field,
+            'end_date_field'   => $end_date_field,
+            'search_button'    => Html::submit(__('Search'), [
+                'name'    => 'addToCart',
+                'class'   => 'btn btn-primary',
+                'onclick' => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')",
+            ]),
+            'hidden_requester' => Html::hidden('requesters_id', ['value' => $item->fields['id']]),
+            'results'          => $result['message'],
+            'webdir'           => PLUGIN_CONSUMABLES_WEBDIR,
+        ]);
     }
 
     /**
@@ -369,6 +322,11 @@ class Request extends CommonDBTM
      */
     public function listItemsForUserOrGroup($requesters_id, $type, $options = [])
     {
+        // "give to" recipient is always a User or a Group.
+        if (!in_array($type, ['User', 'Group'], true)) {
+            return ['success' => false, 'message' => ''];
+        }
+
         $params['begin_date'] = "NULL";
         $params['end_date']   = "NULL";
 
@@ -396,51 +354,25 @@ class Request extends CommonDBTM
             ["end_date DESC"]
         );
 
-        $message = null;
-        if (!empty($data)) {
-            $message .= "<table class='tab_cadre_fixe'>";
-            $message .= "<tr>";
-            $message .= "<th colspan='7'>" . __('Consumable request report', 'consumables') . "</th>";
-            $message .= "</tr>";
-            $message .= "<tr>";
-            $message .= "<th>" . _n('Consumable', 'Consumables', 1) . "</th>";
-            $message .= "<th>" . _n('Consumable type', 'Consumable types', 1) . "</th>";
-            $message .= "<th>" . __('Requester') . "</th>";
-            $message .= "<th>" . __('Approver') . "</th>";
-            $message .= "<th>" . __('Number of used consumables') . "</th>";
-            $message .= "<th>" . __('Request date') . "</th>";
-            $message .= "<th>" . __('Status') . "</th>";
-            $message .= "</tr>";
-
-            $consumable = new ConsumableItem();
-            foreach ($data as $field) {
-                $message .= "<tr class='tab_bg_1'>";
-                $consumable->getFromDB($field['consumableitems_id']);
-                $message .= "<td>" . $consumable->getLink() . "</td>";
-                $message .= "<td>" . Dropdown::getDropdownName(ConsumableItemType::getTable(), $field['consumableitemtypes_id']) . "</td>";
-                $message .= "<td>" . getUserName($field['requesters_id']) . "</td>";
-                $message .= "<td>" . getUserName($field['validators_id']) . "</td>";
-                $message .= "<td>" . $field['number'] . "</td>";
-                $message .= "<td>" . Html::convDateTime($field['date_mod']) . "</td>";
-                $message .= "<td>";
-                $bgcolor = CommonITILValidation::getStatusColor($field['status']);
-                $status  = CommonITILValidation::getStatus($field['status']);
-                $message .= "<div style='background-color:" . $bgcolor . ";'>" . $status . "</div>";
-                $message .= "</td>";
-                $message .= "</tr>";
-            }
-
-            $message .= "</table>";
-            $message .= "</div>";
-        } else {
-            $message .= "<div class='center'>";
-            $message .= "<table class='tab_cadre_fixe'>";
-            $message .= "<tr>";
-            $message .= "<th colspan='6'>" . __('Consumable request report', 'consumables') . "</th>";
-            $message .= "</tr>";
-            $message .= "<tr><td class='center'>" . __s('No results found') . "</td></tr>";
-            $message .= "</table>";
+        $rows       = [];
+        $consumable = new ConsumableItem();
+        foreach ($data as $field) {
+            $consumable->getFromDB($field['consumableitems_id']);
+            $rows[] = [
+                'consumable_link' => $consumable->getLink(),
+                'type'            => Dropdown::getDropdownName(ConsumableItemType::getTable(), $field['consumableitemtypes_id']),
+                'requester'       => getUserName($field['requesters_id']),
+                'approver'        => getUserName($field['validators_id']),
+                'number'          => $field['number'],
+                'date'            => Html::convDateTime($field['date_mod']),
+                'status'          => CommonITILValidation::getStatus($field['status']),
+                'status_color'    => CommonITILValidation::getStatusColor($field['status']),
+            ];
         }
+
+        $message = TemplateRenderer::getInstance()->render('@consumables/request_list.html.twig', [
+            'rows' => $rows,
+        ]);
 
         return ['success' => true, 'message' => $message];
     }
@@ -460,55 +392,24 @@ class Request extends CommonDBTM
         $request->getEmpty();
         $dbu = new DbUtils();
 
-        // Wizard title
-        echo "<form name='wizard_form' id='consumables_wizardForm' method='post'>";
-
-        echo "<h3><div class='alert alert-secondary'>";
-        echo "<i class='thumbnail ti ti-shopping-cart-plus fa-2x'></i>";
-        echo "&nbsp;";
-        echo __("Consumable request", "consumables");
-        echo "</div></h3>";
-
-        // Add consumables request
-        echo "<div style='overflow-x:auto;'>";
-        echo "<table class='tab_cadre_fixe consumables_wizard_rank'>";
-        echo "<tr>";
-        echo "<th colspan='4'>" . __("Consumable request", "consumables") . "</th>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<td>" . __('Requester') . "</td>";
-        echo "<td>";
-        echo $dbu->getUserName(Session::getLoginUserID());
-        echo "</td>";
-        echo "<td rowspan='4' id='seeConsumablesInfos'>";
+        // Consumable pictures + comment cell
+        ob_start();
         $this->seeConsumablesInfos();
-        echo "</td>";
-        echo "</tr>";
+        $see_infos = ob_get_clean();
 
-        echo "<tr>";
-        echo "<td>" . _n('Consumable type', 'Consumable types', 1) . " <span style='color:red;'>*</span></td>";
-        echo "<td>";
+        // Consumable type dropdown (fires loadAvailableConsumables on change)
+        ob_start();
         Dropdown::show("ConsumableItemType", ['entity'    => $_SESSION['glpiactive_entity'],
             'on_change' => 'loadAvailableConsumables(this);']);
-        $script = "function loadAvailableConsumables(object){this.consumableTypeID = object.value; consumables_reloadAvailableConsumables();}";
-        echo Html::scriptBlock($script);
-        echo "</td>";
-        echo "</tr>";
+        $type_dropdown = ob_get_clean();
 
-        echo "<tr>";
-        echo "<td>" . _n('Consumable', 'Consumables', 1) . " <span style='color:red;'>*</span></td>";
-        echo "<td id='loadAvailableConsumables'>";
-        echo "</td>";
-        echo "</tr>";
-
-
-        echo "<tr>";
-        echo "<td>" . __('Number', 'consumables') . " <span style='color:red;'>*</span></td>";
-        echo "<td id='loadAvailableConsumablesNumber'>";
+        // Number dropdown / "No consumable" placeholder
+        ob_start();
         $this->loadAvailableConsumablesNumber();
-        echo "</td>";
-        echo "</tr>";
+        $number_cell = ob_get_clean();
 
+        // Give to (User/Group) selector
+        $give_to = '';
         if (self::canRequestGroup() || self::canRequestUser()) {
             $itemtypes = [];
             if (self::canRequestGroup()) {
@@ -517,68 +418,28 @@ class Request extends CommonDBTM
             if (self::canRequestUser()) {
                 $itemtypes[] = "User";
             }
-            echo "<tr>";
-            echo "<td>" . __("Give to") . "</td>";
-            echo "<td>";
+            ob_start();
             self::showSelectItemFromItemtypes(['itemtype_name'   => 'give_itemtype',
                 'items_id_name'   => 'give_items_id',
                 'entity_restrict' => $_SESSION['glpiactive_entity'],
                 'itemtypes'       => $itemtypes]);
-            echo "</td>";
-            echo "</tr>";
+            $give_to = ob_get_clean();
         }
 
-        if ($this->canCreate() || $this->canRequest()) {
-            //            Html::requireJs('consumables');
-
-            echo "<tr>";
-            echo "<td class='center' colspan='4'>";
-            echo "<a href='#' class='submit btn btn-info' name='addToCart'
-         onclick=\"consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');\" >" . __('Add to cart', 'consumables') . "</a>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-
-        // Cart
-        echo "<br><div class='center'>";
-        echo "<table class='tab_cadre_fixe consumables_wizard_rank' id='consumables_cart' style='display:none'>";
-        echo "<tr><th colspan='7'>" . __("Cart", "consumables") . "</th></tr>";
-        echo "<tr>";
-        echo "<th>" . __('Requester') . "</th>";
-        echo "<th>" . _n('Consumable type', 'Consumable types', 1) . "</th>";
-        echo "<th>" . _n('Consumable', 'Consumables', 1) . "</th>";
-        echo "<th>" . __('Number', 'consumables') . "</th>";
-        echo "<th>" . __("Give to") . "</th>";
-        echo "<th></th>";
-        echo "</tr>";
-        echo "</table>";
-        echo "</div>";
-        echo "</div>";
-
-        // Footer
-        if ($this->canCreate() || $this->canRequest()) {
-            echo "<br/><table width='100%'>";
-            echo "<tr>";
-            echo "<td>";
+        $can_add = $this->canCreate() || $this->canRequest();
+        if ($can_add) {
             Html::requireJs('glpi_dialog');
-            echo "<div id='dialog-confirm'></div>";
-            echo "<a href='#' class='submit btn btn-success consumable_next_button' name='addConsumables'
-               onclick=\"consumables_addConsumables('addConsumables','consumables_wizardForm');\">" . _sx('button', 'Post') . "</a>";
-            echo "<a href='#' class='submit btn btn-warning consumable_previous_button'  name='previous'
-               onclick=\"consumables_cancel('" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php');\">" . _sx('button', 'Cancel') . "</a>";
-            echo "</td>";
-            echo "</tr>";
-            echo "</table>";
         }
 
-        //        Html::requireJs('consumables');
-
-        // Init consumable cart javascript
-        echo Html::scriptBlock('$(document).ready(function() {consumables_initJs("' . PLUGIN_CONSUMABLES_WEBDIR . '",
-                                                            "dropdown_consumable_itemtypes_id$rand");});');
-
-        Html::closeForm();
+        TemplateRenderer::getInstance()->display('@consumables/request_form.html.twig', [
+            'can_add'        => $can_add,
+            'requester_name' => $dbu->getUserName(Session::getLoginUserID()),
+            'see_infos'      => $see_infos,
+            'type_dropdown'  => $type_dropdown,
+            'number_cell'    => $number_cell,
+            'give_to'        => $give_to,
+            'webdir'         => PLUGIN_CONSUMABLES_WEBDIR,
+        ]);
     }
 
     /**
@@ -650,14 +511,14 @@ class Request extends CommonDBTM
                 $p
             );
 
-            echo "<br><span id='$show_id'>&nbsp;</span>\n";
+            echo TemplateRenderer::getInstance()->render('@consumables/select_item_span.html.twig', [
+                'show_id' => $show_id,
+            ]);
 
             // We check $options as the caller will set $options['default_itemtype'] only if it needs a
             // default itemtype and the default value can be '' thus empty won't be valid !
             if (array_key_exists('default_itemtype', $options)) {
-                echo "<script type='text/javascript' >\n";
-                echo Html::jsSetDropdownValue($field_id, $params['default_itemtype']);
-                echo "</script>\n";
+                echo Html::scriptBlock(Html::jsSetDropdownValue($field_id, $params['default_itemtype']));
 
                 $p["idtable"] = $params['default_itemtype'];
                 Ajax::updateItem(
@@ -718,13 +579,6 @@ class Request extends CommonDBTM
             'entity'    => $_SESSION['glpiactive_entity'],
             'on_change' => 'loadAvailableConsumablesNumber(this);',
         ]);
-
-        $script = "function loadAvailableConsumablesNumber(object){
-      this.consumableID = object.value;
-      consumables_reloadAvailableConsumablesNumber();
-      consumables_seeConsumablesInfos();
-      }";
-        echo Html::scriptBlock($script);
     }
 
 
@@ -739,18 +593,19 @@ class Request extends CommonDBTM
     public function seeConsumablesInfos($consumableitems_id = 0)
     {
         $consumable = new ConsumableItem();
-        if ($consumable->getFromDB($consumableitems_id)) {
-            //         $picture_url = Toolbox::getPictureUrl();
-            //         Toolbox::logInfo($picture_url);
+        if ($consumable->getFromDB($consumableitems_id)
+            && Session::haveAccessToEntity($consumable->fields['entities_id'], $consumable->fields['is_recursive'])) {
             if (isset($consumable->fields['pictures'])) {
                 $pictures = json_decode($consumable->fields['pictures'], true);
                 if (isset($pictures) && is_array($pictures)) {
+                    $picture_urls = [];
                     foreach ($pictures as $picture) {
-                        $picture_url = Toolbox::getPictureUrl($picture);
-                        echo "<img class='user_picture' alt=\"" . _sn('Picture', 'Pictures', 1) . "\" src='"
-                             . $picture_url . "'>";
-                        echo "</br>" . $consumable->fields['comment'];
+                        $picture_urls[] = Toolbox::getPictureUrl($picture);
                     }
+                    echo TemplateRenderer::getInstance()->render('@consumables/request_infos.html.twig', [
+                        'pictures' => $picture_urls,
+                        'comment'  => $consumable->fields['comment'],
+                    ]);
                 }
             }
         }
@@ -766,6 +621,20 @@ class Request extends CommonDBTM
      */
     public function loadAvailableConsumablesNumber($used = 0, $consumableitems_id = 0)
     {
+        $consumableitems_id = (int) $consumableitems_id;
+
+        // Do not disclose stock for a consumable outside the user's entities.
+        if ($consumableitems_id > 0) {
+            $consumable = new ConsumableItem();
+            if (!$consumable->getFromDB($consumableitems_id)
+                || !Session::haveAccessToEntity($consumable->fields['entities_id'], $consumable->fields['is_recursive'])) {
+                echo TemplateRenderer::getInstance()->render('@consumables/request_number_empty.html.twig', [
+                    'hidden' => Html::hidden('number', ['value' => 0]),
+                ]);
+                return;
+            }
+        }
+
         $number = self::countForConsumableItem($consumableitems_id);
 
         $maxcart = 0;
@@ -786,8 +655,9 @@ class Request extends CommonDBTM
             Dropdown::showNumber('number', ['value' => 0,
                 'max'   => $number]);
         } else {
-            echo __('No consumable');
-            echo Html::hidden('number', ['value' => 0]);
+            echo TemplateRenderer::getInstance()->render('@consumables/request_number_empty.html.twig', [
+                'hidden' => Html::hidden('number', ['value' => 0]),
+            ]);
         }
     }
 
@@ -817,6 +687,21 @@ class Request extends CommonDBTM
     {
         [$success, $message] = $this->checkMandatoryFields($params);
         $dbu = new DbUtils();
+
+        // Server-side mirror of the wizard UI gating: reject a forged line before
+        // returning any consumable / recipient label.
+        if ($success && isset($params['consumableitems_id'])) {
+            if (!$this->isRequestLineAllowed(
+                (int) $params['consumableitems_id'],
+                $params['give_itemtype'] ?? 'User',
+                $params['give_items_id'] ?? Session::getLoginUserID()
+            )) {
+                return ['success' => false,
+                    'message' => "<div class='alert alert-important alert-warning d-flex'>" . __('You are not allowed to request this consumable', 'consumables') . "</div>",
+                    'rowId'   => mt_rand(),
+                    'fields'  => []];
+            }
+        }
 
         if (isset($params['consumableitems_id'])) {
             $result = ['success' => $success,
@@ -878,17 +763,40 @@ class Request extends CommonDBTM
             foreach ($params['consumables_cart'] as $row) {
                 [$success, $message] = $this->checkMandatoryFields($row);
                 if ($success) {
-                    //               $consumableExist = $this->find("`consumableitems_id` = ".$row['consumableitems_id']." "
-                    //                                             . "AND `status` = '".CommonITILValidation::NONE."' "
-                    //                                             . "AND `give_itemtype` = '".$row['give_itemtype']."'"
-                    //                                             . "AND `give_items_id` = '".$row['give_items_id']."'"
-                    //                                             . "AND `requesters_id` = '".$row['requesters_id']."'");
-                    //               if (empty($consumableExist)) {
-                    $input = ['consumableitemtypes_id' => $row['consumableitemtypes_id'],
-                        'consumableitems_id'     => $row['consumableitems_id'],
-                        'number'                 => $row['number'],
+                    $consumableitems_id = (int) $row['consumableitems_id'];
+
+                    // Do not trust the client: re-check entity access, the group
+                    // restriction and the "give to" target on the submit endpoint.
+                    if (!$this->isRequestLineAllowed(
+                        $consumableitems_id,
+                        $row['give_itemtype'] ?? '',
+                        $row['give_items_id'] ?? 0
+                    )) {
+                        $success = false;
+                        $message = "<div class='alert alert-important alert-warning d-flex'>" . __('You are not allowed to request this consumable', 'consumables') . "</div>";
+                        continue;
+                    }
+
+                    // Bound the requested quantity to the available stock and the
+                    // per-request cap (max_cart), server-side.
+                    $number = (int) $row['number'];
+                    $max    = self::countForConsumableItem($consumableitems_id);
+                    $option = new Option();
+                    if ($option->getFromDBByCrit(['consumableitems_id' => $consumableitems_id])
+                        && $option->getMaxCart() > 0) {
+                        $max = min($max, (int) $option->getMaxCart());
+                    }
+                    if ($number < 1 || $number > $max) {
+                        $success = false;
+                        $message = "<div class='alert alert-important alert-warning d-flex'>" . __('Invalid requested quantity', 'consumables') . "</div>";
+                        continue;
+                    }
+
+                    $input = ['consumableitemtypes_id' => (int) $row['consumableitemtypes_id'],
+                        'consumableitems_id'     => $consumableitems_id,
+                        'number'                 => $number,
                         'date_mod'               => date("Y-m-d H:i:s"),
-                        'give_items_id'          => $row['give_items_id'],
+                        'give_items_id'          => (int) $row['give_items_id'],
                         'give_itemtype'          => $row['give_itemtype'],
                         'validators_id'          => 0,
                         'status'                 => CommonITILValidation::WAITING,
@@ -986,5 +894,113 @@ class Request extends CommonDBTM
         }
 
         return [true, null];
+    }
+
+    /**
+     * Server-side check of the per-consumable group restriction.
+     *
+     * Mirrors the filtering done in loadAvailableConsumables() so that the
+     * "allowed groups" ACL cannot be bypassed with a forged submit.
+     *
+     * @param int $consumableitems_id
+     *
+     * @return bool true when the current user is allowed to request the consumable
+     */
+    private function isConsumableAllowedForUser($consumableitems_id)
+    {
+        $option = new Option();
+        if (!$option->getFromDBByCrit(['consumableitems_id' => (int) $consumableitems_id])) {
+            return true;
+        }
+
+        $groups = $option->getAllowedGroups();
+        if (empty($groups)) {
+            return true;
+        }
+
+        foreach (Group_User::getUserGroups(Session::getLoginUserID()) as $usergroup) {
+            if (in_array($usergroup['id'], $groups)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Server-side check of the "give to" target.
+     *
+     * Replicates the UI gating (canRequestUser / canRequestGroup), restricts the
+     * itemtype to User/Group, always allows self-assignment, and requires the
+     * target to exist and be reachable within the current entities.
+     *
+     * @param string $give_itemtype
+     * @param int    $give_items_id
+     *
+     * @return bool
+     */
+    private function isGiveTargetAllowed($give_itemtype, $give_items_id)
+    {
+        $give_items_id = (int) $give_items_id;
+
+        if (!in_array($give_itemtype, ['User', 'Group'], true)) {
+            return false;
+        }
+
+        // Self-assignment is always allowed.
+        if ($give_itemtype === 'User' && $give_items_id === (int) Session::getLoginUserID()) {
+            return true;
+        }
+
+        if ($give_itemtype === 'User' && !self::canRequestUser()) {
+            return false;
+        }
+        if ($give_itemtype === 'Group' && !self::canRequestGroup()) {
+            return false;
+        }
+
+        $dbu    = new DbUtils();
+        $target = $dbu->getItemForItemtype($give_itemtype);
+        if (!$target || !$target->getFromDB($give_items_id)) {
+            return false;
+        }
+
+        if ($target->isEntityAssign()
+            && !Session::haveAccessToEntity($target->fields['entities_id'], $target->fields['is_recursive'] ?? false)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Server-side authorization for a single request line.
+     *
+     * Re-checks entity access to the consumable, the per-consumable group
+     * restriction and the "give to" target. The wizard UI already enforces
+     * these, but the submit endpoint must not trust the client.
+     *
+     * @param int    $consumableitems_id
+     * @param string $give_itemtype
+     * @param int    $give_items_id
+     *
+     * @return bool
+     */
+    private function isRequestLineAllowed($consumableitems_id, $give_itemtype, $give_items_id)
+    {
+        $consumable = new ConsumableItem();
+        if (!$consumable->getFromDB((int) $consumableitems_id)) {
+            return false;
+        }
+
+        if (!Session::haveAccessToEntity($consumable->fields['entities_id'], $consumable->fields['is_recursive'])) {
+            return false;
+        }
+
+        if (!$this->isConsumableAllowedForUser($consumableitems_id)) {
+            return false;
+        }
+
+        return $this->isGiveTargetAllowed($give_itemtype, $give_items_id);
     }
 }

@@ -227,3 +227,11 @@ function plugin_consumables_MassiveActions($type)
     }
     return [];
 }
+
+
+function plugin_consumables_AssignToTicket(array $types): array
+{
+    $types[ConsumableItem::class] = ConsumableItem::getTypeName();
+    $types[Consumable::class] = Consumable::getTypeName();
+    return $types;
+}

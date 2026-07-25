@@ -40,7 +40,7 @@ use GlpiPlugin\Consumables\Servicecatalog;
 use GlpiPlugin\Consumables\Validation;
 use GlpiPlugin\Servicecatalog\Main;
 
-define('PLUGIN_CONSUMABLES_VERSION', '2.1.3');
+define('PLUGIN_CONSUMABLES_VERSION', '2.1.4');
 
 if (!defined("PLUGIN_CONSUMABLES_DIR")) {
     define("PLUGIN_CONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
@@ -79,6 +79,8 @@ function plugin_init_consumables()
         if (Session::haveRight("plugin_consumables", UPDATE)) {
             $PLUGIN_HOOKS[Hooks::USE_MASSIVE_ACTION]['consumables'] = 1;
         }
+
+        $PLUGIN_HOOKS[Hooks::ASSIGN_TO_TICKET]['consumables'] = true;
 
         //      if (class_exists(Main::class)) {
         $PLUGIN_HOOKS['servicecatalog']['consumables'] = [Servicecatalog::class];

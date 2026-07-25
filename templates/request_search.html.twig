@@ -1,0 +1,47 @@
+{#
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2015-2026 by the consumables Development Team.
+
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of consumables.
+
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<form name="form" method="post" action="" id="consumables_formSearchConsumables" data-root-doc="{{ webdir }}">
+    <div class="center">
+        <table class="tab_cadre_fixe">
+            <tr>
+                <th colspan="6">{{ __('Consumables request search', 'consumables') }}</th>
+            </tr>
+            <tr class="tab_bg_1">
+                <td>{{ __('Begin date') }}</td>
+                <td>{{ begin_date_field|raw }}</td>
+                <td>{{ __('End date') }}</td>
+                <td>{{ end_date_field|raw }}</td>
+                <td>{{ search_button|raw }}{{ hidden_requester|raw }}</td>
+            </tr>
+        </table>
+    </div>
+    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+</form>
+
+<div class="center" id="consumables_searchConsumables">{{ results|raw }}</div>
+<div id="dialog-confirm"></div>

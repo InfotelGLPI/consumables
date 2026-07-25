@@ -1,0 +1,107 @@
+{#
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2015-2026 by the consumables Development Team.
+
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of consumables.
+
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<form name="wizard_form" id="consumables_wizardForm" class="consumables_wizard" method="post" data-root-doc="{{ webdir }}">
+    <h3>
+        <div class="alert alert-secondary">
+            <i class="thumbnail ti ti-shopping-cart-plus fa-2x"></i>&nbsp;{{ __('Consumable request', 'consumables') }}
+        </div>
+    </h3>
+
+    <div style="overflow-x:auto;">
+        <table class="tab_cadre_fixe consumables_wizard_rank">
+            <tr>
+                <th colspan="4">{{ __('Consumable request', 'consumables') }}</th>
+            </tr>
+            <tr>
+                <td>{{ __('Requester') }}</td>
+                <td>{{ requester_name }}</td>
+                <td rowspan="4" id="seeConsumablesInfos">{{ see_infos|raw }}</td>
+            </tr>
+            <tr>
+                <td>{{ _n('Consumable type', 'Consumable types', 1) }} <span style="color:red;">*</span></td>
+                <td>{{ type_dropdown|raw }}</td>
+            </tr>
+            <tr>
+                <td>{{ _n('Consumable', 'Consumables', 1) }} <span style="color:red;">*</span></td>
+                <td id="loadAvailableConsumables"></td>
+            </tr>
+            <tr>
+                <td>{{ __('Number', 'consumables') }} <span style="color:red;">*</span></td>
+                <td id="loadAvailableConsumablesNumber">{{ number_cell|raw }}</td>
+            </tr>
+            {% if give_to is not empty %}
+                <tr>
+                    <td>{{ __('Give to') }}</td>
+                    <td>{{ give_to|raw }}</td>
+                </tr>
+            {% endif %}
+            {% if can_add %}
+                <tr>
+                    <td class="center" colspan="4">
+                        <a href="#" class="submit btn btn-info" name="addToCart"
+                           onclick="consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');">{{ __('Add to cart', 'consumables') }}</a>
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <br>
+    <div class="center">
+        <table class="tab_cadre_fixe consumables_wizard_rank" id="consumables_cart" style="display:none">
+            <tr>
+                <th colspan="7">{{ __('Cart', 'consumables') }}</th>
+            </tr>
+            <tr>
+                <th>{{ __('Requester') }}</th>
+                <th>{{ _n('Consumable type', 'Consumable types', 1) }}</th>
+                <th>{{ _n('Consumable', 'Consumables', 1) }}</th>
+                <th>{{ __('Number', 'consumables') }}</th>
+                <th>{{ __('Give to') }}</th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+
+    {% if can_add %}
+        <br>
+        <table width="100%">
+            <tr>
+                <td>
+                    <div id="dialog-confirm"></div>
+                    <a href="#" class="submit btn btn-success consumable_next_button" name="addConsumables"
+                       onclick="consumables_addConsumables('addConsumables','consumables_wizardForm');">{{ _x('button', 'Post') }}</a>
+                    <a href="#" class="submit btn btn-warning consumable_previous_button" name="previous"
+                       onclick="consumables_cancel('{{ webdir }}/front/wizard.php');">{{ _x('button', 'Cancel') }}</a>
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+
+    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+</form>

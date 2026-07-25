@@ -1,0 +1,44 @@
+{#
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2015-2026 by the consumables Development Team.
+
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of consumables.
+
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<form action="{{ form_url }}" method="post">
+    <table class="tab_cadre_fixe" cellpadding="5">
+        <tr class="tab_bg_1 center">
+            <th>{{ __('Add a group for request', 'consumables') }}</th>
+            <th>&nbsp;</th>
+        </tr>
+        <tr class="tab_bg_1 center">
+            <td>{{ group_dropdown|raw }}</td>
+            <td>
+                <input type="hidden" name="consumableitems_id" value="{{ consumableitems_id }}">
+                <input type="hidden" name="id" value="{{ id }}">
+                {{ add_button|raw }}
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+</form>

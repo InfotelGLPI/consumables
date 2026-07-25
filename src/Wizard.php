@@ -30,6 +30,7 @@
 namespace GlpiPlugin\Consumables;
 
 use CommonDBTM;
+use Glpi\Application\View\TemplateRenderer;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
@@ -66,31 +67,11 @@ class Wizard extends CommonDBTM
             return false;
         }
 
-        echo "<h3><div class='alert alert-secondary' role='alert'>";
-        echo "<i class='ti ti-shopping-cart-plus'></i>&nbsp;";
-        echo __("Consumable request", "consumables");
-        echo "</div></h3>";
-
-        echo "<div class='row consumables_wizard_row' style='margin: 0 auto;'>";
-      // Consumable request
-        if ($request->canRequest()) {
-            echo "<div class='center col-md-5 consumables_wizard_rank'>";
-            echo "<a class='consumables_menu_a' href='" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.form.php?action=consumablerequest'>";
-            echo "<i class='thumbnail ti ti-shopping-cart-plus' style='font-size: 4.5em;'></i>";
-            echo "<br><br>" . __("Consumable request", "consumables") . "<br></a>";
-            echo "</div>";
-        }
-
-        if ($request->canValidate()) {
-            echo "<div style='width: 10px;'></div>";
-            // Consumable validation
-            echo "<div class='center col-md-6 consumables_wizard_rank'>";
-            echo "<a class='consumables_menu_a' href='" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.form.php?action=consumablevalidation'>";
-            echo "<i class='thumbnail ti ti-clipboard-check' style='font-size: 4.5em;'></i>";
-            echo "<br><br>" . __("Consumable validation", "consumables") . "</a>";
-            echo "</div>";
-        }
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@consumables/wizard_menu.html.twig', [
+            'can_request'  => $request->canRequest(),
+            'can_validate' => $request->canValidate(),
+            'webdir'       => PLUGIN_CONSUMABLES_WEBDIR,
+        ]);
     }
 
    /**
@@ -101,7 +82,6 @@ class Wizard extends CommonDBTM
     public function showWizard($step)
     {
 
-        echo "<div class='consumables_wizard'>";
         switch ($step) {
             case 'consumablerequest':
                 $consumablerequest = new Request();
@@ -112,6 +92,5 @@ class Wizard extends CommonDBTM
                 $consumablevalidation->showConsumableValidation();
                 break;
         }
-        echo "</div>";
     }
 }

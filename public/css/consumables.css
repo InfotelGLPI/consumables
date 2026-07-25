@@ -62,6 +62,16 @@
    background-color: #fff;
 }
 
+/* Request wizard form: use the full available width instead of shrinking to content */
+#consumables_wizardForm {
+   display: block;
+   width: 100%;
+}
+
+#consumables_wizardForm .consumables_wizard_rank {
+   width: 100%;
+}
+
 .consumables_wizard_form {
    width: auto;
    margin: 0 auto;

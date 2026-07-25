@@ -31,6 +31,7 @@ namespace GlpiPlugin\Consumables;
 
 use CommonGLPI;
 use DbUtils;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use ProfileRight;
 use Session;
@@ -65,24 +66,32 @@ class Profile extends \Profile
 
     /**
      * @param CommonGLPI $item
-     * @param int        $tabnum
-     * @param int        $withtemplate
+     * @param int $tabnum
+     * @param int $withtemplate
      *
      * @return bool
      */
-    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-    {
-        if ($item->getType() == 'Profile') {
-            $ID   = $item->getID();
-            $prof = new self();
-
-            self::addDefaultProfileInfos($ID, ['plugin_consumables'            => 0,
-                'plugin_consumables_request'    => 0,
-                'plugin_consumables_user'       => 0,
-                'plugin_consumables_group'      => 0,
-                'plugin_consumables_validation' => 0]);
-            $prof->showForm($ID);
+    public static function displayTabContentForItem(
+        CommonGLPI $item,
+        $tabnum = 1,
+        $withtemplate = 0
+    ) {
+        if (!$item instanceof \Profile || !self::canView()) {
+            return false;
         }
+
+        $profile = new \Profile();
+        $profile->getFromDB($item->getID());
+
+        $rights = self::getAllRights(true);
+
+        $twig = TemplateRenderer::getInstance();
+        $twig->display('@consumables/profile.html.twig', [
+            'id' => $item->getID(),
+            'profile' => $profile,
+            'title' => self::getTypeName(Session::getPluralNumber()),
+            'rights' => $rights,
+        ]);
 
         return true;
     }
@@ -137,73 +146,6 @@ class Profile extends \Profile
         }
     }
 
-    /**
-     * Show profile form
-     *
-     * @param int   $profiles_id
-     * @param array $options
-     *
-     * @return nothing
-     * @internal param int $items_id id of the profile
-     * @internal param value $target url of target
-     */
-    public function showForm($profiles_id = 0, $openform = true, $closeform = true)
-    {
-        $profile = new \Profile();
-        echo "<div class='firstbloc'>";
-        if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE])) && $openform) {
-            echo "<form method='post' action='" . $profile->getFormURL() . "'>";
-        }
-
-        $profile->getFromDB($profiles_id);
-
-        $rights = $this->getAllRights();
-        $profile->displayRightsChoiceMatrix($rights, ['default_class' => 'tab_bg_2',
-            'title'         => __('General')]);
-
-        echo "<table class='tab_cadre_fixehov'>";
-        echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Advanced', 'consumables') . "</th></tr>\n";
-
-        $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_consumables_user',
-            'plugin_consumables_group',
-            'plugin_consumables_validation',
-            'plugin_consumables_request']);
-
-        echo "<tr class='tab_bg_2'>";
-        echo "<td>" . __('Consumable validation', 'consumables') . "</td>";
-        echo "<td>";
-        Html::showCheckbox(['name'    => '_plugin_consumables_validation[1_0]',
-            'checked' => $effective_rights['plugin_consumables_validation']]);
-        echo "<td>" . __('Make a consumable request', 'consumables') . "</td>";
-        echo "<td>";
-        Html::showCheckbox(['name'    => '_plugin_consumables_request[1_0]',
-            'checked' => $effective_rights['plugin_consumables_request']]);
-        echo "</td>";
-        echo "</tr>\n";
-
-        echo "<tr class='tab_bg_2'>";
-        echo "<td>" . __('Make a consumable request for all users', 'consumables') . "</td>";
-        echo "<td>";
-        Html::showCheckbox(['name'    => '_plugin_consumables_user[1_0]',
-            'checked' => $effective_rights['plugin_consumables_user']]);
-        echo "</td>";
-        echo "<td>" . __('Make a consumable request for my groups', 'consumables') . "</td>";
-        echo "<td>";
-        Html::showCheckbox(['name'    => '_plugin_consumables_group[1_0]',
-            'checked' => $effective_rights['plugin_consumables_group']]);
-        echo "</td>";
-        echo "</tr>\n";
-        echo "</table>";
-        if ($canedit && $closeform) {
-            echo "<div class='center'>";
-            echo Html::hidden('id', ['value' => $profiles_id]);
-            echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
-            echo "</div>\n";
-            Html::closeForm();
-        }
-
-        echo "</div>";
-    }
 
     /**
      * @param bool $all
@@ -222,19 +164,31 @@ class Profile extends \Profile
         if ($all) {
             $rights[] = ['itemtype' => Request::class,
                 'label'    => __('Make a consumable request for users', 'consumables'),
-                'field'    => 'plugin_consumables_user'];
+                'field'    => 'plugin_consumables_user',
+                'rights' => [
+                    READ => __('Read'),
+                ]];
 
             $rights[] = ['itemtype' => Request::class,
                 'label'    => __('Make a consumable request', 'consumables'),
-                'field'    => 'plugin_consumables_request'];
+                'field'    => 'plugin_consumables_request',
+                'rights' => [
+                    READ => __('Read'),
+                ]];
 
             $rights[] = ['itemtype' => Request::class,
                 'label'    => __('Make a consumable request for groups', 'consumables'),
-                'field'    => 'plugin_consumables_group'];
+                'field'    => 'plugin_consumables_group',
+                'rights' => [
+                    READ => __('Read'),
+                ]];
 
-            $rights[] = ['itemtype' => Request::class,
+            $rights[] = ['itemtype' => Validation::class,
                 'label'    => __('Consumable validation', 'consumables'),
-                'field'    => 'plugin_consumables_validation'];
+                'field'    => 'plugin_consumables_validation',
+                'rights' => [
+                    READ => __('Read'),
+                ]];
         }
 
         return $rights;

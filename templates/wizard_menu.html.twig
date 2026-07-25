@@ -1,0 +1,53 @@
+{#
+ -------------------------------------------------------------------------
+ consumables plugin for GLPI
+ Copyright (C) 2015-2026 by the consumables Development Team.
+
+ https://github.com/InfotelGLPI/consumables
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of consumables.
+
+ consumables is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ consumables is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<h3>
+    <div class="alert alert-secondary" role="alert">
+        <i class="ti ti-shopping-cart-plus"></i>&nbsp;{{ __('Consumable request', 'consumables') }}
+    </div>
+</h3>
+
+<div class="row consumables_wizard_row" style="margin: 0 auto;">
+    {% if can_request %}
+        <div class="center col-md-5 consumables_wizard_rank">
+            <a class="consumables_menu_a" href="{{ webdir }}/front/wizard.form.php?action=consumablerequest">
+                <i class="thumbnail ti ti-shopping-cart-plus" style="font-size: 4.5em;"></i>
+                <br><br>{{ __('Consumable request', 'consumables') }}<br>
+            </a>
+        </div>
+    {% endif %}
+
+    {% if can_validate %}
+        <div style="width: 10px;"></div>
+        <div class="center col-md-6 consumables_wizard_rank">
+            <a class="consumables_menu_a" href="{{ webdir }}/front/wizard.form.php?action=consumablevalidation">
+                <i class="thumbnail ti ti-clipboard-check" style="font-size: 4.5em;"></i>
+                <br><br>{{ __('Consumable validation', 'consumables') }}
+            </a>
+        </div>
+    {% endif %}
+</div>

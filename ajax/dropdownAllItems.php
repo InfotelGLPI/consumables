@@ -29,13 +29,14 @@
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
-Session::checkLoginUser();
+Session::checkRight('plugin_consumables_request', READ);
 
 global $CFG_GLPI;
 
-// Make a select box
+// Make a select box. The "give to" wizard only targets User and Group, so restrict
+// the itemtype to that whitelist: never emit an IDOR token for a client-chosen itemtype.
 $idtable = $_POST["idtable"] ?? '';
-if ($idtable !== '' && getItemForItemtype($idtable) !== false) {
+if (in_array($idtable, ['User', 'Group'], true)) {
     $dbu = new DbUtils();
     $table = $dbu->getTableForItemType($idtable);
 
@@ -56,17 +57,14 @@ if ($idtable !== '' && getItemForItemtype($idtable) !== false) {
       'itemtype'            => $idtable,
       'display_emptychoice' => true,
       'displaywith'         => ['otherserial', 'serial'],
+      // Force the entity scope server-side; the client value is not trusted.
+      'entity_restrict'     => $_SESSION['glpiactiveentities'],
       '_idor_token'         => Session::getNewIDORToken($idtable),
     ];
     if (isset($_POST['value'])) {
-        $p['value'] = $_POST['value'];
+        $p['value'] = (int) $_POST['value'];
     }
-    if (isset($_POST['entity_restrict'])) {
-        $p['entity_restrict'] = $_POST['entity_restrict'];
-    }
-    if (isset($_POST['condition'])) {
-        $p['condition'] = $_POST['condition'];
-    }
+    // Client-supplied entity_restrict / condition are intentionally ignored (IDOR hardening).
     if ($idtable == 'Group') {
         $groups      = Group_User::getUserGroups(Session::getLoginUserID());
         $user_groups = [];
@@ -84,11 +82,9 @@ if ($idtable !== '' && getItemForItemtype($idtable) !== false) {
     );
 
     if (!empty($_POST['showItemSpecificity'])) {
-        $params = ['items_id' => '__VALUE__',
-                 'itemtype' => $_POST["idtable"]];
-        if (isset($_POST['entity_restrict'])) {
-            $params['entity_restrict'] = $_POST['entity_restrict'];
-        }
+        $params = ['items_id'        => '__VALUE__',
+                 'itemtype'          => $idtable,
+                 'entity_restrict'   => $_SESSION['glpiactiveentities']];
 
         Ajax::updateItemOnSelectEvent(
             $field_id,
@@ -97,6 +93,8 @@ if ($idtable !== '' && getItemForItemtype($idtable) !== false) {
             $params
         );
 
-        echo "<br><span id='showItemSpecificity_" . $_POST["name"] . "$rand'>&nbsp;</span>\n";
+        echo \Glpi\Application\View\TemplateRenderer::getInstance()->render('@consumables/select_item_span.html.twig', [
+            'show_id' => "showItemSpecificity_" . $_POST["name"] . $rand,
+        ]);
     }
 }

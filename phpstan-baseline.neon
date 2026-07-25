@@ -1,0 +1,295 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to static method showDefaultHeaderHelpdesk\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/validation.php
+
+		-
+			message: '#^Call to static method showNavBarFooter\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/validation.php
+
+		-
+			message: '#^Call to static method showDefaultHeaderHelpdesk\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/wizard.form.php
+
+		-
+			message: '#^Call to static method showNavBarFooter\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/wizard.form.php
+
+		-
+			message: '#^Call to static method showDefaultHeaderHelpdesk\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/wizard.php
+
+		-
+			message: '#^Call to static method showNavBarFooter\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/wizard.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:deleteByCriteria\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Parameter \#1 \$ver of class Migration constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: install/install.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Field.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getField\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/NotificationTargetRequest.php
+
+		-
+			message: '#^Variable \$item in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/NotificationTargetRequest.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/NotificationTargetRequest.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Option\:\:showForConsumable\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Option.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Option\:\:showMassiveActionsSubForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Option.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: src/Option.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Option.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Default value of the parameter \#2 \$openform \(true\) of method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) is incompatible with type array\<string, mixed\>\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:getTabNameForItem\(\) has invalid return type GlpiPlugin\\Consumables\\translated\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:migrateOneProfile\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) has invalid return type GlpiPlugin\\Consumables\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) should return GlpiPlugin\\Consumables\\nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$options$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Consumables\\nothing\) of method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) should be compatible with return type \(bool\) of method Profile\:\:showForm\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Request.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumables\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumablesNumber\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:seeConsumablesInfos\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:showForConsumable\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:showForUserOrGroup\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:showSelectItemFromItemtypes\(\) has invalid return type GlpiPlugin\\Consumables\\randomized\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:showSelectItemFromItemtypes\(\) should return GlpiPlugin\\Consumables\\randomized but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$used$#'
+			identifier: parameter.notFound
+			count: 2
+			path: src/Request.php
+
+		-
+			message: '#^Parameter \$used of method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumablesNumber\(\) has invalid type GlpiPlugin\\Consumables\\type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Variable \$message might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Variable \$success might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^PHPDoc tag @throws with type GlpitestSQLError is not subtype of Throwable$#'
+			identifier: throws.notThrowable
+			count: 1
+			path: src/Servicecatalog.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Servicecatalog.php
+
+		-
+			message: '#^Loose comparison using \=\= between 4 and 4 will always evaluate to true\.$#'
+			identifier: equal.alwaysTrue
+			count: 1
+			path: src/Validation.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Validation\:\:getForbiddenStandardMassiveAction\(\) has invalid return type GlpiPlugin\\Consumables\\an\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Validation.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Validation\:\:showMassiveActionsSubForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Validation.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Validation\:\:validationConsumable\(\) should return int but returns array\<string, string\>\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Validation.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Validation.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Wizard.php
