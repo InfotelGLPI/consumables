@@ -135,6 +135,10 @@ class RequestTest extends DbTestCase
         $itemId = (int) $consumableItem->add([
             'name'                   => 'Cart Item',
             'entities_id'            => 0,
+            // Recursive so the item stays reachable from the logged-in user's
+            // default active entity, which is a non-root sub-entity in the
+            // test fixtures (see Session::haveAccessToEntity()).
+            'is_recursive'           => 1,
             'consumableitemtypes_id' => $typeId,
         ]);
         $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
@@ -165,7 +169,21 @@ class RequestTest extends DbTestCase
         $itemId = (int) $consumableItem->add([
             'name'                   => 'Consumables Cart Item',
             'entities_id'            => 0,
+            // Recursive so the item stays reachable from the logged-in user's
+            // default active entity, which is a non-root sub-entity in the
+            // test fixtures (see Session::haveAccessToEntity()).
+            'is_recursive'           => 1,
             'consumableitemtypes_id' => $typeId,
+        ]);
+        $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+
+        // addConsumables() bounds the requested quantity to the available
+        // (not yet out) stock, so at least one stock unit must exist.
+        $consumable = new Consumable();
+        $consumable->add([
+            'consumableitems_id' => $itemId,
+            'entities_id'        => 0,
+            'date_in'            => date('Y-m-d'),
         ]);
         $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
 

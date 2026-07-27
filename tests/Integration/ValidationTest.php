@@ -54,6 +54,11 @@ class ValidationTest extends DbTestCase
         $itemId = (int) $consumableItem->add([
             'name'                   => 'Val Item',
             'entities_id'            => 0,
+            // Recursive so the item stays reachable from the logged-in user's
+            // default active entity, which is a non-root sub-entity in the
+            // test fixtures (see Session::haveAccessToEntity() in
+            // Validation::requestHasEntityAccess()).
+            'is_recursive'           => 1,
             'consumableitemtypes_id' => $typeId,
         ]);
         $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
