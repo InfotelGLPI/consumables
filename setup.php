@@ -40,7 +40,7 @@ use GlpiPlugin\Consumables\Servicecatalog;
 use GlpiPlugin\Consumables\Validation;
 use GlpiPlugin\Servicecatalog\Main;
 
-define('PLUGIN_CONSUMABLES_VERSION', '2.1.4');
+define('PLUGIN_CONSUMABLES_VERSION', '2.1.5');
 
 if (!defined("PLUGIN_CONSUMABLES_DIR")) {
     define("PLUGIN_CONSUMABLES_DIR", Plugin::getPhpDir("consumables"));
