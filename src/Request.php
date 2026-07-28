@@ -731,7 +731,12 @@ class Request extends CommonDBTM
 
 
         // Give to
-        if (!empty($params['give_itemtype'])) {
+        // Only resolve the recipient label once the target passes the same authorization as
+        // addConsumables (whitelisted to User/Group, entity + right checked). Without this,
+        // a forged give_itemtype/give_items_id would turn this preview into a name-resolution
+        // oracle for arbitrary records, bypassing entity and right boundaries.
+        if (!empty($params['give_itemtype'])
+            && $this->isGiveTargetAllowed($params['give_itemtype'], $params['give_items_id'] ?? 0)) {
             $give_item = $dbu->getItemForItemtype($params['give_itemtype']);
 
             $result['fields']['give_itemtype'] = ['label'  => $give_item::getTypeName(),

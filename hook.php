@@ -41,7 +41,7 @@ function plugin_consumables_install()
 
     if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
         // Install script
-        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.1.2.sql");
+        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.1.4.sql");
         include(PLUGIN_CONSUMABLES_DIR . "/install/install.php");
         install_notifications_consumables();
     } elseif (!$DB->tableExists("glpi_plugin_consumables_options")) {

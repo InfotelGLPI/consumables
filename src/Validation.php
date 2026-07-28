@@ -185,6 +185,17 @@ class Validation extends CommonDBTM
             );
         }
 
+        if ($can_validate) {
+            // The requests table is not entity-scoped, so find() returns requests from every
+            // entity. Keep only those whose linked consumable is within the validator's entity
+            // perimeter; otherwise the queue would leak cross-entity requester/consumable data
+            // (the validate/refuse actions are already bounded by requestHasEntityAccess()).
+            $fields = array_filter(
+                $fields,
+                static fn($field) => self::requestHasEntityAccess($field)
+            );
+        }
+
         $ma_open   = '';
         $ma_top    = '';
         $ma_bottom = '';
