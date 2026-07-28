@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-28 10:12+0000\n"
+"POT-Creation-Date: 2026-07-28 19:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,33 +100,33 @@ msgstr ""
 msgid "Make a consumable request for groups"
 msgstr ""
 
-#: src/Request.php:700 src/Request.php:776
+#: src/Request.php:700 src/Request.php:781
 msgid "You are not allowed to request this consumable"
 msgstr ""
 
-#: src/Request.php:791
+#: src/Request.php:796
 msgid "Invalid requested quantity"
 msgstr ""
 
-#: src/Request.php:823
+#: src/Request.php:828
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Request.php:843
+#: src/Request.php:848
 msgid "Please add consumables in cart"
 msgstr ""
 
-#: src/Request.php:881 src/Validation.php:101
+#: src/Request.php:886 src/Validation.php:101
 msgid "Number"
 msgstr ""
 
-#: src/Validation.php:335
+#: src/Validation.php:346
 msgid "Refuse"
 msgstr ""
 
-#: src/Validation.php:450
+#: src/Validation.php:461
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr ""
