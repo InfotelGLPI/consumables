@@ -1,8 +1,50 @@
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
+ */
+
 function consumables_initJs(root_doc, consumableTypeID, consumableID) {
    this.usedConsumables = {};
    this.root_doc = root_doc;
    this.consumableTypeID = consumableTypeID;
    this.consumableID = consumableID;
+}
+
+/**
+ * Escape a server-supplied value before it is concatenated into an HTML string.
+ * Labels (consumable/type names) and values are not trusted: names are stored raw
+ * by GLPI and a requester can reflect an arbitrary "number" back, so both must be
+ * neutralized to prevent stored/reflected DOM XSS.
+ */
+function consumables_escapeHtml(value) {
+   return String(value === undefined || value === null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
 }
 
 /**
@@ -56,12 +98,12 @@ function consumables_addToCart(action, toobserve, toupdate) {
             // Insert row in cart
             $.each(data.fields, function (index, row) {
                if (row.hidden == undefined || !row.hidden) { // IS hidden row ?
-                  result += "<td>" + row.label.replace(/\\["|']/g, '"') + "<input type='hidden' id='" + index +
-                     "' name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'></td>\n";
+                  result += "<td>" + consumables_escapeHtml(row.label) + "<input type='hidden' id='" + index +
+                     "' name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + consumables_escapeHtml(row.value) + "'></td>\n";
 
                } else {
                   result += "<input type='hidden' id='" + index + "' " +
-                     "name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + row.value + "'>";
+                     "name='consumables_cart[" + data.rowId + "][" + index + "]' value='" + consumables_escapeHtml(row.value) + "'>";
                }
             });
 

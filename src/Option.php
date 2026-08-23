@@ -1,41 +1,43 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Consumables;
 
 use CommonDBTM;
+use ConsumableItem;
 use DbUtils;
 use Dropdown;
 use Glpi\Application\View\TemplateRenderer;
 use Group;
 use Html;
 use MassiveAction;
+use Session;
 use Toolbox;
 
 if (!defined('GLPI_ROOT')) {
@@ -47,30 +49,29 @@ if (!defined('GLPI_ROOT')) {
  */
 class Option extends CommonDBTM
 {
-
     public static $rightname = "plugin_consumables";
 
-   /**
-    * Return the localized name of the current Type
-    * Should be overloaded in each new class
-    *
-    * @param integer $nb Number of items
-    *
-    * @return string
-    **/
+    /**
+     * Return the localized name of the current Type
+     * Should be overloaded in each new class
+     *
+     * @param integer $nb Number of items
+     *
+     * @return string
+     **/
     public static function getTypeName($nb = 0)
     {
 
         return __('Consumable request options', 'consumables');
     }
 
-   /**
-    * Show
-    *
-    * @param  $item
-    *
-    * @return bool
-    */
+    /**
+     * Show
+     *
+     * @param  $item
+     *
+     * @return bool
+     */
     public function showForConsumable($item)
     {
 
@@ -87,13 +88,13 @@ class Option extends CommonDBTM
         $this->listOptionsForConsumable($data, $item);
     }
 
-   /**
-    * Initialize the original configuration
-    *
-    * @param $ID
-    *
-    * @return array
-    */
+    /**
+     * Initialize the original configuration
+     *
+     * @param $ID
+     *
+     * @return array
+     */
     public function initConfig($ID)
     {
         $input['consumableitems_id'] = $ID;
@@ -103,14 +104,14 @@ class Option extends CommonDBTM
         return $this->fields;
     }
 
-   /**
-    * Show list of items
-    *
-    * @param $data
-    * @param $item
-    *
-    * @internal param \type $fields
-    */
+    /**
+     * Show list of items
+     *
+     * @param $data
+     * @param $item
+     *
+     * @internal param \type $fields
+     */
     public function listOptionsForConsumable($data, $item)
     {
         global $CFG_GLPI;
@@ -131,7 +132,7 @@ class Option extends CommonDBTM
                         ['delete_groups' => 'delete_groups',
                             'id'         => $ID,
                             '_groups_id' => $val],
-                        'fa-times-circle'
+                        'fa-times-circle',
                     ),
                 ];
             }
@@ -153,11 +154,10 @@ class Option extends CommonDBTM
         self::showAddGroup($item, $data);
     }
 
-
-   /**
-    * @param $item
-    * @param $data
-    */
+    /**
+     * @param $item
+     * @param $data
+     */
     public static function showAddGroup($item, $data)
     {
         $used = ($data["groups"] == '' ? [] : json_decode($data["groups"], true));
@@ -175,14 +175,25 @@ class Option extends CommonDBTM
         ]);
     }
 
-   /**
-    * @param array $params
-    *
-    * @return array
-    */
+    /**
+     * @param array $params
+     *
+     * @return array|false Input to persist, or false to abort the update (entity denied).
+     */
     public function prepareInputForUpdate($params)
     {
         $dbu = new DbUtils();
+
+        // Options are attached to a ConsumableItem (entity-scoped) but the options
+        // table itself is not entity-assigned, so CommonDBTM::can() runs no entity
+        // check. Re-play the entity access on the linked consumable so a holder of
+        // plugin_consumables/UPDATE in one entity cannot edit (max_cart / allowed
+        // groups) an option of a consumable in another entity by guessing its id.
+        // update() has already loaded the row, so fields['consumableitems_id'] is
+        // the linked consumable of the posted option.
+        if (!self::hasEntityAccessToConsumable($this->fields['consumableitems_id'] ?? 0)) {
+            return false;
+        }
 
         if (isset($params["add_groups"])) {
             $input = [];
@@ -197,7 +208,7 @@ class Option extends CommonDBTM
                         $groups = json_decode($config["groups"], true);
                         if (count($groups) > 0) {
                             if (!in_array($params["_groups_id"], $groups)) {
-                                 array_push($groups, $params["_groups_id"]);
+                                array_push($groups, $params["_groups_id"]);
                             }
                         } else {
                             $groups = [$params["_groups_id"]];
@@ -239,22 +250,29 @@ class Option extends CommonDBTM
             $input['id']     = $params['id'];
             $input['groups'] = $group;
         } else {
-            $input = $params;
+            // Generic update: the form only exposes max_cart. Build an explicit
+            // whitelist instead of propagating the whole $_POST, otherwise a holder of
+            // plugin_consumables/UPDATE could inject other columns (consumableitems_id,
+            // groups, entities_id) and rewrite the option's target or allowed groups.
+            $input = ['id' => $params['id']];
+            if (array_key_exists('max_cart', $params)) {
+                $input['max_cart'] = $params['max_cart'];
+            }
         }
         return $input;
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function getMaxCart()
     {
         return $this->fields['max_cart'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function getAllowedGroups()
     {
         if (!empty($this->fields['groups'])) {
@@ -264,11 +282,36 @@ class Option extends CommonDBTM
         }
     }
 
-   /**
-    * @since version 0.85
-    *
-    * @see CommonDBTM::showMassiveActionsSubForm()
-    **/
+    /**
+     * Whether the current session has entity access to the consumable an option is
+     * (or would be) attached to. The options table is not entity-scoped, so this is
+     * the guard that keeps option writes inside the caller's entity perimeter.
+     *
+     * @param int $consumableitems_id
+     *
+     * @return bool
+     */
+    private static function hasEntityAccessToConsumable($consumableitems_id)
+    {
+        $consumableitems_id = (int) $consumableitems_id;
+        if ($consumableitems_id <= 0) {
+            return false;
+        }
+        $consumable = new ConsumableItem();
+        if (!$consumable->getFromDB($consumableitems_id)) {
+            return false;
+        }
+        return Session::haveAccessToEntity(
+            $consumable->fields['entities_id'],
+            $consumable->fields['is_recursive'],
+        );
+    }
+
+    /**
+     * @since version 0.85
+     *
+     * @see CommonDBTM::showMassiveActionsSubForm()
+     **/
     public static function showMassiveActionsSubForm(MassiveAction $ma)
     {
 
@@ -294,12 +337,11 @@ class Option extends CommonDBTM
         }
     }
 
-
-   /**
-    * @since version 0.85
-    *
-    * @see CommonDBTM::processMassiveActionsForOneItemtype()
-    **/
+    /**
+     * @since version 0.85
+     *
+     * @see CommonDBTM::processMassiveActionsForOneItemtype()
+     **/
     public static function processMassiveActionsForOneItemtype(
         MassiveAction $ma,
         CommonDBTM $item,
@@ -313,11 +355,18 @@ class Option extends CommonDBTM
                 $input = $ma->getInput();
                 foreach ($ids as $id) {
                     $input = ['max_cart'       => $input['max_cart'],
-                         'consumableitems_id' => $id];
+                        'consumableitems_id' => $id];
 
                     if ($item->getFromDB($id)) {
+                        // The options table is not entity-scoped: re-check entity
+                        // access on the targeted consumable before creating/updating
+                        // its option (defense in depth alongside prepareInputForUpdate).
+                        if (!Session::haveAccessToEntity($item->fields['entities_id'], $item->fields['is_recursive'])) {
+                            $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                            continue;
+                        }
                         if ($option->getFromDBByCrit(["consumableitems_id" => $id])) {
-                             $input['id'] = $option->getID();
+                            $input['id'] = $option->getID();
                             if ($option->can(-1, UPDATE, $input) && $option->update($input)) {
                                 $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
                             } else {
@@ -338,6 +387,13 @@ class Option extends CommonDBTM
                 $input = $ma->getInput();
                 foreach ($ids as $id) {
                     if ($item->getFromDB($id)) {
+                        // The options table is not entity-scoped: re-check entity
+                        // access on the targeted consumable before creating/updating
+                        // its option (defense in depth alongside prepareInputForUpdate).
+                        if (!Session::haveAccessToEntity($item->fields['entities_id'], $item->fields['is_recursive'])) {
+                            $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                            continue;
+                        }
                         if ($option->getFromDBByCrit(["consumableitems_id" => $id])) {
                             $groups = json_decode($option->fields["groups"], true);
 
@@ -363,7 +419,7 @@ class Option extends CommonDBTM
                                 'groups'         => json_encode([$input['_groups_id']])];
 
                             if ($option->can(-1, CREATE, $params) && $option->add($params)) {
-                                 $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                                $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
                             } else {
                                 $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
                             }
@@ -375,11 +431,11 @@ class Option extends CommonDBTM
         parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
     }
 
-   /**
-    * @param $field
-    * @param $values
-    * @param $options   array
-    **/
+    /**
+     * @param $field
+     * @param $values
+     * @param $options   array
+     **/
     public static function getSpecificValueToDisplay($field, $values, array $options = [])
     {
         if (!is_array($values)) {

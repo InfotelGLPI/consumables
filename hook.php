@@ -1,32 +1,35 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
+use Glpi\Helpdesk\Tile\Item_Tile;
+use Glpi\ItemTranslation\ItemTranslation;
+use GlpiPlugin\Consumables\Helpdesk\Tile\ConsumablesPageTile;
 use GlpiPlugin\Consumables\Menu;
 use GlpiPlugin\Consumables\Option;
 use GlpiPlugin\Consumables\Profile;
@@ -68,11 +71,8 @@ function plugin_consumables_uninstall()
     $tables = ["glpi_plugin_consumables_profiles",
         "glpi_plugin_consumables_requests",
         "glpi_plugin_consumables_options",
-        "glpi_plugin_consumables_fields"];
-
-    foreach ($tables as $table) {
-        $DB->dropTable($table, true);
-    }
+        "glpi_plugin_consumables_fields",
+        "glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles"];
 
     $notif   = new Notification();
     $options = ['itemtype' => Request::class];
@@ -91,7 +91,7 @@ function plugin_consumables_uninstall()
         'FROM' => 'glpi_notificationtemplates',
         'WHERE' => $options]) as $data) {
         $options_template = [
-            'notificationtemplates_id' => $data['id']
+            'notificationtemplates_id' => $data['id'],
         ];
 
         foreach ($DB->request([
@@ -132,6 +132,23 @@ function plugin_consumables_uninstall()
         $profileRight->deleteByCriteria(['name' => $right['field']]);
     }
 
+    // Helpdesk tiles: the ConsumablesPageTile records live in their own table but
+    // also own Item_Tile relations (to helpdesk pages) and item translations. Purge
+    // both before dropping the tile table, otherwise a later reinstall short-circuits
+    // the tableExists/fieldExists migration chain and orphan rows remain in the core
+    // Item_Tile / ItemTranslation tables.
+    $tile_class = ConsumablesPageTile::class;
+    if ($DB->tableExists(Item_Tile::getTable())) {
+        $DB->delete(Item_Tile::getTable(), ['itemtype_tile' => $tile_class]);
+    }
+    if ($DB->tableExists(ItemTranslation::getTable())) {
+        $DB->delete(ItemTranslation::getTable(), ['itemtype' => $tile_class]);
+    }
+
+    foreach ($tables as $table) {
+        $DB->dropTable($table, true);
+    }
+
     Menu::removeRightsFromSession();
 
     Profile::removeRightsFromSession();
@@ -162,7 +179,7 @@ function plugin_consumables_getDatabaseRelations()
 
     if (Plugin::isPluginActive("consumables")) {
         return ["glpi_consumableitems" => ["glpi_plugin_consumables_requests" => "consumableitems_id",
-                                            "glpi_plugin_consumables_options" => "consumableitems_id"]];
+            "glpi_plugin_consumables_options" => "consumableitems_id"]];
     } else {
         return [];
     }

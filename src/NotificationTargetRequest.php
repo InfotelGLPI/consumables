@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Consumables;
@@ -67,12 +67,12 @@ class NotificationTargetRequest extends NotificationTarget
 
     public function validateSendTo($event, array $infos, $notify_me = false, $emitter = null)
     {
-        // Always send notification for satisfaction : if send on ticket closure
-        // Always send notification for new ticket
-        if (in_array($event, ['ConsumableRequest', 'ConsumableResponse'])) {
-            return true;
-        }
-
+        // Delegate to the core recipient filter. The previous unconditional
+        // `return true` for the plugin's two events short-circuited GLPI's own
+        // guards (do-not-notify-me-of-my-own-actions, recipient blacklists,
+        // emitter/recipient coherence). Legitimate targets (validator, requester,
+        // beneficiary) all differ from the emitter, so the parent still delivers
+        // them — only self-notifications the recipient opted out of are dropped.
         return parent::validateSendTo($event, $infos, $notify_me, $emitter);
     }
 
@@ -110,11 +110,11 @@ class NotificationTargetRequest extends NotificationTarget
         $tmp['##consumable.id##'] = $options['consumables']['consumableitems_id'];
         $tmp['##consumablerequest.consumable##'] = Dropdown::getDropdownName(
             ConsumableItem::getTable(),
-            $options['consumables']['consumableitems_id']
+            $options['consumables']['consumableitems_id'],
         );
         $tmp['##consumablerequest.consumabletype##'] = Dropdown::getDropdownName(
             ConsumableItemType::getTable(),
-            $options['consumables']['consumableitemtypes_id']
+            $options['consumables']['consumableitemtypes_id'],
         );
         $tmp['##consumablerequest.requestdate##'] = Html::convDateTime($options['consumables']['date_mod']);
         if (isset($item['end_date'])) {

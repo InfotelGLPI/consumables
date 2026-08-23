@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Consumables;
@@ -152,8 +152,8 @@ class Request extends CommonDBTM
                         self::getTypeName(),
                         $dbu->countElementsInTable(
                             $this->getTable(),
-                            ["give_itemtype" => "User", "give_items_id" => $item->getID()]
-                        )
+                            ["give_itemtype" => "User", "give_items_id" => $item->getID()],
+                        ),
                     );
                 }
                 return self::getTypeName();
@@ -163,8 +163,8 @@ class Request extends CommonDBTM
                         self::getTypeName(),
                         $dbu->countElementsInTable(
                             $this->getTable(),
-                            ["give_itemtype" => "Group", "give_items_id" => $item->getID()]
-                        )
+                            ["give_itemtype" => "Group", "give_items_id" => $item->getID()],
+                        ),
                     );
                 }
                 return self::getTypeName();
@@ -175,8 +175,8 @@ class Request extends CommonDBTM
                         self::getTypeName(),
                         $dbu->countElementsInTable(
                             $this->getTable(),
-                            ["consumableitems_id" => $item->getID()]
-                        )
+                            ["consumableitems_id" => $item->getID()],
+                        ),
                     );
                 }
                 return self::createTabEntry(self::getTypeName());
@@ -351,13 +351,23 @@ class Request extends CommonDBTM
                         ['end_date' => null],
                     ],
                 ]],
-            ["end_date DESC"]
+            ["end_date DESC"],
         );
 
         $rows       = [];
         $consumable = new ConsumableItem();
         foreach ($data as $field) {
-            $consumable->getFromDB($field['consumableitems_id']);
+            // Entity boundary: the request table is not entity-bound, so filter on
+            // the linked consumable's entity — a plugin_consumables READ holder must
+            // not read lines whose consumable lives outside their entity scope. This
+            // mirrors the validation queue filter (Validation::requestHasEntityAccess()).
+            if (!$consumable->getFromDB($field['consumableitems_id'])
+                || !Session::haveAccessToEntity(
+                    $consumable->fields['entities_id'],
+                    $consumable->fields['is_recursive'],
+                )) {
+                continue;
+            }
             $rows[] = [
                 'consumable_link' => $consumable->getLink(),
                 'type'            => Dropdown::getDropdownName(ConsumableItemType::getTable(), $field['consumableitemtypes_id']),
@@ -508,7 +518,7 @@ class Request extends CommonDBTM
                 $field_id,
                 $show_id,
                 PLUGIN_CONSUMABLES_WEBDIR . "/ajax/dropdownAllItems.php",
-                $p
+                $p,
             );
 
             echo TemplateRenderer::getInstance()->render('@consumables/select_item_span.html.twig', [
@@ -524,7 +534,7 @@ class Request extends CommonDBTM
                 Ajax::updateItem(
                     $show_id,
                     $CFG_GLPI["root_doc"] . "/ajax/dropdownAllItems.php",
-                    $p
+                    $p,
                 );
             }
         }
@@ -689,12 +699,17 @@ class Request extends CommonDBTM
         $dbu = new DbUtils();
 
         // Server-side mirror of the wizard UI gating: reject a forged line before
-        // returning any consumable / recipient label.
-        if ($success && isset($params['consumableitems_id'])) {
+        // returning any consumable / recipient label. This MUST run independently
+        // of $success: checkMandatoryFields() sets $success=false as soon as a
+        // mandatory field is empty, and a caller can deliberately omit one (e.g. an
+        // empty number) to skip the guard while the label-resolution block below
+        // still resolves consumableitems_id/consumableitemtypes_id — turning the
+        // preview into a cross-entity name-resolution oracle.
+        if (isset($params['consumableitems_id'])) {
             if (!$this->isRequestLineAllowed(
                 (int) $params['consumableitems_id'],
                 $params['give_itemtype'] ?? 'User',
-                $params['give_items_id'] ?? Session::getLoginUserID()
+                $params['give_items_id'] ?? Session::getLoginUserID(),
             )) {
                 return ['success' => false,
                     'message' => "<div class='alert alert-important alert-warning d-flex'>" . __('You are not allowed to request this consumable', 'consumables') . "</div>",
@@ -714,8 +729,10 @@ class Request extends CommonDBTM
                         'value' => $params['consumableitemtypes_id']],
                     'consumableitems_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumableitems_id']),
                         'value' => $params['consumableitems_id']],
-                    'number'                 => ['label' => $params['number'],
-                        'value' => $params['number']],
+                    // A requested quantity is always an integer: cast it so a forged
+                    // "number" cannot be reflected back as an HTML/JS payload.
+                    'number'                 => ['label' => (int) ($params['number'] ?? 0),
+                        'value' => (int) ($params['number'] ?? 0)],
                     'give_items_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
                         'value' => Session::getLoginUserID()],
                     'give_itemtype'          => ['label'  => User::getTypeName(),
@@ -775,7 +792,7 @@ class Request extends CommonDBTM
                     if (!$this->isRequestLineAllowed(
                         $consumableitems_id,
                         $row['give_itemtype'] ?? '',
-                        $row['give_items_id'] ?? 0
+                        $row['give_items_id'] ?? 0,
                     )) {
                         $success = false;
                         $message = "<div class='alert alert-important alert-warning d-flex'>" . __('You are not allowed to request this consumable', 'consumables') . "</div>";
@@ -839,7 +856,7 @@ class Request extends CommonDBTM
                         NotificationTargetRequest::CONSUMABLE_REQUEST,
                         $item,
                         ['entities_id' => $_SESSION['glpiactive_entity'],
-                            'consumables' => $add]
+                            'consumables' => $add],
                     );
                 }
             }

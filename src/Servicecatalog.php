@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Consumables;
@@ -42,31 +42,30 @@ if (!defined('GLPI_ROOT')) {
  */
 class Servicecatalog extends CommonGLPI
 {
-
     public static $rightname     = 'plugin_consumables_request';
 
     public $dohistory = false;
 
-   /**
-    * @return bool
-    */
+    /**
+     * @return bool
+     */
     public static function canUse()
     {
         return Session::haveRight("plugin_consumables_request", 1);
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getMenuLink()
     {
 
         return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getNavBarLink()
     {
         global $CFG_GLPI;
@@ -74,27 +73,27 @@ class Servicecatalog extends CommonGLPI
         return PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php";
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getMenuTitle()
     {
         return _n('Consumable request', 'Consumable requests', 2, 'consumables');
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getMenuLogo()
     {
 
         return Request::getIcon();
     }
 
-   /**
-    * @return string
-    * @throws \GlpitestSQLError
-    */
+    /**
+     * @return string
+     * @throws \GlpitestSQLError
+     */
     public static function getMenuLogoCss()
     {
 
@@ -102,26 +101,26 @@ class Servicecatalog extends CommonGLPI
         return $addstyle;
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getMenuComment()
     {
 
         return __('Make a consumable request', 'consumables');
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getLinkList()
     {
         return "";
     }
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function getList()
     {
         return "";

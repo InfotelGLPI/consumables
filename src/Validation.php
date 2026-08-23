@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Consumables;
@@ -173,7 +173,7 @@ class Validation extends CommonDBTM
                     'NOT'
                         => ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]],
                 ],
-                ["requesters_id", "consumableitemtypes_id"]
+                ["requesters_id", "consumableitemtypes_id"],
             );
         } else {
             $fields = $this->find(
@@ -181,7 +181,7 @@ class Validation extends CommonDBTM
                     'requesters_id' => Session::getLoginUserID(),
                     'NOT' => ['status' => [CommonITILValidation::REFUSED, CommonITILValidation::ACCEPTED]],
                 ],
-                ["requesters_id", "consumableitemtypes_id"]
+                ["requesters_id", "consumableitemtypes_id"],
             );
         }
 
@@ -192,7 +192,7 @@ class Validation extends CommonDBTM
             // (the validate/refuse actions are already bounded by requestHasEntityAccess()).
             $fields = array_filter(
                 $fields,
-                static fn($field) => self::requestHasEntityAccess($field)
+                static fn($field) => self::requestHasEntityAccess($field),
             );
         }
 
@@ -285,7 +285,7 @@ class Validation extends CommonDBTM
 
         return Session::haveAccessToEntity(
             $consumable->fields['entities_id'],
-            $consumable->fields['is_recursive']
+            $consumable->fields['is_recursive'],
         );
     }
 
@@ -442,7 +442,7 @@ class Validation extends CommonDBTM
                                         if (isset($outConsumable[$i]) && $consumable->out(
                                             $outConsumable[$i]['id'],
                                             $item->fields['give_itemtype'],
-                                            $item->fields['give_items_id']
+                                            $item->fields['give_items_id'],
                                         )
                                         ) {
                                             $result[] = 1;
@@ -461,9 +461,9 @@ class Validation extends CommonDBTM
                                         __('Not enough stock for consumable %s', 'consumables'),
                                         Dropdown::getDropdownName(
                                             "glpi_consumableitems",
-                                            $item->fields['consumableitems_id']
-                                        )
-                                    )
+                                            $item->fields['consumableitems_id'],
+                                        ),
+                                    ),
                                 );
                             }
                         } else {
@@ -484,7 +484,7 @@ class Validation extends CommonDBTM
                                     'entities_id' => $_SESSION['glpiactive_entity'],
                                     'consumables' => $request,
                                     'comment' => $input['comment'],
-                                ]
+                                ],
                             );
                         }
                     }
@@ -530,7 +530,7 @@ class Validation extends CommonDBTM
                                 'entities_id' => $_SESSION['glpiactive_entity'],
                                 'consumables' => $request,
                                 'comment' => $input['comment'],
-                            ]
+                            ],
                         );
                     }
                     break;

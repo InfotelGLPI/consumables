@@ -91,28 +91,10 @@ parameters:
 			path: src/Option.php
 
 		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 2
-			path: src/Option.php
-
-		-
 			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
 			identifier: glpi.forbidExit
 			count: 1
 			path: src/Option.php
-
-		-
-			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Profile.php
-
-		-
-			message: '#^Default value of the parameter \#2 \$openform \(true\) of method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) is incompatible with type array\<string, mixed\>\.$#'
-			identifier: parameter.defaultValue
-			count: 1
-			path: src/Profile.php
 
 		-
 			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:getTabNameForItem\(\) has invalid return type GlpiPlugin\\Consumables\\translated\.$#'
@@ -123,30 +105,6 @@ parameters:
 		-
 			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:migrateOneProfile\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
-			count: 1
-			path: src/Profile.php
-
-		-
-			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) has invalid return type GlpiPlugin\\Consumables\\nothing\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Profile.php
-
-		-
-			message: '#^Method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) should return GlpiPlugin\\Consumables\\nothing but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/Profile.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$options$#'
-			identifier: parameter.notFound
-			count: 1
-			path: src/Profile.php
-
-		-
-			message: '#^Return type \(GlpiPlugin\\Consumables\\nothing\) of method GlpiPlugin\\Consumables\\Profile\:\:showForm\(\) should be compatible with return type \(bool\) of method Profile\:\:showForm\(\)$#'
-			identifier: method.childReturnType
 			count: 1
 			path: src/Profile.php
 
@@ -171,6 +129,12 @@ parameters:
 		-
 			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumables\(\) should return array but return statement is missing\.$#'
 			identifier: return.missing
+			count: 1
+			path: src/Request.php
+
+		-
+			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumablesNumber\(\) should return array but empty return statement found\.$#'
+			identifier: return.empty
 			count: 1
 			path: src/Request.php
 
@@ -274,12 +238,6 @@ parameters:
 			message: '#^Method GlpiPlugin\\Consumables\\Validation\:\:showMassiveActionsSubForm\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
-			path: src/Validation.php
-
-		-
-			message: '#^Method GlpiPlugin\\Consumables\\Validation\:\:validationConsumable\(\) should return int but returns array\<string, string\>\.$#'
-			identifier: return.type
-			count: 2
 			path: src/Validation.php
 
 		-

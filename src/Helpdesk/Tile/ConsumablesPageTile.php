@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- consumables plugin for GLPI
- Copyright (C) 2015-2026 by the consumables Development Team.
-
- https://github.com/InfotelGLPI/consumables
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of consumables.
-
- consumables is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- consumables is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with consumables. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * consumables plugin for GLPI
+ * Copyright (C) 2015-2026 by the consumables Development Team.
+ *
+ * https://github.com/InfotelGLPI/consumables
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of consumables.
+ *
+ * consumables is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * consumables is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with consumables. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Consumables\Helpdesk\Tile;
@@ -131,7 +131,7 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
             [
                 Item_Tile::class,
                 HelpdeskTranslation::class,
-            ]
+            ],
         );
     }
 
@@ -148,7 +148,7 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
                 name: __('Title'),
                 value: $this->getTitle(),
                 is_rich_text: false,
-                category: $category_name
+                category: $category_name,
             );
         }
         if (!empty($this->getDescription())) {
@@ -158,7 +158,7 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
                 name: __('Description'),
                 value: $this->getDescription(),
                 is_rich_text: true,
-                category: $category_name
+                category: $category_name,
             );
         }
 
