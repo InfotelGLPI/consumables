@@ -126,9 +126,12 @@ function plugin_consumables_uninstall()
         $item->deleteByCriteria(['itemtype' => Request::class]);
     }
 
-    // Delete rights associated with the plugin
+    // Delete rights associated with the plugin. getAllRights() must be called
+    // with $all = true, otherwise only the main "plugin_consumables" right is
+    // returned and the four secondary rights (_user, _request, _group,
+    // _validation) stay behind in glpi_profilerights for every profile.
     $profileRight = new ProfileRight();
-    foreach (Profile::getAllRights() as $right) {
+    foreach (Profile::getAllRights(true) as $right) {
         $profileRight->deleteByCriteria(['name' => $right['field']]);
     }
 
