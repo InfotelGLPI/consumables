@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-01 11:36+0000\n"
+"POT-Creation-Date: 2026-08-23 08:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:186
+#: hook.php:203
 msgid "Order reference"
 msgstr ""
 
-#: hook.php:194 hook.php:223 src/Option.php:278
+#: hook.php:211 hook.php:240 src/Option.php:321
 msgid "Maximum number allowed for request"
 msgstr ""
 
-#: hook.php:203
+#: hook.php:220
 msgid "Allowed groups for request"
 msgstr ""
 
-#: hook.php:225 src/Option.php:289
+#: hook.php:242 src/Option.php:332
 msgid "Add a group for request"
 msgstr ""
 
-#: setup.php:113 src/Field.php:63 src/Menu.php:46
+#: setup.php:113 src/Field.php:62 src/Menu.php:46
 #: src/NotificationTargetRequest.php:63 src/NotificationTargetRequest.php:90
-#: src/Request.php:68 src/Servicecatalog.php:82
+#: src/Request.php:68 src/Servicecatalog.php:81
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:62
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:80
 msgid "Consumable request"
@@ -73,11 +73,11 @@ msgstr ""
 msgid "Consumable recipient"
 msgstr ""
 
-#: src/Option.php:64
+#: src/Option.php:65
 msgid "Consumable request options"
 msgstr ""
 
-#: src/Option.php:147
+#: src/Option.php:148
 msgctxt "button"
 msgid "Define"
 msgstr ""
@@ -92,7 +92,7 @@ msgstr[1] ""
 msgid "Make a consumable request for users"
 msgstr ""
 
-#: src/Profile.php:173 src/Servicecatalog.php:111
+#: src/Profile.php:173 src/Servicecatalog.php:110
 msgid "Make a consumable request"
 msgstr ""
 
@@ -100,25 +100,25 @@ msgstr ""
 msgid "Make a consumable request for groups"
 msgstr ""
 
-#: src/Request.php:700 src/Request.php:781
+#: src/Request.php:715 src/Request.php:798
 msgid "You are not allowed to request this consumable"
 msgstr ""
 
-#: src/Request.php:796
+#: src/Request.php:813
 msgid "Invalid requested quantity"
 msgstr ""
 
-#: src/Request.php:828
+#: src/Request.php:845
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Request.php:848
+#: src/Request.php:865
 msgid "Please add consumables in cart"
 msgstr ""
 
-#: src/Request.php:886 src/Validation.php:101
+#: src/Request.php:903 src/Validation.php:101
 msgid "Number"
 msgstr ""
 
@@ -131,6 +131,6 @@ msgstr ""
 msgid "Not enough stock for consumable %s"
 msgstr ""
 
-#: src/Wizard.php:55
+#: src/Wizard.php:54
 msgid "Consumables wizard"
 msgstr ""
