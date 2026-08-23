@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-23 08:33+0000\n"
+"POT-Creation-Date: 2026-08-23 08:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:203
+#: hook.php:206
 msgid "Order reference"
 msgstr ""
 
-#: hook.php:211 hook.php:240 src/Option.php:321
+#: hook.php:214 hook.php:243 src/Option.php:321
 msgid "Maximum number allowed for request"
 msgstr ""
 
-#: hook.php:220
+#: hook.php:223
 msgid "Allowed groups for request"
 msgstr ""
 
-#: hook.php:242 src/Option.php:332
+#: hook.php:245 src/Option.php:332
 msgid "Add a group for request"
 msgstr ""
 
