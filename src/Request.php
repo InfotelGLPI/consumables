@@ -814,7 +814,18 @@ class Request extends CommonDBTM
                         continue;
                     }
 
-                    $input = ['consumableitemtypes_id' => (int) $row['consumableitemtypes_id'],
+                    // Store the request within the linked consumable's entity so the row
+                    // is correctly scoped (the table carries entities_id since 2.1.4).
+                    // requestHasEntityAccess() still re-derives access from the consumable,
+                    // so this is data hygiene, not the security boundary.
+                    $consumable  = new ConsumableItem();
+                    $entities_id = 0;
+                    if ($consumable->getFromDB($consumableitems_id)) {
+                        $entities_id = (int) $consumable->fields['entities_id'];
+                    }
+
+                    $input = ['entities_id'            => $entities_id,
+                        'consumableitemtypes_id' => (int) $row['consumableitemtypes_id'],
                         'consumableitems_id'     => $consumableitems_id,
                         'number'                 => $number,
                         'date_mod'               => date("Y-m-d H:i:s"),

@@ -53,6 +53,8 @@ function plugin_consumables_install()
         $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.0.1.sql");
     } elseif (!$DB->tableExists("glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles")) {
         $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.1.2.sql");
+    } elseif (!$DB->fieldExists("glpi_plugin_consumables_requests", "entities_id")) {
+        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.1.4.sql");
     }
 
     Profile::initProfile();
