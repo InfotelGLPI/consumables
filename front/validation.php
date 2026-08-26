@@ -44,21 +44,14 @@ if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
     }
 }
 
-$p = ['criteria'   => [
-    [
-        'field'      => 6,        // field index in search options
-        'searchtype' => 'equals',  // type of search
-        'value'      => 2,         // value to search
-    ],
-],
-    'as_map' => 0];
-$p = Search::manageParams(Validation::getType(), $_GET);
-$p["criteria"][0] =  [
-    'field'      => 6,        // field index in search options
-    'searchtype' => 'equals',  // type of search
-    'value'      => 2,         // value to search
-];
-Search::showList(Validation::class, $p);
+// Route through showConsumableValidation() rather than Search::showList(): the
+// requests table has no entities_id column, so the search engine adds no entity
+// restriction and Search::showList() would leak every entity's requests (requester,
+// consumable and beneficiary). This method filters each row through
+// requestHasEntityAccess() — the same entity boundary the validate/refuse mass
+// actions already enforce.
+$validation = new Validation();
+$validation->showConsumableValidation();
 
 if (Session::getCurrentInterface() != 'central'
     && Plugin::isPluginActive('servicecatalog')) {

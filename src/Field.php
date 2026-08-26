@@ -108,6 +108,14 @@ class Field extends CommonDBTM
     public static function preUpdateConsumable(ConsumableItem $consumableItem)
     {
 
+        // Only touch order_ref when the update actually carries it. A ConsumableItem
+        // can be updated through paths that never submit this plugin field (REST API,
+        // mass actions, other plugins); reading the absent key raised a PHP warning
+        // and wrote an empty value, silently wiping the stored order reference.
+        if (!array_key_exists('order_ref', $consumableItem->input)) {
+            return;
+        }
+
         $field = new self();
         $field->getFromDBByCrit(["consumableitems_id" => $consumableItem->input['id']]);
 
