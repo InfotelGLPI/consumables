@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Consumables Development Team
 # This file is distributed under the same license as the GLPI - Consumables plugin package.
-# 
+#
 # Translators:
 # Alexandr Dyuzhev <frduke@yandex.ru>, 2021
 # Andrey Saridzha, 2015
@@ -12,104 +12,52 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-27 12:39+0000\n"
+"POT-Creation-Date: 2026-08-31 14:51+0000\n"
 "PO-Revision-Date: 2021-04-02 07:19+0000\n"
 "Last-Translator: Александр Дюжев <frduke51@gmail.com>\n"
-"Language-Team: Russian (Russia) (http://www.transifex.com/infotelGLPI/GLPI_consumables/language/ru_RU/)\n"
+"Language-Team: Russian (Russia) (http://www.transifex.com/infotelGLPI/"
+"GLPI_consumables/language/ru_RU/)\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru_RU\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:166 inc/field.class.php:75
-msgid "Order reference"
-msgstr "Код заказа"
-
-#: hook.php:176 hook.php:208 inc/option.class.php:111 inc/option.class.php:305
-msgid "Maximum number allowed for request"
-msgstr "Максимально допустимое количество запросов"
-
-#: hook.php:188 inc/option.class.php:133
-msgid "Allowed groups for request"
-msgstr "Разрешенные группы для запроса"
-
-#: hook.php:210 inc/option.class.php:184 inc/option.class.php:315
+#: hook.php:247 src/Option.php:332 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Добавить группу для запроса"
 
-#: setup.php:83 inc/field.class.php:54 inc/menu.class.php:41
-#: inc/notificationtargetrequest.class.php:51
-#: inc/notificationtargetrequest.class.php:66 inc/request.class.php:52
-#: inc/request.class.php:412 inc/request.class.php:418
-#: inc/servicecatalog.class.php:65 inc/wizard.class.php:70
-#: inc/wizard.class.php:79
-msgid "Consumable request"
-msgid_plural "Consumable requests"
-msgstr[0] "Заказ расходных материалов"
-msgstr[1] "Заказы расходных материалов"
-msgstr[2] "Заказы расходных материалов"
-msgstr[3] "Заказ расходных материалов"
+#: templates/request_form.html.twig:67
+msgid "Add to cart"
+msgstr "Добавить в заказ"
 
-#: inc/notificationtargetrequest.class.php:52
-#: inc/notificationtargetrequest.class.php:69 inc/profile.class.php:154
-#: inc/profile.class.php:210 inc/validation.class.php:139
-#: inc/validation.class.php:166 inc/wizard.class.php:87
-msgid "Consumable validation"
-msgstr "Подтверждение получения расходных материалов"
+#: hook.php:225 templates/option_form.html.twig:50
+msgid "Allowed groups for request"
+msgstr "Разрешенные группы для запроса"
 
-#: inc/notificationtargetrequest.class.php:63
-#: inc/notificationtargetrequest.class.php:120
-msgid "Consumable ID"
-msgstr "ID расходного материала"
+#: templates/request_list.html.twig:37
+#: templates/request_consumable_list.html.twig:36
+msgid "Approver"
+msgstr ""
 
-#: inc/notificationtargetrequest.class.php:121
-msgid "Type of event"
-msgstr "Тип события"
+#: templates/request_search.html.twig:35
+msgid "Begin date"
+msgstr ""
 
-#: inc/notificationtargetrequest.class.php:142
-msgid "Display each consumable"
-msgstr "Показывать каждый расходный материал"
-
-#: inc/notificationtargetrequest.class.php:157
-msgid "Consumable approver"
-msgstr "Утверждающий расходные материалы"
-
-#: inc/notificationtargetrequest.class.php:158
-msgid "Consumable requester"
-msgstr "Заказчик расходных материалов"
-
-#: inc/notificationtargetrequest.class.php:159
-msgid "Consumable recipient"
-msgstr "Получатель расходного материала"
-
-#: inc/option.class.php:51
-msgid "Consumable request options"
-msgstr "Свойства запроса расходных материалов"
-
-#: inc/option.class.php:120
+#: templates/request_form.html.twig:100
 msgctxt "button"
-msgid "Define"
-msgstr "Определить"
+msgid "Cancel"
+msgstr ""
 
-#: inc/profile.class.php:146
-msgid "Advanced"
-msgstr "Расширенные"
+#: templates/request_form.html.twig:78
+msgid "Cart"
+msgstr "Заказ"
 
-#: inc/profile.class.php:158 inc/profile.class.php:202
-#: inc/servicecatalog.class.php:81
-msgid "Make a consumable request"
-msgstr "Создать запрос расходных материалов"
-
-#: inc/profile.class.php:166
-msgid "Make a consumable request for all users"
-msgstr "Создать запрос расходных материалов для всех групп"
-
-#: inc/profile.class.php:171
-msgid "Make a consumable request for my groups"
-msgstr "Создать запрос расходных материалов для своей группы"
-
-#: inc/profile.class.php:191
+#: src/Profile.php:159 templates/request_list.html.twig:34
+#: templates/validation_list.html.twig:46 templates/request_form.html.twig:50
+#: templates/request_form.html.twig:83
 msgid "Consumable"
 msgid_plural "Consumables"
 msgstr[0] "Расходные материалы"
@@ -117,42 +65,11 @@ msgstr[1] "Расходные материалы"
 msgstr[2] "Расходные материалы"
 msgstr[3] "Расходные материалы"
 
-#: inc/profile.class.php:198
-msgid "Make a consumable request for users"
-msgstr "Создать запрос расходных материалов для пользователей"
+#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:152
+msgid "Consumable ID"
+msgstr "ID расходного материала"
 
-#: inc/profile.class.php:206
-msgid "Make a consumable request for groups"
-msgstr "Создать запрос расходных материалов для групп"
-
-#: inc/request.class.php:198 inc/request.class.php:348
-#: inc/request.class.php:384
-msgid "Consumable request report"
-msgstr "Отчет по запросам расходных материалов"
-
-#: inc/request.class.php:237
-msgid "Consumable requests history"
-msgstr "История запросов расходных материалов"
-
-#: inc/request.class.php:269
-msgid "Consumables request search"
-msgstr "Поиск запросов расходных материалов"
-
-#: inc/request.class.php:444 inc/request.class.php:489
-#: inc/request.class.php:861 inc/validation.class.php:98
-#: inc/validation.class.php:204
-msgid "Number"
-msgstr "Количество"
-
-#: inc/request.class.php:475
-msgid "Add to cart"
-msgstr "Добавить в заказ"
-
-#: inc/request.class.php:484
-msgid "Cart"
-msgstr "Заказ"
-
-#: inc/request.class.php:807
+#: src/Request.php:856
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Заказ оформлен"
@@ -160,19 +77,207 @@ msgstr[1] "Заказ оформлен"
 msgstr[2] "Заказ оформлен"
 msgstr[3] "Заказ оформлен"
 
-#: inc/request.class.php:824
-msgid "Please add consumables in cart"
-msgstr "Добавьте расходные материалы в заказ"
+#: src/NotificationTargetRequest.php:194
+msgid "Consumable approver"
+msgstr "Утверждающий расходные материалы"
 
-#: inc/validation.class.php:330
-msgid "Refuse"
-msgstr "Отказаться"
+#: src/NotificationTargetRequest.php:196
+msgid "Consumable recipient"
+msgstr "Получатель расходного материала"
 
-#: inc/validation.class.php:425
+#: setup.php:113 src/Field.php:62 src/Menu.php:46
+#: src/NotificationTargetRequest.php:63 src/NotificationTargetRequest.php:90
+#: src/Request.php:68 src/Servicecatalog.php:81
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:62
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:80
+#: templates/wizard_menu.html.twig:30 templates/wizard_menu.html.twig:39
+#: templates/request_form.html.twig:31 templates/request_form.html.twig:38
+msgid "Consumable request"
+msgid_plural "Consumable requests"
+msgstr[0] "Заказ расходных материалов"
+msgstr[1] "Заказы расходных материалов"
+msgstr[2] "Заказы расходных материалов"
+msgstr[3] "Заказ расходных материалов"
+
+#: src/Option.php:65
+msgid "Consumable request options"
+msgstr "Свойства запроса расходных материалов"
+
+#: templates/request_list.html.twig:31 templates/request_list.html.twig:60
+#: templates/request_consumable_list.html.twig:32
+msgid "Consumable request report"
+msgstr "Отчет по запросам расходных материалов"
+
+#: src/NotificationTargetRequest.php:195
+msgid "Consumable requester"
+msgstr "Заказчик расходных материалов"
+
+#: templates/request_consumable_list.html.twig:58
+msgid "Consumable requests history"
+msgstr "История запросов расходных материалов"
+
+#: templates/request_list.html.twig:35 templates/validation_list.html.twig:45
+#: templates/request_form.html.twig:46 templates/request_form.html.twig:82
+msgid "Consumable type"
+msgid_plural "Consumable types"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:93
+#: src/Profile.php:187 src/Validation.php:142
+#: templates/wizard_menu.html.twig:49 templates/validation_header.html.twig:29
+#: templates/validation_list.html.twig:30
+msgid "Consumable validation"
+msgstr "Подтверждение получения расходных материалов"
+
+#: templates/request_search.html.twig:32
+msgid "Consumables request search"
+msgstr "Поиск запросов расходных материалов"
+
+#: src/Wizard.php:54
+msgid "Consumables wizard"
+msgstr "Мастер заказа расходных материалов"
+
+#: src/Option.php:148
+msgctxt "button"
+msgid "Define"
+msgstr "Определить"
+
+#: src/NotificationTargetRequest.php:178
+msgid "Display each consumable"
+msgstr "Показывать каждый расходный материал"
+
+#: templates/request_search.html.twig:37
+msgid "End date"
+msgstr ""
+
+#: templates/request_consumable_list.html.twig:39
+#: templates/validation_list.html.twig:48 templates/request_form.html.twig:59
+#: templates/request_form.html.twig:85
+msgid "Give to"
+msgstr ""
+
+#: src/Request.php:813
+msgid "Invalid requested quantity"
+msgstr ""
+
+#: src/Profile.php:173 src/Servicecatalog.php:110
+msgid "Make a consumable request"
+msgstr "Создать запрос расходных материалов"
+
+#: src/Profile.php:180
+msgid "Make a consumable request for groups"
+msgstr "Создать запрос расходных материалов для групп"
+
+#: src/Profile.php:166
+msgid "Make a consumable request for users"
+msgstr "Создать запрос расходных материалов для пользователей"
+
+#: hook.php:216 hook.php:245 src/Option.php:321
+#: templates/option_form.html.twig:35
+msgid "Maximum number allowed for request"
+msgstr "Максимально допустимое количество запросов"
+
+#: templates/request_number_empty.html.twig:28
+msgid "No consumable"
+msgstr ""
+
+#: templates/validation_list.html.twig:69
+msgid "No item to display"
+msgstr ""
+
+#: templates/request_list.html.twig:63
+#: templates/request_consumable_list.html.twig:61
+msgid "No results found"
+msgstr ""
+
+#: templates/option_form.html.twig:61
+msgid "None"
+msgstr ""
+
+#: src/Validation.php:461
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Не достаточно запаса расходного материала %s "
 
-#: inc/wizard.class.php:52
-msgid "Consumables wizard"
-msgstr "Мастер заказа расходных материалов"
+#: src/Request.php:914 src/Validation.php:101
+#: templates/validation_list.html.twig:47 templates/request_form.html.twig:54
+#: templates/request_form.html.twig:84
+msgid "Number"
+msgstr "Количество"
+
+#: templates/request_list.html.twig:38
+#: templates/request_consumable_list.html.twig:37
+msgid "Number of used consumables"
+msgstr ""
+
+#: hook.php:208 templates/field_order_reference.html.twig:29
+msgid "Order reference"
+msgstr "Код заказа"
+
+#: templates/request_infos.html.twig:29
+msgid "Picture"
+msgid_plural "Pictures"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/Request.php:876
+msgid "Please add consumables in cart"
+msgstr "Добавьте расходные материалы в заказ"
+
+#: templates/request_form.html.twig:98
+msgctxt "button"
+msgid "Post"
+msgstr ""
+
+#: src/Validation.php:346
+msgid "Refuse"
+msgstr "Отказаться"
+
+#: templates/request_list.html.twig:39
+#: templates/request_consumable_list.html.twig:38
+msgid "Request date"
+msgstr ""
+
+#: templates/request_list.html.twig:36
+#: templates/request_consumable_list.html.twig:35
+#: templates/validation_list.html.twig:44 templates/request_form.html.twig:41
+#: templates/request_form.html.twig:81
+msgid "Requester"
+msgstr ""
+
+#: templates/profile.html.twig:34
+msgctxt "button"
+msgid "Save"
+msgstr ""
+
+#: templates/validation_list.html.twig:49
+msgctxt "item"
+msgid "State"
+msgstr ""
+
+#: templates/request_list.html.twig:40
+#: templates/request_consumable_list.html.twig:40
+msgid "Status"
+msgstr ""
+
+#: src/NotificationTargetRequest.php:153
+msgid "Type of event"
+msgstr "Тип события"
+
+#: src/Request.php:715 src/Request.php:798
+msgid "You are not allowed to request this consumable"
+msgstr ""
+
+#~ msgid "Advanced"
+#~ msgstr "Расширенные"
+
+#~ msgid "Make a consumable request for all users"
+#~ msgstr "Создать запрос расходных материалов для всех групп"
+
+#~ msgid "Make a consumable request for my groups"
+#~ msgstr "Создать запрос расходных материалов для своей группы"
