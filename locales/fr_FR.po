@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Consumables Development Team
-# This file is distributed under the same license as the GLPI - Consumables plugin package.
-#
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # Amandine Manceau, 2017
 # tynet <faustine.crespel@infotel.com>, 2012
@@ -14,14 +14,12 @@ msgstr ""
 "POT-Creation-Date: 2026-08-31 14:51+0000\n"
 "PO-Revision-Date: 2015-09-17 11:45+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2019-2020,2026\n"
-"Language-Team: French (France) (http://app.transifex.com/infotelGLPI/"
-"GLPI_consumables/language/fr_FR/)\n"
-"Language: fr_FR\n"
+"Language-Team: French (France) (http://app.transifex.com/infotelGLPI/GLPI_consumables/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
-"1000000 == 0 ? 1 : 2;\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: hook.php:247 src/Option.php:332 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
@@ -29,7 +27,7 @@ msgstr "Ajouter un groupe pour les demandes"
 
 #: templates/request_form.html.twig:67
 msgid "Add to cart"
-msgstr ""
+msgstr "Ajouter au panier"
 
 #: hook.php:225 templates/option_form.html.twig:50
 msgid "Allowed groups for request"
@@ -38,20 +36,20 @@ msgstr "Groupes autorisés à faire des demandes"
 #: templates/request_list.html.twig:37
 #: templates/request_consumable_list.html.twig:36
 msgid "Approver"
-msgstr ""
+msgstr "Approbateur"
 
 #: templates/request_search.html.twig:35
 msgid "Begin date"
-msgstr ""
+msgstr "Date de début"
 
 #: templates/request_form.html.twig:100
 msgctxt "button"
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: templates/request_form.html.twig:78
 msgid "Cart"
-msgstr ""
+msgstr "Panier"
 
 #: src/Profile.php:159 templates/request_list.html.twig:34
 #: templates/validation_list.html.twig:46 templates/request_form.html.twig:50
@@ -101,7 +99,7 @@ msgstr "Options de demande de consommable"
 #: templates/request_list.html.twig:31 templates/request_list.html.twig:60
 #: templates/request_consumable_list.html.twig:32
 msgid "Consumable request report"
-msgstr ""
+msgstr "Rapport des demandes de consommables"
 
 #: src/NotificationTargetRequest.php:195
 msgid "Consumable requester"
@@ -109,15 +107,15 @@ msgstr "Demandeur de consommables"
 
 #: templates/request_consumable_list.html.twig:58
 msgid "Consumable requests history"
-msgstr ""
+msgstr "Historique des demandes de consommables"
 
 #: templates/request_list.html.twig:35 templates/validation_list.html.twig:45
 #: templates/request_form.html.twig:46 templates/request_form.html.twig:82
 msgid "Consumable type"
 msgid_plural "Consumable types"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Type de consommables"
+msgstr[1] "Types de consommables"
+msgstr[2] "Types de consommables"
 
 #: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:93
 #: src/Profile.php:187 src/Validation.php:142
@@ -128,7 +126,7 @@ msgstr "Validation des demandes de consommables"
 
 #: templates/request_search.html.twig:32
 msgid "Consumables request search"
-msgstr ""
+msgstr "Recherche des demandes de consommables"
 
 #: src/Wizard.php:54
 msgid "Consumables wizard"
@@ -145,13 +143,13 @@ msgstr "Montrer chaque consommable"
 
 #: templates/request_search.html.twig:37
 msgid "End date"
-msgstr ""
+msgstr "Date de fin"
 
 #: templates/request_consumable_list.html.twig:39
 #: templates/validation_list.html.twig:48 templates/request_form.html.twig:59
 #: templates/request_form.html.twig:85
 msgid "Give to"
-msgstr ""
+msgstr "Donné à"
 
 #: src/Request.php:813
 msgid "Invalid requested quantity"
@@ -176,20 +174,20 @@ msgstr "Nombre maximal autorisé pour la demande"
 
 #: templates/request_number_empty.html.twig:28
 msgid "No consumable"
-msgstr ""
+msgstr "Pas de consommables"
 
 #: templates/validation_list.html.twig:69
 msgid "No item to display"
-msgstr ""
+msgstr "Pas d'éléments à afficher"
 
 #: templates/request_list.html.twig:63
 #: templates/request_consumable_list.html.twig:61
 msgid "No results found"
-msgstr ""
+msgstr "Pas de résultats trouvés"
 
 #: templates/option_form.html.twig:61
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: src/Validation.php:461
 #, php-format
@@ -205,7 +203,7 @@ msgstr "Nombre"
 #: templates/request_list.html.twig:38
 #: templates/request_consumable_list.html.twig:37
 msgid "Number of used consumables"
-msgstr ""
+msgstr "Nombre de consommables utilisés"
 
 #: hook.php:208 templates/field_order_reference.html.twig:29
 msgid "Order reference"
@@ -214,9 +212,9 @@ msgstr "Référence commande"
 #: templates/request_infos.html.twig:29
 msgid "Picture"
 msgid_plural "Pictures"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Image"
+msgstr[1] "Images"
+msgstr[2] "Images"
 
 #: src/Request.php:876
 msgid "Please add consumables in cart"
@@ -225,7 +223,7 @@ msgstr "Veuillez ajouter des demandes de consommable dans la panier"
 #: templates/request_form.html.twig:98
 msgctxt "button"
 msgid "Post"
-msgstr ""
+msgstr "Envoyer"
 
 #: src/Validation.php:346
 msgid "Refuse"
@@ -234,29 +232,29 @@ msgstr "Refuser"
 #: templates/request_list.html.twig:39
 #: templates/request_consumable_list.html.twig:38
 msgid "Request date"
-msgstr ""
+msgstr "Date de requête"
 
 #: templates/request_list.html.twig:36
 #: templates/request_consumable_list.html.twig:35
 #: templates/validation_list.html.twig:44 templates/request_form.html.twig:41
 #: templates/request_form.html.twig:81
 msgid "Requester"
-msgstr ""
+msgstr "Demandeur"
 
 #: templates/profile.html.twig:34
 msgctxt "button"
 msgid "Save"
-msgstr ""
+msgstr "Sauver"
 
 #: templates/validation_list.html.twig:49
 msgctxt "item"
 msgid "State"
-msgstr ""
+msgstr "Statut"
 
 #: templates/request_list.html.twig:40
 #: templates/request_consumable_list.html.twig:40
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: src/NotificationTargetRequest.php:153
 msgid "Type of event"
