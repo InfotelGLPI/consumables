@@ -43,18 +43,97 @@ function plugin_consumables_install()
     global $DB;
 
     if (!$DB->tableExists("glpi_plugin_consumables_requests")) {
-        // Install script
+        // First install: the whole schema comes from the shipped dump.
         $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/empty-2.1.4.sql");
         include(PLUGIN_CONSUMABLES_DIR . "/install/install.php");
         install_notifications_consumables();
-    } elseif (!$DB->tableExists("glpi_plugin_consumables_options")) {
-        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-1.2.2.sql");
-    } elseif (!$DB->fieldExists("glpi_plugin_consumables_options", "consumableitems_id")) {
-        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.0.1.sql");
-    } elseif (!$DB->tableExists("glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles")) {
-        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.1.2.sql");
-    } elseif (!$DB->fieldExists("glpi_plugin_consumables_requests", "entities_id")) {
-        $DB->runFile(PLUGIN_CONSUMABLES_DIR . "/install/sql/update-2.1.4.sql");
+    } else {
+        // Upgrades are driven by the Migration API rather than by raw .sql files, so each
+        // step is idempotent, reported in the migration log, and safe to replay.
+        // They are chained with plain "if" on purpose: the former "elseif" cascade applied
+        // a single step per run, so an instance several versions behind had to be installed
+        // as many times as there were versions to cross.
+        $migration = new Migration(PLUGIN_CONSUMABLES_VERSION);
+
+        // 1.2.2 -> options per consumable (allowed groups, maximum quantity per request).
+        // Created straight in its current shape: the 2.0.1 rename below then has nothing
+        // left to do on this table. No DROP TABLE here, unlike update-1.2.2.sql.
+        if (!$DB->tableExists("glpi_plugin_consumables_options")) {
+            $migration->displayMessage("Creating glpi_plugin_consumables_options");
+            $DB->doQuery(
+                "CREATE TABLE IF NOT EXISTS `glpi_plugin_consumables_options` (
+                    `id` int unsigned NOT NULL AUTO_INCREMENT,
+                    `consumableitems_id` int unsigned NOT NULL DEFAULT '0',
+                    `groups` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                    `max_cart` smallint NOT NULL DEFAULT '0',
+                    PRIMARY KEY (`id`),
+                    KEY `consumableitems_id` (`consumableitems_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC",
+            );
+        }
+
+        // 2.0.1 -> the foreign key points at a ConsumableItem, not at a Consumable.
+        // changeField() is a no-op when the old column is already gone.
+        foreach ([
+            "glpi_plugin_consumables_requests",
+            "glpi_plugin_consumables_fields",
+            "glpi_plugin_consumables_options",
+        ] as $table) {
+            if ($DB->tableExists($table) && $DB->fieldExists($table, "consumables_id")) {
+                $migration->changeField($table, "consumables_id", "consumableitems_id", "fkey");
+                $migration->migrationOneTable($table);
+            }
+        }
+
+        // 2.1.2 -> helpdesk tile.
+        if (!$DB->tableExists("glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles")) {
+            $migration->displayMessage("Creating glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles");
+            $DB->doQuery(
+                "CREATE TABLE IF NOT EXISTS `glpi_plugin_consumables_helpdesks_tiles_consumablespagetiles` (
+                    `id` int unsigned NOT NULL AUTO_INCREMENT,
+                    `title` varchar(255) DEFAULT NULL,
+                    `description` text DEFAULT NULL,
+                    `illustration` varchar(255) DEFAULT NULL,
+                    `url` text DEFAULT NULL,
+                    PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC",
+            );
+        }
+
+        // 2.1.4 -> requests carry the entity of the consumable they ask for.
+        $backfill_entities = !$DB->fieldExists("glpi_plugin_consumables_requests", "entities_id");
+        $migration->addField(
+            "glpi_plugin_consumables_requests",
+            "entities_id",
+            "fkey",
+            ["after" => "id"],
+        );
+        $migration->addKey("glpi_plugin_consumables_requests", "entities_id");
+        // The column has to exist before the rows below can be written, and addField()
+        // only queues the ALTER statement.
+        $migration->migrationOneTable("glpi_plugin_consumables_requests");
+
+        if ($backfill_entities) {
+            // Existing requests inherit the entity of their ConsumableItem, as the
+            // UPDATE ... INNER JOIN of update-2.1.4.sql did. Grouped by entity so this
+            // stays a handful of queries whatever the number of requests.
+            $items_per_entity = [];
+            foreach ($DB->request([
+                'SELECT' => ['id', 'entities_id'],
+                'FROM'   => 'glpi_consumableitems',
+            ]) as $consumableitem) {
+                $items_per_entity[(int) $consumableitem['entities_id']][] = (int) $consumableitem['id'];
+            }
+            foreach ($items_per_entity as $entities_id => $consumableitems_ids) {
+                $DB->update(
+                    'glpi_plugin_consumables_requests',
+                    ['entities_id' => $entities_id],
+                    ['consumableitems_id' => $consumableitems_ids],
+                );
+            }
+        }
+
+        $migration->executeMigration();
     }
 
     Profile::initProfile();

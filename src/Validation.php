@@ -165,7 +165,12 @@ class Validation extends CommonDBTM
         $rand         = mt_rand();
         $dbu          = new DbUtils();
         $can_validate = $this->canValidate();
-        $container    = 'mass' . self::class . $rand;
+        // A namespaced class name puts backslashes in the container id. The massive actions
+        // JS selects the checkboxes with jQuery('#<container> ...'), where a backslash is read
+        // as a CSS escape: the selector then matches nothing, the form posts an empty selection
+        // and the modal answers "No selected items". Core strips them the same way for its own
+        // namespaced class (src/Glpi/Socket.php).
+        $container    = 'mass' . str_replace('\\', '', self::class) . $rand;
 
         if ($can_validate) {
             $fields = $this->find(
@@ -395,6 +400,8 @@ class Validation extends CommonDBTM
         CommonDBTM $item,
         array $ids
     ) {
+        global $DB;
+
         $item = new Request();
         $validation = new self();
         $consumable = new Consumable();
@@ -409,6 +416,12 @@ class Validation extends CommonDBTM
             switch ($ma->getAction()) {
                 case "validate":
                     $added = [];
+                    // Requests actually accepted. $added is overwritten on every iteration,
+                    // so it cannot say which ones went through: notifying from it raised the
+                    // event once per key of that flat array, always for the last request, and
+                    // would now also warn requesters about a request the stock claim below
+                    // rolled back.
+                    $notify_ids = [];
                     foreach ($ids as $key => $val) {
                         if (Session::haveRight("plugin_consumables_validation", 1)) {
                             $item->getFromDB($key);
@@ -431,28 +444,69 @@ class Validation extends CommonDBTM
 
                             // Check if enough stock
                             if (!empty($outConsumable) && count($outConsumable) >= $item->fields['number']) {
+                                // The availability read above and core's Consumable::out()
+                                // form a read-then-write keyed on the primary key only, with
+                                // no condition on date_out: two validators emptying the queue
+                                // at the same time would both pass the stock check and hand
+                                // the same physical items to two requests, the second write
+                                // silently overwriting the first. Claim every unit with a
+                                // conditional UPDATE inside a transaction instead: a row
+                                // already taken by a concurrent validation reports zero
+                                // affected rows, and the request is then rolled back and
+                                // reported as short of stock rather than accepted twice.
+                                $number        = (int) $item->fields['number'];
+                                $give_itemtype = $item->fields['give_itemtype'];
+                                $give_items_id = (int) $item->fields['give_items_id'];
+                                $claimed       = 0;
+
+                                $DB->beginTransaction();
+                                // out() refused to move anything without a target; keep that
+                                // guard so a request cannot be accepted without stock leaving.
+                                if (!empty($give_itemtype) && $give_items_id > 0) {
+                                    foreach ($outConsumable as $available) {
+                                        if ($claimed >= $number) {
+                                            break;
+                                        }
+                                        $DB->update(
+                                            Consumable::getTable(),
+                                            [
+                                                'date_out' => date('Y-m-d'),
+                                                'itemtype' => $give_itemtype,
+                                                'items_id' => $give_items_id,
+                                            ],
+                                            [
+                                                'id'       => $available['id'],
+                                                'date_out' => null,
+                                            ],
+                                        );
+                                        $claimed += $DB->affectedRows();
+                                    }
+                                }
+
                                 // Give consumable
                                 $state = CommonITILValidation::ACCEPTED;
                                 $added['status'] = $state;
                                 $added['validators_id'] = Session::getLoginUserID();
                                 $added['id'] = $item->getID();
-                                if ($item->update($added)) {
-                                    $result = [1];
-                                    for ($i = 0; $i < $item->fields['number']; $i++) {
-                                        if (isset($outConsumable[$i]) && $consumable->out(
-                                            $outConsumable[$i]['id'],
-                                            $item->fields['give_itemtype'],
-                                            $item->fields['give_items_id'],
-                                        )
-                                        ) {
-                                            $result[] = 1;
-                                        } else {
-                                            $result[] = 0;
-                                        }
-                                    }
+                                if ($claimed === $number && $item->update($added)) {
+                                    $DB->commit();
+                                    $notify_ids[] = (int) $key;
                                     $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                                 } else {
+                                    // Nothing may leave stock unless the request is accepted.
+                                    $DB->rollBack();
                                     $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
+                                    if ($claimed !== $number) {
+                                        $ma->addMessage(
+                                            sprintf(
+                                                __('Not enough stock for consumable %s', 'consumables'),
+                                                Dropdown::getDropdownName(
+                                                    "glpi_consumableitems",
+                                                    $item->fields['consumableitems_id'],
+                                                ),
+                                            ),
+                                        );
+                                    }
                                 }
                             } else {
                                 $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
@@ -473,25 +527,32 @@ class Validation extends CommonDBTM
                     }
 
                     // Send notification
-                    if (!empty($added)) {
-                        foreach ($added as $add) {
-                            $request = new Request();
-                            $request->getFromDB($added['id']);
-                            NotificationEvent::raiseEvent(
-                                NotificationTargetRequest::CONSUMABLE_RESPONSE,
-                                $request,
-                                [
-                                    'entities_id' => $_SESSION['glpiactive_entity'],
-                                    'consumables' => $request,
-                                    'comment' => $input['comment'],
-                                ],
-                            );
+                    foreach ($notify_ids as $notify_id) {
+                        $request = new Request();
+                        if (!$request->getFromDB($notify_id)) {
+                            continue;
                         }
+                        NotificationEvent::raiseEvent(
+                            NotificationTargetRequest::CONSUMABLE_RESPONSE,
+                            $request,
+                            [
+                                'entities_id' => $_SESSION['glpiactive_entity'],
+                                // The fields, not the object: NotificationTargetRequest reads
+                                // this entry as an array ($options['consumables']['...']) and
+                                // CommonDBTM does not implement ArrayAccess, so passing the
+                                // object made every validation/refusal notification fatal.
+                                'consumables' => $request->fields,
+                                'comment' => $input['comment'],
+                            ],
+                        );
                     }
                     break;
 
                 case "refuse":
                     $added = [];
+                    // Same reason as the validate case: only the requests really refused are
+                    // notified, instead of the last one standing in $added.
+                    $notify_ids = [];
                     foreach ($ids as $key => $val) {
                         if (Session::haveRight("plugin_consumables_validation", 1)) {
                             // Enforce the entity scope of the linked consumable.
@@ -507,6 +568,7 @@ class Validation extends CommonDBTM
                                 $added['validators_id'] = Session::getLoginUserID();
                                 $added['id'] = $key;
                                 if ($item->update($added)) {
+                                    $notify_ids[] = (int) $key;
                                     $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_OK);
                                 } else {
                                     $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
@@ -520,15 +582,21 @@ class Validation extends CommonDBTM
                         }
                     }
                     // Send notification
-                    if (!empty($added)) {
+                    foreach ($notify_ids as $notify_id) {
                         $request = new Request();
-                        $request->getFromDB($added['id']);
+                        if (!$request->getFromDB($notify_id)) {
+                            continue;
+                        }
                         NotificationEvent::raiseEvent(
                             NotificationTargetRequest::CONSUMABLE_RESPONSE,
                             $request,
                             [
                                 'entities_id' => $_SESSION['glpiactive_entity'],
-                                'consumables' => $request,
+                                // The fields, not the object: NotificationTargetRequest reads
+                                // this entry as an array ($options['consumables']['...']) and
+                                // CommonDBTM does not implement ArrayAccess, so passing the
+                                // object made every validation/refusal notification fatal.
+                                'consumables' => $request->fields,
                                 'comment' => $input['comment'],
                             ],
                         );

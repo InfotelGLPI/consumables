@@ -67,12 +67,6 @@ parameters:
 			path: src/NotificationTargetRequest.php
 
 		-
-			message: '#^Variable \$item in isset\(\) is never defined\.$#'
-			identifier: isset.variable
-			count: 1
-			path: src/NotificationTargetRequest.php
-
-		-
 			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
 			identifier: glpi.forbidExit
 			count: 1

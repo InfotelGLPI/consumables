@@ -61,10 +61,12 @@
                             </td>
                         </tr>
                     {% endfor %}
-                    {{ ma_bottom|raw }}
-                    {{ close_form|raw }}
                 </table>
             </div>
+            {# Outside the table on purpose: non-row content inside <table> is foster-parented
+             # by the HTML parser and would be rendered above the list instead of below it. #}
+            {{ ma_bottom|raw }}
+            {{ close_form|raw }}
         {% else %}
             {{ __('No item to display') }}
         {% endif %}

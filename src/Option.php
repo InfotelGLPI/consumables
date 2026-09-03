@@ -206,6 +206,7 @@ class Option extends CommonDBTM
                 foreach ($configs as $config) {
                     if (!empty($config["groups"])) {
                         $groups = json_decode($config["groups"], true);
+                        $groups = is_array($groups) ? $groups : [];
                         if (count($groups) > 0) {
                             if (!in_array($params["_groups_id"], $groups)) {
                                 array_push($groups, $params["_groups_id"]);
@@ -232,6 +233,7 @@ class Option extends CommonDBTM
                 foreach ($configs as $config) {
                     if (!empty($config["groups"])) {
                         $groups = json_decode($config["groups"], true);
+                        $groups = is_array($groups) ? $groups : [];
                         if (count($groups) > 0) {
                             if (($key = array_search($params["_groups_id"], $groups)) !== false) {
                                 unset($groups[$key]);
@@ -271,15 +273,23 @@ class Option extends CommonDBTM
     }
 
     /**
-     * @return mixed
+     * Groups allowed to request the consumable this option belongs to.
+     *
+     * Always returns an array: the column holds '' on a freshly created option, and a
+     * json_decode() of it would hand a null to the count()/in_array() calls downstream,
+     * which are fatal under PHP 8.
+     *
+     * @return array
      */
     public function getAllowedGroups()
     {
-        if (!empty($this->fields['groups'])) {
-            return json_decode($this->fields['groups'], true);
-        } else {
+        if (empty($this->fields['groups'])) {
             return [];
         }
+
+        $groups = json_decode($this->fields['groups'], true);
+
+        return is_array($groups) ? $groups : [];
     }
 
     /**
@@ -395,7 +405,11 @@ class Option extends CommonDBTM
                             continue;
                         }
                         if ($option->getFromDBByCrit(["consumableitems_id" => $id])) {
-                            $groups = json_decode($option->fields["groups"], true);
+                            // Read through getAllowedGroups(): the column holds '' on an
+                            // option created by simply opening the tab, and json_decode()
+                            // would return null, which count() rejects under PHP 8 and
+                            // would abort the whole massive action on its first row.
+                            $groups = $option->getAllowedGroups();
 
                             if (count($groups) > 0) {
                                 if (!in_array($input["_groups_id"], $groups)) {

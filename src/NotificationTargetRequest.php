@@ -117,8 +117,11 @@ class NotificationTargetRequest extends NotificationTarget
             $options['consumables']['consumableitemtypes_id'],
         );
         $tmp['##consumablerequest.requestdate##'] = Html::convDateTime($options['consumables']['date_mod']);
-        if (isset($item['end_date'])) {
-            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['enddate']);
+        // $item belonged to the foreach commented out above, so this test was always false
+        // and the declared ##consumablerequest.enddate## tag was never filled. The column is
+        // named end_date, not enddate.
+        if (isset($options['consumables']['end_date'])) {
+            $tmp['##consumablerequest.enddate##'] = Html::convDateTime($options['consumables']['end_date']);
         }
 
         $give_to_id = $options['consumables']['give_items_id'];

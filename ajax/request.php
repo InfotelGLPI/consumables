@@ -32,7 +32,7 @@ use GlpiPlugin\Consumables\Validation;
 
 Session::checkRight('plugin_consumables_request', 1);
 
-switch ($_POST['action']) {
+switch ($_POST['action'] ?? '') {
     case 'addToCart':
         header('Content-Type: application/json; charset=UTF-8');
         $request = new Request();
@@ -48,19 +48,19 @@ switch ($_POST['action']) {
     case 'reloadAvailableConsumables':
         header("Content-Type: text/html; charset=UTF-8");
         $request = new Request();
-        $request->loadAvailableConsumables($_POST['type']);
+        $request->loadAvailableConsumables($_POST['type'] ?? '');
         break;
 
     case 'seeConsumablesInfos':
         header("Content-Type: text/html; charset=UTF-8");
         $request = new Request();
-        $request->seeConsumablesInfos($_POST['consumableitems_id']);
+        $request->seeConsumablesInfos((int) ($_POST['consumableitems_id'] ?? 0));
         break;
 
     case 'reloadAvailableConsumablesNumber':
         header("Content-Type: text/html; charset=UTF-8");
         $request = new Request();
-        $request->loadAvailableConsumablesNumber(json_decode($_POST['used']), $_POST['consumableitems_id']);
+        $request->loadAvailableConsumablesNumber(json_decode($_POST['used'] ?? '[]'), (int) ($_POST['consumableitems_id'] ?? 0));
         break;
 
         //    case 'loadConsumableInformation':
@@ -101,6 +101,6 @@ switch ($_POST['action']) {
 
     case 'loadAvailableConsumablesNumber':
         $request = new Request();
-        $request->loadAvailableConsumablesNumber(0, $_POST['consumableitems_id']);
+        $request->loadAvailableConsumablesNumber(0, (int) ($_POST['consumableitems_id'] ?? 0));
         break;
 }
