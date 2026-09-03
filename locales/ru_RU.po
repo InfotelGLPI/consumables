@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:51+0000\n"
+"POT-Creation-Date: 2026-09-03 13:26+0000\n"
 "PO-Revision-Date: 2021-04-02 07:19+0000\n"
 "Last-Translator: Александр Дюжев <frduke51@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/infotelGLPI/"
@@ -25,7 +25,7 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:247 src/Option.php:332 templates/option_add_group.html.twig:31
+#: hook.php:326 src/Option.php:342 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Добавить группу для запроса"
 
@@ -33,7 +33,7 @@ msgstr "Добавить группу для запроса"
 msgid "Add to cart"
 msgstr "Добавить в заказ"
 
-#: hook.php:225 templates/option_form.html.twig:50
+#: hook.php:304 templates/option_form.html.twig:50
 msgid "Allowed groups for request"
 msgstr "Разрешенные группы для запроса"
 
@@ -65,7 +65,7 @@ msgstr[1] "Расходные материалы"
 msgstr[2] "Расходные материалы"
 msgstr[3] "Расходные материалы"
 
-#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:152
+#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:155
 msgid "Consumable ID"
 msgstr "ID расходного материала"
 
@@ -77,11 +77,11 @@ msgstr[1] "Заказ оформлен"
 msgstr[2] "Заказ оформлен"
 msgstr[3] "Заказ оформлен"
 
-#: src/NotificationTargetRequest.php:194
+#: src/NotificationTargetRequest.php:197
 msgid "Consumable approver"
 msgstr "Утверждающий расходные материалы"
 
-#: src/NotificationTargetRequest.php:196
+#: src/NotificationTargetRequest.php:199
 msgid "Consumable recipient"
 msgstr "Получатель расходного материала"
 
@@ -108,7 +108,7 @@ msgstr "Свойства запроса расходных материалов"
 msgid "Consumable request report"
 msgstr "Отчет по запросам расходных материалов"
 
-#: src/NotificationTargetRequest.php:195
+#: src/NotificationTargetRequest.php:198
 msgid "Consumable requester"
 msgstr "Заказчик расходных материалов"
 
@@ -145,7 +145,7 @@ msgctxt "button"
 msgid "Define"
 msgstr "Определить"
 
-#: src/NotificationTargetRequest.php:178
+#: src/NotificationTargetRequest.php:181
 msgid "Display each consumable"
 msgstr "Показывать каждый расходный материал"
 
@@ -175,7 +175,7 @@ msgstr "Создать запрос расходных материалов дл
 msgid "Make a consumable request for users"
 msgstr "Создать запрос расходных материалов для пользователей"
 
-#: hook.php:216 hook.php:245 src/Option.php:321
+#: hook.php:295 hook.php:324 src/Option.php:331
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Максимально допустимое количество запросов"
@@ -184,7 +184,7 @@ msgstr "Максимально допустимое количество зап�
 msgid "No consumable"
 msgstr ""
 
-#: templates/validation_list.html.twig:69
+#: templates/validation_list.html.twig:71
 msgid "No item to display"
 msgstr ""
 
@@ -197,7 +197,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/Validation.php:461
+#: src/Validation.php:502 src/Validation.php:515
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Не достаточно запаса расходного материала %s "
@@ -213,7 +213,7 @@ msgstr "Количество"
 msgid "Number of used consumables"
 msgstr ""
 
-#: hook.php:208 templates/field_order_reference.html.twig:29
+#: hook.php:287 templates/field_order_reference.html.twig:29
 msgid "Order reference"
 msgstr "Код заказа"
 
@@ -234,7 +234,7 @@ msgctxt "button"
 msgid "Post"
 msgstr ""
 
-#: src/Validation.php:346
+#: src/Validation.php:351
 msgid "Refuse"
 msgstr "Отказаться"
 
@@ -265,7 +265,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: src/NotificationTargetRequest.php:153
+#: src/NotificationTargetRequest.php:156
 msgid "Type of event"
 msgstr "Тип события"
 

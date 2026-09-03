@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:51+0000\n"
+"POT-Creation-Date: 2026-09-03 13:26+0000\n"
 "PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:247 src/Option.php:332 templates/option_add_group.html.twig:31
+#: hook.php:326 src/Option.php:342 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Add a group for request"
 
@@ -25,7 +25,7 @@ msgstr "Add a group for request"
 msgid "Add to cart"
 msgstr "Add to cart"
 
-#: hook.php:225 templates/option_form.html.twig:50
+#: hook.php:304 templates/option_form.html.twig:50
 msgid "Allowed groups for request"
 msgstr "Allowed groups for request"
 
@@ -55,7 +55,7 @@ msgid_plural "Consumables"
 msgstr[0] "Consumable"
 msgstr[1] "Consumables"
 
-#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:152
+#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:155
 msgid "Consumable ID"
 msgstr "Consumable ID"
 
@@ -65,11 +65,11 @@ msgid_plural "Consumables affected"
 msgstr[0] "Consumable affected"
 msgstr[1] "Consumables affected"
 
-#: src/NotificationTargetRequest.php:194
+#: src/NotificationTargetRequest.php:197
 msgid "Consumable approver"
 msgstr "Consumable approver"
 
-#: src/NotificationTargetRequest.php:196
+#: src/NotificationTargetRequest.php:199
 msgid "Consumable recipient"
 msgstr "Consumable recipient"
 
@@ -94,7 +94,7 @@ msgstr "Consumable request options"
 msgid "Consumable request report"
 msgstr "Consumable request report"
 
-#: src/NotificationTargetRequest.php:195
+#: src/NotificationTargetRequest.php:198
 msgid "Consumable requester"
 msgstr "Consumable requester"
 
@@ -129,7 +129,7 @@ msgctxt "button"
 msgid "Define"
 msgstr "Define"
 
-#: src/NotificationTargetRequest.php:178
+#: src/NotificationTargetRequest.php:181
 msgid "Display each consumable"
 msgstr "Display each consumable"
 
@@ -159,7 +159,7 @@ msgstr "Make a consumable request for groups"
 msgid "Make a consumable request for users"
 msgstr "Make a consumable request for users"
 
-#: hook.php:216 hook.php:245 src/Option.php:321
+#: hook.php:295 hook.php:324 src/Option.php:331
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Maximum number allowed for request"
@@ -168,7 +168,7 @@ msgstr "Maximum number allowed for request"
 msgid "No consumable"
 msgstr ""
 
-#: templates/validation_list.html.twig:69
+#: templates/validation_list.html.twig:71
 msgid "No item to display"
 msgstr ""
 
@@ -181,7 +181,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/Validation.php:461
+#: src/Validation.php:502 src/Validation.php:515
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Not enough stock for consumable %s"
@@ -197,7 +197,7 @@ msgstr "Number"
 msgid "Number of used consumables"
 msgstr ""
 
-#: hook.php:208 templates/field_order_reference.html.twig:29
+#: hook.php:287 templates/field_order_reference.html.twig:29
 msgid "Order reference"
 msgstr "Order reference"
 
@@ -216,7 +216,7 @@ msgctxt "button"
 msgid "Post"
 msgstr ""
 
-#: src/Validation.php:346
+#: src/Validation.php:351
 msgid "Refuse"
 msgstr "Refuse"
 
@@ -247,7 +247,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: src/NotificationTargetRequest.php:153
+#: src/NotificationTargetRequest.php:156
 msgid "Type of event"
 msgstr "Type of event"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:51+0000\n"
+"POT-Creation-Date: 2026-09-03 13:26+0000\n"
 "PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/infotelGLPI/"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: hook.php:247 src/Option.php:332 templates/option_add_group.html.twig:31
+#: hook.php:326 src/Option.php:342 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Přidat skupinu pro požadavek"
 
@@ -28,7 +28,7 @@ msgstr "Přidat skupinu pro požadavek"
 msgid "Add to cart"
 msgstr "Přidat do košíku"
 
-#: hook.php:225 templates/option_form.html.twig:50
+#: hook.php:304 templates/option_form.html.twig:50
 msgid "Allowed groups for request"
 msgstr "Skupiny které mohou žádat"
 
@@ -60,7 +60,7 @@ msgstr[1] "Spotřební materiál"
 msgstr[2] "Spotřební materiál"
 msgstr[3] "Spotřební materiál"
 
-#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:152
+#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:155
 msgid "Consumable ID"
 msgstr "Identifikátor spotřebního materiálu"
 
@@ -72,11 +72,11 @@ msgstr[1] "Požadavky na spotřební materiál přidány"
 msgstr[2] "Požadavků na spotřební materiál přidáno"
 msgstr[3] "Požadavky na spotřební materiál přidány"
 
-#: src/NotificationTargetRequest.php:194
+#: src/NotificationTargetRequest.php:197
 msgid "Consumable approver"
 msgstr "Schvalovatel spotřebního materiálu"
 
-#: src/NotificationTargetRequest.php:196
+#: src/NotificationTargetRequest.php:199
 msgid "Consumable recipient"
 msgstr ""
 
@@ -103,7 +103,7 @@ msgstr "Možnosti požadavku na spotřební materiál"
 msgid "Consumable request report"
 msgstr "Zpráva o požadavcích na spotřební materiál"
 
-#: src/NotificationTargetRequest.php:195
+#: src/NotificationTargetRequest.php:198
 msgid "Consumable requester"
 msgstr "Žadatel o spotřební materiál"
 
@@ -140,7 +140,7 @@ msgctxt "button"
 msgid "Define"
 msgstr "Určit"
 
-#: src/NotificationTargetRequest.php:178
+#: src/NotificationTargetRequest.php:181
 msgid "Display each consumable"
 msgstr "Zobrazit každou položku spotřebního materiálu"
 
@@ -170,7 +170,7 @@ msgstr "Zažádat o spotřební materiál pro skupiny"
 msgid "Make a consumable request for users"
 msgstr "Zažádat o spotřební materiál pro uživatele"
 
-#: hook.php:216 hook.php:245 src/Option.php:321
+#: hook.php:295 hook.php:324 src/Option.php:331
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Nejvyšší množství, o které je možné žádat"
@@ -179,7 +179,7 @@ msgstr "Nejvyšší množství, o které je možné žádat"
 msgid "No consumable"
 msgstr ""
 
-#: templates/validation_list.html.twig:69
+#: templates/validation_list.html.twig:71
 msgid "No item to display"
 msgstr ""
 
@@ -192,7 +192,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/Validation.php:461
+#: src/Validation.php:502 src/Validation.php:515
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Na skladě není dostatek spotřebního materiálu %s"
@@ -208,7 +208,7 @@ msgstr "Počet"
 msgid "Number of used consumables"
 msgstr ""
 
-#: hook.php:208 templates/field_order_reference.html.twig:29
+#: hook.php:287 templates/field_order_reference.html.twig:29
 msgid "Order reference"
 msgstr "Reference objednávky"
 
@@ -229,7 +229,7 @@ msgctxt "button"
 msgid "Post"
 msgstr ""
 
-#: src/Validation.php:346
+#: src/Validation.php:351
 msgid "Refuse"
 msgstr "Zamítnout"
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: src/NotificationTargetRequest.php:153
+#: src/NotificationTargetRequest.php:156
 msgid "Type of event"
 msgstr "Typ události"
 
