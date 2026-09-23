@@ -69,16 +69,6 @@ switch ($_POST['action'] ?? '') {
         //        $validation->loadConsumableInformation(Session::getLoginUserID(), $_POST['consumableitems_id']);
         //        break;
 
-    case 'validationConsumables':
-        header('Content-Type: application/json; charset=UTF-8');
-        if (!Session::haveRight('plugin_consumables_validation', 1)) {
-            echo json_encode(['error' => 'Access denied']);
-            break;
-        }
-        $validation = new Validation();
-        echo json_encode($validation->validationConsumable($_POST));
-        break;
-
     case 'searchConsumables':
         header('Content-Type: application/json; charset=UTF-8');
         $requesters_id = (int) ($_POST['requesters_id'] ?? 0);

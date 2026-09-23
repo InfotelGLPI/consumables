@@ -36,6 +36,24 @@ $option = new Option();
 if (isset($_POST["add_groups"])
     || isset($_POST["delete_groups"])
     || isset($_POST["update"])) {
+    // The option row is no longer created when the tab is merely viewed: create it
+    // on the first write, once the consumable itself (entity included) is reachable.
+    if ((int) ($_POST['id'] ?? 0) <= 0) {
+        $consumableitems_id = (int) ($_POST['consumableitems_id'] ?? 0);
+        $consumable         = new ConsumableItem();
+        if (!$consumable->can($consumableitems_id, READ)) {
+            Html::back();
+        }
+        if (!$option->getFromDBByCrit(['consumableitems_id' => $consumableitems_id])) {
+            $init = ['consumableitems_id' => $consumableitems_id,
+                'groups'             => '',
+                'max_cart'           => 0];
+            if (!$option->can(-1, CREATE, $init) || !$option->add($init)) {
+                Html::back();
+            }
+        }
+        $_POST['id'] = $option->getID();
+    }
     if (!$option->can((int) ($_POST['id'] ?? 0), UPDATE)) {
         Html::back();
     }

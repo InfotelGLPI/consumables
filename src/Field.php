@@ -34,10 +34,6 @@ use ConsumableItem;
 use Glpi\Application\View\TemplateRenderer;
 use Html;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Field
  *
@@ -76,13 +72,18 @@ class Field extends CommonDBTM
         if (!in_array($item::getType(), self::$types)) {
             return false;
         }
-        $consumableitems_id = $item->getID();
-        $field          = new self();
-        if ($field->getFromDBByCrit(["consumableitems_id" => $consumableitems_id])) {
-            TemplateRenderer::getInstance()->display('@consumables/field_order_reference.html.twig', [
-                'order_ref_input' => Html::input('name', ['value' => $field->fields['order_ref'], 'size' => 40]),
-            ]);
+        $order_ref = '';
+        $field     = new self();
+        if (!$item->isNewItem()
+            && $field->getFromDBByCrit(["consumableitems_id" => $item->getID()])) {
+            $order_ref = $field->fields['order_ref'] ?? '';
         }
+        // Rendered inside the ConsumableItem form: the input must be named
+        // "order_ref" (a "name" input would overwrite the item name on save), and
+        // it is shown on creation too so that the first Field row can be created.
+        TemplateRenderer::getInstance()->display('@consumables/field_order_reference.html.twig', [
+            'order_ref_input' => Html::input('order_ref', ['value' => $order_ref, 'size' => 40]),
+        ]);
     }
 
     /**

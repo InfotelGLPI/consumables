@@ -41,10 +41,6 @@ use MassiveAction;
 use NotificationEvent;
 use Session;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Validation
  *
@@ -308,6 +304,11 @@ class Validation extends CommonDBTM
         if (!self::requestHasEntityAccess($this->fields)) {
             return ['error' => 'Access denied'];
         }
+        // Only a pending request can be decided: re-opening an accepted one would let
+        // it be validated again and take its stock out a second time.
+        if ((int) $this->fields['status'] !== CommonITILValidation::WAITING) {
+            return ['error' => 'Request already processed'];
+        }
         $this->update([
             'id'            => $id,
             'status'        => $state,
@@ -429,6 +430,12 @@ class Validation extends CommonDBTM
                             // Enforce the entity scope of the linked consumable.
                             if (!self::requestHasEntityAccess($item->fields)) {
                                 $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                                continue;
+                            }
+
+                            // A request already accepted or refused must not take stock out again.
+                            if ((int) $item->fields['status'] !== CommonITILValidation::WAITING) {
+                                $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                                 continue;
                             }
 
@@ -558,6 +565,12 @@ class Validation extends CommonDBTM
                             // Enforce the entity scope of the linked consumable.
                             if (!$item->getFromDB($key) || !self::requestHasEntityAccess($item->fields)) {
                                 $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                                continue;
+                            }
+
+                            // An accepted request (stock already out) cannot be turned into a refusal.
+                            if ((int) $item->fields['status'] !== CommonITILValidation::WAITING) {
+                                $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_KO);
                                 continue;
                             }
 

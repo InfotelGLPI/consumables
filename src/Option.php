@@ -40,10 +40,6 @@ use MassiveAction;
 use Session;
 use Toolbox;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Option
  */
@@ -83,7 +79,12 @@ class Option extends CommonDBTM
             $data = $this->fields;
         }
         if (count($data) < 1) {
-            $data = $this->initConfig($item->fields['id']);
+            // Read-only path: build the defaults in memory, the row is persisted on
+            // the first write (front/option.form.php).
+            $data = ['id'                 => 0,
+                'consumableitems_id' => $item->fields['id'],
+                'groups'             => '',
+                'max_cart'           => 0];
         }
         $this->listOptionsForConsumable($data, $item);
     }
@@ -196,6 +197,12 @@ class Option extends CommonDBTM
         }
 
         if (isset($params["add_groups"])) {
+            // check(UPDATE) protects the option row, not the posted VALUE: only a
+            // group the consumable could offer in its own dropdown may be added.
+            $params['_groups_id'] = (int) ($params['_groups_id'] ?? 0);
+            if (!self::isGroupAllowedForConsumable($params['_groups_id'], (int) ($this->fields['consumableitems_id'] ?? 0))) {
+                return false;
+            }
             $input = [];
 
             $restrict = ["id" => $params['id']];
@@ -225,6 +232,7 @@ class Option extends CommonDBTM
             $input['id']     = $params['id'];
             $input['groups'] = $group;
         } elseif (isset($params["delete_groups"])) {
+            $params['_groups_id'] = (int) ($params['_groups_id'] ?? 0);
             $restrict = ["id" => $params['id']];
             $configs  = $dbu->getAllDataFromTable("glpi_plugin_consumables_options", $restrict);
 
@@ -290,6 +298,45 @@ class Option extends CommonDBTM
         $groups = json_decode($this->fields['groups'], true);
 
         return is_array($groups) ? $groups : [];
+    }
+
+    /**
+     * Whether a group may be allowed to request a consumable: it must exist, be
+     * visible from the consumable entity (same rule as the showAddGroup() dropdown)
+     * and be within the caller's entity perimeter.
+     *
+     * @param int $groups_id
+     * @param int $consumableitems_id
+     *
+     * @return bool
+     */
+    private static function isGroupAllowedForConsumable(int $groups_id, int $consumableitems_id): bool
+    {
+        global $DB;
+
+        $consumable = new ConsumableItem();
+        $group      = new Group();
+        if ($groups_id <= 0
+            || !$consumable->getFromDB($consumableitems_id)
+            || !$group->getFromDB($groups_id)
+            || !Session::haveAccessToEntity($group->fields['entities_id'], $group->fields['is_recursive'])) {
+            return false;
+        }
+
+        $visible = $DB->request([
+            'COUNT' => 'cpt',
+            'FROM'  => Group::getTable(),
+            'WHERE' => [
+                'id' => $groups_id,
+            ] + getEntitiesRestrictCriteria(
+                Group::getTable(),
+                '',
+                $consumable->fields['entities_id'],
+                $consumable->fields['is_recursive'],
+            ),
+        ])->current();
+
+        return ($visible['cpt'] ?? 0) > 0;
     }
 
     /**
@@ -404,25 +451,20 @@ class Option extends CommonDBTM
                             $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
                             continue;
                         }
+                        // Re-validate the posted group against this consumable (the
+                        // sub-form dropdown is not scoped to each selected item).
+                        $groups_id = (int) ($input['_groups_id'] ?? 0);
+                        if (!self::isGroupAllowedForConsumable($groups_id, (int) $id)) {
+                            $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                            continue;
+                        }
                         if ($option->getFromDBByCrit(["consumableitems_id" => $id])) {
-                            // Read through getAllowedGroups(): the column holds '' on an
-                            // option created by simply opening the tab, and json_decode()
-                            // would return null, which count() rejects under PHP 8 and
-                            // would abort the whole massive action on its first row.
-                            $groups = $option->getAllowedGroups();
-
-                            if (count($groups) > 0) {
-                                if (!in_array($input["_groups_id"], $groups)) {
-                                    array_push($groups, $input["_groups_id"]);
-                                }
-                            } else {
-                                $groups = [$input["_groups_id"]];
-                            }
-
-                            $params = ['id'     => $option->getID(),
-                                'groups' => json_encode($groups)];
-
-                            $params['id'] = $option->getID();
+                            // Go through the add_groups branch of prepareInputForUpdate(),
+                            // which merges the group into the stored list (a raw 'groups'
+                            // value would be dropped by its generic-update whitelist).
+                            $params = ['id'         => $option->getID(),
+                                'add_groups' => 1,
+                                '_groups_id' => $groups_id];
                             if ($option->can(-1, UPDATE, $params) && $option->update($params)) {
                                 $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
                             } else {
@@ -430,7 +472,7 @@ class Option extends CommonDBTM
                             }
                         } else {
                             $params = ['consumableitems_id' => $id,
-                                'groups'         => json_encode([$input['_groups_id']])];
+                                'groups'         => json_encode([$groups_id])];
 
                             if ($option->can(-1, CREATE, $params) && $option->add($params)) {
                                 $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);

@@ -46,10 +46,6 @@ use Session;
 use Toolbox;
 use User;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Request
  *
@@ -780,9 +776,16 @@ class Request extends CommonDBTM
      */
     public function addConsumables($params)
     {
-        if (isset($params['consumables_cart'])) {
+        $success = false;
+        $message = __('Please add consumables in cart', 'consumables');
+
+        if (is_array($params['consumables_cart'] ?? null) && $params['consumables_cart'] !== []) {
             $added = [];
             foreach ($params['consumables_cart'] as $row) {
+                // Ignore malformed lines (the cart comes from the client)
+                if (!is_array($row)) {
+                    continue;
+                }
                 [$success, $message] = $this->checkMandatoryFields($row);
                 if ($success) {
                     $consumableitems_id = (int) $row['consumableitems_id'];
@@ -871,9 +874,6 @@ class Request extends CommonDBTM
                     );
                 }
             }
-        } else {
-            $success = false;
-            $message = __('Please add consumables in cart', 'consumables');
         }
 
         return ['success' => $success,
@@ -913,12 +913,12 @@ class Request extends CommonDBTM
             'consumableitems_id'     => _n('Consumable', 'Consumables', 1),
             'number'                 => __('Number', 'consumables')];
 
-        foreach ($input as $key => $value) {
-            if (isset($mandatory_fields[$key])) {
-                if (empty($value) || $value == 'NULL') {
-                    $msg[]   = $mandatory_fields[$key];
-                    $checkKo = true;
-                }
+        // Iterate over the mandatory fields, not the input: an absent key is missing too
+        foreach ($mandatory_fields as $key => $label) {
+            $value = $input[$key] ?? null;
+            if (empty($value) || $value == 'NULL') {
+                $msg[]   = $label;
+                $checkKo = true;
             }
         }
 
@@ -1001,6 +1001,15 @@ class Request extends CommonDBTM
         if ($target->isEntityAssign()
             && !Session::haveAccessToEntity($target->fields['entities_id'], $target->fields['is_recursive'] ?? false)) {
             return false;
+        }
+
+        // Same rule as the "give to" dropdown (ajax/dropdownAllItems.php): a request
+        // can only be made on behalf of a group the requester belongs to.
+        if ($give_itemtype === 'Group') {
+            $user_groups = array_column(Group_User::getUserGroups(Session::getLoginUserID()), 'id');
+            if (!in_array($give_items_id, array_map('intval', $user_groups), true)) {
+                return false;
+            }
         }
 
         return true;

@@ -139,6 +139,26 @@ class ValidationTest extends DbTestCase
         $this->assertSame((int) Session::getLoginUserID(), (int) $request->fields['validators_id']);
     }
 
+    public function testValidationConsumableRefusesAlreadyProcessedRequest(): void
+    {
+        $_SESSION['glpiactiveprofile']['plugin_consumables_validation'] = 1;
+
+        $validation = new Validation();
+        $this->assertSame(
+            CommonITILValidation::ACCEPTED,
+            $validation->validationConsumable(['id' => $this->requestId], CommonITILValidation::ACCEPTED),
+        );
+
+        // An accepted request cannot be re-opened (it would be validated a second time).
+        $result = $validation->validationConsumable(['id' => $this->requestId]);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('error', $result);
+
+        $request = new Request();
+        $this->assertTrue($request->getFromDB($this->requestId));
+        $this->assertSame(CommonITILValidation::ACCEPTED, (int) $request->fields['status']);
+    }
+
     public function testValidationConsumableDefaultStateIsWaiting(): void
     {
         $_SESSION['glpiactiveprofile']['plugin_consumables_validation'] = 1;

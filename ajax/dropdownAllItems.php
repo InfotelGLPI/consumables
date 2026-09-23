@@ -80,21 +80,6 @@ if (in_array($idtable, ['User', 'Group'], true)) {
         $CFG_GLPI['root_doc'] . "/ajax/" . $link,
         $p,
     );
-
-    if (!empty($_POST['showItemSpecificity'])) {
-        $params = ['items_id'        => '__VALUE__',
-            'itemtype'          => $idtable,
-            'entity_restrict'   => $_SESSION['glpiactiveentities']];
-
-        Ajax::updateItemOnSelectEvent(
-            $field_id,
-            "showItemSpecificity_" . $_POST["name"] . "$rand",
-            $_POST['showItemSpecificity'],
-            $params,
-        );
-
-        echo \Glpi\Application\View\TemplateRenderer::getInstance()->render('@consumables/select_item_span.html.twig', [
-            'show_id' => "showItemSpecificity_" . $_POST["name"] . $rand,
-        ]);
-    }
+    // The "showItemSpecificity" branch (an AJAX target URL taken from the client)
+    // was removed: the only caller always sent an empty value.
 }

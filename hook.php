@@ -30,6 +30,7 @@
 use Glpi\Helpdesk\Tile\Item_Tile;
 use Glpi\ItemTranslation\ItemTranslation;
 use GlpiPlugin\Consumables\Helpdesk\Tile\ConsumablesPageTile;
+use GlpiPlugin\Consumables\Field;
 use GlpiPlugin\Consumables\Menu;
 use GlpiPlugin\Consumables\Option;
 use GlpiPlugin\Consumables\Profile;
@@ -250,6 +251,11 @@ function plugin_item_purge_consumables($item)
         case 'ConsumableItem':
             $temp = new Request();
             $temp->deleteByCriteria(['consumableitems_id' => $item->getField('id')], 1);
+            // Options (allowed groups, max_cart) and fields (order_ref) are children too
+            $option = new Option();
+            $option->deleteByCriteria(['consumableitems_id' => $item->getField('id')], true);
+            $field = new Field();
+            $field->deleteByCriteria(['consumableitems_id' => $item->getField('id')], true);
             break;
     }
 }
