@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 07:32+0000\n"
+"POT-Creation-Date: 2026-09-23 14:20+0000\n"
 "PO-Revision-Date: 2021-03-11 09:34+0000\n"
 "Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/infotelGLPI/"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:326 src/Option.php:342 templates/option_add_group.html.twig:31
+#: hook.php:332 src/Option.php:389 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Agregar un grupo para solicitar"
 
@@ -27,7 +27,7 @@ msgstr "Agregar un grupo para solicitar"
 msgid "Add to cart"
 msgstr "Añadir a la cesta"
 
-#: hook.php:304 templates/option_form.html.twig:50
+#: hook.php:310 templates/option_form.html.twig:50
 msgid "Allowed groups for request"
 msgstr "Grupos permitidos para solicitar"
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Cart"
 msgstr "Cesta"
 
-#: src/Profile.php:159 templates/request_form.html.twig:50
+#: src/Profile.php:155 templates/request_form.html.twig:50
 #: templates/request_form.html.twig:83 templates/request_list.html.twig:34
 #: templates/validation_list.html.twig:46
 msgid "Consumable"
@@ -57,27 +57,27 @@ msgid_plural "Consumables"
 msgstr[0] "Consumible"
 msgstr[1] "Consumibles"
 
-#: src/NotificationTargetRequest.php:87 src/NotificationTargetRequest.php:155
+#: src/NotificationTargetRequest.php:83 src/NotificationTargetRequest.php:151
 msgid "Consumable ID"
 msgstr "ID de consumible"
 
-#: src/Request.php:856
+#: src/Request.php:859
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Consumible afectado"
 msgstr[1] "Consumibles afectados"
 
-#: src/NotificationTargetRequest.php:197
+#: src/NotificationTargetRequest.php:193
 msgid "Consumable approver"
 msgstr "Responsable de validación"
 
-#: src/NotificationTargetRequest.php:199
+#: src/NotificationTargetRequest.php:195
 msgid "Consumable recipient"
 msgstr "Destinatario del consumible"
 
-#: setup.php:113 src/Field.php:62 src/Menu.php:46
-#: src/NotificationTargetRequest.php:63 src/NotificationTargetRequest.php:90
-#: src/Request.php:68 src/Servicecatalog.php:81
+#: setup.php:113 src/Field.php:58 src/Menu.php:46
+#: src/NotificationTargetRequest.php:59 src/NotificationTargetRequest.php:86
+#: src/Request.php:64 src/Servicecatalog.php:76
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:62
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:80
 #: templates/request_form.html.twig:31 templates/request_form.html.twig:38
@@ -87,7 +87,7 @@ msgid_plural "Consumable requests"
 msgstr[0] "Solicitud de consumible"
 msgstr[1] "Solicitudes de consumibles"
 
-#: src/Option.php:65
+#: src/Option.php:61
 msgid "Consumable request options"
 msgstr "Opciones de solicitud de consumibles"
 
@@ -96,7 +96,7 @@ msgstr "Opciones de solicitud de consumibles"
 msgid "Consumable request report"
 msgstr "Informe de solicitud de consumibles"
 
-#: src/NotificationTargetRequest.php:198
+#: src/NotificationTargetRequest.php:194
 msgid "Consumable requester"
 msgstr "Solicitante de consumibles"
 
@@ -111,8 +111,8 @@ msgid_plural "Consumable types"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:93
-#: src/Profile.php:187 src/Validation.php:142
+#: src/NotificationTargetRequest.php:60 src/NotificationTargetRequest.php:89
+#: src/Profile.php:183 src/Validation.php:138
 #: templates/validation_header.html.twig:29 templates/wizard_menu.html.twig:49
 #: templates/validation_list.html.twig:30
 msgid "Consumable validation"
@@ -122,16 +122,16 @@ msgstr "Validación de consumibles"
 msgid "Consumables request search"
 msgstr "Búsqueda de solicitud de consumibles"
 
-#: src/Wizard.php:54
+#: src/Wizard.php:50
 msgid "Consumables wizard"
 msgstr "Asistente de consumibles"
 
-#: src/Option.php:148
+#: src/Option.php:149
 msgctxt "button"
 msgid "Define"
 msgstr "Define"
 
-#: src/NotificationTargetRequest.php:181
+#: src/NotificationTargetRequest.php:177
 msgid "Display each consumable"
 msgstr "Muestra cada consumible"
 
@@ -145,23 +145,23 @@ msgstr ""
 msgid "Give to"
 msgstr ""
 
-#: src/Request.php:813
+#: src/Request.php:816
 msgid "Invalid requested quantity"
 msgstr ""
 
-#: src/Profile.php:173 src/Servicecatalog.php:110
+#: src/Profile.php:169 src/Servicecatalog.php:105
 msgid "Make a consumable request"
 msgstr "Hacer una solicitud de consumibles"
 
-#: src/Profile.php:180
+#: src/Profile.php:176
 msgid "Make a consumable request for groups"
 msgstr "Hacer una solicitud de consumibles para los grupos"
 
-#: src/Profile.php:166
+#: src/Profile.php:162
 msgid "Make a consumable request for users"
 msgstr "Hacer una solicitud de consumibles para los usuarios"
 
-#: hook.php:295 hook.php:324 src/Option.php:331
+#: hook.php:301 hook.php:330 src/Option.php:378
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Cantidad máxima permitida para la solicitud"
@@ -183,12 +183,12 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/Validation.php:502 src/Validation.php:515
+#: src/Validation.php:509 src/Validation.php:522
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "No hay suficientes existencias de %s"
 
-#: src/Request.php:914 src/Validation.php:101
+#: src/Request.php:914 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
@@ -199,7 +199,7 @@ msgstr "Cantidad"
 msgid "Number of used consumables"
 msgstr ""
 
-#: hook.php:287 templates/field_order_reference.html.twig:29
+#: hook.php:293 templates/field_order_reference.html.twig:29
 msgid "Order reference"
 msgstr "Referencia de la orden"
 
@@ -209,7 +209,7 @@ msgid_plural "Pictures"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Request.php:876
+#: src/Request.php:780
 msgid "Please add consumables in cart"
 msgstr "Por favor agrega los consumibles en la cesta"
 
@@ -218,7 +218,7 @@ msgctxt "button"
 msgid "Post"
 msgstr ""
 
-#: src/Validation.php:351
+#: src/Validation.php:352
 msgid "Refuse"
 msgstr "Denegar"
 
@@ -248,11 +248,11 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: src/NotificationTargetRequest.php:156
+#: src/NotificationTargetRequest.php:152
 msgid "Type of event"
 msgstr "Tipo de evento"
 
-#: src/Request.php:715 src/Request.php:798
+#: src/Request.php:711 src/Request.php:801
 msgid "You are not allowed to request this consumable"
 msgstr ""
 
