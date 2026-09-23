@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 13:26+0000\n"
+"POT-Creation-Date: 2026-09-07 07:32+0000\n"
 "PO-Revision-Date: 2021-11-18 11:23+0000\n"
 "Last-Translator: Enrique Corujo\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/infotelGLPI/"
@@ -52,9 +52,9 @@ msgstr ""
 msgid "Cart"
 msgstr "Carro"
 
-#: src/Profile.php:159 templates/request_list.html.twig:34
-#: templates/validation_list.html.twig:46 templates/request_form.html.twig:50
-#: templates/request_form.html.twig:83
+#: src/Profile.php:159 templates/request_form.html.twig:50
+#: templates/request_form.html.twig:83 templates/request_list.html.twig:34
+#: templates/validation_list.html.twig:46
 msgid "Consumable"
 msgid_plural "Consumables"
 msgstr[0] "Insumo"
@@ -83,8 +83,8 @@ msgstr "Contendor de insumo"
 #: src/Request.php:68 src/Servicecatalog.php:81
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:62
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:80
-#: templates/wizard_menu.html.twig:30 templates/wizard_menu.html.twig:39
 #: templates/request_form.html.twig:31 templates/request_form.html.twig:38
+#: templates/wizard_menu.html.twig:30 templates/wizard_menu.html.twig:39
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] "Pedido de insumo"
@@ -107,8 +107,8 @@ msgstr "Solicitante de insumo"
 msgid "Consumable requests history"
 msgstr "Historial de pedidos de insumos"
 
-#: templates/request_list.html.twig:35 templates/validation_list.html.twig:45
 #: templates/request_form.html.twig:46 templates/request_form.html.twig:82
+#: templates/request_list.html.twig:35 templates/validation_list.html.twig:45
 msgid "Consumable type"
 msgid_plural "Consumable types"
 msgstr[0] ""
@@ -116,7 +116,7 @@ msgstr[1] ""
 
 #: src/NotificationTargetRequest.php:64 src/NotificationTargetRequest.php:93
 #: src/Profile.php:187 src/Validation.php:142
-#: templates/wizard_menu.html.twig:49 templates/validation_header.html.twig:29
+#: templates/validation_header.html.twig:29 templates/wizard_menu.html.twig:49
 #: templates/validation_list.html.twig:30
 msgid "Consumable validation"
 msgstr "Aprobación de insumo"
@@ -142,9 +142,9 @@ msgstr "Mostrar cada insumo"
 msgid "End date"
 msgstr ""
 
+#: templates/request_form.html.twig:59 templates/request_form.html.twig:85
+#: templates/validation_list.html.twig:48
 #: templates/request_consumable_list.html.twig:39
-#: templates/validation_list.html.twig:48 templates/request_form.html.twig:59
-#: templates/request_form.html.twig:85
 msgid "Give to"
 msgstr ""
 
@@ -192,8 +192,8 @@ msgid "Not enough stock for consumable %s"
 msgstr "No hay suficiente stock del insumo %s"
 
 #: src/Request.php:914 src/Validation.php:101
-#: templates/validation_list.html.twig:47 templates/request_form.html.twig:54
-#: templates/request_form.html.twig:84
+#: templates/request_form.html.twig:54 templates/request_form.html.twig:84
+#: templates/validation_list.html.twig:47
 msgid "Number"
 msgstr "Número"
 
@@ -230,10 +230,9 @@ msgstr "Rechazar"
 msgid "Request date"
 msgstr ""
 
-#: templates/request_list.html.twig:36
+#: templates/request_form.html.twig:41 templates/request_form.html.twig:81
+#: templates/request_list.html.twig:36 templates/validation_list.html.twig:44
 #: templates/request_consumable_list.html.twig:35
-#: templates/validation_list.html.twig:44 templates/request_form.html.twig:41
-#: templates/request_form.html.twig:81
 msgid "Requester"
 msgstr ""
 
