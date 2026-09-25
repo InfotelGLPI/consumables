@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 14:21+0000\n"
+"POT-Creation-Date: 2026-09-25 06:45+0000\n"
 "PO-Revision-Date: 2015-09-17 11:45+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2019-2020,2026\n"
 "Language-Team: French (France) (http://app.transifex.com/infotelGLPI/"
@@ -66,7 +66,7 @@ msgstr[2] "Consommables"
 msgid "Consumable ID"
 msgstr "Consommable ID"
 
-#: src/Request.php:859
+#: src/Request.php:884
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Demande de consommable ajoutée"
@@ -153,7 +153,7 @@ msgstr "Date de fin"
 msgid "Give to"
 msgstr "Donné à"
 
-#: src/Request.php:816
+#: src/Request.php:837
 msgid "Invalid requested quantity"
 msgstr "Quantité demandée invalide"
 
@@ -196,7 +196,7 @@ msgstr "Aucun"
 msgid "Not enough stock for consumable %s"
 msgstr "Pas assez de stock pour le consommable %s"
 
-#: src/Request.php:914 src/Validation.php:97
+#: src/Request.php:939 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
@@ -218,7 +218,7 @@ msgstr[0] "Image"
 msgstr[1] "Images"
 msgstr[2] "Images"
 
-#: src/Request.php:780
+#: src/Request.php:801
 msgid "Please add consumables in cart"
 msgstr "Veuillez ajouter des demandes de consommable dans la panier"
 
@@ -262,6 +262,6 @@ msgstr "Statut"
 msgid "Type of event"
 msgstr "Type d'événement"
 
-#: src/Request.php:711 src/Request.php:801
+#: src/Request.php:729 src/Request.php:822
 msgid "You are not allowed to request this consumable"
 msgstr "Vous n'êtes pas autorisé à demander ce consommable"

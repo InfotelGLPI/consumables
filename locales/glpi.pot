@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 14:21+0000\n"
+"POT-Creation-Date: 2026-09-25 06:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr[1] ""
 msgid "Consumable ID"
 msgstr ""
 
-#: src/Request.php:859
+#: src/Request.php:884
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
@@ -144,7 +144,7 @@ msgstr ""
 msgid "Give to"
 msgstr ""
 
-#: src/Request.php:816
+#: src/Request.php:837
 msgid "Invalid requested quantity"
 msgstr ""
 
@@ -187,7 +187,7 @@ msgstr ""
 msgid "Not enough stock for consumable %s"
 msgstr ""
 
-#: src/Request.php:914 src/Validation.php:97
+#: src/Request.php:939 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
@@ -208,7 +208,7 @@ msgid_plural "Pictures"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Request.php:780
+#: src/Request.php:801
 msgid "Please add consumables in cart"
 msgstr ""
 
@@ -252,6 +252,6 @@ msgstr ""
 msgid "Type of event"
 msgstr ""
 
-#: src/Request.php:711 src/Request.php:801
+#: src/Request.php:729 src/Request.php:822
 msgid "You are not allowed to request this consumable"
 msgstr ""
