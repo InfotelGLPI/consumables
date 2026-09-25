@@ -69,6 +69,23 @@ class Request extends CommonDBTM
         return "ti ti-shopping-cart";
     }
 
+    /*
+     * Requests are only created by addConsumables() (wizard) and only updated by the
+     * validation workflow (Validation), which both enforce the request invariants: requester,
+     * WAITING status, allowed consumable and "give to" target, bounded quantity, no reopening.
+     * The generic front/request.form.php route of the core calls add()/update() with the raw
+     * POST after a plain can() check, bypassing all of them, so it must not be allowed.
+     */
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canUpdate(): bool
+    {
+        return false;
+    }
+
     /**
      * Have I the global right to "request" the Object
      * May be overloaded if needed (ex KnowbaseItem)
@@ -432,7 +449,8 @@ class Request extends CommonDBTM
             $give_to = ob_get_clean();
         }
 
-        $can_add = $this->canCreate() || $this->canRequest();
+        // The cart is submitted to ajax/request.php, which requires the request right
+        $can_add = $this->canRequest();
         if ($can_add) {
             Html::requireJs('glpi_dialog');
         }
@@ -715,14 +733,17 @@ class Request extends CommonDBTM
         }
 
         if (isset($params['consumableitems_id'])) {
+            $consumableitemtypes_id = self::getConsumableItemTypeId((int) $params['consumableitems_id']);
             $result = ['success' => $success,
                 'message' => $message,
                 'rowId'   => mt_rand(),
                 'fields'  => [
                     'requesters_id'          => ['label' => $dbu->getUserName(Session::getLoginUserID()),
                         'value' => Session::getLoginUserID()],
-                    'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $params['consumableitemtypes_id']),
-                        'value' => $params['consumableitemtypes_id']],
+                    // Derived from the consumable (already authorized above), never from
+                    // the client: a posted id would resolve any type name of any entity.
+                    'consumableitemtypes_id' => ['label' => Dropdown::getDropdownName("glpi_consumableitemtypes", $consumableitemtypes_id),
+                        'value' => $consumableitemtypes_id],
                     'consumableitems_id'         => ['label' => Dropdown::getDropdownName("glpi_consumableitems", $params['consumableitems_id']),
                         'value' => $params['consumableitems_id']],
                     // A requested quantity is always an integer: cast it so a forged
@@ -821,14 +842,18 @@ class Request extends CommonDBTM
                     // is correctly scoped (the table carries entities_id since 2.1.4).
                     // requestHasEntityAccess() still re-derives access from the consumable,
                     // so this is data hygiene, not the security boundary.
-                    $consumable  = new ConsumableItem();
-                    $entities_id = 0;
+                    // The type is taken from the consumable as well: the posted one could be
+                    // any type, inconsistent with the consumable actually requested.
+                    $consumable             = new ConsumableItem();
+                    $entities_id            = 0;
+                    $consumableitemtypes_id = 0;
                     if ($consumable->getFromDB($consumableitems_id)) {
-                        $entities_id = (int) $consumable->fields['entities_id'];
+                        $entities_id            = (int) $consumable->fields['entities_id'];
+                        $consumableitemtypes_id = (int) $consumable->fields['consumableitemtypes_id'];
                     }
 
                     $input = ['entities_id'            => $entities_id,
-                        'consumableitemtypes_id' => (int) $row['consumableitemtypes_id'],
+                        'consumableitemtypes_id' => $consumableitemtypes_id,
                         'consumableitems_id'     => $consumableitems_id,
                         'number'                 => $number,
                         'date_mod'               => date("Y-m-d H:i:s"),
@@ -927,6 +952,23 @@ class Request extends CommonDBTM
         }
 
         return [true, null];
+    }
+
+    /**
+     * Type of a consumable, as stored on the consumable itself
+     *
+     * @param int $consumableitems_id
+     *
+     * @return int 0 when the consumable does not exist
+     */
+    private static function getConsumableItemTypeId(int $consumableitems_id): int
+    {
+        $consumable = new ConsumableItem();
+        if (!$consumable->getFromDB($consumableitems_id)) {
+            return 0;
+        }
+
+        return (int) $consumable->fields['consumableitemtypes_id'];
     }
 
     /**

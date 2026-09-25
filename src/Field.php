@@ -58,6 +58,39 @@ class Field extends CommonDBTM
         return _n('Consumable request', 'Consumable requests', 1, 'consumables');
     }
 
+    /*
+     * The table has no entities_id, so checkEntity() is a no-op and can() would reduce to the
+     * global plugin_consumables right: the generic front/field.form.php route of the core
+     * would then read, rewrite or purge the order reference of any entity's consumables.
+     * The field is only written by the ConsumableItem hooks below (after the core checked the
+     * consumable itself) and purged with its consumable, none of which goes through can() on
+     * this class, so no generic access is granted at all.
+     */
+    public static function canView(): bool
+    {
+        return false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canUpdate(): bool
+    {
+        return false;
+    }
+
+    public static function canDelete(): bool
+    {
+        return false;
+    }
+
+    public static function canPurge(): bool
+    {
+        return false;
+    }
+
 
     /**
      * Show order reference field
