@@ -486,7 +486,10 @@ class Validation extends CommonDBTM
                                                 'date_out' => null,
                                             ],
                                         );
-                                        $claimed += $DB->affectedRows();
+                                        // affectedRows() is deprecated in GLPI 12 in favour of getAffectedRows()
+                                        $claimed += method_exists($DB, 'getAffectedRows')
+                                            ? $DB->getAffectedRows()
+                                            : $DB->affectedRows();
                                     }
                                 }
 
