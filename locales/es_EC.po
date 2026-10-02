@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 07:36+0000\n"
+"POT-Creation-Date: 2026-10-02 08:20+0000\n"
 "PO-Revision-Date: 2015-09-17 11:45+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (http://app.transifex.com/infotelGLPI/"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: hook.php:332 src/Option.php:389 templates/option_add_group.html.twig:31
+#: hook.php:332 src/Option.php:450 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Añadir un grupo para solicitar"
 
@@ -91,7 +91,7 @@ msgstr[0] "Solicitudes de consumibles"
 msgstr[1] "Solicitudes de consumibles"
 msgstr[2] "Solicitudes de consumibles"
 
-#: src/Option.php:61
+#: src/Option.php:118
 msgid "Consumable request options"
 msgstr "Opciones de solicitud de consumibles"
 
@@ -131,7 +131,7 @@ msgstr "Búsqueda de solicitudes de consumibles"
 msgid "Consumables wizard"
 msgstr "Asistente de consumibles"
 
-#: src/Option.php:149
+#: src/Option.php:208
 msgctxt "button"
 msgid "Define"
 msgstr "Definir"
@@ -166,7 +166,7 @@ msgstr "Realizar una solicitud de consumibles para grupos"
 msgid "Make a consumable request for users"
 msgstr "Realizar una solicitud de consumibles para los usuarios"
 
-#: hook.php:301 hook.php:330 src/Option.php:378
+#: hook.php:301 hook.php:330 src/Option.php:439
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Número máximo de solicitudes permitidas"
@@ -193,7 +193,7 @@ msgstr ""
 msgid "Not enough stock for consumable %s"
 msgstr "No hay suficientes existencias  de consumibles 1%s"
 
-#: src/Request.php:939 src/Validation.php:97
+#: src/Request.php:941 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"

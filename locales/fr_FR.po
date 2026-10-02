@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 07:36+0000\n"
+"POT-Creation-Date: 2026-10-02 08:20+0000\n"
 "PO-Revision-Date: 2015-09-17 11:45+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2019-2020,2026\n"
 "Language-Team: French (France) (http://app.transifex.com/infotelGLPI/"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
 "1000000 == 0 ? 1 : 2;\n"
 
-#: hook.php:332 src/Option.php:389 templates/option_add_group.html.twig:31
+#: hook.php:332 src/Option.php:450 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Ajouter un groupe pour les demandes"
 
@@ -94,7 +94,7 @@ msgstr[0] "Demande de consommables"
 msgstr[1] "Demandes de consommables"
 msgstr[2] "Demandes de consommables"
 
-#: src/Option.php:61
+#: src/Option.php:118
 msgid "Consumable request options"
 msgstr "Options de demande de consommable"
 
@@ -134,7 +134,7 @@ msgstr "Recherche des demandes de consommables"
 msgid "Consumables wizard"
 msgstr "Assistant de demande de consommables"
 
-#: src/Option.php:149
+#: src/Option.php:208
 msgctxt "button"
 msgid "Define"
 msgstr "Définir"
@@ -169,7 +169,7 @@ msgstr "Faire une demande de consommables pour les groupes"
 msgid "Make a consumable request for users"
 msgstr "Faire une demande de consommables pour les utilisateurs"
 
-#: hook.php:301 hook.php:330 src/Option.php:378
+#: hook.php:301 hook.php:330 src/Option.php:439
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Nombre maximal autorisé pour la demande"
@@ -196,7 +196,7 @@ msgstr "Aucun"
 msgid "Not enough stock for consumable %s"
 msgstr "Pas assez de stock pour le consommable %s"
 
-#: src/Request.php:939 src/Validation.php:97
+#: src/Request.php:941 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
