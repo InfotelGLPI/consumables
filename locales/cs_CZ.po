@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 07:36+0000\n"
+"POT-Creation-Date: 2026-10-02 08:20+0000\n"
 "PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/infotelGLPI/"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: hook.php:332 src/Option.php:389 templates/option_add_group.html.twig:31
+#: hook.php:332 src/Option.php:450 templates/option_add_group.html.twig:31
 msgid "Add a group for request"
 msgstr "Přidat skupinu pro požadavek"
 
@@ -94,7 +94,7 @@ msgstr[1] "Požadavky na spotřební materiál"
 msgstr[2] "Požadavků na spotřební materiál"
 msgstr[3] "Požadavky na spotřební materiál"
 
-#: src/Option.php:61
+#: src/Option.php:118
 msgid "Consumable request options"
 msgstr "Možnosti požadavku na spotřební materiál"
 
@@ -135,7 +135,7 @@ msgstr "Hledat požadavky na spotřební materiál"
 msgid "Consumables wizard"
 msgstr "Průvodce žádostí o spotřební materiál"
 
-#: src/Option.php:149
+#: src/Option.php:208
 msgctxt "button"
 msgid "Define"
 msgstr "Určit"
@@ -170,7 +170,7 @@ msgstr "Zažádat o spotřební materiál pro skupiny"
 msgid "Make a consumable request for users"
 msgstr "Zažádat o spotřební materiál pro uživatele"
 
-#: hook.php:301 hook.php:330 src/Option.php:378
+#: hook.php:301 hook.php:330 src/Option.php:439
 #: templates/option_form.html.twig:35
 msgid "Maximum number allowed for request"
 msgstr "Nejvyšší množství, o které je možné žádat"
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Not enough stock for consumable %s"
 msgstr "Na skladě není dostatek spotřebního materiálu %s"
 
-#: src/Request.php:939 src/Validation.php:97
+#: src/Request.php:941 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
