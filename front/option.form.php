@@ -41,7 +41,7 @@ if (isset($_POST["add_groups"])
     if ((int) ($_POST['id'] ?? 0) <= 0) {
         $consumableitems_id = (int) ($_POST['consumableitems_id'] ?? 0);
         $consumable         = new ConsumableItem();
-        if (!$consumable->can($consumableitems_id, READ)) {
+        if (!$consumable->can($consumableitems_id, UPDATE)) {
             Html::back();
         }
         if (!$option->getFromDBByCrit(['consumableitems_id' => $consumableitems_id])) {

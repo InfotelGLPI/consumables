@@ -546,7 +546,8 @@ class Validation extends CommonDBTM
                             NotificationTargetRequest::CONSUMABLE_RESPONSE,
                             $request,
                             [
-                                'entities_id' => $_SESSION['glpiactive_entity'],
+                                // The entity of the request, not the validator's active one
+                                'entities_id' => (int) $request->fields['entities_id'],
                                 // The fields, not the object: NotificationTargetRequest reads
                                 // this entry as an array ($options['consumables']['...']) and
                                 // CommonDBTM does not implement ArrayAccess, so passing the
@@ -607,7 +608,8 @@ class Validation extends CommonDBTM
                             NotificationTargetRequest::CONSUMABLE_RESPONSE,
                             $request,
                             [
-                                'entities_id' => $_SESSION['glpiactive_entity'],
+                                // The entity of the request, not the validator's active one
+                                'entities_id' => (int) $request->fields['entities_id'],
                                 // The fields, not the object: NotificationTargetRequest reads
                                 // this entry as an array ($options['consumables']['...']) and
                                 // CommonDBTM does not implement ArrayAccess, so passing the

@@ -47,6 +47,63 @@ class Option extends CommonDBTM
 {
     public static $rightname = "plugin_consumables";
 
+    /*
+     * The table has no entities_id, so the default checkEntity() of the item rights is a
+     * no-op: the global right alone would let the generic massive actions of the core read
+     * or purge the options of a consumable of any entity. Each item right replays the right
+     * on the parent consumable instead; can() has already checked the global right before
+     * calling these.
+     */
+    private function canOnParentConsumable(int $right): bool
+    {
+        $consumableitems_id = (int) ($this->fields['consumableitems_id'] ?? 0);
+        $consumable         = new ConsumableItem();
+
+        return $consumableitems_id > 0 && $consumable->can($consumableitems_id, $right);
+    }
+
+    public function canViewItem(): bool
+    {
+        return $this->canOnParentConsumable(READ);
+    }
+
+    // Writing the request rules of a consumable is editing that consumable: as CommonDBChild
+    // does for the children of the core, it takes UPDATE on the parent, not just READ.
+    public function canCreateItem(): bool
+    {
+        return $this->canOnParentConsumable(UPDATE);
+    }
+
+    public function canUpdateItem(): bool
+    {
+        return $this->canOnParentConsumable(UPDATE);
+    }
+
+    public function canDeleteItem(): bool
+    {
+        return $this->canOnParentConsumable(UPDATE);
+    }
+
+    public function canPurgeItem(): bool
+    {
+        return $this->canOnParentConsumable(UPDATE);
+    }
+
+    /**
+     * Options are written by their own form and massive actions, and removed with their
+     * consumable (plugin_item_purge_consumables): none of the generic ones applies.
+     */
+    public function getForbiddenStandardMassiveAction()
+    {
+        $forbidden   = parent::getForbiddenStandardMassiveAction();
+        $forbidden[] = 'update';
+        $forbidden[] = 'clone';
+        $forbidden[] = 'delete';
+        $forbidden[] = 'purge';
+
+        return $forbidden;
+    }
+
     /**
      * Return the localized name of the current Type
      * Should be overloaded in each new class
@@ -119,6 +176,8 @@ class Option extends CommonDBTM
 
         $ID       = $data['id'];
         $form_url = Toolbox::getItemTypeFormURL(self::class);
+        // Same rule as the item rights: the global right, plus UPDATE on the consumable
+        $canedit = self::canUpdate() && $item->can($item->getID(), UPDATE);
 
         $groups_rows = [];
         $groups      = json_decode($data['groups'], true);
@@ -126,7 +185,7 @@ class Option extends CommonDBTM
             foreach ($groups as $val) {
                 $groups_rows[] = [
                     'name'        => Dropdown::getDropdownName("glpi_groups", $val),
-                    'delete_form' => Html::getSimpleForm(
+                    'delete_form' => !$canedit ? '' : Html::getSimpleForm(
                         $form_url,
                         'delete_groups',
                         _x('button', 'Delete permanently'),
@@ -145,14 +204,16 @@ class Option extends CommonDBTM
             'max_cart_dropdown'  => Dropdown::showNumber('max_cart', ['value'   => $data['max_cart'],
                 'max'     => 100,
                 'display' => false]),
-            'can_create'         => $this->canCreate(),
+            'can_create'         => $canedit,
             'define_button'      => Html::submit(_sx('button', 'Define', 'consumables'), ['name' => 'update', 'class' => 'btn btn-primary']),
             'consumableitems_id' => $data['consumableitems_id'],
             'id'                 => $ID,
             'groups_rows'        => $groups_rows,
         ]);
 
-        self::showAddGroup($item, $data);
+        if ($canedit) {
+            self::showAddGroup($item, $data);
+        }
     }
 
     /**
@@ -415,10 +476,10 @@ class Option extends CommonDBTM
                         'consumableitems_id' => $id];
 
                     if ($item->getFromDB($id)) {
-                        // The options table is not entity-scoped: re-check entity
-                        // access on the targeted consumable before creating/updating
-                        // its option (defense in depth alongside prepareInputForUpdate).
-                        if (!Session::haveAccessToEntity($item->fields['entities_id'], $item->fields['is_recursive'])) {
+                        // The options table is not entity-scoped: re-check the right to
+                        // edit the targeted consumable (entity included) before
+                        // creating/updating its option.
+                        if (!$item->can($id, UPDATE)) {
                             $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
                             continue;
                         }
@@ -444,10 +505,10 @@ class Option extends CommonDBTM
                 $input = $ma->getInput();
                 foreach ($ids as $id) {
                     if ($item->getFromDB($id)) {
-                        // The options table is not entity-scoped: re-check entity
-                        // access on the targeted consumable before creating/updating
-                        // its option (defense in depth alongside prepareInputForUpdate).
-                        if (!Session::haveAccessToEntity($item->fields['entities_id'], $item->fields['is_recursive'])) {
+                        // The options table is not entity-scoped: re-check the right to
+                        // edit the targeted consumable (entity included) before
+                        // creating/updating its option.
+                        if (!$item->can($id, UPDATE)) {
                             $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
                             continue;
                         }

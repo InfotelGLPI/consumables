@@ -894,7 +894,9 @@ class Request extends CommonDBTM
                     NotificationEvent::raiseEvent(
                         NotificationTargetRequest::CONSUMABLE_REQUEST,
                         $item,
-                        ['entities_id' => $_SESSION['glpiactive_entity'],
+                        // The entity of the request, not the one the requester works in:
+                        // recipients and the ##consumable.entity## tag are resolved from it.
+                        ['entities_id' => (int) $item->fields['entities_id'],
                             'consumables' => $add],
                     );
                 }
