@@ -222,4 +222,36 @@ class RequestTest extends DbTestCase
         $this->assertIsArray($result);
         $this->assertFalse($result['success']);
     }
+
+    public function testLoadAvailableConsumablesListsModelsForHelpdeskProfile(): void
+    {
+        $this->login();
+
+        $type   = new ConsumableItemType();
+        $typeId = (int) $type->add(['name' => 'Helpdesk Type', 'entities_id' => 0, 'is_recursive' => 1]);
+        $item   = new ConsumableItem();
+        $itemId = (int) $item->add([
+            'name'                   => 'Helpdesk Model',
+            'ref'                    => 'HD-1',
+            'entities_id'            => 0,
+            'is_recursive'           => 1,
+            'consumableitemtypes_id' => $typeId,
+        ]);
+        $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+        $this->assertGreaterThan(0, $itemId);
+
+        // Simplified interface, no consumable right nor helpdesk_item_type: the core
+        // dropdown endpoint returns nothing for such a profile (GitHub issue #41)
+        $this->login('post-only', 'postonly');
+        $this->assertSame('helpdesk', Session::getCurrentInterface());
+        $this->assertFalse(Session::haveRight('consumable', READ));
+
+        ob_start();
+        (new Request())->loadAvailableConsumables($typeId);
+        $html = ob_get_clean();
+
+        $html = str_replace('"', "'", $html);
+        $this->assertStringContainsString("name='consumableitems_id'", $html);
+        $this->assertStringContainsString("<option value='" . $itemId . "'>Helpdesk Model - HD-1</option>", $html);
+    }
 }

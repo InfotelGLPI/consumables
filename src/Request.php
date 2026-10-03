@@ -565,44 +565,61 @@ class Request extends CommonDBTM
      */
     public function loadAvailableConsumables($type = 0)
     {
-        $dbu             = new DbUtils();
-        $restrict        = ["consumableitemtypes_id" => $type];
-        $consumableitems = $dbu->getAllDataFromTable("glpi_consumableitems", $restrict);
-        $crit            = "";
-        $crit_ids        = [];
-
-        if (!empty($consumableitems)) {
-            foreach ($consumableitems as $consumableitem) {
-                $groups = [];
-                $option = new Option();
-                if ($option->getFromDBByCrit(["consumableitems_id" => $consumableitem['id']])) {
-                    $groups = $option->getAllowedGroups();
-                }
-
-                $notallowed = true;
-
-                if (count($groups) > 0) {
-                    $users_id = Session::getLoginUserID();
-                    foreach (Group_User::getUserGroups($users_id) as $usergroups) {
-                        if (in_array($usergroups["id"], $groups)) {
-                            $notallowed = false;
-                        }
-                    }
-                    if ($notallowed) {
-                        $crit_ids[] = $consumableitem['id'];
-                    }
-                }
-            }
-        }
-        $criteria = $restrict;
-        if (count($crit_ids) > 0) {
-            $criteria += ['NOT' => ['id' => $crit_ids]];
-        }
-        Dropdown::show("ConsumableItem", ['name'      => 'consumableitems_id',
-            'condition' => $criteria,
-            'entity'    => $_SESSION['glpiactive_entity'],
-            'on_change' => 'loadAvailableConsumablesNumber(this);',
+        // The list is built here rather than through Dropdown::show(ConsumableItem): since
+        // GLPI 11 the core dropdown endpoint filters assignable items on the asset rights of
+        // the profile (helpdesk_item_type / helpdesk_hardware in the simplified interface,
+        // consumable READ in the standard one), so a profile holding only the request right
+        // of this plugin got an empty list. The request right is what this form answers to;
+        // addToCart() and addConsumables() check every line again (isRequestLineAllowed()).
+        Dropdown::showFromArray('consumableitems_id', self::getRequestableConsumables((int) $type), [
+            'display_emptychoice' => true,
+            'on_change'           => 'loadAvailableConsumablesNumber(this);',
         ]);
+    }
+
+    /**
+     * Consumable models of a type the current user may request: not deleted, visible from
+     * the active entity, and not reserved to groups the user is not member of.
+     *
+     * @param int $consumableitemtypes_id
+     *
+     * @return array<int, string> id => name
+     */
+    private function getRequestableConsumables(int $consumableitemtypes_id): array
+    {
+        /** @var \DBmysql $DB */
+        global $DB;
+
+        if ($consumableitemtypes_id <= 0) {
+            return [];
+        }
+
+        $dbu   = new DbUtils();
+        $table = ConsumableItem::getTable();
+
+        $iterator = $DB->request([
+            'SELECT' => ['id', 'name', 'ref'],
+            'FROM'   => $table,
+            'WHERE'  => [
+                'consumableitemtypes_id' => $consumableitemtypes_id,
+                'is_deleted'             => 0,
+            ] + $dbu->getEntitiesRestrictCriteria($table, '', $_SESSION['glpiactive_entity'], true),
+            'ORDER'  => 'name',
+        ]);
+
+        $consumables = [];
+        foreach ($iterator as $row) {
+            if (!$this->isConsumableAllowedForUser((int) $row['id'])) {
+                continue;
+            }
+            $label = (string) $row['name'];
+            if (!empty($row['ref'])) {
+                $label .= ' - ' . $row['ref'];
+            }
+            $consumables[(int) $row['id']] = $label;
+        }
+
+        return $consumables;
     }
 
 
