@@ -103,18 +103,6 @@ parameters:
 			path: src/Request.php
 
 		-
-			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumablesNumber\(\) should return array but empty return statement found\.$#'
-			identifier: return.empty
-			count: 1
-			path: src/Request.php
-
-		-
-			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumablesNumber\(\) should return array but return statement is missing\.$#'
-			identifier: return.missing
-			count: 2
-			path: src/Request.php
-
-		-
 			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:seeConsumablesInfos\(\) should return array but return statement is missing\.$#'
 			identifier: return.missing
 			count: 2
@@ -133,27 +121,9 @@ parameters:
 			path: src/Request.php
 
 		-
-			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:showSelectItemFromItemtypes\(\) has invalid return type GlpiPlugin\\Consumables\\randomized\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Request.php
-
-		-
-			message: '#^Method GlpiPlugin\\Consumables\\Request\:\:showSelectItemFromItemtypes\(\) should return GlpiPlugin\\Consumables\\randomized but returns int\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Request.php
-
-		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$used$#'
 			identifier: parameter.notFound
 			count: 2
-			path: src/Request.php
-
-		-
-			message: '#^Parameter \$used of method GlpiPlugin\\Consumables\\Request\:\:loadAvailableConsumablesNumber\(\) has invalid type GlpiPlugin\\Consumables\\type\.$#'
-			identifier: class.notFound
-			count: 1
 			path: src/Request.php
 
 		-

@@ -271,7 +271,7 @@ class Request extends CommonDBTM
             ];
         }
 
-        echo TemplateRenderer::getInstance()->render('@consumables/request_consumable_list.html.twig', [
+        TemplateRenderer::getInstance()->display('@consumables/request_consumable_list.html.twig', [
             'rows' => $rows,
         ]);
     }
@@ -296,13 +296,8 @@ class Request extends CommonDBTM
         $begin_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . "-1 MONTH"));
         $end_date   = date('Y-m-d H:i:s');
 
-        ob_start();
-        Html::showDateTimeField("begin_date", ['value' => $begin_date]);
-        $begin_date_field = ob_get_clean();
-
-        ob_start();
-        Html::showDateTimeField("end_date", ['value' => $end_date]);
-        $end_date_field = ob_get_clean();
+        $begin_date_field = Html::showDateTimeField("begin_date", ['value' => $begin_date, 'display' => false]);
+        $end_date_field   = Html::showDateTimeField("end_date", ['value' => $end_date, 'display' => false]);
 
         $result = $this->listItemsForUserOrGroup($item->fields['id'], $type, ['begin_date' => $begin_date,
             'end_date'   => $end_date]);
@@ -415,21 +410,15 @@ class Request extends CommonDBTM
         $request->getEmpty();
         $dbu = new DbUtils();
 
-        // Consumable pictures + comment cell
-        ob_start();
-        $this->seeConsumablesInfos();
-        $see_infos = ob_get_clean();
-
         // Consumable type dropdown (fires loadAvailableConsumables on change)
-        ob_start();
-        Dropdown::show("ConsumableItemType", ['entity'    => $_SESSION['glpiactive_entity'],
-            'on_change' => 'loadAvailableConsumables(this);']);
-        $type_dropdown = ob_get_clean();
+        $type_dropdown = Dropdown::show("ConsumableItemType", [
+            'entity'    => $_SESSION['glpiactive_entity'],
+            'on_change' => 'loadAvailableConsumables(this);',
+            'display'   => false,
+        ]);
 
         // Number dropdown / "No consumable" placeholder
-        ob_start();
-        $this->loadAvailableConsumablesNumber();
-        $number_cell = ob_get_clean();
+        $number_cell = $this->renderAvailableConsumablesNumber(0, 0);
 
         // Give to (User/Group) selector
         $give_to = '';
@@ -441,12 +430,13 @@ class Request extends CommonDBTM
             if (self::canRequestUser()) {
                 $itemtypes[] = "User";
             }
-            ob_start();
-            self::showSelectItemFromItemtypes(['itemtype_name'   => 'give_itemtype',
+            $give_to = (string) self::showSelectItemFromItemtypes([
+                'itemtype_name'   => 'give_itemtype',
                 'items_id_name'   => 'give_items_id',
                 'entity_restrict' => $_SESSION['glpiactive_entity'],
-                'itemtypes'       => $itemtypes]);
-            $give_to = ob_get_clean();
+                'itemtypes'       => $itemtypes,
+                'display'         => false,
+            ]);
         }
 
         // The cart is submitted to ajax/request.php, which requires the request right
@@ -458,7 +448,6 @@ class Request extends CommonDBTM
         TemplateRenderer::getInstance()->display('@consumables/request_form.html.twig', [
             'can_add'        => $can_add,
             'requester_name' => $dbu->getUserName(Session::getLoginUserID()),
-            'see_infos'      => $see_infos,
             'type_dropdown'  => $type_dropdown,
             'number_cell'    => $number_cell,
             'give_to'        => $give_to,
@@ -485,7 +474,7 @@ class Request extends CommonDBTM
      *                            treatment. For instance, select a Item_Device* for CommonDevice
      *    - emptylabel          : Empty choice's label (default self::EMPTY_VALUE)
      *
-     * @return randomized value used to generate HTML IDs
+     * @return int|string randomized value used to generate HTML IDs, or the HTML when display is false
      * *@since version 0.85
      *
      */
@@ -513,13 +502,14 @@ class Request extends CommonDBTM
             }
         }
 
-        $rand = Dropdown::showItemType($params['itemtypes'], ['checkright' => $params['checkright'],
+        $rand = $params['rand'];
+        $html = (string) Dropdown::showItemType($params['itemtypes'], ['checkright' => $params['checkright'],
             'name'       => $params['itemtype_name'],
             'emptylabel' => $params['emptylabel'],
-            'display'    => $params['display'],
-            'rand'       => $params['rand']]);
+            'display'    => false,
+            'rand'       => $rand]);
 
-        if ($rand) {
+        if ($html !== '' && $html !== '0') {
             $p = ['idtable'             => '__VALUE__',
                 'name'                => $params['items_id_name'],
                 'entity_restrict'     => $params['entity_restrict'],
@@ -528,30 +518,41 @@ class Request extends CommonDBTM
             $field_id = Html::cleanId("dropdown_" . $params['itemtype_name'] . $rand);
             $show_id  = Html::cleanId("show_" . $params['items_id_name'] . $rand);
 
-            Ajax::updateItemOnSelectEvent(
+            $html .= Ajax::updateItemOnSelectEvent(
                 $field_id,
                 $show_id,
                 PLUGIN_CONSUMABLES_WEBDIR . "/ajax/dropdownAllItems.php",
                 $p,
+                false,
             );
 
-            echo TemplateRenderer::getInstance()->render('@consumables/select_item_span.html.twig', [
+            $html .= TemplateRenderer::getInstance()->render('@consumables/select_item_span.html.twig', [
                 'show_id' => $show_id,
             ]);
 
             // We check $options as the caller will set $options['default_itemtype'] only if it needs a
             // default itemtype and the default value can be '' thus empty won't be valid !
             if (array_key_exists('default_itemtype', $options)) {
-                echo Html::scriptBlock(Html::jsSetDropdownValue($field_id, $params['default_itemtype']));
+                $html .= Html::scriptBlock(Html::jsSetDropdownValue($field_id, $params['default_itemtype']));
 
                 $p["idtable"] = $params['default_itemtype'];
-                Ajax::updateItem(
+                $html .= Ajax::updateItem(
                     $show_id,
                     $CFG_GLPI["root_doc"] . "/ajax/dropdownAllItems.php",
                     $p,
+                    "",
+                    false,
                 );
             }
+        } else {
+            $rand = 0;
         }
+
+        if (!$params['display']) {
+            return $html;
+        }
+        echo $html;
+
         return $rand;
     }
 
@@ -643,7 +644,7 @@ class Request extends CommonDBTM
                     foreach ($pictures as $picture) {
                         $picture_urls[] = Toolbox::getPictureUrl($picture);
                     }
-                    echo TemplateRenderer::getInstance()->render('@consumables/request_infos.html.twig', [
+                    TemplateRenderer::getInstance()->display('@consumables/request_infos.html.twig', [
                         'pictures' => $picture_urls,
                         'comment'  => $consumable->fields['comment'],
                     ]);
@@ -653,26 +654,34 @@ class Request extends CommonDBTM
     }
 
     /**
-     * Reload consumables list
+     * Display the number dropdown of the available consumables (AJAX)
      *
-     * @param int|type $used
-     * @param int      $consumableitems_id
+     * @param mixed $used already requested quantities, indexed by consumable id
+     * @param int   $consumableitems_id
      *
-     * @return array
+     * @return void
      */
     public function loadAvailableConsumablesNumber($used = 0, $consumableitems_id = 0)
     {
-        $consumableitems_id = (int) $consumableitems_id;
+        echo $this->renderAvailableConsumablesNumber($used, (int) $consumableitems_id);
+    }
+
+    /**
+     * Number dropdown of the available consumables, or the "No consumable" placeholder
+     *
+     * @param mixed $used already requested quantities, indexed by consumable id
+     */
+    private function renderAvailableConsumablesNumber($used, int $consumableitems_id): string
+    {
 
         // Do not disclose stock for a consumable outside the user's entities.
         if ($consumableitems_id > 0) {
             $consumable = new ConsumableItem();
             if (!$consumable->getFromDB($consumableitems_id)
                 || !Session::haveAccessToEntity($consumable->fields['entities_id'], $consumable->fields['is_recursive'])) {
-                echo TemplateRenderer::getInstance()->render('@consumables/request_number_empty.html.twig', [
+                return TemplateRenderer::getInstance()->render('@consumables/request_number_empty.html.twig', [
                     'hidden' => Html::hidden('number', ['value' => 0]),
                 ]);
-                return;
             }
         }
 
@@ -693,13 +702,16 @@ class Request extends CommonDBTM
         }
 
         if ($number > 0) {
-            Dropdown::showNumber('number', ['value' => 0,
-                'max'   => $number]);
-        } else {
-            echo TemplateRenderer::getInstance()->render('@consumables/request_number_empty.html.twig', [
-                'hidden' => Html::hidden('number', ['value' => 0]),
+            return (string) Dropdown::showNumber('number', [
+                'value'   => 0,
+                'max'     => $number,
+                'display' => false,
             ]);
         }
+
+        return TemplateRenderer::getInstance()->render('@consumables/request_number_empty.html.twig', [
+            'hidden' => Html::hidden('number', ['value' => 0]),
+        ]);
     }
 
     /**
