@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-02 08:20+0000\n"
+"POT-Creation-Date: 2026-10-03 10:19+0000\n"
 "PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/infotelGLPI/"
@@ -61,7 +61,7 @@ msgstr[1] ""
 msgid "Consumable ID"
 msgstr "ID Αναλωσίμου"
 
-#: src/Request.php:884
+#: src/Request.php:901
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
@@ -145,7 +145,7 @@ msgstr ""
 msgid "Give to"
 msgstr ""
 
-#: src/Request.php:837
+#: src/Request.php:854
 msgid "Invalid requested quantity"
 msgstr ""
 
@@ -188,7 +188,7 @@ msgstr ""
 msgid "Not enough stock for consumable %s"
 msgstr ""
 
-#: src/Request.php:941 src/Validation.php:97
+#: src/Request.php:958 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
@@ -209,7 +209,7 @@ msgid_plural "Pictures"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Request.php:801
+#: src/Request.php:818
 msgid "Please add consumables in cart"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Type of event"
 msgstr "Τύπος γεγονότος"
 
-#: src/Request.php:729 src/Request.php:822
+#: src/Request.php:746 src/Request.php:839
 msgid "You are not allowed to request this consumable"
 msgstr ""
 
