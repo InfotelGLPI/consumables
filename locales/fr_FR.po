@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-04 15:45+0000\n"
+"POT-Creation-Date: 2026-10-05 13:51+0000\n"
 "PO-Revision-Date: 2015-09-17 11:45+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2019-2020,2026\n"
 "Language-Team: French (France) (http://app.transifex.com/infotelGLPI/"
@@ -23,39 +23,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
 "1000000 == 0 ? 1 : 2;\n"
 
-#: hook.php:332 src/Option.php:450 templates/option_add_group.html.twig:31
+#: hook.php:332 src/Option.php:450 templates/option_add_group.html.twig:32
 msgid "Add a group for request"
 msgstr "Ajouter un groupe pour les demandes"
 
-#: templates/request_form.html.twig:67
+#: templates/request_form.html.twig:79
 msgid "Add to cart"
 msgstr "Ajouter au panier"
 
-#: hook.php:310 templates/option_form.html.twig:50
+#: hook.php:310 templates/option_form.html.twig:56
 msgid "Allowed groups for request"
 msgstr "Groupes autorisés à faire des demandes"
 
-#: templates/request_consumable_list.html.twig:36
-#: templates/request_list.html.twig:37
+#: templates/request_consumable_list.html.twig:46
+#: templates/request_list.html.twig:49
 msgid "Approver"
 msgstr "Approbateur"
 
-#: templates/request_search.html.twig:35
+#: templates/request_search.html.twig:40
 msgid "Begin date"
 msgstr "Date de début"
 
-#: templates/request_form.html.twig:100
+#: templates/request_form.html.twig:107
 msgctxt "button"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: templates/request_form.html.twig:78
+#: templates/request_form.html.twig:88
 msgid "Cart"
 msgstr "Panier"
 
-#: src/Profile.php:155 templates/request_form.html.twig:50
-#: templates/request_form.html.twig:83 templates/validation_list.html.twig:46
-#: templates/request_list.html.twig:34
+#: src/Profile.php:160 templates/wizard_menu.html.twig:31
+#: templates/request_form.html.twig:55 templates/request_form.html.twig:96
+#: templates/validation_list.html.twig:53 templates/request_list.html.twig:46
 msgid "Consumable"
 msgid_plural "Consumables"
 msgstr[0] "Consommable"
@@ -66,7 +66,7 @@ msgstr[2] "Consommables"
 msgid "Consumable ID"
 msgstr "Consommable ID"
 
-#: src/Request.php:913
+#: src/Request.php:918
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] "Demande de consommable ajoutée"
@@ -84,10 +84,9 @@ msgstr "Destinataire du consommable"
 #: setup.php:113 src/Field.php:58 src/Menu.php:46
 #: src/NotificationTargetRequest.php:59 src/NotificationTargetRequest.php:86
 #: src/Request.php:64 src/Servicecatalog.php:76
-#: src/Helpdesk/Tile/ConsumablesPageTile.php:62
-#: src/Helpdesk/Tile/ConsumablesPageTile.php:80
-#: templates/wizard_menu.html.twig:30 templates/wizard_menu.html.twig:39
-#: templates/request_form.html.twig:31 templates/request_form.html.twig:38
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:63
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:81
+#: templates/wizard_menu.html.twig:42 templates/request_form.html.twig:37
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] "Demande de consommables"
@@ -98,8 +97,8 @@ msgstr[2] "Demandes de consommables"
 msgid "Consumable request options"
 msgstr "Options de demande de consommable"
 
-#: templates/request_consumable_list.html.twig:32
-#: templates/request_list.html.twig:31 templates/request_list.html.twig:60
+#: templates/request_consumable_list.html.twig:34
+#: templates/request_list.html.twig:35
 msgid "Consumable request report"
 msgstr "Rapport des demandes de consommables"
 
@@ -107,12 +106,12 @@ msgstr "Rapport des demandes de consommables"
 msgid "Consumable requester"
 msgstr "Demandeur de consommables"
 
-#: templates/request_consumable_list.html.twig:58
+#: templates/request_consumable_list.html.twig:34
 msgid "Consumable requests history"
 msgstr "Historique des demandes de consommables"
 
-#: templates/request_form.html.twig:46 templates/request_form.html.twig:82
-#: templates/validation_list.html.twig:45 templates/request_list.html.twig:35
+#: templates/request_form.html.twig:51 templates/request_form.html.twig:95
+#: templates/validation_list.html.twig:52 templates/request_list.html.twig:47
 msgid "Consumable type"
 msgid_plural "Consumable types"
 msgstr[0] "Type de consommables"
@@ -120,13 +119,12 @@ msgstr[1] "Types de consommables"
 msgstr[2] "Types de consommables"
 
 #: src/NotificationTargetRequest.php:60 src/NotificationTargetRequest.php:89
-#: src/Profile.php:183 src/Validation.php:138
-#: templates/wizard_menu.html.twig:49 templates/validation_list.html.twig:30
-#: templates/validation_header.html.twig:29
+#: src/Profile.php:188 src/Validation.php:138
+#: templates/wizard_menu.html.twig:55 templates/validation_list.html.twig:36
 msgid "Consumable validation"
 msgstr "Validation des demandes de consommables"
 
-#: templates/request_search.html.twig:32
+#: templates/request_search.html.twig:34
 msgid "Consumables request search"
 msgstr "Recherche des demandes de consommables"
 
@@ -143,34 +141,34 @@ msgstr "Définir"
 msgid "Display each consumable"
 msgstr "Montrer chaque consommable"
 
-#: templates/request_search.html.twig:37
+#: templates/request_search.html.twig:44
 msgid "End date"
 msgstr "Date de fin"
 
-#: templates/request_form.html.twig:59 templates/request_form.html.twig:85
-#: templates/validation_list.html.twig:48
-#: templates/request_consumable_list.html.twig:39
+#: templates/request_form.html.twig:64 templates/request_form.html.twig:98
+#: templates/validation_list.html.twig:55
+#: templates/request_consumable_list.html.twig:49
 msgid "Give to"
 msgstr "Donné à"
 
-#: src/Request.php:866
+#: src/Request.php:871
 msgid "Invalid requested quantity"
 msgstr "Quantité demandée invalide"
 
-#: src/Profile.php:169 src/Servicecatalog.php:105
+#: src/Profile.php:174 src/Servicecatalog.php:105
 msgid "Make a consumable request"
 msgstr "Faire une demande de consommables"
 
-#: src/Profile.php:176
+#: src/Profile.php:181
 msgid "Make a consumable request for groups"
 msgstr "Faire une demande de consommables pour les groupes"
 
-#: src/Profile.php:162
+#: src/Profile.php:167
 msgid "Make a consumable request for users"
 msgstr "Faire une demande de consommables pour les utilisateurs"
 
 #: hook.php:301 hook.php:330 src/Option.php:439
-#: templates/option_form.html.twig:35
+#: templates/option_form.html.twig:41
 msgid "Maximum number allowed for request"
 msgstr "Nombre maximal autorisé pour la demande"
 
@@ -178,32 +176,32 @@ msgstr "Nombre maximal autorisé pour la demande"
 msgid "No consumable"
 msgstr "Pas de consommables"
 
-#: templates/validation_list.html.twig:71
+#: templates/validation_list.html.twig:80
 msgid "No item to display"
 msgstr "Pas d'éléments à afficher"
 
-#: templates/request_consumable_list.html.twig:61
-#: templates/request_list.html.twig:63
+#: templates/request_consumable_list.html.twig:69
+#: templates/request_list.html.twig:72
 msgid "No results found"
 msgstr "Pas de résultats trouvés"
 
-#: templates/option_form.html.twig:61
+#: templates/option_form.html.twig:69
 msgid "None"
 msgstr "Aucun"
 
-#: src/Validation.php:512 src/Validation.php:525
+#: src/Validation.php:509 src/Validation.php:522
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr "Pas assez de stock pour le consommable %s"
 
-#: src/Request.php:970 src/Validation.php:97
-#: templates/request_form.html.twig:54 templates/request_form.html.twig:84
-#: templates/validation_list.html.twig:47
+#: src/Request.php:975 src/Validation.php:97
+#: templates/request_form.html.twig:59 templates/request_form.html.twig:97
+#: templates/validation_list.html.twig:54
 msgid "Number"
 msgstr "Nombre"
 
-#: templates/request_consumable_list.html.twig:37
-#: templates/request_list.html.twig:38
+#: templates/request_consumable_list.html.twig:47
+#: templates/request_list.html.twig:50
 msgid "Number of used consumables"
 msgstr "Nombre de consommables utilisés"
 
@@ -211,18 +209,18 @@ msgstr "Nombre de consommables utilisés"
 msgid "Order reference"
 msgstr "Référence commande"
 
-#: templates/request_infos.html.twig:29
+#: templates/request_infos.html.twig:36
 msgid "Picture"
 msgid_plural "Pictures"
 msgstr[0] "Image"
 msgstr[1] "Images"
 msgstr[2] "Images"
 
-#: src/Request.php:830
+#: src/Request.php:835
 msgid "Please add consumables in cart"
 msgstr "Veuillez ajouter des demandes de consommable dans la panier"
 
-#: templates/request_form.html.twig:98
+#: templates/request_form.html.twig:111
 msgctxt "button"
 msgid "Post"
 msgstr "Envoyer"
@@ -231,30 +229,30 @@ msgstr "Envoyer"
 msgid "Refuse"
 msgstr "Refuser"
 
-#: templates/request_consumable_list.html.twig:38
-#: templates/request_list.html.twig:39
+#: templates/request_consumable_list.html.twig:48
+#: templates/request_list.html.twig:51
 msgid "Request date"
 msgstr "Date de requête"
 
-#: templates/request_form.html.twig:41 templates/request_form.html.twig:81
-#: templates/validation_list.html.twig:44
-#: templates/request_consumable_list.html.twig:35
-#: templates/request_list.html.twig:36
+#: templates/request_form.html.twig:45 templates/request_form.html.twig:94
+#: templates/validation_list.html.twig:51
+#: templates/request_consumable_list.html.twig:45
+#: templates/request_list.html.twig:48
 msgid "Requester"
 msgstr "Demandeur"
 
-#: templates/profile.html.twig:34
+#: templates/profile.html.twig:35
 msgctxt "button"
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: templates/validation_list.html.twig:49
+#: templates/validation_list.html.twig:56
 msgctxt "item"
 msgid "State"
 msgstr "Statut"
 
-#: templates/request_consumable_list.html.twig:40
-#: templates/request_list.html.twig:40
+#: templates/request_consumable_list.html.twig:50
+#: templates/request_list.html.twig:52
 msgid "Status"
 msgstr "Statut"
 
@@ -262,6 +260,6 @@ msgstr "Statut"
 msgid "Type of event"
 msgstr "Type d'événement"
 
-#: src/Request.php:758 src/Request.php:851
+#: src/Request.php:763 src/Request.php:856
 msgid "You are not allowed to request this consumable"
 msgstr "Vous n'êtes pas autorisé à demander ce consommable"
