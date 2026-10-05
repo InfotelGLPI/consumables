@@ -32,8 +32,9 @@ use GlpiPlugin\Consumables\Request;
 use GlpiPlugin\Consumables\Validation;
 use GlpiPlugin\Consumables\Wizard;
 use GlpiPlugin\Servicecatalog\Main;
+use GlpiPlugin\Consumables\Profile;
 
-Session::checkRight('plugin_consumables_request', READ);
+Session::checkRight(Profile::RIGHT_REQUEST, READ);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
     Html::header(Wizard::getTypeName(2), '', "management", Menu::class);
@@ -54,7 +55,7 @@ if (!empty($_GET['action'])) {
         case 'consumablevalidation':
             // Search::showList() does not enforce the itemtype right; the validation
             // queue must stay restricted to validators, not mere requesters.
-            Session::checkRight('plugin_consumables_validation', READ);
+            Session::checkRight(Validation::$rightname, READ);
             // Route through showConsumableValidation() rather than Search::showList():
             // the requests table has no entities_id column, so the search engine adds
             // no entity restriction and Search::showList() would leak every entity's

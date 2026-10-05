@@ -25,83 +25,94 @@
  # --------------------------------------------------------------------------
  #}
 
-<form name="wizard_form" id="consumables_wizardForm" class="consumables_wizard" method="post" data-root-doc="{{ webdir }}">
-    <h3>
-        <div class="alert alert-secondary">
-            <i class="thumbnail ti ti-shopping-cart-plus fa-2x"></i>&nbsp;{{ __('Consumable request', 'consumables') }}
-        </div>
-    </h3>
-
-    <div style="overflow-x:auto;">
-        <table class="tab_cadre_fixe consumables_wizard_rank">
-            <tr>
-                <th colspan="4">{{ __('Consumable request', 'consumables') }}</th>
-            </tr>
-            <tr>
-                <td>{{ __('Requester') }}</td>
-                <td>{{ requester_name }}</td>
-                <td rowspan="4" id="seeConsumablesInfos"></td>
-            </tr>
-            <tr>
-                <td>{{ _n('Consumable type', 'Consumable types', 1) }} <span style="color:red;">*</span></td>
-                <td>{{ type_dropdown|raw }}</td>
-            </tr>
-            <tr>
-                <td>{{ _n('Consumable', 'Consumables', 1) }} <span style="color:red;">*</span></td>
-                <td id="loadAvailableConsumables"></td>
-            </tr>
-            <tr>
-                <td>{{ __('Number', 'consumables') }} <span style="color:red;">*</span></td>
-                <td id="loadAvailableConsumablesNumber">{{ number_cell|raw }}</td>
-            </tr>
-            {% if give_to is not empty %}
-                <tr>
-                    <td>{{ __('Give to') }}</td>
-                    <td>{{ give_to|raw }}</td>
-                </tr>
-            {% endif %}
+{# Consumable request wizard (Request::showConsumableRequest()). The cart rows are built by
+   consumables_addToCart() in public/js/consumables.js, which also toggles the cart display;
+   #loadAvailableConsumables, #loadAvailableConsumablesNumber and #seeConsumablesInfos are
+   filled through ajax/request.php. #}
+<div class="container-lg my-3">
+    <form name="wizard_form" id="consumables_wizardForm" method="post" data-root-doc="{{ webdir }}">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="ti ti-shopping-cart-plus me-2"></i>{{ __('Consumable request', 'consumables') }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-12 col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">{{ __('Requester') }}</label>
+                                <div class="form-control-plaintext">
+                                    <i class="ti ti-user me-1 text-secondary"></i>{{ requester_name }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label required">{{ _n('Consumable type', 'Consumable types', 1) }}</label>
+                                <div>{{ type_dropdown|raw }}</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label required">{{ _n('Consumable', 'Consumables', 1) }}</label>
+                                <div id="loadAvailableConsumables"></div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label required">{{ __('Number', 'consumables') }}</label>
+                                <div id="loadAvailableConsumablesNumber">{{ number_cell|raw }}</div>
+                            </div>
+                            {% if give_to is not empty %}
+                                <div class="col-12">
+                                    <label class="form-label">{{ __('Give to') }}</label>
+                                    <div>{{ give_to|raw }}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div id="seeConsumablesInfos" class="text-center"></div>
+                    </div>
+                </div>
+            </div>
             {% if can_add %}
-                <tr>
-                    <td class="center" colspan="4">
-                        <a href="#" class="submit btn btn-info" name="addToCart"
-                           onclick="consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');">{{ __('Add to cart', 'consumables') }}</a>
-                    </td>
-                </tr>
+                <div class="card-footer text-end">
+                    <button type="button" class="btn btn-success" name="addToCart"
+                            onclick="consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');">
+                        <i class="ti ti-plus me-1"></i>{{ __('Add to cart', 'consumables') }}
+                    </button>
+                </div>
             {% endif %}
-        </table>
-    </div>
+        </div>
 
-    <br>
-    <div class="center">
-        <table class="tab_cadre_fixe consumables_wizard_rank" id="consumables_cart" style="display:none">
-            <tr>
-                <th colspan="7">{{ __('Cart', 'consumables') }}</th>
-            </tr>
-            <tr>
-                <th>{{ __('Requester') }}</th>
-                <th>{{ _n('Consumable type', 'Consumable types', 1) }}</th>
-                <th>{{ _n('Consumable', 'Consumables', 1) }}</th>
-                <th>{{ __('Number', 'consumables') }}</th>
-                <th>{{ __('Give to') }}</th>
-                <th></th>
-            </tr>
-        </table>
-    </div>
-
-    {% if can_add %}
-        <br>
-        <table width="100%">
-            <tr>
-                <td>
-                    <div id="dialog-confirm"></div>
-                    <a href="#" class="submit btn btn-success consumable_next_button" name="addConsumables"
-                       onclick="consumables_addConsumables('addConsumables','consumables_wizardForm');">{{ _x('button', 'Post') }}</a>
-                    <a href="#" class="submit btn btn-warning consumable_previous_button" name="previous"
-                       onclick="consumables_cancel('{{ webdir }}/front/wizard.php');">{{ _x('button', 'Cancel') }}</a>
-                </td>
-            </tr>
-        </table>
-    {% endif %}
-
-    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
-</form>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="ti ti-shopping-cart me-2"></i>{{ __('Cart', 'consumables') }}
+                </h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-vcenter card-table" id="consumables_cart" style="display:none">
+                    <tr>
+                        <th>{{ __('Requester') }}</th>
+                        <th>{{ _n('Consumable type', 'Consumable types', 1) }}</th>
+                        <th>{{ _n('Consumable', 'Consumables', 1) }}</th>
+                        <th>{{ __('Number', 'consumables') }}</th>
+                        <th>{{ __('Give to') }}</th>
+                        <th class="w-1"></th>
+                    </tr>
+                </table>
+            </div>
+            {% if can_add %}
+                <div class="card-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary" name="previous"
+                            onclick="consumables_cancel('{{ webdir|e('js') }}/front/wizard.php');">
+                        <i class="ti ti-arrow-left me-1"></i>{{ _x('button', 'Cancel') }}
+                    </button>
+                    <button type="button" class="btn btn-primary" name="addConsumables"
+                            onclick="consumables_addConsumables('addConsumables','consumables_wizardForm');">
+                        <i class="ti ti-send me-1"></i>{{ _x('button', 'Post') }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <div id="dialog-confirm"></div>
+    </form>
+</div>

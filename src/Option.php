@@ -45,7 +45,7 @@ use Toolbox;
  */
 class Option extends CommonDBTM
 {
-    public static $rightname = "plugin_consumables";
+    public static string $rightname = "plugin_consumables";
 
     /*
      * The table has no entities_id, so the default checkEntity() of the item rights is a

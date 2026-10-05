@@ -36,7 +36,7 @@ use CommonGLPI;
  */
 class Menu extends CommonGLPI
 {
-    public static $rightname = 'plugin_consumables';
+    public static string $rightname = 'plugin_consumables';
 
     /**
      * @return string

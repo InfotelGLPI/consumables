@@ -76,7 +76,7 @@ function plugin_init_consumables()
         $PLUGIN_HOOKS[Hooks::ITEM_ADD]['consumables']        = ['ConsumableItem' => [Field::class, 'postAddConsumable']];
         $PLUGIN_HOOKS[Hooks::PRE_ITEM_UPDATE]['consumables'] = ['ConsumableItem' => [Field::class, 'preUpdateConsumable']];
 
-        if (Session::haveRight("plugin_consumables", UPDATE)) {
+        if (Session::haveRight(Request::$rightname, UPDATE)) {
             $PLUGIN_HOOKS[Hooks::USE_MASSIVE_ACTION]['consumables'] = 1;
         }
 
@@ -86,11 +86,11 @@ function plugin_init_consumables()
         $PLUGIN_HOOKS['servicecatalog']['consumables'] = [Servicecatalog::class];
         //      }
 
-        if (Session::haveRight("plugin_consumables", READ)) {
+        if (Session::haveRight(Request::$rightname, READ)) {
             $PLUGIN_HOOKS[Hooks::MENU_TOADD]['consumables'] = ['management' => Menu::class];
         }
-        if ((Session::haveRight("plugin_consumables", READ)
-                || Session::haveRight("plugin_consumables_request", 1))
+        if ((Session::haveRight(Request::$rightname, READ)
+                || Session::haveRight(Profile::RIGHT_REQUEST, 1))
           && !class_exists(Main::class)) {
             $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY]['consumables']      = PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php';
             $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY_ICON]['consumables'] = Request::getIcon();
@@ -117,8 +117,8 @@ function plugin_version_consumables()
         'homepage'     => 'https://github.com/InfotelGLPI/consumables',
         'requirements' => [
             'glpi' => [
-                'min' => '11.0',
-                'max' => '12.0',
+                'min' => '11.0.99',
+                'max' => '12.0.99',
                 'dev' => false,
             ],
         ],

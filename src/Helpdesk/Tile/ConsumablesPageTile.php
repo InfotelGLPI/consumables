@@ -40,10 +40,11 @@ use Glpi\UI\IllustrationManager;
 use Html;
 use Override;
 use Session;
+use GlpiPlugin\Consumables\Profile;
 
 final class ConsumablesPageTile extends CommonDBTM implements TileInterface, ProvideTranslationsInterface
 {
-    public static $rightname = 'config';
+    public static string $rightname = 'config';
 
     public const PAGE_CONSUMABLE_REQUEST = 'consumables';
 
@@ -109,7 +110,7 @@ final class ConsumablesPageTile extends CommonDBTM implements TileInterface, Pro
     #[Override]
     public function isAvailable(SessionInfo $session_info): bool
     {
-        return Session::haveRight("plugin_consumables_request", 1);
+        return Session::haveRight(Profile::RIGHT_REQUEST, 1);
     }
 
     #[Override]

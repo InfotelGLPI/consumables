@@ -287,7 +287,7 @@ function plugin_consumables_getAddSearchOptions($itemtype)
     $sopt = [];
 
     if ($itemtype == "ConsumableItem") {
-        if (Session::haveRight("plugin_consumables", READ)) {
+        if (Session::haveRight(Request::$rightname, READ)) {
             $sopt[185]['table']         = 'glpi_plugin_consumables_fields';
             $sopt[185]['field']         = 'order_ref';
             $sopt[185]['name']          = __('Order reference', 'consumables');

@@ -37,16 +37,16 @@ use Session;
  */
 class Servicecatalog extends CommonGLPI
 {
-    public static $rightname     = 'plugin_consumables_request';
+    public static string $rightname     = 'plugin_consumables_request';
 
-    public $dohistory = false;
+    public bool $dohistory = false;
 
     /**
      * @return bool
      */
     public static function canUse()
     {
-        return Session::haveRight("plugin_consumables_request", 1);
+        return Session::haveRight(Profile::RIGHT_REQUEST, 1);
     }
 
     /**

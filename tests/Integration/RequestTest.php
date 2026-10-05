@@ -244,7 +244,7 @@ class RequestTest extends DbTestCase
         // dropdown endpoint returns nothing for such a profile (GitHub issue #41)
         $this->login('post-only', 'postonly');
         $this->assertSame('helpdesk', Session::getCurrentInterface());
-        $this->assertFalse(Session::haveRight('consumable', READ));
+        $this->assertFalse(Session::haveRight(\Consumable::$rightname, READ));
 
         ob_start();
         (new Request())->loadAvailableConsumables($typeId);

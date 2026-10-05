@@ -25,45 +25,48 @@
  # --------------------------------------------------------------------------
  #}
 
-<div class="center">
-    <form action="{{ form_url }}" method="post">
-        <table class="tab_cadre_fixe">
-            <tr>
-                <th colspan="3">{{ title }}</th>
-            </tr>
-            <tr class="tab_bg_1">
-                <td>{{ __('Maximum number allowed for request', 'consumables') }} </td>
-                <td>{{ max_cart_dropdown|raw }} </td>
+{# Request options of a consumable item (Option::listOptionsForConsumable()): the maximum
+   quantity per request, then the groups allowed to request it. Each group row carries its own
+   delete form (Html::getSimpleForm()), so the list is not wrapped in another form. #}
+<div class="card mb-3">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="ti ti-adjustments me-2"></i>{{ title }}
+        </h3>
+    </div>
+    <div class="card-body">
+        <form action="{{ form_url }}" method="post">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-6">
+                    <label class="form-label">{{ __('Maximum number allowed for request', 'consumables') }}</label>
+                    {{ max_cart_dropdown|raw }}
+                </div>
                 {% if can_create %}
-                    <td class="center">{{ define_button|raw }}</td>
+                    <div class="col-12 col-md-6">
+                        {{ define_button|raw }}
+                    </div>
                 {% endif %}
-            </tr>
+            </div>
             <input type="hidden" name="consumableitems_id" value="{{ consumableitems_id }}">
             <input type="hidden" name="id" value="{{ id }}">
-        </table>
-        <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
-    </form>
+        </form>
 
-    <form action="{{ form_url }}" method="post">
-        <table class="tab_cadre_fixe">
-            <tr class="tab_bg_1">
-                <th colspan="2">{{ __('Allowed groups for request', 'consumables') }} </th>
-            </tr>
-            {% if groups_rows is not empty %}
+        <div class="hr-text">
+            <i class="ti ti-users-group"></i>
+            <span>{{ __('Allowed groups for request', 'consumables') }}</span>
+        </div>
+        {% if groups_rows is not empty %}
+            <div class="list-group">
                 {% for group in groups_rows %}
-                    <tr class="tab_bg_1 center">
-                        <td>{{ group.name }}</td>
-                        <td>{{ group.delete_form|raw }} </td>
-                    </tr>
+                    <div class="list-group-item d-flex align-items-center">
+                        <i class="ti ti-users me-2 text-secondary"></i>
+                        <span class="flex-grow-1">{{ group.name }}</span>
+                        {{ group.delete_form|raw }}
+                    </div>
                 {% endfor %}
-            {% else %}
-                <tr class="tab_bg_1">
-                    <td colspan="2">{{ __('None') }}</td>
-                </tr>
-            {% endif %}
-            <input type="hidden" name="consumableitems_id" value="{{ consumableitems_id }}">
-            <input type="hidden" name="id" value="{{ id }}">
-        </table>
-        <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
-    </form>
+            </div>
+        {% else %}
+            <div class="text-secondary">{{ __('None') }}</div>
+        {% endif %}
+    </div>
 </div>

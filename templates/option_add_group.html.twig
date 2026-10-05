@@ -25,20 +25,23 @@
  # --------------------------------------------------------------------------
  #}
 
-<form action="{{ form_url }}" method="post">
-    <table class="tab_cadre_fixe" cellpadding="5">
-        <tr class="tab_bg_1 center">
-            <th>{{ __('Add a group for request', 'consumables') }}</th>
-            <th>&nbsp;</th>
-        </tr>
-        <tr class="tab_bg_1 center">
-            <td>{{ group_dropdown|raw }}</td>
-            <td>
+{# Add a group allowed to request the consumable item (Option::showAddGroup()) #}
+<form action="{{ form_url }}" method="post" class="card mb-3">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="ti ti-user-plus me-2"></i>{{ __('Add a group for request', 'consumables') }}
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-8">
+                {{ group_dropdown|raw }}
+            </div>
+            <div class="col-12 col-md-4">
                 <input type="hidden" name="consumableitems_id" value="{{ consumableitems_id }}">
                 <input type="hidden" name="id" value="{{ id }}">
                 {{ add_button|raw }}
-            </td>
-        </tr>
-    </table>
-    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+            </div>
+        </div>
+    </div>
 </form>

@@ -41,6 +41,11 @@ use Session;
  */
 class Profile extends \Profile
 {
+    // Secondary plugin rights; the main ones are Request::$rightname and Validation::$rightname
+    public const RIGHT_REQUEST = 'plugin_consumables_request';
+    public const RIGHT_USER    = 'plugin_consumables_user';
+    public const RIGHT_GROUP   = 'plugin_consumables_group';
+
     /**
      * @param CommonGLPI $item
      * @param int        $withtemplate

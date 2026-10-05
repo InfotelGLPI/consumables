@@ -52,7 +52,7 @@ use User;
  */
 class Request extends CommonDBTM
 {
-    public static $rightname = "plugin_consumables";
+    public static string $rightname = "plugin_consumables";
 
     /**
      * @param int $nb
@@ -94,12 +94,12 @@ class Request extends CommonDBTM
      * */
     public static function canRequest()
     {
-        return Session::haveRight("plugin_consumables_request", 1);
+        return Session::haveRight(Profile::RIGHT_REQUEST, 1);
     }
 
     public static function canValidate()
     {
-        return Session::haveRight("plugin_consumables_validation", 1);
+        return Session::haveRight(Validation::$rightname, 1);
     }
 
     /**
@@ -110,7 +110,7 @@ class Request extends CommonDBTM
      * */
     public static function canRequestUser()
     {
-        return Session::haveRight("plugin_consumables_user", 1);
+        return Session::haveRight(Profile::RIGHT_USER, 1);
     }
 
     public static function getSpecificValueToDisplay($field, $values, array $options = [])
@@ -143,7 +143,7 @@ class Request extends CommonDBTM
      * */
     public static function canRequestGroup()
     {
-        return Session::haveRight("plugin_consumables_group", 1);
+        return Session::haveRight(Profile::RIGHT_GROUP, 1);
     }
 
     /**
@@ -267,7 +267,7 @@ class Request extends CommonDBTM
                 'date'         => Html::convDateTime($field['date_mod']),
                 'give_link'    => $give_link,
                 'status'       => CommonITILValidation::getStatus($field['status']),
-                'status_color' => CommonITILValidation::getStatusColor($field['status']),
+                'status_value' => (int) $field['status'],
             ];
         }
 
@@ -384,7 +384,7 @@ class Request extends CommonDBTM
                 'number'          => $field['number'],
                 'date'            => Html::convDateTime($field['date_mod']),
                 'status'          => CommonITILValidation::getStatus($field['status']),
-                'status_color'    => CommonITILValidation::getStatusColor($field['status']),
+                'status_value'    => (int) $field['status'],
             ];
         }
 
@@ -533,7 +533,12 @@ class Request extends CommonDBTM
             // We check $options as the caller will set $options['default_itemtype'] only if it needs a
             // default itemtype and the default value can be '' thus empty won't be valid !
             if (array_key_exists('default_itemtype', $options)) {
-                $html .= Html::scriptBlock(Html::jsSetDropdownValue($field_id, $params['default_itemtype']));
+                // Html::jsSetDropdownValue() was removed in GLPI 12: inline its jQuery call, as
+                // Dropdown::showSelectItemFromItemtypes() does in the core
+                $html .= Html::scriptBlock(
+                    "$('#" . jsescape($field_id) . "').trigger('setValue', '"
+                    . jsescape($params['default_itemtype']) . "');",
+                );
 
                 $p["idtable"] = $params['default_itemtype'];
                 $html .= Ajax::updateItem(

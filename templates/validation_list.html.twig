@@ -25,63 +25,68 @@
  # --------------------------------------------------------------------------
  #}
 
-<div class="consumables_wizard" data-root-doc="{{ webdir }}">
-    <div class="alert alert-secondary">
-        <i class="thumbnail ti ti-shopping-cart-plus fa-2x"></i>&nbsp;{{ __('Consumable validation', 'consumables') }}
-    </div>
+{# Validation queue (Validation::showConsumableValidation()), with the core massive actions
+   (approve / refuse) for the users allowed to validate #}
+{% import '@consumables/macros.html.twig' as consumables %}
 
-    <div class="center">
-        {% if rows is not empty %}
-            {{ ma_open|raw }}
-            {{ ma_top|raw }}
-            <div style="overflow-x:auto;">
-                <table class="tab_cadre_fixe">
-                    <tr>
-                        <th colspan="7">{{ title }}</th>
-                    </tr>
-                    <tr>
-                        <th width="10">{{ check_all|raw }}</th>
-                        <th>{{ __('Requester') }}</th>
-                        <th>{{ _n('Consumable type', 'Consumable types', 1) }}</th>
-                        <th>{{ _n('Consumable', 'Consumables', 1) }}</th>
-                        <th>{{ __('Number', 'consumables') }}</th>
-                        <th>{{ __('Give to') }}</th>
-                        <th>{{ _x('item', 'State') }}</th>
-                    </tr>
-                    {% for row in rows %}
-                        <tr class="tab_bg_1">
-                            <td width="10">{{ row.checkbox|raw }}</td>
-                            <td>{{ row.requester }}</td>
-                            <td>{{ row.type }}</td>
-                            <td>{{ row.consumable }}</td>
-                            <td>{{ row.number }}</td>
-                            <td>{{ row.give_link|raw }}</td>
-                            <td>
-                                <div style="background-color:{{ row.status_color }};">{{ row.status }}</div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
+<div class="container-lg my-3" data-root-doc="{{ webdir }}">
+    <div class="card">
+        <div class="card-header d-flex align-items-center">
+            <h3 class="card-title">
+                <i class="ti ti-clipboard-check me-2"></i>{{ __('Consumable validation', 'consumables') }}
+            </h3>
+            {% if rows is not empty %}
+                <span class="badge bg-secondary-lt ms-2">{{ rows|length }}</span>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if rows is not empty %}
+                {{ ma_open|raw }}
+                {{ ma_top|raw }}
+                <div class="table-responsive">
+                    <table class="table table-hover table-vcenter mb-0">
+                        <thead>
+                            <tr>
+                                <th class="w-1">{{ check_all|raw }}</th>
+                                <th>{{ __('Requester') }}</th>
+                                <th>{{ _n('Consumable type', 'Consumable types', 1) }}</th>
+                                <th>{{ _n('Consumable', 'Consumables', 1) }}</th>
+                                <th>{{ __('Number', 'consumables') }}</th>
+                                <th>{{ __('Give to') }}</th>
+                                <th>{{ _x('item', 'State') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in rows %}
+                                <tr>
+                                    <td class="w-1">{{ row.checkbox|raw }}</td>
+                                    <td>{{ row.requester }}</td>
+                                    <td>{{ row.type }}</td>
+                                    <td>{{ row.consumable }}</td>
+                                    <td>{{ row.number }}</td>
+                                    <td>{{ row.give_link|raw }}</td>
+                                    <td>{{ consumables.statusBadge(row.status_value, row.status) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {# Outside the table on purpose: non-row content inside <table> is foster-parented
+                 # by the HTML parser and would be rendered above the list instead of below it. #}
+                {{ ma_bottom|raw }}
+                {{ close_form|raw }}
+            {% else %}
+                <div class="text-secondary">
+                    <i class="ti ti-circle-check me-1"></i>{{ __('No item to display') }}
+                </div>
+            {% endif %}
+        </div>
+        {% if footer.show %}
+            <div class="card-footer">
+                <div id="dialog-confirm"></div>
+                {{ footer.cancel_button|raw }}
+                {{ footer.hidden|raw }}
             </div>
-            {# Outside the table on purpose: non-row content inside <table> is foster-parented
-             # by the HTML parser and would be rendered above the list instead of below it. #}
-            {{ ma_bottom|raw }}
-            {{ close_form|raw }}
-        {% else %}
-            {{ __('No item to display') }}
         {% endif %}
     </div>
-
-    {% if footer.show %}
-        <br>
-        <table width="100%">
-            <tr>
-                <td>
-                    <div id="dialog-confirm"></div>
-                    {{ footer.cancel_button|raw }}
-                    {{ footer.hidden|raw }}
-                </td>
-            </tr>
-        </table>
-    {% endif %}
 </div>

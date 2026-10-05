@@ -38,7 +38,7 @@ use Glpi\Application\View\TemplateRenderer;
  */
 class Wizard extends CommonDBTM
 {
-    public static $rightname = "plugin_consumables";
+    public static string $rightname = "plugin_consumables";
 
     /**
      * @param int $nb

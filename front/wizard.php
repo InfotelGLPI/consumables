@@ -30,8 +30,9 @@
 use GlpiPlugin\Consumables\Menu;
 use GlpiPlugin\Consumables\Wizard;
 use GlpiPlugin\Servicecatalog\Main;
+use GlpiPlugin\Consumables\Profile;
 
-Session::checkRight('plugin_consumables_request', READ);
+Session::checkRight(Profile::RIGHT_REQUEST, READ);
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
     Html::header(Wizard::getTypeName(2), '', "management", Menu::class);

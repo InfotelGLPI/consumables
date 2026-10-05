@@ -28,8 +28,9 @@
  */
 
 use GlpiPlugin\Consumables\Option;
+use GlpiPlugin\Consumables\Request;
 
-Session::checkRight('plugin_consumables', UPDATE);
+Session::checkRight(Request::$rightname, UPDATE);
 
 $option = new Option();
 

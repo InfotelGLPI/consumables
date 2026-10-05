@@ -25,7 +25,20 @@
  # --------------------------------------------------------------------------
  #}
 
-{% for picture_url in pictures %}
-    <img class="user_picture" alt="{{ _n('Picture', 'Pictures', 1) }}" src="{{ picture_url }}">
-    <br>{{ comment }}
-{% endfor %}
+{# Pictures and comment of the selected consumable (Request::seeConsumablesInfos()), loaded
+   into #seeConsumablesInfos of the request form #}
+{% if pictures is not empty %}
+    <div class="card card-sm">
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                {% for picture_url in pictures %}
+                    <img class="rounded border" style="max-width: 100%; max-height: 180px;"
+                         alt="{{ _n('Picture', 'Pictures', 1) }}" src="{{ picture_url }}">
+                {% endfor %}
+            </div>
+            {% if comment %}
+                <div class="text-secondary small mt-2">{{ comment }}</div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

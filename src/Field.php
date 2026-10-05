@@ -45,7 +45,7 @@ use Html;
 class Field extends CommonDBTM
 {
     public static $types     = ['ConsumableItem'];
-    public static $rightname = "plugin_consumables";
+    public static string $rightname = "plugin_consumables";
 
 
     /**

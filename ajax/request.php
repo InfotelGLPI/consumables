@@ -29,8 +29,9 @@
 
 use GlpiPlugin\Consumables\Request;
 use GlpiPlugin\Consumables\Validation;
+use GlpiPlugin\Consumables\Profile;
 
-Session::checkRight('plugin_consumables_request', 1);
+Session::checkRight(Profile::RIGHT_REQUEST, 1);
 
 switch ($_POST['action'] ?? '') {
     case 'addToCart':
@@ -72,7 +73,7 @@ switch ($_POST['action'] ?? '') {
     case 'searchConsumables':
         header('Content-Type: application/json; charset=UTF-8');
         $requesters_id = (int) ($_POST['requesters_id'] ?? 0);
-        $has_read      = Session::haveRight('plugin_consumables', READ);
+        $has_read      = Session::haveRight(Request::$rightname, READ);
         if (!$has_read && $requesters_id !== (int) Session::getLoginUserID()) {
             echo json_encode(['error' => 'Access denied', 'message' => '']);
             break;

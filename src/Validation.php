@@ -47,7 +47,7 @@ use Session;
  */
 class Validation extends CommonDBTM
 {
-    public static $rightname = "plugin_consumables_validation";
+    public static string $rightname = "plugin_consumables_validation";
 
     public static function getTable($classname = null)
     {
@@ -146,7 +146,7 @@ class Validation extends CommonDBTM
      **/
     public static function canValidate()
     {
-        return Session::haveRight("plugin_consumables_validation", 1);
+        return Session::haveRight(Validation::$rightname, 1);
     }
 
     /**
@@ -228,7 +228,7 @@ class Validation extends CommonDBTM
                 'number'       => $field['number'],
                 'give_link'    => $give_link,
                 'status'       => CommonITILValidation::getStatus($field['status']),
-                'status_color' => CommonITILValidation::getStatusColor($field['status']),
+                'status_value' => (int) $field['status'],
             ];
         }
 
@@ -239,7 +239,7 @@ class Validation extends CommonDBTM
                 'show'          => true,
                 'cancel_button' => Html::submit(_sx('button', 'Cancel'), [
                     'name'    => 'previous',
-                    'class'   => 'consumable_previous_button btn btn-primary',
+                    'class'   => 'btn btn-outline-secondary',
                     'onclick' => "consumables_cancel('" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php')",
                 ]),
                 'hidden'        => Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]),
@@ -292,7 +292,7 @@ class Validation extends CommonDBTM
 
     public function validationConsumable($params, $state = CommonITILValidation::WAITING)
     {
-        if (!Session::haveRight('plugin_consumables_validation', 1)) {
+        if (!Session::haveRight(Validation::$rightname, 1)) {
             return ['error' => 'Access denied'];
         }
         $id = (int) ($params['id'] ?? 0);
@@ -424,7 +424,7 @@ class Validation extends CommonDBTM
                     // rolled back.
                     $notify_ids = [];
                     foreach ($ids as $key => $val) {
-                        if (Session::haveRight("plugin_consumables_validation", 1)) {
+                        if (Session::haveRight(Validation::$rightname, 1)) {
                             $item->getFromDB($key);
 
                             // Enforce the entity scope of the linked consumable.
@@ -486,10 +486,7 @@ class Validation extends CommonDBTM
                                                 'date_out' => null,
                                             ],
                                         );
-                                        // affectedRows() is deprecated in GLPI 12 in favour of getAffectedRows()
-                                        $claimed += method_exists($DB, 'getAffectedRows')
-                                            ? $DB->getAffectedRows()
-                                            : $DB->affectedRows();
+                                        $claimed += $DB->getAffectedRows();
                                     }
                                 }
 
@@ -565,7 +562,7 @@ class Validation extends CommonDBTM
                     // notified, instead of the last one standing in $added.
                     $notify_ids = [];
                     foreach ($ids as $key => $val) {
-                        if (Session::haveRight("plugin_consumables_validation", 1)) {
+                        if (Session::haveRight(Validation::$rightname, 1)) {
                             // Enforce the entity scope of the linked consumable.
                             if (!$item->getFromDB($key) || !self::requestHasEntityAccess($item->fields)) {
                                 $ma->itemDone($validation->getType(), $key, MassiveAction::ACTION_NORIGHT);

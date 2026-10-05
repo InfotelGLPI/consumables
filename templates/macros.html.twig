@@ -25,6 +25,15 @@
  # --------------------------------------------------------------------------
  #}
 
-<div class="alert alert-secondary">
-    <i class="thumbnail ti ti-shopping-cart-plus fa-2x"></i>&nbsp;{{ __('Consumable validation', 'consumables') }}
-</div>
+{# Validation status (CommonITILValidation::WAITING / ACCEPTED / REFUSED) as a coloured badge #}
+{% macro statusBadge(value, label) %}
+    {% set styles = {
+        2: ['bg-yellow-lt', 'ti-hourglass'],
+        3: ['bg-green-lt', 'ti-check'],
+        4: ['bg-red-lt', 'ti-x'],
+    } %}
+    {% set style = styles[value] ?? ['bg-secondary-lt', 'ti-point'] %}
+    <span class="badge {{ style[0] }}">
+        <i class="ti {{ style[1] }} me-1"></i>{{ label }}
+    </span>
+{% endmacro %}

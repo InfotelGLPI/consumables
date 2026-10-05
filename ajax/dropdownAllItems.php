@@ -26,10 +26,11 @@
  * along with consumables. If not, see <http://www.gnu.org/licenses/>.
  * --------------------------------------------------------------------------
  */
+use GlpiPlugin\Consumables\Profile;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
-Session::checkRight('plugin_consumables_request', READ);
+Session::checkRight(Profile::RIGHT_REQUEST, READ);
 
 global $CFG_GLPI;
 
