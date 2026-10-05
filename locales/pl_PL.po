@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-03 10:19+0000\n"
+"POT-Creation-Date: 2026-10-04 15:45+0000\n"
 "PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/infotelGLPI/"
@@ -66,7 +66,7 @@ msgstr[3] "Materiały eksploatacyjne"
 msgid "Consumable ID"
 msgstr "Identyfikator materiału ekploatacyjnego"
 
-#: src/Request.php:901
+#: src/Request.php:913
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
@@ -156,7 +156,7 @@ msgstr ""
 msgid "Give to"
 msgstr ""
 
-#: src/Request.php:854
+#: src/Request.php:866
 msgid "Invalid requested quantity"
 msgstr ""
 
@@ -199,7 +199,7 @@ msgstr ""
 msgid "Not enough stock for consumable %s"
 msgstr ""
 
-#: src/Request.php:958 src/Validation.php:97
+#: src/Request.php:970 src/Validation.php:97
 #: templates/request_form.html.twig:54 templates/request_form.html.twig:84
 #: templates/validation_list.html.twig:47
 msgid "Number"
@@ -222,7 +222,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/Request.php:818
+#: src/Request.php:830
 msgid "Please add consumables in cart"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Type of event"
 msgstr "Typ zdarzenia"
 
-#: src/Request.php:746 src/Request.php:839
+#: src/Request.php:758 src/Request.php:851
 msgid "You are not allowed to request this consumable"
 msgstr ""
 
