@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - consumables plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-05 13:51+0000\n"
+"POT-Creation-Date: 2026-10-06 08:28+0000\n"
 "PO-Revision-Date: 2020-07-21 09:58+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/infotelGLPI/"
@@ -85,8 +85,8 @@ msgstr ""
 #: setup.php:113 src/Field.php:58 src/Menu.php:46
 #: src/NotificationTargetRequest.php:59 src/NotificationTargetRequest.php:86
 #: src/Request.php:64 src/Servicecatalog.php:76
-#: src/Helpdesk/Tile/ConsumablesPageTile.php:63
-#: src/Helpdesk/Tile/ConsumablesPageTile.php:81
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:64
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:82
 #: templates/wizard_menu.html.twig:42 templates/request_form.html.twig:37
 msgid "Consumable request"
 msgid_plural "Consumable requests"
