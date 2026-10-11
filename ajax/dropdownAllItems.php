@@ -60,7 +60,6 @@ if (in_array($idtable, ['User', 'Group'], true)) {
         'displaywith'         => ['otherserial', 'serial'],
         // Force the entity scope server-side; the client value is not trusted.
         'entity_restrict'     => $_SESSION['glpiactiveentities'],
-        '_idor_token'         => Session::getNewIDORToken($idtable),
     ];
     if (isset($_POST['value'])) {
         $p['value'] = (int) $_POST['value'];
@@ -74,6 +73,13 @@ if (in_array($idtable, ['User', 'Group'], true)) {
         }
         $p['condition'] = Dropdown::addNewCondition(["id" => $user_groups]);
     }
+    // The token must carry the restrictions sent to the dropdown endpoint: Session::validateIDOR()
+    // rejects a posted condition that is missing from the token (empty Group list otherwise).
+    $p['_idor_token'] = Session::getNewIDORToken($idtable, [
+        'entity_restrict' => $p['entity_restrict'],
+        'displaywith'     => $p['displaywith'],
+        'condition'       => $p['condition'] ?? [],
+    ]);
 
     echo Html::jsAjaxDropdown(
         $_POST["name"],
