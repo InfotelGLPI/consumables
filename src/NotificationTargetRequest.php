@@ -226,4 +226,21 @@ class NotificationTargetRequest extends NotificationTarget
         }
     }
 
+    /**
+     * The request takes the entity of its consumable model: a model made recursive in a parent
+     * entity puts the request there, and the core then dropped every recipient (the requester
+     * included) whose authorization lies only in a child entity. The request has no
+     * is_recursive of its own: the one of its model applies.
+     */
+    protected function isTargetItemRecursive(): bool
+    {
+        if (count($this->target_object) > 1 || !($this->obj instanceof Request)) {
+            return false;
+        }
+
+        $consumable = new ConsumableItem();
+
+        return $consumable->getFromDB((int) $this->obj->getField('consumableitems_id'))
+            && (bool) $consumable->fields['is_recursive'];
+    }
 }
