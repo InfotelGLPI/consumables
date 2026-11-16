@@ -310,7 +310,14 @@ class Request extends CommonDBTM
             'search_button'    => Html::submit(__('Search'), [
                 'name'    => 'addToCart',
                 'class'   => 'btn btn-primary',
-                'onclick' => "consumables_searchConsumables('searchConsumables','consumables_formSearchConsumables', 'consumables_searchConsumables','$type')",
+                // consumables_searchConsumables() called by public/js/consumables.js (no inline handler: CSP)
+                'data-consumables-action' => 'searchConsumables',
+                'data-consumables-args'   => json_encode([
+                    'searchConsumables',
+                    'consumables_formSearchConsumables',
+                    'consumables_searchConsumables',
+                    (string) $type,
+                ]),
             ]),
             'hidden_requester' => Html::hidden('requesters_id', ['value' => $item->fields['id']]),
             'results'          => $result['message'],
@@ -579,7 +586,9 @@ class Request extends CommonDBTM
         // addToCart() and addConsumables() check every line again (isRequestLineAllowed()).
         Dropdown::showFromArray('consumableitems_id', self::getRequestableConsumables((int) $type), [
             'display_emptychoice' => true,
-            'on_change'           => 'loadAvailableConsumablesNumber(this);',
+            // loadAvailableConsumablesNumber() called on change by public/js/consumables.js: an
+            // on_change would be an inline onchange handler, blocked by the CSP
+            'add_data_attributes' => ['consumables-load-number' => ''],
         ]);
     }
 

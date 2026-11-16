@@ -75,7 +75,7 @@
             {% if can_add %}
                 <div class="card-footer text-end">
                     <button type="button" class="btn btn-success" name="addToCart"
-                            onclick="consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');">
+                            data-consumables-action="addToCart" data-consumables-args="{{ ['addToCart', 'consumables_wizardForm', 'consumables_cart']|json_encode }}">
                         <i class="ti ti-plus me-1"></i>{{ __('Add to cart', 'consumables') }}
                     </button>
                 </div>
@@ -103,11 +103,11 @@
             {% if can_add %}
                 <div class="card-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-outline-secondary" name="previous"
-                            onclick="consumables_cancel('{{ webdir|e('js') }}/front/wizard.php');">
+                            data-consumables-action="cancel" data-consumables-args="{{ [webdir ~ '/front/wizard.php']|json_encode }}">
                         <i class="ti ti-arrow-left me-1"></i>{{ _x('button', 'Cancel') }}
                     </button>
                     <button type="button" class="btn btn-primary" name="addConsumables"
-                            onclick="consumables_addConsumables('addConsumables','consumables_wizardForm');">
+                            data-consumables-action="addConsumables" data-consumables-args="{{ ['addConsumables', 'consumables_wizardForm']|json_encode }}">
                         <i class="ti ti-send me-1"></i>{{ _x('button', 'Post') }}
                     </button>
                 </div>

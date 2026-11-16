@@ -115,7 +115,11 @@ function consumables_addToCart(action, toobserve, toupdate) {
                object.usedConsumables[data.fields.consumableitems_id.value] = object.usedConsumables[data.fields.consumableitems_id.value] + parseInt(data.fields.number.value);
             }
 
-            result += "<td><a href='#' onclick=\"consumables_removeCart('consumables_cartRow" + data.rowId + "')\"><i class='ti ti-circle-x fa-2x' style='color:darkred'></i></a>" +
+            // consumables_removeCart() called by the listener at the end of this file (no inline
+            // handler: CSP)
+            result += "<td><a href='#' data-consumables-action='removeCart' data-consumables-args='" +
+               consumables_escapeHtml(JSON.stringify(['consumables_cartRow' + data.rowId])) +
+               "'><i class='ti ti-circle-x fa-2x' style='color:darkred'></i></a>" +
                "</td></tr>";
 
             item_bloc.append(result);
@@ -327,3 +331,52 @@ function encodeParameters(elements) {
 
    return kvpairs.join("&");
 }
+
+/**
+ * Buttons of the request wizard, of the request search and of the validation list, and the
+ * "remove" link of the cart rows: data-consumables-action names one of the functions above,
+ * data-consumables-args carries its arguments as a JSON array. No inline handler (Content
+ * Security Policy); the listener is delegated, so it is bound once and also covers the content
+ * loaded over AJAX. As with the former onclick, the default action (form submission, link) is
+ * left untouched.
+ */
+document.addEventListener('click', function (event) {
+   if (!(event.target instanceof Element)) {
+      return;
+   }
+
+   var button = event.target.closest('[data-consumables-action]');
+   if (button === null) {
+      return;
+   }
+
+   var actions = {
+      addToCart: consumables_addToCart,
+      addConsumables: consumables_addConsumables,
+      searchConsumables: consumables_searchConsumables,
+      removeCart: consumables_removeCart,
+      cancel: consumables_cancel
+   };
+   var action = actions[button.dataset.consumablesAction];
+   if (action === undefined) {
+      return;
+   }
+
+   var args;
+   try {
+      args = JSON.parse(button.dataset.consumablesArgs || '[]');
+   } catch (e) {
+      return;
+   }
+
+   action.apply(window, args);
+});
+
+/**
+ * Consumable dropdown of the request wizard (Request::loadAvailableConsumables()): reloads the
+ * number field and the pictures. A select2 widget, which only fires jQuery events; `this` is
+ * the <select>, as in the former on_change.
+ */
+$(document).on('change', '[data-consumables-load-number]', function () {
+   loadAvailableConsumablesNumber(this);
+});

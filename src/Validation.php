@@ -240,7 +240,9 @@ class Validation extends CommonDBTM
                 'cancel_button' => Html::submit(_sx('button', 'Cancel'), [
                     'name'    => 'previous',
                     'class'   => 'btn btn-outline-secondary',
-                    'onclick' => "consumables_cancel('" . PLUGIN_CONSUMABLES_WEBDIR . "/front/wizard.php')",
+                    // consumables_cancel() called by public/js/consumables.js (no inline handler: CSP)
+                    'data-consumables-action' => 'cancel',
+                    'data-consumables-args'   => json_encode([PLUGIN_CONSUMABLES_WEBDIR . '/front/wizard.php']),
                 ]),
                 'hidden'        => Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]),
             ];
