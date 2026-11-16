@@ -64,7 +64,7 @@
                 <tr>
                     <td class="center" colspan="4">
                         <a href="#" class="submit btn btn-info" name="addToCart"
-                           onclick="consumables_addToCart('addToCart','consumables_wizardForm', 'consumables_cart');">{{ __('Add to cart', 'consumables') }}</a>
+                           data-consumables-action="addToCart" data-consumables-args="{{ ['addToCart', 'consumables_wizardForm', 'consumables_cart']|json_encode }}">{{ __('Add to cart', 'consumables') }}</a>
                     </td>
                 </tr>
             {% endif %}
@@ -95,9 +95,9 @@
                 <td>
                     <div id="dialog-confirm"></div>
                     <a href="#" class="submit btn btn-success consumable_next_button" name="addConsumables"
-                       onclick="consumables_addConsumables('addConsumables','consumables_wizardForm');">{{ _x('button', 'Post') }}</a>
+                       data-consumables-action="addConsumables" data-consumables-args="{{ ['addConsumables', 'consumables_wizardForm']|json_encode }}">{{ _x('button', 'Post') }}</a>
                     <a href="#" class="submit btn btn-warning consumable_previous_button" name="previous"
-                       onclick="consumables_cancel('{{ webdir }}/front/wizard.php');">{{ _x('button', 'Cancel') }}</a>
+                       data-consumables-action="cancel" data-consumables-args="{{ [webdir ~ '/front/wizard.php']|json_encode }}">{{ _x('button', 'Cancel') }}</a>
                 </td>
             </tr>
         </table>
