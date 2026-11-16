@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-21 09:35+0000\n"
+"POT-Creation-Date: 2026-11-16 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,8 +47,8 @@ msgstr ""
 msgid "Cart"
 msgstr ""
 
-#: src/Profile.php:160 ⁨standard input⁩:46 ⁨standard input⁩:55 ⁨standard input⁩:96
-#: ⁨standard input⁩:31 ⁨standard input⁩:53
+#: src/Profile.php:160 ⁨standard input⁩:31 ⁨standard input⁩:55 ⁨standard input⁩:96
+#: ⁨standard input⁩:46 ⁨standard input⁩:53
 msgid "Consumable"
 msgid_plural "Consumables"
 msgstr[0] ""
@@ -58,7 +58,7 @@ msgstr[1] ""
 msgid "Consumable ID"
 msgstr ""
 
-#: src/Request.php:918
+#: src/Request.php:927
 msgid "Consumable affected"
 msgid_plural "Consumables affected"
 msgstr[0] ""
@@ -76,8 +76,8 @@ msgstr ""
 #: src/NotificationTargetRequest.php:59 src/NotificationTargetRequest.php:86
 #: src/Request.php:64 src/Servicecatalog.php:76
 #: src/Helpdesk/Tile/ConsumablesPageTile.php:64
-#: src/Helpdesk/Tile/ConsumablesPageTile.php:82 ⁨standard input⁩:37
-#: ⁨standard input⁩:42
+#: src/Helpdesk/Tile/ConsumablesPageTile.php:82 ⁨standard input⁩:42
+#: ⁨standard input⁩:37
 msgid "Consumable request"
 msgid_plural "Consumable requests"
 msgstr[0] ""
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Consumable requests history"
 msgstr ""
 
-#: ⁨standard input⁩:47 ⁨standard input⁩:51 ⁨standard input⁩:95 ⁨standard input⁩:52
+#: ⁨standard input⁩:51 ⁨standard input⁩:95 ⁨standard input⁩:47 ⁨standard input⁩:52
 msgid "Consumable type"
 msgid_plural "Consumable types"
 msgstr[0] ""
@@ -136,7 +136,7 @@ msgstr ""
 msgid "Give to"
 msgstr ""
 
-#: src/Request.php:871
+#: src/Request.php:880
 msgid "Invalid requested quantity"
 msgstr ""
 
@@ -172,12 +172,12 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/Validation.php:509 src/Validation.php:522
+#: src/Validation.php:511 src/Validation.php:524
 #, php-format
 msgid "Not enough stock for consumable %s"
 msgstr ""
 
-#: src/Request.php:975 src/Validation.php:97 ⁨standard input⁩:59
+#: src/Request.php:984 src/Validation.php:97 ⁨standard input⁩:59
 #: ⁨standard input⁩:97 ⁨standard input⁩:54
 msgid "Number"
 msgstr ""
@@ -196,7 +196,7 @@ msgid_plural "Pictures"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Request.php:835
+#: src/Request.php:844
 msgid "Please add consumables in cart"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgctxt "button"
 msgid "Post"
 msgstr ""
 
-#: src/Validation.php:352
+#: src/Validation.php:354
 msgid "Refuse"
 msgstr ""
 
@@ -213,7 +213,7 @@ msgstr ""
 msgid "Request date"
 msgstr ""
 
-#: ⁨standard input⁩:48 ⁨standard input⁩:45 ⁨standard input⁩:94 ⁨standard input⁩:51
+#: ⁨standard input⁩:45 ⁨standard input⁩:94 ⁨standard input⁩:48 ⁨standard input⁩:51
 msgid "Requester"
 msgstr ""
 
@@ -235,6 +235,6 @@ msgstr ""
 msgid "Type of event"
 msgstr ""
 
-#: src/Request.php:763 src/Request.php:856
+#: src/Request.php:772 src/Request.php:865
 msgid "You are not allowed to request this consumable"
 msgstr ""
